@@ -1,3 +1,5 @@
+# ToolHub
+
 ## About ToolHub
 
 ToolHub is a collection website for education tools used by [Avans Hogeschool](http://www.avans.nl/).
