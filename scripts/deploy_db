@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ $1 == 'dev' ]; then
+    cp --remove-destination .env.dev .env
+elif [ $1 == 'master' ]; then
+    cp --remove-destination env.master .env
+else
+    echo "unknown parameter"
+    exit
+fi
+
+php artisan migrate:refresh --seed

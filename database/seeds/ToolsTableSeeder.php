@@ -11,7 +11,7 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Tool::truncate();
         DB::table('tools')->insert([
             'name' => 'Heroku'
         ]);
