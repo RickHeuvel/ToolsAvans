@@ -28,7 +28,6 @@ before_script:
 
 script:
     - vendor/bin/phpunit -c phpunit.xml
-    - vendor/bin/phpcs web/index.php web/views --standard=PSR2 --config-set ignore_warnings_on_exit 1
 
 deploy:
   - provider: script
