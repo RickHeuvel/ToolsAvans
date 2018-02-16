@@ -10,6 +10,7 @@ env:
 
 
 before_script:
+    - phpenv config-add .php.ini
     - mysql -uroot -e 'create database toolhub_test;'
     - cp .env.ci .env
     - composer self-update

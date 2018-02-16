@@ -10,6 +10,7 @@ else
     exit
 fi
 
+phpenv config-add .php.ini
 composer self-update
 composer install --no-interaction
 php artisan migrate:refresh --seed
