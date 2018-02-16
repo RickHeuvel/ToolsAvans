@@ -1,4 +1,4 @@
-# ToolHub
+# ToolHub [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub)
 
 ## About ToolHub
 
