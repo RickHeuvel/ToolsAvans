@@ -1,8 +1,10 @@
 #!/bin/bash
 if [ $1 == 'dev' ]; then
+    echo Copying dev env variables
     cp --remove-destination .env.dev .env
 elif [ $1 == 'master' ]; then
-    cp --remove-destination env.master .env
+    echo Copying master env variables
+    cp --remove-destination .env.master .env
 else
     echo "unknown parameter"
     exit
