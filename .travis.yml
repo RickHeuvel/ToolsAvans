@@ -35,7 +35,7 @@ deploy:
     on:
       branch: dev
   - provider: script
-    script: bash .deploy_db production
+    script: bash .deploy_db master
     on:
       branch: master
   - provider: heroku
