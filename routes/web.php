@@ -12,7 +12,13 @@
 */
 
 Route::get('/', function () {
-    $tools = DB::table('tools')->get();
-    return $tools;
-    return view('welcome');
+    return view('homepage');
+});
+
+Route::get('/tools', function () {
+    return view('tools');
+});
+
+Route::get('/mijnportaal', function () {
+    return view('mijnportaal');
 });
