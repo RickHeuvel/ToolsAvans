@@ -12,13 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('homepage');
+    return view('pages.homepage');
 });
 
 Route::get('/tools', function () {
-    return view('tools');
+    return view('pages.tools');
 });
 
 Route::get('/mijnportaal', function () {
-    return view('mijnportaal');
+    return view('pages.mijnportaal');
 });
