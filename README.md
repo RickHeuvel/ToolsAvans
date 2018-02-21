@@ -1,4 +1,4 @@
-# ToolHub
+# ToolHub [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub)
 
 ## About ToolHub
 
@@ -10,7 +10,6 @@ The [ToolHub](https://github.com/Peter-JanGootzen/ToolHub/wiki) contains further
 
 | Page       | Description |
 | ------------- | ------------- |
-| [Frameworks](https://github.com/Peter-JanGootzen/ToolHub/wiki/Frameworks)  | Contains information about the chosen Frameworks / Packages  |
 | [Coding guidelines](https://github.com/Peter-JanGootzen/ToolHub/wiki/Coding-Guidelines) | Further information about our coding standards  |
 | [Version Control](https://github.com/Peter-JanGootzen/ToolHub/wiki/Version-Control)  | Contains information about how we devide our branches and our git workflow  |
 
