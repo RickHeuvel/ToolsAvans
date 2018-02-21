@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
-class Dashboard extends Controller
+class ToolController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,12 +18,12 @@ class Dashboard extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the tools.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('dashboard');
+        return view('pages.tools');
     }
 }

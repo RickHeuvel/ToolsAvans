@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Show the application homepage.
+     * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home');
+        return view('pages.home');
     }
 }
