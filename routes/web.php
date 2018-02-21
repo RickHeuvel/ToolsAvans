@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    $tools = DB::table('tools')->get();
-    return $tools;
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
+
+Auth::routes();
