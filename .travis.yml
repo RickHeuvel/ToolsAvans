@@ -9,45 +9,45 @@ env:
     - MOZ_HEADLESS=1
 
 before_script:
-     # Settinng the php server timezone to Amsterdam
-     - phpenv config-add public/.user.ini
-     - mysql -uroot -e 'create database toolhub_test;'
-     # Setting up the enviroiment variables for testing
-     - cp .env.ci .env
-     # Setting up composer and npm dependencies
-     - composer self-update
-     - composer install --no-interaction
-     - npm install
-     # Making the Laravel logs readable
-     - chmod -R 777 storage/
-     # Generating a laravel encryption key
-     - php artisan key:generate
-     # Dropping, publishing and seeding the test db
-     - php artisan migrate:refresh --seed
-     # Selenium setup
-     - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-     - tar -xvzf geckodriver*
-     - chmod +x geckodriver
-     - export PATH=$PATH:/path-to-extracted-file/geckodriver
-     - export DISPLAY=:99.0
-     - sh -e /etc/init.d/xvfb start
-     - sleep 3
-     - vendor/bin/selenium-server-standalone&
-     - sleep 7
+    # Settinng the php server timezone to Amsterdam
+    - phpenv config-add public/.user.ini
+    - mysql -uroot -e 'create database toolhub_test;'
+    # Setting up the enviroiment variables for testing
+    - cp .env.ci .env
+    # Setting up composer and npm dependencies
+    - composer self-update
+    - composer install --no-interaction
+    - npm install
+    # Making the Laravel logs readable
+    - chmod -R 777 storage/
+    # Generating a laravel encryption key
+    - php artisan key:generate
+    # Dropping, publishing and seeding the test db
+    - php artisan migrate:refresh --seed
+    # Selenium setup
+    - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+    - tar -xvzf geckodriver*
+    - chmod +x geckodriver
+    - export PATH=$PATH:/path-to-extracted-file/geckodriver
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+    - sleep 3
+    - vendor/bin/selenium-server-standalone&
+    - sleep 7
 
 script:
     - vendor/bin/phpunit -c phpunit.xml
 
 deploy:
-  - provider: script
+    - provider: script
       script: bash .deploy_db dev
       on:
         branch: dev
-  - provider: script
+    - provider: script
       script: bash .deploy_db master
       on:
         branch: master
-  - provider: heroku
+    - provider: heroku
       api_key:
         secure: WXPo0qxGiVOy/+ldvJftahdISPxCLtCeOZimrfAuzgw1WzTY1iYQRbBjg4UjXf4AchqSSEnZXGnk7g5+AQX8KkZf5R6IH1c9qBjRz/XqvYJcw24RoZxRACdYjXZLXk3xhNCaLoAb9EUsww1FYy44CfWoIVvLK1rVm1mI8DywohT40SFGFjzWLIH7W6S3UWOaTkKX9uP+0F5qpdFzj2EsIrQPaHnTuL4+gRaGlLK6g3gn9AxMNk5PYqhkH98U+9Lt/cPWFqvLFjmMl3V6jHzGf1Y28MhURFlmXfPc/deMVEvWA4T/tai1e3jm5vXy7CSMHgsv2f5vN2y7eu6HGTguqqw+8xQlB9xP8OQwQNmDjaPFOgHsxwZ6/X/9pe4/ladb1WX09x+vd8pRL+FrYF9H3mwMVuhJNHhLbMmBos5wlWBxge1U48JUXlNNEiWMTuTB/iLJCLxbU6n5ceVk3JzJ8dVOaZFfKlV0CB50m6Un7mzCZg4T0p2hwmeZ6ZsJOPXi9FoWXm+NnFSH7X3X2KvORwUS10GraFZVFaWRSoGHMaQor6+ZoF8t7uQR7Nlt9dRTt4Pkjdq0+RaaGcasr2JD6pKqFHx7TJq4qglJchx9PvoHzrXoJLBCB8XMS3lUFeSGPd+0HNPYHDhF288GzqWuM8SCDSz2Hd1TZUWDoaRYDJY=
       all_branches: true
