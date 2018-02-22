@@ -4,5 +4,7 @@
 @endsection
 
 @section('content')
-    <h1>Tools</h1>
+    <div class="container">
+        <h1>Tools</h1>
+    </div> 
 @endsection

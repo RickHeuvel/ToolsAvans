@@ -11,14 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('pages.homepage');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('portal', 'PortalController@index')->name('portal');
+Route::get('tools', 'ToolController@index')->name('tools');
 
-Route::get('/tools', function () {
-    return view('pages.tools');
-});
-
-Route::get('/mijnportaal', function () {
-    return view('pages.mijnportaal');
-});
+Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
+Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);
+Route::post('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
