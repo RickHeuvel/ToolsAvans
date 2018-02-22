@@ -8,9 +8,8 @@ addons:
 env:
     - MOZ_HEADLESS=1
 
-
 before_script:
-     # settingng the php server timezone to Amsterdam
+     # Settinng the php server timezone to Amsterdam
      - phpenv config-add public/.user.ini
      - mysql -uroot -e 'create database toolhub_test;'
      # Setting up the enviroiment variables for testing
@@ -41,26 +40,26 @@ script:
 
 deploy:
   - provider: script
-        script: bash .deploy_db dev
-        on:
-            branch: dev
+      script: bash .deploy_db dev
+      on:
+        branch: dev
   - provider: script
-        script: bash .deploy_db master
-        on:
-            branch: master
+      script: bash .deploy_db master
+      on:
+        branch: master
   - provider: heroku
-        api_key:
-            secure: WXPo0qxGiVOy/+ldvJftahdISPxCLtCeOZimrfAuzgw1WzTY1iYQRbBjg4UjXf4AchqSSEnZXGnk7g5+AQX8KkZf5R6IH1c9qBjRz/XqvYJcw24RoZxRACdYjXZLXk3xhNCaLoAb9EUsww1FYy44CfWoIVvLK1rVm1mI8DywohT40SFGFjzWLIH7W6S3UWOaTkKX9uP+0F5qpdFzj2EsIrQPaHnTuL4+gRaGlLK6g3gn9AxMNk5PYqhkH98U+9Lt/cPWFqvLFjmMl3V6jHzGf1Y28MhURFlmXfPc/deMVEvWA4T/tai1e3jm5vXy7CSMHgsv2f5vN2y7eu6HGTguqqw+8xQlB9xP8OQwQNmDjaPFOgHsxwZ6/X/9pe4/ladb1WX09x+vd8pRL+FrYF9H3mwMVuhJNHhLbMmBos5wlWBxge1U48JUXlNNEiWMTuTB/iLJCLxbU6n5ceVk3JzJ8dVOaZFfKlV0CB50m6Un7mzCZg4T0p2hwmeZ6ZsJOPXi9FoWXm+NnFSH7X3X2KvORwUS10GraFZVFaWRSoGHMaQor6+ZoF8t7uQR7Nlt9dRTt4Pkjdq0+RaaGcasr2JD6pKqFHx7TJq4qglJchx9PvoHzrXoJLBCB8XMS3lUFeSGPd+0HNPYHDhF288GzqWuM8SCDSz2Hd1TZUWDoaRYDJY=
-        all_branches: true
-        app:
-            master: toolhub
-            dev: toolhub-dev
-        run:
-            - "composer self-update"
-            - "composer install --no-interaction --no-dev"
-            - "npm install --production"
-            - "php artisan key:generate"
-            - "php artisan migrate:refresh --seed"
+      api_key:
+        secure: WXPo0qxGiVOy/+ldvJftahdISPxCLtCeOZimrfAuzgw1WzTY1iYQRbBjg4UjXf4AchqSSEnZXGnk7g5+AQX8KkZf5R6IH1c9qBjRz/XqvYJcw24RoZxRACdYjXZLXk3xhNCaLoAb9EUsww1FYy44CfWoIVvLK1rVm1mI8DywohT40SFGFjzWLIH7W6S3UWOaTkKX9uP+0F5qpdFzj2EsIrQPaHnTuL4+gRaGlLK6g3gn9AxMNk5PYqhkH98U+9Lt/cPWFqvLFjmMl3V6jHzGf1Y28MhURFlmXfPc/deMVEvWA4T/tai1e3jm5vXy7CSMHgsv2f5vN2y7eu6HGTguqqw+8xQlB9xP8OQwQNmDjaPFOgHsxwZ6/X/9pe4/ladb1WX09x+vd8pRL+FrYF9H3mwMVuhJNHhLbMmBos5wlWBxge1U48JUXlNNEiWMTuTB/iLJCLxbU6n5ceVk3JzJ8dVOaZFfKlV0CB50m6Un7mzCZg4T0p2hwmeZ6ZsJOPXi9FoWXm+NnFSH7X3X2KvORwUS10GraFZVFaWRSoGHMaQor6+ZoF8t7uQR7Nlt9dRTt4Pkjdq0+RaaGcasr2JD6pKqFHx7TJq4qglJchx9PvoHzrXoJLBCB8XMS3lUFeSGPd+0HNPYHDhF288GzqWuM8SCDSz2Hd1TZUWDoaRYDJY=
+      all_branches: true
+      app:
+        master: toolhub
+        dev: toolhub-dev
+      run:
+        - "composer self-update"
+        - "composer install --no-interaction --no-dev"
+        - "npm install --production"
+        - "php artisan key:generate"
+        - "php artisan migrate:refresh --seed"
 
 after_failure:
     - cat storage/logs/laravel.log
