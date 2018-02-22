@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ '$TRAVIS_BRANCH' == 'dev' ]; then
+    cp --remove-destination .env.dev .env
+else
+    cp --remove-destination .env.master .env
+fi
