@@ -55,8 +55,6 @@ before_deploy:
     - echo resetting repo
     - git stash --all
     - ./.cp_env $TRAVIS_BRANCH
-    - echo generating laravel encryption key
-    - php artisan key:generate --force
 
 deploy:
     - provider: heroku
