@@ -57,9 +57,9 @@ deploy:
       run:
         - "composer self-update"
         - "composer install --no-interaction --no-dev"
-        - "npm install"
-        - "php artisan key:generate"
-        - "php artisan migrate:refresh --seed"
+        - "npm install --production"
+        - "php artisan key:generate --force"
+        - "php artisan migrate:refresh --seed --force"
 
 after_failure:
     - cat storage/logs/laravel.log
