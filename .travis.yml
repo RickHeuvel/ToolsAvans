@@ -15,9 +15,10 @@ before_script:
      - mysql -uroot -e 'create database toolhub_test;'
      # Setting up the enviroiment variables for testing
      - cp .env.ci .env
-     # Setting up Composer dependencies
+     # Setting up Composer and npm dependencies
      - composer self-update
      - composer install --prefer-source --no-interaction --dev
+     - npm install
      # Making the Laravel logs readable
      - chmod -R 777 storage/
      # Dropping, publishing and seeding the test db
