@@ -30,6 +30,8 @@ The instructions below will give you common information about how to setup your 
 ### Setup
 
 ```
+[Clone the repo]
+npm install
 composer install
 [Create a database named "toolhub" in your local mysql server]
 cp .env.local .env
