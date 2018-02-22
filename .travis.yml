@@ -41,8 +41,7 @@ script:
 before_deploy:
     - echo resetting repo
     - git stash --all
-    - echo copying appropriate .env file
-    - ./.cp_env
+    - ./.cp_env $TRAVIS_BRANCH
     - echo updating and installing composer in production
     - composer self-update
     - composer install --no-interaction --no-dev
@@ -52,9 +51,12 @@ before_deploy:
     - php artisan key:generate --force
     - echo dropping, publishing and seeding database
     - php artisan migrate:refresh --seed --force
+    - echo Starting setup for heroku deployment
     - echo resetting repo
     - git stash --all
-    - ./.cp_env
+    - ./.cp_env $TRAVIS_BRANCH
+    - echo generating laravel encryption key
+    - php artisan key:generate --force
 
 deploy:
     - provider: heroku

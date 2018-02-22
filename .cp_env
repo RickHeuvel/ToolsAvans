@@ -1,6 +1,9 @@
 #!/bin/bash
-if [ '$TRAVIS_BRANCH' == 'dev' ]; then
+echo current branch is $1
+if [ $1 == 'dev' ]; then
     cp --remove-destination .env.dev .env
+    echo copied .env.dev to .env
 else
     cp --remove-destination .env.master .env
+    echo copied .env.master to .env
 fi
