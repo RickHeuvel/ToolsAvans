@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    $tools = DB::table('tools')->get();
-    return $tools;
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('portal', 'PortalController@index')->name('portal');
+Route::get('tools', 'ToolController@index')->name('tools');
+
+Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
+Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);
+Route::post('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);

@@ -1,0 +1,35 @@
+//=========================================================================
+// - Define your media query styles here
+
+// - Please use nesting where possible
+// - Please use 1 tab for indent and 1 empty whitespace after each selector
+
+// - Please use "-" for naming (e.g. list-header) Pls. do NOT use CamelCase
+// - Please use English CLASS and ID names.
+//==========================================================================
+
+// Extra large devices (large desktops)
+// No media query since the extra-large breakpoint has no upper bound on its width, so this media query is probably not necessary
+@include media-breakpoint-down(xl) {
+	
+}
+
+// Large devices (desktops, less than 75em (+/- 1200px))
+@include media-breakpoint-down(lg) {
+	
+}
+
+// Medium devices (tablets, less than 62em (+/- 992px))
+@include media-breakpoint-down(md) {
+	
+}
+
+// Small devices (landscape phones, less than 48em(+/- 768px))
+@include media-breakpoint-down(sm) {
+	
+}
+
+// Extra small devices (portrait phones, less than 34em(+/- 544px))
+@include media-breakpoint-down(xs) {
+	
+}
