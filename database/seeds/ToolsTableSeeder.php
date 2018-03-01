@@ -11,10 +11,17 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        App\Tool::truncate();
+        App\Tool::truncate();  
+
         DB::table('tools')->insert([
-            'name' => 'Heroku'
+            'name' => 'Heroku',
+            'uploader_id' => '1',
+            'category' => 'webservice',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!'
         ]);
-        factory(App\Tool::class, 3)->create();
+        
+        //factory(App\Tool::class, 3)->create();
     }
 }
