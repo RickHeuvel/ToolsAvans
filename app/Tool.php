@@ -13,4 +13,9 @@ class Tool extends Model
     public function Status() {
         return $this->hasOne('App\ToolStatus');
     }
+
+    public function User()
+    {
+        return $this->belongsTo('App\User', 'uploader_id');
+    }
 }

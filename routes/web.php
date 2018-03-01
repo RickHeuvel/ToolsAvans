@@ -13,7 +13,8 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('portal', 'PortalController@index')->name('portal');
-Route::get('tools', 'ToolController@index')->name('tools');
+
+Route::resource('tools', 'ToolController');
 
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
 Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);
