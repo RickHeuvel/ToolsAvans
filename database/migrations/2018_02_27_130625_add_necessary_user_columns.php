@@ -13,16 +13,6 @@ class AddNecessaryUserColumns extends Migration
      */
     public function up()
     {
-        Schema::create('tool_category', function (Blueprint $table) {
-            $table->string('category',100)->primary();
-            $table->timestamps();
-        });
-
-        Schema::create('tool_status', function (Blueprint $table) {
-            $table->string('status',100)->primary();
-            $table->timestamps();
-        });
-
         Schema::table('tools', function (Blueprint $table) {
             $table->integer('uploader_id')->unsigned();
             $table->string('category', 100);
@@ -33,8 +23,17 @@ class AddNecessaryUserColumns extends Migration
             $table->text('URL')->nullable(true);
 
             $table->foreign('uploader_id')->references('id')->on('users');
-            $table->foreign('category')->references('category')->on('tool_category');
-            $table->foreign('status')->references('status')->on('tool_status');
+            
+        });
+
+        Schema::create('tool_category', function (Blueprint $table) {
+            $table->string('category',100)->primary();
+            //$table->foreign('category')->references('category')->on('tools');
+        });
+
+        Schema::create('tool_status', function (Blueprint $table) {
+            $table->string('status',100)->primary();
+            //$table->foreign('status')->references('status')->on('tools');
         });
     }
 
