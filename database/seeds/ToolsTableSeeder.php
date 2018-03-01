@@ -11,26 +11,7 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        App\Tool::truncate();
-        DB::table('tool_category')->insert([
-            'category' => 'webservice'
-        ]);
-
-        DB::table('tool_status')->insert([
-            'status' => 'active'
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'testuser',
-            'email' => '1',
-            'provider' => 'avans',
-            'provider_id' => 'testuser',
-            'nickname' => 'besttester',
-            'firstName' => 'test',
-            'lastName' => 'user',
-            'location' => 'avans hogeschool',
-            'role' => 'admin'
-        ]);
+        App\Tool::truncate();  
 
         DB::table('tools')->insert([
             'name' => 'Heroku',

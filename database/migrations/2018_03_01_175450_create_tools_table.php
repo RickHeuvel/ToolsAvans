@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNecessaryUserColumns extends Migration
+class CreateToolsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class AddNecessaryUserColumns extends Migration
      */
     public function up()
     {
-        Schema::create('tool_category', function (Blueprint $table) {
-            $table->string('category',100)->primary();
-        });
-
-        Schema::create('tool_status', function (Blueprint $table) {
-            $table->string('status',100)->primary();
-        });
-
-        Schema::table('tools', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
             $table->integer('uploader_id')->unsigned();
             $table->string('category', 100);
             $table->string('status', 100);
@@ -32,6 +26,7 @@ class AddNecessaryUserColumns extends Migration
             $table->foreign('uploader_id')->references('id')->on('users');
             $table->foreign('category')->references('category')->on('tool_category');
             $table->foreign('status')->references('status')->on('tool_status');
+            $table->timestamps();
         });
     }
 
@@ -42,7 +37,6 @@ class AddNecessaryUserColumns extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tool_category');
-        Schema::dropIfExists('tool_status');
+        Schema::dropIfExists('tools');
     }
 }
