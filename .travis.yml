@@ -10,22 +10,29 @@ env:
 
 
 before_script:
-    - phpenv config-add .php.ini
-    - mysql -uroot -e 'create database toolhub_test;'
-    - cp .env.ci .env
-    - composer self-update
-    - composer install --prefer-source --no-interaction --dev
-    - chmod -R 777 storage/
-    - php artisan migrate:refresh --seed
-    - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-    - tar -xvzf geckodriver*
-    - chmod +x geckodriver
-    - export PATH=$PATH:/path-to-extracted-file/geckodriver
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
-    - sleep 3
-    - vendor/bin/selenium-server-standalone&
-    - sleep 7
+     # settingng the php server timezone to Amsterdam
+     - phpenv config-add .php.ini
+     - mysql -uroot -e 'create database toolhub_test;'
+     # Setting up the enviroiment variables for testing
+     - cp .env.ci .env
+     # Setting up Composer and npm dependencies
+     - composer self-update
+     - composer install --prefer-source --no-interaction --dev
+     - npm install
+     # Making the Laravel logs readable
+     - chmod -R 777 storage/
+     # Dropping, publishing and seeding the test db
+     - php artisan migrate:refresh --seed
+     # Selenium setup
+     - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+     - tar -xvzf geckodriver*
+     - chmod +x geckodriver
+     - export PATH=$PATH:/path-to-extracted-file/geckodriver
+     - export DISPLAY=:99.0
+     - sh -e /etc/init.d/xvfb start
+     - sleep 3
+     - vendor/bin/selenium-server-standalone&
+     - sleep 7
 
 script:
     - vendor/bin/phpunit -c phpunit.xml
