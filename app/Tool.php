@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tool extends Model
 {
+    protected $fillable = [
+        'name', 'category', 'status', 'description', 'URL', 'uploader_id'
+    ];
+
     public function Category() {
         return $this->hasOne('App\ToolCategory');
     }

@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Auth;
+use Validator;
+use Input;
+use Storage;
+use Session;
+use Redirect;
+use File;
 use App\Tool;
 
 class ToolController extends Controller
@@ -46,9 +53,49 @@ class ToolController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        //
+        $rules = [
+            'name'        => 'required|max:255',
+            'description' => 'required',
+            'url'         => 'required|url',
+            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+        ];
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return Redirect::to('tools/create')->withErrors($validator);
+        } else {
+            $thumbnail = $request->file('thumbnail');
+            $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
+            Storage::disk('local')->put($filename, File::get($thumbnail));
+
+            $tool = new Tool;
+            $tool->name        = Input::get('name');
+            $tool->description = Input::get('description');
+            $tool->category    = 'webservice';
+            $tool->status      = 'active';
+            $tool->url         = Input::get('url');
+            $tool->uploader_id = Auth::user()->id;
+            $tool->thumbnail   = $filename;
+            $tool->save();
+
+            Session::flash('message', 'Tool succesvol toegevoegd!');
+            return Redirect::to('tools');
+        }
+        
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function getImage($filename)
+    {
+        $image = Storage::disk('local')->get($filename);
+        return new Response($image, 200);
     }
 
     /**
