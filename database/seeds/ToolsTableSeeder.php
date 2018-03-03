@@ -11,7 +11,7 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        App\Tool::truncate();  
+        App\Tool::truncate();
 
         DB::table('tools')->insert([
             'name' => 'Heroku',
@@ -19,9 +19,9 @@ class ToolsTableSeeder extends Seeder
             'category' => 'webservice',
             'status' => 'active',
             'views' => '1',
-            'description' => 'Nice description! A lot of useful info!'
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
         ]);
-        
-        //factory(App\Tool::class, 3)->create();
+        copy('https://pbs.twimg.com/profile_images/700084762799550464/dbPz0Wiw_400x400.png', 'storage/app/heroku-thumbnail.png');
     }
 }
