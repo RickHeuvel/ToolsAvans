@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateToolsTable extends Migration
+class CreateToolCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateToolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
+        Schema::create('tool_category', function (Blueprint $table) {
+            $table->string('category',100)->primary();
         });
     }
 
@@ -27,6 +25,6 @@ class CreateToolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::dropIfExists('tool_category');
     }
 }

@@ -1,4 +1,9 @@
-# ToolHub [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub)
+# ToolHub
+
+| Stage         | Hosting       | Travis        |
+| ------------- | ------------- | ------------- |
+| Production    | [toolhub.herokuapp.com](https://toolhub.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
+| Development   | [toolhub-dev.herokuapp.com](https://toolhub-dev.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=dev)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
 
 ## About ToolHub
 
@@ -20,15 +25,18 @@ The instructions below will give you common information about how to setup your 
 ### Prerequisites
 
 * [Composer Dependency Manager](https://getcomposer.org/)
+* [Laravel](https://laravel.com/docs/5.6#installation)
 
-## Setup
+### Setup
 
-Run "composer install" and "php artisan migrate" and you should be good to go.
-
-## Built With
-
-* [Laravel](https://laravel.com) - Laravel PHP Framework
-
+```
+[Clone the repo]
+npm install
+composer install
+[Create a database named "toolhub" in your local mysql server]
+cp .env.local .env
+[Change the DB_USERNAME and DB_PASSWORD in .env to your mysql login credentials]
+```
 
 ## Authors
 
