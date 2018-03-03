@@ -45,7 +45,7 @@ cp .env.local .env
 * **Bram-Boris Meerlo**
 * **Koen van der Hulst**
 * **Rick van den Heuvel**
-* **Jan Scholleart**
+* **Jan Schollaert**
 * **Tim van Kessel**
 * **Tom Paans**
 
