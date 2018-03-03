@@ -22,7 +22,6 @@ class ToolController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -45,6 +44,8 @@ class ToolController extends Controller
      */
     public function create()
     {
+        $this->middleware('auth');
+
         return view('pages.tool.create');
     }
 
@@ -55,6 +56,8 @@ class ToolController extends Controller
      */
     public function store(Request $request)
     {
+        $this->middleware('auth');
+
         $rules = [
             'name'        => 'required|max:255',
             'description' => 'required',
@@ -64,7 +67,9 @@ class ToolController extends Controller
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::to('tools/create')->withErrors($validator);
+            return Redirect::to('tools/create')
+                ->withErrors($validator);
+                ->withInput();
         } else {
             $thumbnail = $request->file('thumbnail');
             $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
@@ -73,17 +78,15 @@ class ToolController extends Controller
             $tool = new Tool;
             $tool->name        = Input::get('name');
             $tool->description = Input::get('description');
-            $tool->category    = 'webservice';
-            $tool->status      = 'active';
+            $tool->category    = Input::get('category');
+            $tool->status      = Input::get('status');
             $tool->url         = Input::get('url');
-            $tool->uploader_id = Auth::user()->id;
             $tool->thumbnail   = $filename;
             $tool->save();
 
             Session::flash('message', 'Tool succesvol toegevoegd!');
-            return Redirect::to('tools');
+            return Redirect::to('tools/' . $tool->id);
         }
-        
     }
 
     /**
@@ -107,9 +110,7 @@ class ToolController extends Controller
     public function show($id)
     {
         $tool = Tool::find($id);
-        return view('pages.tool.view', [
-            "tool" => $tool
-        ]);
+        return view('pages.tool.view')->withTool($tool);
     }
 
     /**
@@ -120,7 +121,10 @@ class ToolController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->middleware('auth');
+
+        $tool = Tool::find($id);
+        return view('pages.tool.edit')->withTool($tool);
     }
 
     /**
@@ -131,7 +135,37 @@ class ToolController extends Controller
      */
     public function update($id)
     {
-        //
+        $this->middleware('auth');
+
+        $rules = [
+            'name'        => 'required|max:255',
+            'description' => 'required',
+            'url'         => 'required|url',
+            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+        ];
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return Redirect::to('tools/create')
+                ->withErrors($validator);
+                ->withInput();
+        } else {
+            $thumbnail = $request->file('thumbnail');
+            $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
+            Storage::disk('local')->put($filename, File::get($thumbnail));
+
+            $tool = Tool::find($id);
+            $tool->name        = Input::get('name');
+            $tool->description = Input::get('description');
+            $tool->category    = Input::get('category');
+            $tool->status      = Input::get('status');
+            $tool->url         = Input::get('url');
+            $tool->thumbnail   = $filename;
+            $tool->save();
+
+            Session::flash('message', 'Tool succesvol gewijzigd!');
+             return Redirect::to('tools/' . $tool->id);
+        }
     }
 
     /**
@@ -142,6 +176,12 @@ class ToolController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->middleware('auth');
+
+        $tool = Tool::find($id);
+        $tool->delete();
+
+        Session::flash('message', 'Tool succesvol verwijderd!');
+        return Redirect::to('tools');
     }
 }
