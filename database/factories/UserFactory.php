@@ -13,14 +13,14 @@ $factory->define(App\User::class, function (Faker $faker) {
         'firstName' => $firstName,
         'lastName' => $faker->lastName,
         'location' => 'OWB',
+        'role' => '',
     ];
 });
 
-$factory->state(App\User::class, 'student' [
-    'role' = 'student',
+$factory->state(App\User::class, 'student', [
+    'role' => 'student',
 ]);
 
-$factory->state(App\User::class, 'docent' [
-    'role' = 'docent',
+$factory->state(App\User::class, 'employee', [
+    'role' => 'employee',
 ]);
-?>

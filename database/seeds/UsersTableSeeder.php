@@ -22,6 +22,5 @@ class UsersTableSeeder extends Seeder
             'location' => 'avans hogeschool',
             'role' => 'admin'
         ]);
-
     }
 }
