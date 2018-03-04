@@ -92,7 +92,7 @@ class ToolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $filename
      * @return Response
      */
     public function getImage($filename)
@@ -104,36 +104,36 @@ class ToolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $tool = Tool::find($id);
+        $tool = Tool::where('slug', $slug)->firstOrFail();
         return view('pages.tool.view')->withTool($tool);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
         $this->middleware('auth');
 
-        $tool = Tool::find($id);
+        $tool = Tool::where('slug', $slug)->firstOrFail();
         return view('pages.tool.edit')->withTool($tool);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return Response
      */
-    public function update($id)
+    public function update($slug)
     {
         $this->middleware('auth');
 
@@ -154,7 +154,7 @@ class ToolController extends Controller
             $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
             Storage::disk('local')->put($filename, File::get($thumbnail));
 
-            $tool = Tool::find($id);
+            $tool = Tool::where('slug', $slug)->firstOrFail();
             $tool->name        = Input::get('name');
             $tool->description = Input::get('description');
             $tool->category    = Input::get('category');
@@ -164,21 +164,21 @@ class ToolController extends Controller
             $tool->save();
 
             Session::flash('message', 'Tool succesvol gewijzigd!');
-             return Redirect::to('tools/' . $tool->id);
+            return Redirect::to('tools/' . $tool->id);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $slug
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         $this->middleware('auth');
 
-        $tool = Tool::find($id);
+        $tool = Tool::where('slug', $slug)->firstOrFail();
         $tool->delete();
 
         Session::flash('message', 'Tool succesvol verwijderd!');

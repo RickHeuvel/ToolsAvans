@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9c21d3ba17fd67cd8ba1d491879526f",
+    "content-hash": "9d3e549077c972706772a607301a38fd",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1513,6 +1513,48 @@
                 "twitter"
             ],
             "time": "2016-08-17T00:36:58+00:00"
+        },
+        {
+            "name": "martinbean/laravel-sluggable-trait",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/martinbean/laravel-sluggable-trait.git",
+                "reference": "0d094a5cd99bb48a12117ebfb3008262da721e87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/martinbean/laravel-sluggable-trait/zipball/0d094a5cd99bb48a12117ebfb3008262da721e87",
+                "reference": "0d094a5cd99bb48a12117ebfb3008262da721e87",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">=4.0",
+                "illuminate/support": ">=4.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MartinBean\\Database\\Eloquent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Bean",
+                    "email": "martin@martinbean.co.uk"
+                }
+            ],
+            "description": "A trait you can apply to Eloquent models to have slugs automatically generated on save.",
+            "keywords": [
+                "eloquent",
+                "laravel"
+            ],
+            "time": "2017-03-30T14:30:02+00:00"
         },
         {
             "name": "monolog/monolog",
