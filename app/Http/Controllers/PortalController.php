@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Portal;
+use Illuminate\Support\Facades\DB;
 
 class PortalController extends Controller
 {
@@ -23,6 +25,8 @@ class PortalController extends Controller
      */
     public function index()
     {
-        return view('pages.portal');
+        $tools = DB::table('tools')->paginate(5);
+        
+        return view('pages.portal', ['tools' => $tools]);
     }
 }
