@@ -68,7 +68,7 @@ class ToolController extends Controller
 
         if ($validator->fails()) {
             return Redirect::to('tools/create')
-                ->withErrors($validator);
+                ->withErrors($validator)
                 ->withInput();
         } else {
             $thumbnail = $request->file('thumbnail');
@@ -147,7 +147,7 @@ class ToolController extends Controller
 
         if ($validator->fails()) {
             return Redirect::to('tools/create')
-                ->withErrors($validator);
+                ->withErrors($validator)
                 ->withInput();
         } else {
             $thumbnail = $request->file('thumbnail');

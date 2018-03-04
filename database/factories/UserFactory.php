@@ -16,11 +16,11 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\User::class, 'student' [
-    'role' = 'student',
+$factory->state(App\User::class, 'student', [
+    'role' => 'student',
 ]);
 
-$factory->state(App\User::class, 'docent' [
-    'role' = 'docent',
+$factory->state(App\User::class, 'docent', [
+    'role' => 'docent',
 ]);
 ?>
