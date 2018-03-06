@@ -76,11 +76,14 @@ class ToolController extends Controller
             Storage::disk('local')->put($filename, File::get($thumbnail));
 
             $tool = new Tool;
-            $tool->name        = Input::get('name');
-            $tool->description = Input::get('description');
-            $tool->category    = Input::get('category');
-            $tool->status      = Input::get('status');
-            $tool->url         = Input::get('url');
+            $tool->name        = $request->input('name');
+            $tool->description = $request->input('description');
+            $tool->category    = $request->input('category');
+            $tool->status      = $request->input('status');
+            $tool->url         = $request->input('url');
+            $tool->uploader_id = $request->input('uploader_id');
+            $tool->category    = $request->input('category');
+            $tool->status      = $request->input('status');
             $tool->thumbnail   = $filename;
             $tool->save();
 
@@ -130,10 +133,11 @@ class ToolController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $slug
+     * @param  Request $request
+     * @param  int     $slug
      * @return Response
      */
-    public function update($slug)
+    public function update($request, $slug)
     {
         $this->middleware('auth');
 
@@ -143,7 +147,7 @@ class ToolController extends Controller
             'url'         => 'required|url',
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
         ];
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return Redirect::to('tools/create')
@@ -155,11 +159,14 @@ class ToolController extends Controller
             Storage::disk('local')->put($filename, File::get($thumbnail));
 
             $tool = Tool::where('slug', $slug)->firstOrFail();
-            $tool->name        = Input::get('name');
-            $tool->description = Input::get('description');
-            $tool->category    = Input::get('category');
-            $tool->status      = Input::get('status');
-            $tool->url         = Input::get('url');
+            $tool->name        = $request->input('name');
+            $tool->description = $request->input('description');
+            $tool->category    = $request->input('category');
+            $tool->status      = $request->input('status');
+            $tool->url         = $request->input('url');
+            $tool->uploader_id = $request->input('uploader_id');
+            $tool->category    = $request->input('category');
+            $tool->status      = $request->input('status');
             $tool->thumbnail   = $filename;
             $tool->save();
 
