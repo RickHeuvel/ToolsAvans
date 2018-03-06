@@ -10,12 +10,8 @@ class Tool extends Model
     use Sluggable;
 
     protected $fillable = [
-        'name', 'category', 'status', 'description', 'URL', 'uploader_id'
+        'name', 'slug', 'category_id', 'status', 'description', 'URL', 'uploader_id'
     ];
-
-    public function Category() {
-        return $this->hasOne('App\ToolCategory');
-    }
 
     public function Status() {
         return $this->hasOne('App\ToolStatus');
@@ -24,5 +20,10 @@ class Tool extends Model
     public function User()
     {
         return $this->belongsTo('App\User', 'uploader_id');
+    }
+
+    public function Category()
+    {
+        return $this->belongsTo('App\ToolCategory', 'category_id');
     }
 }
