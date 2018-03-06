@@ -36,7 +36,7 @@ class AuthController extends Controller
 
     public function redirectToProvider()
     {
-        return Socialite::with($this->provider)->redirect();
+        return Socialite::driver($this->provider)->redirect();
     }
 
     public function handleProviderCallback()

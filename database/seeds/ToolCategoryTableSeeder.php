@@ -12,7 +12,13 @@ class ToolCategoryTableSeeder extends Seeder
     public function run()
     {
         DB::table('tool_category')->insert([
-            'category' => 'webservice'
+            'name' => 'Webservice',
+            'slug' => 'webservice'
+        ]);
+
+        DB::table('tool_category')->insert([
+            'name' => 'Website',
+            'slug' => 'website'
         ]);
     }
 }

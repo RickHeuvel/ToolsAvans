@@ -11,30 +11,29 @@ use Storage;
 use Session;
 use Redirect;
 use File;
+use App\ToolCategory;
 use App\Tool;
 
 class ToolController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
+    private $itemsPerPage = 1;
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tools = Tool::all();
-        return view('pages.tools', [
-            "tools" => $tools
-        ]);
+        $categories =           ToolCategory::all();
+        $selectedCategories  =  (Input::has('categories')) ? explode(',', Input::get('categories')) : null;
+        $selectedCategoryIds =  (Input::has('categories')) ? ToolCategory::whereIn('slug', $selectedCategories)->pluck('id')->toArray() : null;
+        $tools =                (Input::has('categories')) ? Tool::whereIn('category_id', $selectedCategoryIds)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
+        if ($request->ajax()) {
+            return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
+        }
+
+        return view('pages.tools', compact('tools', 'categories', 'selectedCategories'));
     }
 
     /**

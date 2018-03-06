@@ -14,7 +14,7 @@ class CreateToolStatusTable extends Migration
     public function up()
     {
         Schema::create('tool_status', function (Blueprint $table) {
-            $table->string('status',100)->primary();
+            $table->string('status')->primary();
         });
     }
 
