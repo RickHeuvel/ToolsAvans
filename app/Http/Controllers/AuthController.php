@@ -28,7 +28,7 @@ class AuthController extends Controller
      */
 
     private $provider = 'avans';
-    
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -36,17 +36,23 @@ class AuthController extends Controller
 
     public function redirectToProvider()
     {
-        return Socialite::with('avans')->redirect();
+        return Socialite::with($provider)->redirect();
     }
 
     public function handleProviderCallback()
     {
         $user = Socialite::driver($this->provider)->user();
+        login($user);
+    }
+
+    public function login($user)
+    {
         $authUser = $this->findOrCreateUser($user);
         Auth::login($authUser, true);
 
         return Redirect::to('portal');
     }
+
 
     public function findOrCreateUser($user)
     {
@@ -54,7 +60,7 @@ class AuthController extends Controller
         if ($authUser) {
             return $authUser;
         }
-        
+
         return User::create([
             'name'     => $user->name,
             'email'    => $user->email,
