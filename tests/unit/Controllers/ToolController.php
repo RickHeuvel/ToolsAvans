@@ -4,6 +4,7 @@ namespace tests\unit\Controllers;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+<<<<<<< HEAD
 class ToolControllerTest
 {
     /**
