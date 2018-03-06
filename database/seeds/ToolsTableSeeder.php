@@ -15,6 +15,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Heroku',
+            'slug' => 'heroku',
             'uploader_id' => '1',
             'category_id' => '1',
             'status' => 'active',
