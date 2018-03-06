@@ -6,7 +6,7 @@
 @section('content')
     <div class="container">
         <h1>Mijn Portaal</h1>
-
+        
         <p><strong>Gebruikersnaam:</strong> {{auth()->user()->name}}</p>
         <p><strong>Email:</strong> {{auth()->user()->email}}</p>
         <p><strong>Volledige naam:</strong> {{auth()->user()->nickname}}</p>
