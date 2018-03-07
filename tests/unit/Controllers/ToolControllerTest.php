@@ -7,7 +7,6 @@ use App\Http\Controllers\ToolController;
 use App\User;
 use App\Tool;
 use Auth;
-use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Http\UploadedFile;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Storage;
