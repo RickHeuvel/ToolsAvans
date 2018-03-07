@@ -6,13 +6,9 @@ use Tests\TestCase;
 use Auth;
 use App\User;
 use App\Http\Controllers\AuthController;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class AuthenticationTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testGuest() {
         $this->assertGuest($guard = null);
     }
@@ -20,19 +16,25 @@ class AuthenticationTest extends TestCase
     public function testEmployeeLogin()
     {
         $auth = new AuthController;
-        $teacher = factory(User::class)->states('employee')->create();
+        $teacher = factory(User::class)->states('employee')->make();
         $auth->login($teacher);
 
         $this->assertAuthenticated($guard = null);
+        $this->assertDatabaseHas('users', [
+            'name' => $teacher->name,
+        ]);
     }
 
     public function testStudentLogin()
     {
         $auth = new AuthController;
-        $student = factory(User::class)->states('student')->create();
+        $student = factory(User::class)->states('student')->make();
         $auth->login($student);
 
         $this->assertAuthenticated($guard = null);
+        $this->assertDatabaseHas('users', [
+            'name' => $student->name,
+        ]);
     }
 
     public function testLogout() {

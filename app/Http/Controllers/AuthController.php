@@ -45,7 +45,7 @@ class AuthController extends Controller
         $authUser = $this->findOrCreateUser($user);
         Auth::login($authUser, true);
 
-        return Redirect::route('portal');
+        return Redirect::to('portal');
     }
 
     public function login($user)
@@ -73,7 +73,7 @@ class AuthController extends Controller
             'location' => $user->location,
             'role'     => $user->role,
             'provider' => $this->provider,
-            'provider_id' => $user->id
+            'provider_id' => $user->id,
         ]);
     }
 

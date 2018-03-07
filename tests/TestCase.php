@@ -8,5 +8,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication;
+    // Doesn't work, database doesn't contain records for some reason
+    //use RefreshDatabase;
 }

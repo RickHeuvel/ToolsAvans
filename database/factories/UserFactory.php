@@ -6,7 +6,6 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $firstName,
         'email' => $faker->email,
-        'password' => $faker->password,
         'provider' => 'avans',
         'provider_id' => $firstName,
         'nickname' => $faker->name,

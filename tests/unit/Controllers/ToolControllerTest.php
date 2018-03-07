@@ -2,11 +2,15 @@
 namespace tests\unit\Controllers;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ToolController;
 use App\User;
+use App\Tool;
+use Auth;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Http\UploadedFile;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Storage;
 
 class ToolControllerTest extends TestCase
 {
@@ -17,25 +21,27 @@ class ToolControllerTest extends TestCase
      */
     public function testStore()
     {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        // Not working, when using a fake Storage the file doesn't get written
+        //Storage::fake('local');
+
         $user = factory(User::class)->states('employee')->make();
-        $this->be($user);
-        $this->assertAuthenticated($guard = null);
+        $auth->login($user);
 
         $request = Request::create('tools', 'POST', array(
             'name' => 'testName',
             'description' => 'test description',
-            'category' => 'webservice',
+            'category_id' => 1,
             'status' => 'active',
             'url' => 'https://www.kaas.nl',
-            'thumbnail' => 'kaas.png',
-            'uploader_id' => 1,
-            'thumbnail' => Image::make('https://i.ytimg.com/vi/yaqe1qesQ8c/maxresdefault.jpg'),
+            'thumbnail' => UploadedFile::fake()->image('thumbnail.png'),
         ));
-        $controller = new ToolController();
         $controller->store($request);
 
         $this->assertDatabaseHas('tools', [
             'name' => 'testName',
         ]);
+        Storage::disk('local')->assertExists(Tool::where('name', 'testName')->first()->thumbnail);
     }
 }

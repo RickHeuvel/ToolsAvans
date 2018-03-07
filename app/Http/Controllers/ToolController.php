@@ -26,9 +26,9 @@ class ToolController extends Controller
     public function index(Request $request)
     {
         $categories =           ToolCategory::all();
-        $selectedCategories  =  (Input::has('categories')) ? explode(',', Input::get('categories')) : null;
-        $selectedCategoryIds =  (Input::has('categories')) ? ToolCategory::whereIn('slug', $selectedCategories)->pluck('id')->toArray() : null;
-        $tools =                (Input::has('categories')) ? Tool::whereIn('category_id', $selectedCategoryIds)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
+        $selectedCategories  =  ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
+        $selectedCategoryIds =  ($request->has('categories')) ? ToolCategory::whereIn('slug', $selectedCategories)->pluck('id')->toArray() : null;
+        $tools =                ($request->has('categories')) ? Tool::whereIn('category_id', $selectedCategoryIds)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
         if ($request->ajax()) {
             return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
         }
@@ -43,7 +43,8 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $this->middleware('auth');
+        if(!Auth::check())
+            return Redirect::to('login');
 
         return view('pages.tool.create');
     }
@@ -55,7 +56,8 @@ class ToolController extends Controller
      */
     public function store(Request $request)
     {
-        $this->middleware('auth');
+        if(!Auth::check())
+            return Redirect::to('login');
 
         $rules = [
             'name'        => 'required|max:255',
@@ -63,26 +65,26 @@ class ToolController extends Controller
             'url'         => 'required|url',
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
         ];
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return Redirect::to('tools/create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $thumbnail = $request->file('thumbnail');
-            $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($thumbnail));
-
             $tool = new Tool;
             $tool->name        = $request->input('name');
             $tool->description = $request->input('description');
-            $tool->category    = $request->input('category');
             $tool->status      = $request->input('status');
             $tool->url         = $request->input('url');
-            $tool->uploader_id = $request->input('uploader_id');
-            $tool->category    = $request->input('category');
+            $tool->uploader_id = Auth::id();
+            $tool->category_id = $request->input('category_id');
             $tool->status      = $request->input('status');
+
+            $thumbnail = $request->input('thumbnail');
+            $filename = $tool->slug . '.' . $thumbnail->clientExtension();
+            Storage::disk('local')->put($filename, File::get($thumbnail));
+
             $tool->thumbnail   = $filename;
             $tool->save();
 
@@ -123,7 +125,8 @@ class ToolController extends Controller
      */
     public function edit($slug)
     {
-        $this->middleware('auth');
+        if(!Auth::check())
+            return Redirect::to('login');
 
         $tool = Tool::where('slug', $slug)->firstOrFail();
         return view('pages.tool.edit')->withTool($tool);
@@ -138,7 +141,8 @@ class ToolController extends Controller
      */
     public function update($request, $slug)
     {
-        $this->middleware('auth');
+        if(!Auth::check())
+            return Redirect::to('login');
 
         $rules = [
             'name'        => 'required|max:255',
@@ -147,7 +151,7 @@ class ToolController extends Controller
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
         ];
         $validator = Validator::make($request->all(), $rules);
-
+        $all = $request->all();
         if ($validator->fails()) {
             return Redirect::to('tools/create')
                 ->withErrors($validator)
@@ -160,11 +164,10 @@ class ToolController extends Controller
             $tool = Tool::where('slug', $slug)->firstOrFail();
             $tool->name        = $request->input('name');
             $tool->description = $request->input('description');
-            $tool->category    = $request->input('category');
             $tool->status      = $request->input('status');
             $tool->url         = $request->input('url');
-            $tool->uploader_id = $request->input('uploader_id');
-            $tool->category    = $request->input('category');
+            $tool->uploader_id = Auth::id();
+            $tool->category_id = $request->input('category_id');
             $tool->status      = $request->input('status');
             $tool->thumbnail   = $filename;
             $tool->save();
@@ -182,7 +185,8 @@ class ToolController extends Controller
      */
     public function destroy($slug)
     {
-        $this->middleware('auth');
+        if(!Auth::check())
+            return Redirect::to('login');
 
         $tool = Tool::where('slug', $slug)->firstOrFail();
         $tool->delete();
