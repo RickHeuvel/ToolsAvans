@@ -25,7 +25,7 @@ class Provider extends AbstractProvider
         $user = $this->server->getUserDetails($token);
         
         return (new User())->map([
-            'id'       => $user->id,
+            'id'       => $user->provider_id,
             'nickname' => $user->nickname,
             'firstName'=> $user->firstName,
             'lastName' => $user->lastName,

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateToolStatusTable extends Migration
+class AddSlugColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateToolStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('tool_status', function (Blueprint $table) {
-            $table->string('status')->primary();
+        Schema::table('tools', function($table) {
+            $table->string('slug');
         });
     }
 
@@ -25,6 +25,8 @@ class CreateToolStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tool_status');
+        Schema::table('tools', function($table) {
+            $table->dropColumn('slug');
+        });
     }
 }

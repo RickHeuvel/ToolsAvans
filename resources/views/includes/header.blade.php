@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav group">
                 <li><a class="nav-item nav-link" href="{{ route('home') }}">Home</a></li>
-                <li><a class="nav-item nav-link" href="{{ route('tools') }}">Tools</a></li>
+                <li><a class="nav-item nav-link" href="{{ URL::to('tools') }}">Tools</a></li>
                 <!-- Authentication Links -->
                 @guest
                     <li><a class="nav-link" href="{{ route('login') }}">Inloggen</a></li>

@@ -28,7 +28,7 @@ class AuthController extends Controller
      */
 
     private $provider = 'avans';
-    
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -48,13 +48,22 @@ class AuthController extends Controller
         return Redirect::to('portal');
     }
 
+    public function login($user)
+    {
+        $authUser = $this->findOrCreateUser($user);
+        Auth::login($authUser, true);
+
+        return Redirect::to('portal');
+    }
+
+
     public function findOrCreateUser($user)
     {
         $authUser = User::where('provider_id', $user->id)->first();
         if ($authUser) {
             return $authUser;
         }
-        
+
         return User::create([
             'name'     => $user->name,
             'email'    => $user->email,
@@ -64,7 +73,7 @@ class AuthController extends Controller
             'location' => $user->location,
             'role'     => $user->role,
             'provider' => $this->provider,
-            'provider_id' => $user->id
+            'provider_id' => $user->provider_id,
         ]);
     }
 

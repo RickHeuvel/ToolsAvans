@@ -12,9 +12,12 @@
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
         "fzaninotto/faker": "~1.4",
+        "intervention/image": "^2.4",
         "laravel/framework": "5.6.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.4",
+        "martinbean/laravel-sluggable-trait": "^0.3.0",
         "socialiteproviders/generators": "^4.1",
         "socialiteproviders/manager": "^3.3"
     },

@@ -11,17 +11,42 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        App\Tool::truncate();  
+        App\Tool::truncate();
 
         DB::table('tools')->insert([
             'name' => 'Heroku',
+            'slug' => 'heroku',
             'uploader_id' => '1',
-            'category' => 'webservice',
+            'category_id' => '1',
             'status' => 'active',
             'views' => '1',
-            'description' => 'Nice description! A lot of useful info!'
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://heroku.com/',
+            'slug' => 'heroku'
         ]);
-        
-        //factory(App\Tool::class, 3)->create();
+        DB::table('tools')->insert([
+            'name' => 'Webdictaat',
+            'uploader_id' => '1',
+            'category_id' => '2',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://webdictaat.com/',
+            'slug' => 'webdictaat'
+        ]);
+        DB::table('tools')->insert([
+            'name' => 'Kahoot!',
+            'uploader_id' => '1',
+            'category_id' => '2',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://kahoot.com/',
+            'slug' => 'kahoot'
+        ]);
+        copy('https://pbs.twimg.com/profile_images/700084762799550464/dbPz0Wiw_400x400.png', 'storage/app/heroku-thumbnail.png');
     }
 }

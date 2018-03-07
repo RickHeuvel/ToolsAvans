@@ -17,16 +17,18 @@ class CreateToolsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('uploader_id')->unsigned();
-            $table->string('category', 100);
-            $table->string('status', 100);
+            $table->integer('category_id')->unsigned();
+            $table->string('status');
             $table->bigInteger('views')->nullable(true);
             $table->text('description')->nullable(false);
             $table->text('URL')->nullable(true);
-
-            $table->foreign('uploader_id')->references('id')->on('users');
-            $table->foreign('category')->references('category')->on('tool_category');
-            $table->foreign('status')->references('status')->on('tool_status');
             $table->timestamps();
+        });
+
+        Schema::table('tools', function (Blueprint $table) {
+            $table->foreign('uploader_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('tool_category');
+            $table->foreign('status')->references('status')->on('tool_status');
         });
     }
 
