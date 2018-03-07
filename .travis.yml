@@ -23,7 +23,7 @@ before_script:
     - echo Generating a laravel encryption key
     - php artisan key:generate
     - echo Dropping, publishing and seeding the test db
-    - php artisan migrate:refresh --seed
+    - php artisan migrate:fresh --seed
     - echo Selenium setup
     - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
     - tar -xvzf geckodriver*
@@ -50,7 +50,7 @@ before_deploy:
     - echo generating laravel encryption key
     - php artisan key:generate --force
     - echo dropping, publishing and seeding database
-    - php artisan migrate:refresh --seed --force
+    - php artisan migrate:fresh --seed --force
     - echo Starting setup for heroku deployment
     - echo resetting repo
     - git stash --all

@@ -47,6 +47,6 @@ class ToolsTableSeeder extends Seeder
             'url' => 'https://kahoot.com/',
             'slug' => 'kahoot'
         ]);
-        copy('https://pbs.twimg.com/profile_images/700084762799550464/dbPz0Wiw_400x400.png', 'storage/app/heroku-thumbnail.png');
+        copy('http://www.wizarddevelopment.com/assets/heroku-logo-3fd853cc0508639b85b41af0cdc97b8f.png', 'storage/app/heroku-thumbnail.png');
     }
 }
