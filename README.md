@@ -36,6 +36,7 @@ composer install
 [Create a database named "toolhub" in your local mysql server]
 cp .env.local .env
 [Change the DB_USERNAME and DB_PASSWORD in .env to your mysql login credentials]
+php artisan migrate:fresh --seed
 ```
 
 ## Authors
