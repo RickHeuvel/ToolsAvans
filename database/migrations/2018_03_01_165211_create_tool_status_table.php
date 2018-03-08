@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserColumns extends Migration
+class CreateToolStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class AddUserColumns extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('nickname');
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('location');
-            $table->string('role');
-            $table->dropColumn('password');
+        Schema::create('tool_status', function (Blueprint $table) {
+            $table->string('status')->primary();
         });
     }
 
@@ -30,6 +25,6 @@ class AddUserColumns extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('tool_status');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateToolsTable extends Migration
+class AddThumbnailField extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateToolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('tools', function($table) {
+            $table->string('thumbnail');
         });
     }
 
@@ -27,6 +25,8 @@ class CreateToolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::table('tools', function($table) {
+            $table->dropColumn('thumbnail');
+        });
     }
 }
