@@ -1,0 +1,303 @@
+// ADDS A BROWSER PREFIX TO THE PROPERTY
+@mixin css3-prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+   -khtml-#{$property}: #{$value};
+     -moz-#{$property}: #{$value};
+      -ms-#{$property}: #{$value};
+       -o-#{$property}: #{$value};
+          #{$property}: #{$value};
+}
+
+// BACKGROUND GRADIENT (top to Bottom)
+// How to use:		.classname { @include background-gradient(#fff, #000); }
+@mixin background-gradient($startColor, $endColor) {
+    background-color: $startColor;
+    background-image: -webkit-gradient(linear, left top, left bottom, from($startColor), to($endColor));
+    background-image: -webkit-linear-gradient(top, $startColor, $endColor);
+    background-image:    -moz-linear-gradient(top, $startColor, $endColor);
+    background-image:     -ms-linear-gradient(top, $startColor, $endColor);
+    background-image:      -o-linear-gradient(top, $startColor, $endColor);
+    background-image:         linear-gradient(top, $startColor, $endColor);
+    filter:            progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}');
+}
+
+// BACKGROUND HORIZONTAL (left to right)
+// How to use:		.classname { @include background-horizontal(#fff, #000); }
+@mixin background-horizontal($startColor, $endColor) {
+    background-color: $startColor;
+    background-image: -webkit-gradient(linear, left top, right top, from($startColor), to($endColor));
+    background-image: -webkit-linear-gradient(left, $startColor, $endColor);
+    background-image:    -moz-linear-gradient(left, $startColor, $endColor);
+    background-image:     -ms-linear-gradient(left, $startColor, $endColor);
+    background-image:      -o-linear-gradient(left, $startColor, $endColor);
+    background-image:         linear-gradient(left, $startColor, $endColor);
+    filter:            progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$startColor}', endColorStr='#{$endColor}', gradientType='1');
+}
+
+// BACKGROUND RADIAL
+// How to use:		.classname { @include background-radial(#fff, 0%, #000, 100%); }
+@mixin background-radial($startColor, $startPos, $endColor, $endPos) {
+    background: -moz-radial-gradient(center, ellipse cover, $startColor $startPos, $endColor $endPos);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop($startPos,$startColor), color-stop($endPos,$endColor));
+    background: -webkit-radial-gradient(center, ellipse cover, $startColor $startPos,$endColor $endPos);
+    background: -o-radial-gradient(center, ellipse cover, $startColor $startPos,$endColor $endPos);
+    background: -ms-radial-gradient(center, ellipse cover, $startColor $startPos,$endColor $endPos);
+    background: radial-gradient(ellipse at center, $startColor $startPos,$endColor $endPos);
+}
+
+// BACKGROUND SIZE
+// How to use:		.classname { @include background-size(90%, 120px); }
+@mixin background-size($width, $height) {
+  @if type-of($width) == 'number' and $height != null {
+    @include css3-prefix('background-size', $width $height);
+  } @else {
+    @include css3-prefix('background-size', $width);
+  }
+}
+
+// BACKGROUND COLOR OPACITY
+// How to use:		.classname { @include background-opacity(#000, 0.85); }
+@mixin background-opacity($color, $opacity) {
+  background: $color;
+  background: rgba($color, $opacity);
+}
+
+// BORDER RADIUS
+// How to use:		.classname { @include border-radius(5px); }
+@mixin border-radius($radius) {
+    @include css3-prefix('border-radius', $radius);
+}
+
+// BORDER RADIUS SEPARATE
+// How to use:		.classname { @include border-radius-separate(5px, 15px, 25px, 10px); }
+@mixin border-radius-separate($topLeftRadius, $topRightRadius, $bottomRightRadius, $bottomLeftRadius) {
+  -webkit-border-top-left-radius:     $topLeftRadius;
+  -webkit-border-top-right-radius:    $topRightRadius;
+  -webkit-border-bottom-right-radius: $bottomRightRadius;
+  -webkit-border-bottom-left-radius:  $bottomLeftRadius;
+
+  -moz-border-radius-topleft:     $topLeftRadius;
+  -moz-border-radius-topright:    $topRightRadius;
+  -moz-border-radius-bottomright: $bottomRightRadius;
+  -moz-border-radius-bottomleft:  $bottomLeftRadius;
+
+  border-top-left-radius:     $topLeftRadius;
+  border-top-right-radius:    $topRightRadius;
+  border-bottom-right-radius: $bottomRightRadius;
+  border-bottom-left-radius:  $bottomLeftRadius;
+}
+
+// BOX
+// How to use:		.classname { @include box(horizontal, center, center); }
+@mixin box($orient, $pack, $align) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+
+  @include css3-prefix('box-orient', $orient);
+  @include css3-prefix('box-pack', $pack);
+  @include css3-prefix('box-align', $align);
+}
+
+// BOX RGBA
+// How to use:		.classname { @include box-rgba(60, 3, 12, 0.23, #000); }
+@mixin box-rgba($r, $g, $b, $opacity, $color) {
+  background-color: transparent;
+  background-color: rgba($r, $g, $b, $opacity);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color}',endColorstr='#{$color}');
+            zoom:   1;
+}
+
+// BOX SHADOW
+// How to use:		.classname { @include box-shadow(2px, 2px, 5px, "", rgba(0,0,0,.4)); }
+@mixin box-shadow($x, $y, $blur, $inset, $color) {
+  @if ($inset != "") {
+    @include css3-prefix('box-shadow', $x $y $blur $inset $color);
+  } @else {
+    @include css3-prefix('box-shadow', $x $y $blur $color);
+  }
+}
+
+// BOX SIZING
+// How to use:		.classname { @include box-sizing(border-box); }
+@mixin box-sizing($type) {
+  @include css3-prefix('box-sizing', $type);
+}
+
+// COLUMNS
+// How to use:		.classname { @include columns(3, 10); }
+@mixin columns($count, $gap) {
+  @include css3-prefix('column-count', $count);
+  @include css3-prefix('column-gap', $gap);
+}
+
+// DOUBLE BORDERS
+// How to use:		.classname { @include double-borders(#3C3C3C, #999999, 15px); }
+@mixin double-borders($colorOne, $colorTwo, $radius) {
+  border: 1px solid $colorOne;
+
+  @include css3-prefix('box-shadow', 0 0 0 1px $colorTwo);
+
+  @include border-radius( $radius );
+}
+
+// FLEX
+// How to use:		.classname { @include flex(1); }
+@mixin flex($value) {
+  @include css3-prefix('box-flex', $value);
+}
+
+// FLIP
+// How to use:		.classname { @include flip(-1); }
+@mixin flip($scaleX) {
+  @include css3-prefix('transform', scaleX($scaleX));
+  filter:            FlipH;
+  -ms-filter:        "FlipH";
+}
+
+// FONT FACE
+// How to use:		@font-face { @include font-face(fontFamily, map/bestandnaam); }
+@mixin font-face($fontFamily, $src, $style, $weight) {
+  font-family: '#{$fontFamily}';
+  font-style: $style;
+  font-weight: $weight;
+  src: url('../fonts/#{$src}.eot');
+  src: url('../fonts/#{$src}.eot#iefix')  format('eot'),
+       url('../fonts/#{$src}.woff') format('woff'),
+       url('../fonts/#{$src}.ttf')  format('truetype'),
+       url('../fonts/#{$src}.svg##{$fontFamily}') format('svg');
+}
+
+// LINK COLORING
+// How to use:  element/.classname {@include link-color(color-out, color-in, true);}
+@mixin link-color($color-out, $color-in, $underline) {
+	color: $color-out;
+	&:link, :visited {
+		color: $color-out;
+	}
+	&:hover, :focus {
+		color: $color-in;
+		@if ($underline == true) {
+			text-decoration: underline;
+		} @else {
+			text-decoration: none;
+		}
+	}
+}
+
+// OPACITY
+// How to use:		.classname { @include opacity(0.5); }
+@mixin opacity($opacity) {
+    $opacityMultiplied: ($opacity * 100);
+
+    filter:         alpha(opacity=$opacityMultiplied);
+    -ms-filter:     "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + $opacityMultiplied + ")";
+    @include css3-prefix('opacity', $opacity);
+}
+
+
+// OUTLINE RADIUS
+// How to use:		.classname { @include outline-radius(5px); }
+@mixin outline-radius($radius) {
+  @include css3-prefix('outline-radius', $radius);
+}
+
+// RESIZE
+// How to use:		.classname { @include resize(both); }
+@mixin resize($direction) {
+  @include css3-prefix('resize', $direction);
+}
+
+// ROTATE
+// How to use:		.classname { @include rotate(180); }
+@mixin rotate($deg) {
+  @include css3-prefix('transform', rotate($deg + deg));
+}
+
+// ROTATE IE FIX
+// How to use:		.classname { @include rotate(180, 0, 0, 0, 0); }
+@mixin rotate-ie-fix($deg, $m11, $m12, $m21, $m22) {
+  filter: progid:DXImageTransform.Microsoft.Matrix(
+       M11=#{$m11}, M12=#{$m12}, M21=#{$m21}, M22=#{$m22}, sizingMethod='auto expand');
+    zoom: 1;
+  @include css3-prefix('transform', rotate($deg + deg));
+}
+
+// TEXT SHADOW
+// How to use:		.classname { @include text-shadow(2px, 2px, 5px, #000); }
+@mixin text-shadow($x, $y, $blur, $color) {
+    text-shadow: $x $y $blur $color;
+}
+
+// TRANSFORM
+// How to use:		.classname { @include transform(rotate(90deg)); }
+@mixin transform($params) {
+  @include css3-prefix('transform', $params);
+}
+
+// TINT IMAGE
+// How to use:  .classname { @include tint-image(rgba, url('')); }
+@mixin tint-image($rgba, $img) {
+    @include css3-prefix('background-image', "linear-gradient(top, #{$rgba}, #{$rgba}), #{$img}");
+}
+
+// TRANSFORM-ORIGIN
+// How to use:		.classname { @include transform-origin(20% 40%); }
+@mixin transform-origin($params) {
+  @include css3-prefix('transform-origin', $params);
+}
+
+// TRANSFORM STYLE
+// How to use:		.classname { @include transform-style(preserve-3d); }
+@mixin transform-style($style) {
+  @include css3-prefix('transform-style', $style);
+}
+
+// TRANSITION
+// How to use:		.classname { @include transition(width 0.2s ease-in-out 4s); }
+@mixin transition($properties) {
+
+  @if length($properties) >= 1 {
+    @include css3-prefix('transition', $properties);
+  }
+
+  @else {
+    @include css3-prefix('transition',  "all 0.2s ease-in-out 0s");
+  }
+}
+
+// TRIPLE BORDERS
+// How to use:		.classname { @include triple-borders(#3C3C3C, #999999, #000000, 5px); }
+@mixin triple-borders($colorOne, $colorTwo, $colorThree, $radius) {
+    border: 1px solid $colorOne;
+
+    @include border-radius($radius);
+
+    @include css3-prefix('box-shadow', "0 0 0 1px #{$colorTwo}, 0 0 0 2px #{$colorThree}");
+}
+
+// KEYFRAMES
+// How to use:		.classname { @include keyframes(animation-name); }
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+// ANIMATION
+// How to use:		.classname { @include animation(keyframeName 5s linear 2s infinite alternate); }
+@mixin animation($str) {
+  @include css3-prefix('animation', $str);
+}

@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'avans' => [
+        'client_id' => env('AVANS_CLIENT_ID'),
+        'client_secret' => env('AVANS_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/login-callback'
+    ]
+
 ];

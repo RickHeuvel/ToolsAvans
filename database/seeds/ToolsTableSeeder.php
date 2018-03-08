@@ -12,9 +12,41 @@ class ToolsTableSeeder extends Seeder
     public function run()
     {
         App\Tool::truncate();
+
         DB::table('tools')->insert([
-            'name' => 'Heroku'
+            'name' => 'Heroku',
+            'slug' => 'heroku',
+            'uploader_id' => '1',
+            'category_id' => '1',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://heroku.com/',
+            'slug' => 'heroku'
         ]);
-        factory(App\Tool::class, 3)->create();
+        DB::table('tools')->insert([
+            'name' => 'Webdictaat',
+            'uploader_id' => '1',
+            'category_id' => '2',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://webdictaat.com/',
+            'slug' => 'webdictaat'
+        ]);
+        DB::table('tools')->insert([
+            'name' => 'Kahoot!',
+            'uploader_id' => '1',
+            'category_id' => '2',
+            'status' => 'active',
+            'views' => '1',
+            'description' => 'Nice description! A lot of useful info!',
+            'thumbnail' => 'heroku-thumbnail.png',
+            'url' => 'https://kahoot.com/',
+            'slug' => 'kahoot'
+        ]);
+        copy('http://www.wizarddevelopment.com/assets/heroku-logo-3fd853cc0508639b85b41af0cdc97b8f.png', 'storage/app/heroku-thumbnail.png');
     }
 }
