@@ -73,7 +73,7 @@ class AuthController extends Controller
             'location' => $user->location,
             'role'     => $user->role,
             'provider' => $this->provider,
-            'provider_id' => $user->provider_id,
+            'provider_id' => $user->id,
         ]);
     }
 
