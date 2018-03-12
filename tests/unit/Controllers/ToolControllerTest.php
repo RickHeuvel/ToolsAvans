@@ -39,6 +39,9 @@ class ToolControllerTest extends TestCase
                 'category'      => 'Website',
                 'status'        => 'actief',
                 'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
                 'logo'          => UploadedFile::fake()->image('logo.png'),
                 'image-1'       => UploadedFile::fake()->image('image-1.png'),
                 'image-2'       => UploadedFile::fake()->image('image-2.png'),

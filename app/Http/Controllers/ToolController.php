@@ -75,22 +75,7 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
-        // Here we extract the images from the request
-        // $request->file() and $request->files can't be used because of Laravel testing limitations
-        $uploadedImages = [];
-        while (true)
-        {
-            $image = $request->input('image' . '-' . (count($uploadedImages) + 1));
-            if ($image == null)
-            {
-                break;
-            }
-            else
-            {
-                $newImages = [ $image ];
-                $uploadedImages = array_merge($uploadedImages, $newImages);
-            }
-        }
+        $uploadedImages = $request->allFiles();
 
         $rules = [
             'name'          => 'required|max:255',
@@ -101,10 +86,10 @@ class ToolController extends Controller
             'category'      => 'required|exists:tool_category,name',
         ];
         // Here we add a validation rule to the ruleset for every image that has been uploaded
-        for($i = 0; $i < count($uploadedImages); $i++) 
+        for($i = 1; $i < count($uploadedImages); $i++) 
         {
             $imageRule = [
-                'image' . '-' . ($i + 1) => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
             ];
             $rules = array_merge($rules, $imageRule);
         }
@@ -115,7 +100,7 @@ class ToolController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $logo = $request->input('logo');
+            $logo = $request->file('logo');
 
             $tool = Tool::create([
                 'name'          => $request->input('name'),
@@ -128,11 +113,11 @@ class ToolController extends Controller
             ]);
 
             // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
-            for($i = 0; $i < count($uploadedImages); $i++) 
+            for($i = 1; $i < count($uploadedImages); $i++) 
             {
                 ToolImage::create([
                     'tool_slug'         => $tool->slug,
-                    'image_filename'    => $this->saveImage($uploadedImages[$i], $tool->slug . '-' . ($i + 1)),
+                    'image_filename'    => $this->saveImage($uploadedImages['image-' . $i], $tool->slug . '-' . $i),
                 ]);
             }
 
@@ -163,7 +148,7 @@ class ToolController extends Controller
     private function saveImage($image, $filename)
     {
         $filenameWithExtention = $filename . '.' . $image->getClientOriginalExtension();
-        Storage::disk('local')->put($filenameWithExtention, File::get($image));
+        Storage::disk('tool-images')->put($filenameWithExtention, File::get($image));
 
         return $filenameWithExtention;
     }
@@ -221,22 +206,7 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
-        // Here we extract the images from the request
-        // $request->file() and $request->files can't be used because of Laravel testing limitations
-        $uploadedImages = [];
-        while (true)
-        {
-            $image = $request->input('image' . '-' . (count($uploadedImages) + 1));
-            if ($image == null)
-            {
-                break;
-            }
-            else
-            {
-                $newImages = [ $image ];
-                $uploadedImages = array_merge($uploadedImages, $newImages);
-            }
-        }
+        $uploadedImages = $request->allFiles();
 
         $rules = [
             'name'          => 'required|max:255',
@@ -247,10 +217,10 @@ class ToolController extends Controller
             'category'      => 'required|exists:tool_category,name',
         ];
         // Here we add a validation rule to the ruleset for every image that has been uploaded
-        for($i = 0; $i < count($uploadedImages); $i++) 
+        for($i = 1; $i < count($uploadedImages); $i++) 
         {
             $imageRule = [
-                'image' . '-' . ($i + 1) => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
             ];
             $rules = array_merge($rules, $imageRule);
         }
@@ -261,7 +231,7 @@ class ToolController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $logo = $request->input('logo');
+            $logo = $request->file('logo');
 
             $tool = Tool::where('slug', $slug)->firstOrFail();
             $tool->name             = $request->input('name');
@@ -273,20 +243,20 @@ class ToolController extends Controller
             $tool->logo_filename    = $this->saveImage($logo, Str::slug($request->name) . '-logo');
             $tool->save();
 
-            // Deleting the old images
-            ToolImage::where('tool_slug', $tool->slug)->delete();
             // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
-            for($i = 0; $i < count($uploadedImages); $i++) 
+            for($i = 1; $i < count($uploadedImages); $i++) 
             {
                 ToolImage::create([
                     'tool_slug'         => $tool->slug,
-                    'image_filename'    => $this->saveImage($uploadedImages[$i], $tool->slug . '-' . ($i + 1)),
+                    'image_filename'    => $this->saveImage($uploadedImages['image-' . $i], $tool->slug . '-' . $i),
                 ]);
             }
 
             Session::flash('message', 'Tool succesvol toegevoegd!');
             return Redirect::to('tools/' . $tool->slug);
         }
+            
+
     }
 
     /**
