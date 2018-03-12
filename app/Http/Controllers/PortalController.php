@@ -25,7 +25,7 @@ class PortalController extends Controller
      */
     public function index()
     {
-        $tools = DB::table('tools')->paginate(5);
+        $tools = DB::table('tools')->where('uploader_id', auth()->user()->id)->paginate(5);
         
         return view('pages.portal', ['tools' => $tools]);
     }
