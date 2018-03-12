@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Auth;
 use Validator;
 use Input;
@@ -13,6 +14,7 @@ use Redirect;
 use File;
 use App\ToolCategory;
 use App\Tool;
+use App\ToolImage;
 
 class ToolController extends Controller
 {
@@ -50,8 +52,22 @@ class ToolController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new Tool
      *
+     * @param $request
+     * contains:
+     * string 'name'
+     * string 'description'
+     * string 'url'
+     * file 'logo'
+     * string 'status'
+     * int 'category'
+     * 
+     * The backend is able to handle as many images as the user wants, but I'd say cap it at 5
+     * file 'image-1'
+     * file 'image-2'
+     * etc. etc....
+     * 
      * @return Response
      */
     public function store(Request $request)
@@ -59,37 +75,54 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
-        $rules = [
-            'name'        => 'required|max:255',
-            'description' => 'required',
-            'url'         => 'required|url',
-            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
-        ];
-        $validator = Validator::make($request->all(), $rules);
+        $uploadedImages = $request->allFiles();
 
+        $rules = [
+            'name'          => 'required|max:255',
+            'description'   => 'required',
+            'url'           => 'required|url',
+            'logo'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            'status'        => 'required|exists:tool_status,status',
+            'category'      => 'required|exists:tool_category,name',
+        ];
+        // Here we add a validation rule to the ruleset for every image that has been uploaded
+        for($i = 1; $i < count($uploadedImages); $i++) 
+        {
+            $imageRule = [
+                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            ];
+            $rules = array_merge($rules, $imageRule);
+        }
+            
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return Redirect::to('tools/create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $tool = new Tool;
-            $tool->name        = $request->input('name');
-            $tool->description = $request->input('description');
-            $tool->status      = $request->input('status');
-            $tool->url         = $request->input('url');
-            $tool->uploader_id = Auth::id();
-            $tool->category_id = $request->input('category_id');
-            $tool->status      = $request->input('status');
+            $logo = $request->file('logo');
 
-            $thumbnail = $request->input('thumbnail');
-            $filename = $tool->slug . '.' . $thumbnail->clientExtension();
-            Storage::disk('local')->put($filename, File::get($thumbnail));
+            $tool = Tool::create([
+                'name'          => $request->input('name'),
+                'description'   => $request->input('description'),
+                'url'           => $request->input('url'),
+                'uploader_id'   => Auth::id(),
+                'category_slug' => Str::slug($request->input('category')),
+                'status'        => $request->input('status'),
+                'logo_filename' => $this->saveImage($logo, Str::slug($request->name) . '-logo'),
+            ]);
 
-            $tool->thumbnail   = $filename;
-            $tool->save();
+            // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
+            for($i = 1; $i < count($uploadedImages); $i++) 
+            {
+                ToolImage::create([
+                    'tool_slug'         => $tool->slug,
+                    'image_filename'    => $this->saveImage($uploadedImages['image-' . $i], $tool->slug . '-' . $i),
+                ]);
+            }
 
             Session::flash('message', 'Tool succesvol toegevoegd!');
-            return Redirect::to('tools/' . $tool->id);
+            return Redirect::to('tools/' . $tool->slug);
         }
     }
 
@@ -101,8 +134,23 @@ class ToolController extends Controller
      */
     public function getImage($filename)
     {
-        $image = Storage::disk('local')->get($filename);
+        $image = Storage::disk('tool-images')->get($filename);
         return new Response($image, 200);
+    }
+
+    /**
+     * Save a given image to the local disk with a given filename
+     * Adds the image extention to the filename before saving
+     * 
+     * @param UploadedFile $image
+     * @return string $filenameWithExtention
+     */
+    private function saveImage($image, $filename)
+    {
+        $filenameWithExtention = $filename . '.' . $image->getClientOriginalExtension();
+        Storage::disk('tool-images')->put($filenameWithExtention, File::get($image));
+
+        return $filenameWithExtention;
     }
 
     /**
@@ -133,10 +181,24 @@ class ToolController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Tool.
      *
-     * @param  Request $request
-     * @param  int     $slug
+     * @param $request
+     * contains:
+     * string 'name'
+     * string 'description'
+     * string 'url'
+     * file 'logo'
+     * string 'status'
+     * int 'category'
+     * 
+     * The backend is able to handle as many images as the user wants, but I'd say cap it at 5
+     * file 'image-1'
+     * file 'image-2'
+     * etc. etc....
+     * 
+     * @param $slug
+     * 
      * @return Response
      */
     public function update($request, $slug)
@@ -144,37 +206,57 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
+        $uploadedImages = $request->allFiles();
+
         $rules = [
-            'name'        => 'required|max:255',
-            'description' => 'required',
-            'url'         => 'required|url',
-            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            'name'          => 'required|max:255',
+            'description'   => 'required',
+            'url'           => 'required|url',
+            'logo'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            'status'        => 'required|exists:tool_status,status',
+            'category'      => 'required|exists:tool_category,name',
         ];
+        // Here we add a validation rule to the ruleset for every image that has been uploaded
+        for($i = 1; $i < count($uploadedImages); $i++) 
+        {
+            $imageRule = [
+                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            ];
+            $rules = array_merge($rules, $imageRule);
+        }
+            
         $validator = Validator::make($request->all(), $rules);
-        $all = $request->all();
         if ($validator->fails()) {
             return Redirect::to('tools/create')
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $thumbnail = $request->file('thumbnail');
-            $filename = time() . '.' . $thumbnail->getClientOriginalExtension();
-            Storage::disk('local')->put($filename, File::get($thumbnail));
+            $logo = $request->file('logo');
 
             $tool = Tool::where('slug', $slug)->firstOrFail();
-            $tool->name        = $request->input('name');
-            $tool->description = $request->input('description');
-            $tool->status      = $request->input('status');
-            $tool->url         = $request->input('url');
-            $tool->uploader_id = Auth::id();
-            $tool->category_id = $request->input('category_id');
-            $tool->status      = $request->input('status');
-            $tool->thumbnail   = $filename;
+            $tool->name             = $request->input('name');
+            $tool->description      = $request->input('description');
+            $tool->url              = $request->input('url');
+            $tool->uploader_id      = Auth::id();
+            $tool->category_slug    = Str::slug($request->input('category'));
+            $tool->status           = $request->input('status');
+            $tool->logo_filename    = $this->saveImage($logo, Str::slug($request->name) . '-logo');
             $tool->save();
 
-            Session::flash('message', 'Tool succesvol gewijzigd!');
-            return Redirect::to('tools/' . $tool->id);
+            // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
+            for($i = 1; $i < count($uploadedImages); $i++) 
+            {
+                ToolImage::create([
+                    'tool_slug'         => $tool->slug,
+                    'image_filename'    => $this->saveImage($uploadedImages['image-' . $i], $tool->slug . '-' . $i),
+                ]);
+            }
+
+            Session::flash('message', 'Tool succesvol toegevoegd!');
+            return Redirect::to('tools/' . $tool->slug);
         }
+            
+
     }
 
     /**

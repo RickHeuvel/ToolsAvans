@@ -11,39 +11,34 @@ class ToolsTableSeeder extends Seeder
      */
     public function run()
     {
-        App\Tool::truncate();
-
         DB::table('tools')->insert([
             'name' => 'Heroku',
             'slug' => 'heroku',
             'uploader_id' => '1',
-            'category_id' => '1',
-            'status' => 'active',
-            'views' => '1',
+            'category_slug' => 'webservice',
+            'status' => 'actief',
             'description' => 'Nice description! A lot of useful info!',
-            'thumbnail' => 'heroku-thumbnail.png',
+            'logo_filename' => 'heroku-thumbnail.png',
             'url' => 'https://heroku.com/',
             'slug' => 'heroku'
         ]);
         DB::table('tools')->insert([
             'name' => 'Webdictaat',
             'uploader_id' => '1',
-            'category_id' => '2',
-            'status' => 'active',
-            'views' => '1',
+            'category_slug' => 'website',
+            'status' => 'actief',
             'description' => 'Nice description! A lot of useful info!',
-            'thumbnail' => 'heroku-thumbnail.png',
+            'logo_filename' => 'heroku-thumbnail.png',
             'url' => 'https://webdictaat.com/',
             'slug' => 'webdictaat'
         ]);
         DB::table('tools')->insert([
             'name' => 'Kahoot!',
             'uploader_id' => '1',
-            'category_id' => '2',
-            'status' => 'active',
-            'views' => '1',
+            'category_slug' => 'website',
+            'status' => 'actief',
             'description' => 'Nice description! A lot of useful info!',
-            'thumbnail' => 'heroku-thumbnail.png',
+            'logo_filename' => 'heroku-thumbnail.png',
             'url' => 'https://kahoot.com/',
             'slug' => 'kahoot'
         ]);
