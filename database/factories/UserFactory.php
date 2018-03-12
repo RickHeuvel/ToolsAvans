@@ -4,7 +4,6 @@ use Faker\Generator as Faker;
 $factory->define(App\User::class, function (Faker $faker) {
     $firstName = $faker->firstName;
     return [
-        'id' => 1000,
         'name' => $firstName,
         'email' => $faker->email,
         'provider' => 'avans',
