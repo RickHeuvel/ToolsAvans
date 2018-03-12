@@ -10,21 +10,19 @@
         @endif
         <div class="row">
             <div class="col-12 col-md-3">
-                <div class="filter-bar">
-                    <p><strong>Categorieën</strong></p>
-                    @foreach($categories as $category)
-                        <div class="form-check">
-                            @if (!empty($selectedCategories))
-                                <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
-                            @else
-                                <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
-                            @endif
-                            <label class="form-check-label" for="cat{{$category->id}}">
-                                {{$category->name}}
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
+                <p><strong>Categorieën</strong></p>
+                @foreach($categories as $category)
+                    <div class="form-check">
+                        @if (!empty($selectedCategories))
+                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
+                        @else
+                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
+                        @endif
+                        <label class="form-check-label" for="cat{{$category->id}}">
+                            {{$category->name}}
+                        </label>
+                    </div>
+                @endforeach
             </div>
             <div class="col-12 col-md-9">
                 <section class="tools">
