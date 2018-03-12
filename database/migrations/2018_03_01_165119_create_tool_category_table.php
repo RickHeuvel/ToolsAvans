@@ -14,9 +14,8 @@ class CreateToolCategoryTable extends Migration
     public function up()
     {
         Schema::create('tool_category', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('slug');
-            $table->string('name');
+            $table->string('slug')->primary();
+            $table->string('name')->unique();
         });
     }
 

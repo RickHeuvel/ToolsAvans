@@ -59,7 +59,7 @@ class AuthController extends Controller
 
     public function findOrCreateUser($user)
     {
-        $authUser = User::where('provider_id', $user->id)->first();
+        $authUser = User::where('provider_id', $user->provider_id)->first();
         if ($authUser) {
             return $authUser;
         }
@@ -73,7 +73,7 @@ class AuthController extends Controller
             'location' => $user->location,
             'role'     => $user->role,
             'provider' => $this->provider,
-            'provider_id' => $user->id,
+            'provider_id' => $user->provider_id,
         ]);
     }
 
