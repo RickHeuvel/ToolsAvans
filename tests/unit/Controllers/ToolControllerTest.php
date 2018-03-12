@@ -65,11 +65,11 @@ class ToolControllerTest extends TestCase
             'tool_slug'         => Str::slug('testName'),
             'image_filename'    => Str::slug('testName') . '-3.png',
         ]);
-        Storage::disk('local')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
+        Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
         $toolImages = ToolImage::where('tool_slug', Str::slug('testName'))->get();
         foreach ($toolImages as $toolImage)
         {
-            Storage::disk('local')->assertExists($toolImage->image_filename);
+            Storage::disk('tool-images')->assertExists($toolImage->image_filename);
         }
     }
 }
