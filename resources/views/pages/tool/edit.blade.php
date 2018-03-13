@@ -45,14 +45,6 @@
                     </select>
             </div>
         </div>
-        
-        <!-- Script to change to label of the filebrowser to the name of the uploaded file -->
-        <script>
-            $('.custom-file-input').on('change', function() { 
-                let fileName = $(this).val().split('\\').pop(); 
-                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
-            });
-        </script>
 
         <div class="row">
             <div class="col">
@@ -81,6 +73,55 @@
                 {{ Form::label('description', 'Beschrijving') }}
                 {{ Form::textarea('description', $tool->description, array('class' => 'form-control')) }}
         </div>
+
+        <div class="form-group">
+            {{ Form::label('fileupload', 'Upload hier plaatje 1 van de tool') }}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image-1">
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('fileupload', 'Upload hier plaatje 2 van de tool') }}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image-2">
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('fileupload', 'Upload hier plaatje 3 van de tool') }}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image-3">
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('fileupload', 'Upload hier plaatje 4 van de tool') }}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image-4">
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('fileupload', 'Upload hier plaatje 5 van de tool') }}
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image-5">
+                <label class="custom-file-label" for="customFile"></label>
+            </div>
+        </div>
+
+                 <!-- Script to change to lable of the filebrowser to the name of the uploaded file -->
+        <script>
+            $('.custom-file-input').on('change', function() { 
+                let fileName = $(this).val().split('\\').pop(); 
+                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+            });
+        </script>       
+
         <a href="{{ url('portal')}}" class="btn btn" >Annuleren</a>
         {{ Form::submit('Wijzigen', array('class' => 'btn btn-primary')) }}
 
