@@ -10005,6 +10005,10 @@ body {
   background-color: #ffffff;
 }
 
+main {
+  padding: 30px 0;
+}
+
 .nav-avans {
   background-color: #C6002A;
   color: #fff;
@@ -10185,6 +10189,35 @@ nav.subnav {
 .breadcrumb {
   font-size: 16px;
   background-color: #ffffff;
+  border-bottom: 1px solid #999999;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #000000;
+}
+
+.breadcrumb-item.active {
+  color: #000000;
+}
+
+.breadcrumb-item a {
+  color: #989898;
+}
+
+ul.nav li a,
+ul.nav li a:visited {
+  padding-right: 20px;
+  color: #989898;
+}
+
+.nav-group ul.group > li:hover div.submenu ul li a {
+  color: #fff;
+}
+
+.breadcrumb {
+  font-size: 16px;
+  background-color: #ffffff;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -10251,6 +10284,37 @@ ul.nav li.active a {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+ul.nav li a:hover,
+ul.nav li a:active {
+  color: #989898;
+}
+
+ul.nav li.active a {
+  color: #000000;
+}
+
+#toolLogo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#toolImage {
+  padding: 5%;
+  display: frame;
+  max-width: 100%;
+  height: auto;
+}
+
+#btnReport {
+  background: #C6002A;
+  color: #ffffff;
+}
+
+#reactions {
+  background: #EFEFEF;
 }
 
 .filter-bar .form-check {

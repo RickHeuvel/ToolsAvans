@@ -13,6 +13,7 @@ use Session;
 use Redirect;
 use File;
 use App\ToolCategory;
+use App\ToolStatus;
 use App\Tool;
 use App\ToolImage;
 
@@ -49,8 +50,9 @@ class ToolController extends Controller
     {
         if(!Auth::check())
             return Redirect::to('login');
-
-        return view('pages.tool.create');
+        $categories = ['' => 'Selecteer een categorie...'] + ToolCategory::pluck('name')->all();
+        $statuses = ['' => 'Selecteer een status...'] + ToolStatus::pluck('status')->all();
+        return view('pages.tool.create')->with('categories', $categories)->with('statuses', $statuses);
     }
 
     /**
