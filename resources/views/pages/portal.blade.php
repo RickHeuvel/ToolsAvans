@@ -19,7 +19,7 @@
             <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
             <div class="col-12 col-md-6 text-right">
-                <button type="button" class="btn btn-danger">Nieuwe tool toevoegen</button>
+                <button type="button" href="{{ url('/tools/create') }}" class="btn btn-danger">Nieuwe tool toevoegen</button>
             </div>
         </div>
         @foreach ($tools as $tool)
@@ -37,8 +37,8 @@
                 </div>
                 <div class="row bottom">
                 <div class="col-12">
-                    <button type="button" class="btn btn-danger">Aanpassen</button>
-                    <button type="button" class="btn btn-danger">Bekijken</button>
+                    <button type="button" href="{{ url('tool/' . $tool->slug . '/edit' }}" class="btn btn-danger">Aanpassen</button>
+                    <button type="button" href="{{ url('tool/' . $tool->slug }}" class="btn btn-danger">Bekijken</button>
                 </div>
                 </div>
                 </div>

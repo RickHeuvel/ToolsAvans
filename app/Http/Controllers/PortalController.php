@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Portal;
-use Illuminate\Support\Facades\DB;
+use App\Tool;
 
 class PortalController extends Controller
 {
@@ -23,10 +22,11 @@ class PortalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-        $tools = DB::table('tools')->where('uploader_id', auth()->user()->id)->paginate(5);
+        $tools = Tool::where('uploader_id', auth()->user()->id)->paginate(5);
         
-        return view('pages.portal', ['tools' => $tools]);
+        return view('pages.portal')->withTools($tools);
     }
 }
