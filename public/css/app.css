@@ -10216,3 +10216,11 @@ footer {
   padding: 15px 0;
 }
 
+.bottom {
+  position: absolute;
+  margin-bottom: 10px;
+  margin-right: 1px;
+  bottom: 0;
+  right: 0;
+}
+
