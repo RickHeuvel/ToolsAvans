@@ -53,23 +53,82 @@ class ToolControllerTest extends TestCase
         $this->assertDatabaseHas('tools', [
             'name' => 'testName',
         ]);
-        $this->assertDatabaseHas('tool_images', [
-            'tool_slug'         => Str::slug('testName'),
-            'image_filename'    => Str::slug('testName') . '-1.png',
-        ]);
-        $this->assertDatabaseHas('tool_images', [
-            'tool_slug'         => Str::slug('testName'),
-            'image_filename'    => Str::slug('testName') . '-2.png',
-        ]);
-        $this->assertDatabaseHas('tool_images', [
-            'tool_slug'         => Str::slug('testName'),
-            'image_filename'    => Str::slug('testName') . '-3.png',
-        ]);
         Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
         $toolImages = ToolImage::where('tool_slug', Str::slug('testName'))->get();
         foreach ($toolImages as $toolImage)
         {
             Storage::disk('tool-images')->assertExists($toolImage->image_filename);
         }
+    }
+
+    /**
+     * Test update()
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('employee')->make();
+        $auth->login($user);
+
+        $oldName = 'testName';
+        $newName = 'newTestName';
+        
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => $oldName,
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'status'        => 'actief',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'image-1'       => UploadedFile::fake()->image('image-1.png'),
+                'image-2'       => UploadedFile::fake()->image('image-2.png'),
+                'image-3'       => UploadedFile::fake()->image('image-3.png'),
+            ]
+        );
+        $controller->store($request);
+
+        $request = Request::create(
+            'tools/' . 'testname',
+            'POST',
+            [
+                'name'          => $newName,
+                'description'   => 'coole test description',
+                'category'      => 'Webservice',
+                'status'        => 'gearchiveerd',
+                'url'           => 'https://www.newTestWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'image-1'       => UploadedFile::fake()->image('image-1.png'),
+                'image-2'       => UploadedFile::fake()->image('image-2.png'),
+            ]
+        );
+        $controller->update($request, 'testname');
+
+        $this->assertDatabaseMissing('tools', [
+            'name' => $oldName,
+        ]);
+        $this->assertDatabaseHas('tools', [
+            'name' => $newName,
+        ]);
+        Storage::disk('tool-images')->assertExists(Tool::where('name', $newName)->first()->logo_filename);
+        $toolImages = ToolImage::where('tool_slug', Str::slug($newName))->get();
+        foreach ($toolImages as $toolImage)
+        {
+            Storage::disk('tool-images')->assertExists($toolImage->image_filename);
+        }
+        Storage::disk('tool-images')->assertMissing('testname-3.png');
     }
 }
