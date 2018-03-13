@@ -6,13 +6,12 @@ html {
 
 body {
   margin-bottom: 60px; /* Margin bottom by footer height */
-  background-color: #ffffff;
+  background: $white;
 }
 
 main {
-  padding: 30px 0;
+  
 }
-
 
 .nav-avans {
 background-color: $avansred;
@@ -95,8 +94,8 @@ nav.group, nav.subnav {
   background: $white;
   font-size: 14px;
   width: 100%;
-  border-bottom: 1px solid #999999;
-  //padding: 30px 0px 20px 0px
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }
 
 .nav-group .navbar-brand img {
@@ -115,17 +114,18 @@ nav.group, nav.subnav {
 .nav-group ul.group > li {
   margin-right: 30px;
   display: inline-block;
-  float: left;
-  height: 30px
+  float: left
 }
 
-.nav-group ul.group > li:hover a {
-  color: #00AEED;
-  border-bottom: 2px solid #00AEED
+.nav-group ul.group > li:hover a,
+.nav-group ul.group > li.active a {
+  color: $avansblue;
+  border-color: $avansblue
 }
 
+.nav-group ul.group > li.active a.active,
 .nav-group ul.group > li:hover a.active {
-  color: #00AEED
+  color: $avansblue
 }
 
 .nav-group ul.group > li:last-of-type {
@@ -137,8 +137,9 @@ nav.group, nav.subnav {
   text-decoration: none;
   color: #999999;
   display: block;
-  padding: 0 2px;
+  padding: 0 !important;
   font-weight: 700;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-group ul.group > li > a.active {
@@ -149,7 +150,7 @@ nav.group, nav.subnav {
   display: none;
   position: absolute;
   z-index: 1;
-  background-color: #00AEED;
+  background-color: $avansblue;
   color: $white;
   top: 25px
 }
@@ -192,17 +193,18 @@ nav.group, nav.subnav {
 
 .breadcrumb {
   font-size: 16px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #999999;
+  background: transparent;
+  margin-bottom: 0;
+  padding: 1rem 0;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
-  color: #000000;
+  color: $black;
 }
 
 .breadcrumb-item.active {
-  color: #000000;
+  color: $black;
 }
 
 .breadcrumb-item a {
@@ -220,62 +222,12 @@ ul.nav li a:hover, ul.nav li a:active {
 
 ul.nav li.active a {
   color: #000000;
-}
-
-#toolLogo {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }
 
 .nav-group ul.group > li:hover div.submenu ul li a {
   color: $white
 }
 
-.breadcrumb {
-  font-size: 16px;
-  background-color: #ffffff;
-}
-
-.breadcrumb-item + .breadcrumb-item::before {
-  content: ">";
-  color: #000000;
-}
-
-.breadcrumb-item.active {
-  color: #000000;
-  text-transform: uppercase;
-}
-
-.breadcrumb-item a {
-  color: #989898;
-}
-
-ul.nav li a, ul.nav li a:visited {
-  padding-right: 20px;
-  color: #989898;
-}
-
-ul.nav li a:hover, ul.nav li a:active {
-  color: #989898;
-}
-
-ul.nav li.active a {
-  color: #000000;
-}
-
-#toolLogo {
-  display: block;
-  max-width: 200px;
-  height: auto;
-}
-#toolImage{
-  padding: 5%;
-  display: frame;
-  max-width: 100%;
-  height: auto;
-
-}
 #btnReport {
   background: $avansred;
   color: #ffffff;
@@ -299,12 +251,12 @@ ul.nav li.active a {
   top: 0;
   right: 0;
 }
-#toolImage{
+
+#toolImage {
   padding: 5%;
   display: frame;
   max-width: 100%;
   height: auto;
-
 }
 #btnReport {
   background: $avansred;
@@ -314,7 +266,6 @@ ul.nav li.active a {
 #reactions {
   background: #EFEFEF;
 }
-
 
 ul.nav li a:hover, ul.nav li a:active {
   color: #989898;
@@ -323,28 +274,6 @@ ul.nav li a:hover, ul.nav li a:active {
 ul.nav li.active a {
   color: #000000;
 }
-
-#toolLogo {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-#toolImage{
-  padding: 5%;
-  display: frame;
-  max-width: 100%;
-  height: auto;
-
-}
-#btnReport {
-  background: $avansred;
-  color: #ffffff;
-}
-
-#reactions {
-  background: #EFEFEF;
-}
-
 
 .filter-bar {
     .form-check {
@@ -362,11 +291,91 @@ ul.pagination {
             padding-top: 0;
             padding-bottom: 0;
             line-height: 1.5;
-            color: #999;
+            color: $avansblue;
             background-color: transparent;
             border: 0;
         }
     }
+}
+
+.tool {
+  background: $gray;
+  .tool-image {
+    width: 100%;
+    min-height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 15px;
+  }
+  .tool-body {
+    padding: 15px;
+    padding-left: 0;
+    position: relative;
+    height: 100%;
+    h2 {
+      line-height: 1;
+    }
+    .right-bottom {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      .btn {
+        &:first-of-type {
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+}
+
+.tool-view {
+  .tool-image {
+  }
+  .tool-body {
+    h1 {
+      line-height: 1;
+      margin-bottom: 0;
+      display: inline-block
+    }
+    .tool-uploaded {
+      color: #989898;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+    .tool-category {
+      color: $avansred;
+      margin-bottom: 0;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+}
+
+.white-background {
+  background-color: $white;
+}
+
+.gray-background {
+  background-color: $gray;
+}
+
+.btn {
+  padding: 6px 18px;
+  border-radius: 0;
+}
+
+.btn-avans {
+  color: #fff;
+  background-color: $avansred;
+  border-color: $avansred;
+}
+
+.btn-avans:hover {
+  color: #fff;
+  background-color: $avansred;
+  border-color: $avansred;
 }
 
 footer {
@@ -382,9 +391,9 @@ footer {
 }
 
 .bottom {
-    position: absolute;
-    margin-bottom: 10px;
-    margin-right: 1px;
-    bottom: 0;
-    right: 0;
-  }
+  position: absolute;
+  margin-bottom: 10px;
+  margin-right: 1px;
+  bottom: 0;
+  right: 0;
+}

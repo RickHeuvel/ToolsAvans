@@ -19,7 +19,7 @@ use App\ToolImage;
 
 class ToolController extends Controller
 {
-    private $itemsPerPage = 1;
+    private $itemsPerPage = 2;
 
     // CRUD functions
 
@@ -30,10 +30,9 @@ class ToolController extends Controller
      */
     public function index(Request $request)
     {
-        $categories =           ToolCategory::all();
-        $selectedCategories  =  ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
-        $selectedCategoryIds =  ($request->has('categories')) ? ToolCategory::whereIn('slug', $selectedCategories)->pluck('id')->toArray() : null;
-        $tools =                ($request->has('categories')) ? Tool::whereIn('category_id', $selectedCategoryIds)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
+        $categories =            ToolCategory::all();
+        $selectedCategories  =   ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
+        $tools =                 ($request->has('categories')) ? Tool::whereIn('category_slug', $selectedCategories)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
         if ($request->ajax()) {
             return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
         }
