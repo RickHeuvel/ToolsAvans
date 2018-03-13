@@ -19,14 +19,14 @@
             <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
             <div class="col-12 col-md-6 text-right">
-                <button type="button" href="{{ url('/tools/create') }}" class="btn btn-danger">Nieuwe tool toevoegen</button>
+                <a href="{{ URL::to('tools/create') }}" class="btn btn-danger">Nieuwe tool toevoegen</a>
             </div>
         </div>
         @foreach ($tools as $tool)
         <div class="container" style="background-color:#bcbcbc">
             <div class="row">
                 <div class="col-sm-3">
-                <img alt="Tool logo" src="{{ route('tool.image', ['filename' => $tool->thumbnail]) }}" class="img-thumbnail">
+                <img alt="Tool logo" src="{{ route('tool.image', ['filename' => $tool->logo_filename]) }}" class="img-thumbnail">
                 </div>
                 <div class="col-9">
                 <div class="row">
@@ -37,8 +37,8 @@
                 </div>
                 <div class="row bottom">
                 <div class="col-12">
-                    <button type="button" href="{{ url('tool/' . $tool->slug . '/edit' }}" class="btn btn-danger">Aanpassen</button>
-                    <button type="button" href="{{ url('tool/' . $tool->slug }}" class="btn btn-danger">Bekijken</button>
+                    <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger">Aanpassen</a>
+                    <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger">Bekijken</a>
                 </div>
                 </div>
                 </div>
