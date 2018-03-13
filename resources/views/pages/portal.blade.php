@@ -22,6 +22,8 @@
                 <a href="{{ URL::to('tools/create') }}" class="btn btn-danger">Nieuwe tool toevoegen</a>
             </div>
         </div>
+        <hr>
+        @if(count($tools) > 0)
         @foreach ($tools as $tool)
         <div class="container" style="background-color:#bcbcbc">
             <div class="row">
@@ -38,7 +40,7 @@
                 <div class="row bottom">
                 <div class="col-12">
                     <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger">Aanpassen</a>
-                    <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger">Bekijken</a>
+                    <a   href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger">Bekijken</a>
                 </div>
                 </div>
                 </div>
@@ -46,8 +48,11 @@
         </div>
         <br>
         @endforeach
-
         {{ $tools->render() }}
+        @else
+        <p>Je hebt momenteel geen tool(s), voeg een tool toe door "Nieuwe tool toevoegen" te selecteren</p>
+        @endif
+
 
     </div> 
 @endsection
