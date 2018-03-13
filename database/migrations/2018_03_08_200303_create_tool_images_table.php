@@ -19,7 +19,7 @@ class CreateToolImagesTable extends Migration
             $table->timestamps();
 
             $table->primary(['tool_slug', 'image_filename']);
-            $table->foreign('tool_slug')->references('slug')->on('tools');
+            $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade');
         });
     }
 

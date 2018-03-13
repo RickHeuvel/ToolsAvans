@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use MartinBean\Database\Eloquent\Sluggable;
+use App\Traits\Sluggable;
 
 class ToolCategory extends Model
 {
