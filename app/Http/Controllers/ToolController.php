@@ -77,26 +77,30 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
-        $uploadedImages = $request->allFiles();
+            $uploadedImages = $request->allFiles();
 
-        $rules = [
-            'name'          => 'required|max:255',
-            'description'   => 'required',
-            'url'           => 'required|url',
-            'logo'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
-            'status'        => 'required|exists:tool_status,status',
-            'category'      => 'required|exists:tool_category,name',
-        ];
-        // Here we add a validation rule to the ruleset for every image that has been uploaded
-        for($i = 1; $i < count($uploadedImages); $i++) 
-        {
-            $imageRule = [
-                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            $rules = [
+                'name'              => 'required|max:255',
+                'description'       => 'required',
+                'url'               => 'required|url',
+                'logo'              => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'status'            => 'required|exists:tool_status,status',
+                'category'          => 'required|exists:tool_category,name',
+                'uploadedImages'    => 'array|between:2,5',
             ];
-            $rules = array_merge($rules, $imageRule);
-        }
+            // Here we add a validation rule to the ruleset for every image that has been uploaded
+            for($i = 1; $i < count($uploadedImages); $i++) 
+            {
+                $imageRule = [
+                    'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                ];
+                $rules = array_merge($rules, $imageRule);
+            }
             
-        $validator = Validator::make($request->all(), $rules);
+            // Creating an array with elements for the validation to check
+            // Contains all the input that is in the $request and the $uploadedImages
+            $elementsToValidate = array_merge($request->all(), [ 'uploadedImages' => $uploadedImages ]);
+            $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return Redirect::to('tools/create')
                 ->withErrors($validator)
@@ -184,12 +188,13 @@ class ToolController extends Controller
         $uploadedImages = $request->allFiles();
 
         $rules = [
-            'name'          => 'required|max:255',
-            'description'   => 'required',
-            'url'           => 'required|url',
-            'logo'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
-            'status'        => 'required|exists:tool_status,status',
-            'category'      => 'required|exists:tool_category,name',
+            'name'              => 'required|max:255',
+            'description'       => 'required',
+            'url'               => 'required|url',
+            'logo'              => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            'status'            => 'required|exists:tool_status,status',
+            'category'          => 'required|exists:tool_category,name',
+            'uploadedImages'    => 'array|between:2,5',
         ];
         // Here we add a validation rule to the ruleset for every image that has been uploaded
         for($i = 1; $i < count($uploadedImages); $i++) 
@@ -199,7 +204,10 @@ class ToolController extends Controller
             ];
             $rules = array_merge($rules, $imageRule);
         }
-            
+        
+        // Creating an array with elements for the validation to check
+        // Contains all the input that is in the $request and the $uploadedImages
+        $elementsToValidate = array_merge($request->all(), [ 'uploadedImages' => $uploadedImages ]);
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return Redirect::to('tools/create')
