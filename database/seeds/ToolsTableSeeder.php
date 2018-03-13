@@ -42,7 +42,8 @@ class ToolsTableSeeder extends Seeder
             'url' => 'https://kahoot.com/',
             'slug' => 'kahoot'
         ]);
-        mkdir('storage/app/tool-images');
+        if(!is_dir('storage/app/tool-images'))
+            mkdir('storage/app/tool-images');
         copy('http://www.wizarddevelopment.com/assets/heroku-logo-3fd853cc0508639b85b41af0cdc97b8f.png', 'storage/app/tool-images/heroku-thumbnail.png');
     }
 }
