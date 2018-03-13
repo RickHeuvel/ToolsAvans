@@ -14,20 +14,18 @@ class CreateToolsTable extends Migration
     public function up()
     {
         Schema::create('tools', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('uploader_id')->unsigned();
-            $table->integer('category_id')->unsigned();
-            $table->string('status');
-            $table->bigInteger('views')->nullable(true);
+            $table->string('slug')->primary();
+            $table->string('name')->unique();
             $table->text('description')->nullable(false);
-            $table->text('URL')->nullable(true);
+            $table->text('url')->nullable(true);
+            $table->integer('uploader_id')->unsigned();
+            $table->string('category_slug');
+            $table->string('status');
+            $table->string('logo_filename');
             $table->timestamps();
-        });
 
-        Schema::table('tools', function (Blueprint $table) {
             $table->foreign('uploader_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('tool_category');
+            $table->foreign('category_slug')->references('slug')->on('tool_category');
             $table->foreign('status')->references('status')->on('tool_status');
         });
     }

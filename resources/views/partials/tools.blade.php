@@ -12,13 +12,13 @@
 </div>
 @foreach($tools as $tool)
     @if (!empty($tool->thumbnail))
-        <img class="img-fluid" src="{{ route('tool.image', ['filename' => $tool->thumbnail]) }}" /><br>
+        <img class="img-fluid" src="{{ route('tool.image', ['filename' => $tool->logo_filename]) }}" /><br>
     @endif
     Name: {{$tool->name}}<br>
     Category: {{$tool->category->name}}<br>
     Description: {{$tool->description}}<br>
     URL: {{$tool->url}}<br>
     Username: {{$tool->user->name}}<br>
-    <a href="{{ URL::to('tools/' . $tool->id) }}">Bekijk tool</a>
+    <a href="{{ URL::to('tools/' . $tool->slug) }}">Bekijk tool</a>
     <hr>
 @endforeach
