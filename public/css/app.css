@@ -10002,11 +10002,7 @@ html {
 body {
   margin-bottom: 60px;
   /* Margin bottom by footer height */
-  background-color: #EFEFEF;
-}
-
-main {
-  padding: 30px 0;
+  background-color: #ffffff;
 }
 
 .nav-avans {
@@ -10092,7 +10088,7 @@ nav.subnav {
   background: #fff;
   font-size: 14px;
   width: 100%;
-  padding: 30px 0px 20px 0px;
+  border-bottom: 1px solid #999999;
 }
 
 .nav-group .navbar-brand img {
@@ -10184,6 +10180,77 @@ nav.subnav {
 
 .nav-group ul.group > li:hover div.submenu ul li a {
   color: #fff;
+}
+
+.breadcrumb {
+  font-size: 16px;
+  background-color: #ffffff;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #000000;
+}
+
+.breadcrumb-item.active {
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.breadcrumb-item a {
+  color: #989898;
+}
+
+ul.nav li a,
+ul.nav li a:visited {
+  padding-right: 20px;
+  color: #989898;
+}
+
+ul.nav li a:hover,
+ul.nav li a:active {
+  color: #989898;
+}
+
+ul.nav li.active a {
+  color: #000000;
+}
+
+#toolLogo {
+  display: block;
+  max-width: 200px;
+  height: auto;
+}
+
+#toolImage {
+  padding: 5%;
+  display: frame;
+  max-width: 100%;
+  height: auto;
+}
+
+#btnReport {
+  background: #C6002A;
+  color: #ffffff;
+}
+
+#reactions {
+  background: #EFEFEF;
+}
+
+.tool-view {
+  position: relative;
+}
+
+.badge-primary {
+  background: #C6002A;
+  padding: 8px;
+}
+
+.align-right-top {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .filter-bar .form-check {
