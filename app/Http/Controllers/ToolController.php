@@ -20,6 +20,8 @@ class ToolController extends Controller
 {
     private $itemsPerPage = 1;
 
+    // CRUD functions
+
     /**
      * Display a listing of the resource.
      *
@@ -129,33 +131,6 @@ class ToolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $filename
-     * @return Response
-     */
-    public function getImage($filename)
-    {
-        $image = Storage::disk('tool-images')->get($filename);
-        return new Response($image, 200);
-    }
-
-    /**
-     * Save a given image to the local disk with a given filename
-     * Adds the image extention to the filename before saving
-     * 
-     * @param UploadedFile $image
-     * @return string $filenameWithExtention
-     */
-    private function saveImage($image, $filename)
-    {
-        $filenameWithExtention = $filename . '.' . $image->getClientOriginalExtension();
-        Storage::disk('tool-images')->put($filenameWithExtention, File::get($image));
-
-        return $filenameWithExtention;
-    }
-
-    /**
-     * Display the specified resource.
-     *
      * @param  int  $slug
      * @return Response
      */
@@ -243,6 +218,13 @@ class ToolController extends Controller
             $tool->logo_filename    = $this->saveImage($logo, Str::slug($request->name) . '-logo');
             $tool->save();
 
+            // Deleting the old
+            $toolImages = ToolImage::where('tool_slug', $tool->slug)->get();
+            foreach ($toolImages as $toolImage)
+            {
+               $this->deleteImage($toolImage->image_filename);
+            }
+            ToolImage::where('tool_slug', $tool->slug)->delete();
             // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
             for($i = 1; $i < count($uploadedImages); $i++) 
             {
@@ -275,5 +257,46 @@ class ToolController extends Controller
 
         Session::flash('message', 'Tool succesvol verwijderd!');
         return Redirect::to('tools');
+    }
+
+
+    // Helper functions
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $filename
+     * @return Response
+     */
+    public function getImage($filename)
+    {
+        $image = Storage::disk('tool-images')->get($filename);
+        return new Response($image, 200);
+    }
+
+    /**
+     * Save a given image to the local disk with a given filename
+     * Adds the image extention to the filename before saving
+     * 
+     * @param UploadedFile $image
+     * @return string $filenameWithExtention
+     */
+    private function saveImage($image, $filename)
+    {
+        $filenameWithExtention = $filename . '.' . $image->getClientOriginalExtension();
+        Storage::disk('tool-images')->put($filenameWithExtention, File::get($image));
+
+        return $filenameWithExtention;
+    }
+
+    /**
+     * Deletes a given image filename
+     * 
+     * @param string $imageFilename
+     * @return bool $deleted
+     */
+    private function deleteImage($imageFilename)
+    {
+        return Storage::disk('tool-images')->delete($imageFilename);
     }
 }

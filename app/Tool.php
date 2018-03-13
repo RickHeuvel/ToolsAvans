@@ -9,6 +9,9 @@ class Tool extends Model
 {
     use Sluggable;
 
+    protected $primaryKey = 'slug';
+    public $incrementing = false;
+
     protected $fillable = [
         'name', 'category_slug', 'status', 'description', 'url', 'uploader_id', 'logo_filename'
     ];
@@ -24,11 +27,11 @@ class Tool extends Model
 
     public function Images()
     {
-        return $this->hasMany('App\ToolImage');
+        return $this->hasMany('App\ToolImage', 'tool_slug');
     }
 
     public function Category()
     {
-        return $this->belongsTo('App\ToolCategory', 'category_id');
+        return $this->belongsTo('App\ToolCategory', 'category_slug');
     }
 }
