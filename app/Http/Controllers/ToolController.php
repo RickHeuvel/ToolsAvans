@@ -157,8 +157,10 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
 
+        $categories = ToolCategory::pluck('name')->all();
+        $statuses = ToolStatus::pluck('status')->all();
         $tool = Tool::where('slug', $slug)->firstOrFail();
-        return view('pages.tool.edit')->withTool($tool);
+        return view('pages.tool.edit')->withTool($tool)->with('categories', $categories)->with('statuses', $statuses);
     }
 
     /**
@@ -182,7 +184,7 @@ class ToolController extends Controller
      * 
      * @return Response
      */
-    public function update($request, $slug)
+    public function update(Request $request, $slug)
     {
         if(!Auth::check())
             return Redirect::to('login');
@@ -212,7 +214,7 @@ class ToolController extends Controller
         $elementsToValidate = array_merge($request->all(), [ 'uploadedImages' => $uploadedImages ]);
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('tools/create')
+            return Redirect::to('tools/' . $slug . '/edit')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -244,7 +246,7 @@ class ToolController extends Controller
                 ]);
             }
 
-            Session::flash('message', 'Tool succesvol toegevoegd!');
+            Session::flash('message', 'Tool succesvol aangepast!');
             return Redirect::to('tools/' . $tool->slug);
         }
             

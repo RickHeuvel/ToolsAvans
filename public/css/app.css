@@ -10211,6 +10211,21 @@ ul.nav li a:visited {
   color: #989898;
 }
 
+ul.nav li a:hover,
+ul.nav li a:active {
+  color: #989898;
+}
+
+ul.nav li.active a {
+  color: #000000;
+}
+
+#toolLogo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .nav-group ul.group > li:hover div.submenu ul li a {
   color: #fff;
 }
@@ -10284,6 +10299,22 @@ ul.nav li.active a {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+#toolImage {
+  padding: 5%;
+  display: frame;
+  max-width: 100%;
+  height: auto;
+}
+
+#btnReport {
+  background: #C6002A;
+  color: #ffffff;
+}
+
+#reactions {
+  background: #EFEFEF;
 }
 
 ul.nav li a:hover,

@@ -47,10 +47,6 @@
                 </div>
             </div>
         </div>
-        
-        
-
-
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -126,7 +122,7 @@
                 $(this).next('.custom-file-label').addClass("selected").html(fileName); 
             });
         </script>       
-
+        
         {{ Form::submit('Toevoegen', array('class' => 'btn btn-primary')) }}
 
         {{ Form::close() }}
