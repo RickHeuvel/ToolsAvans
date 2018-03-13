@@ -54,7 +54,8 @@ class ToolControllerTest extends TestCase
             'name' => 'testName',
         ]);
         Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
-        $toolImages = ToolImage::where('tool_slug', Str::slug('testName'))->get();
+        $toolImages = ToolImage::where('tool_slug', 'testname')->get();
+        $this->assertTrue(count($toolImages) == 3);
         foreach ($toolImages as $toolImage)
         {
             Storage::disk('tool-images')->assertExists($toolImage->image_filename);
@@ -125,6 +126,7 @@ class ToolControllerTest extends TestCase
         ]);
         Storage::disk('tool-images')->assertExists(Tool::where('name', $newName)->first()->logo_filename);
         $toolImages = ToolImage::where('tool_slug', Str::slug($newName))->get();
+        $this->assertTrue(count($toolImages) == 2);
         foreach ($toolImages as $toolImage)
         {
             Storage::disk('tool-images')->assertExists($toolImage->image_filename);

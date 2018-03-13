@@ -24,9 +24,9 @@ class CreateToolsTable extends Migration
             $table->string('logo_filename');
             $table->timestamps();
 
-            $table->foreign('uploader_id')->references('id')->on('users');
-            $table->foreign('category_slug')->references('slug')->on('tool_category');
-            $table->foreign('status')->references('status')->on('tool_status');
+            $table->foreign('uploader_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('category_slug')->references('slug')->on('tool_category')->onUpdate('cascade');
+            $table->foreign('status')->references('status')->on('tool_status')->onUpdate('cascade');
         });
     }
 
