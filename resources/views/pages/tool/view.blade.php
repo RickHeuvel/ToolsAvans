@@ -17,7 +17,7 @@
                 </nav>
             </div>
             <div class="col-12 col-md-4 text-right">
-                @if ($tool->uploader_id == auth()->user()->id)
+                @if (Auth::check() && $tool->uploader_id == auth()->user()->id)
                     <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
                 @endif
             </div>
