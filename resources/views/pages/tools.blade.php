@@ -1,10 +1,27 @@
 @extends('layouts.master')
 @section('title')
-    <title>ToolHub</title>
+    <title>Tools | ToolHub</title>
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container pt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tools</li>
+            </ol>
+        </nav>
+
+        <hr class="mt-0">
+
+        <div class="row">
+            <div class="col-12">            
+                <h2 class="mb-0"><strong>Tools</strong></h2>
+            </div>
+        </div>
+
+        <hr>
+
         @if (Session::has('message'))
             <div class="alert alert-info">{{ Session::get('message') }}</div>
         @endif
@@ -12,7 +29,7 @@
             <div class="col-12 col-md-3">
                 <p><strong>Categorieën</strong></p>
                 @foreach($categories as $category)
-                    <div class="form-check">
+                    <div class="form-check mb-1">
                         @if (!empty($selectedCategories))
                             <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
                         @else

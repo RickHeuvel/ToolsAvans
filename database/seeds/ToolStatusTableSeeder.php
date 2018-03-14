@@ -12,7 +12,13 @@ class ToolStatusTableSeeder extends Seeder
     public function run()
     {
         DB::table('tool_status')->insert([
-            'status' => 'active'
+            'status' => 'Actief'
+        ]);
+        DB::table('tool_status')->insert([
+            'status' => 'Inactief'
+        ]);
+        DB::table('tool_status')->insert([
+            'status' => 'In afwachting'
         ]);
     }
 }

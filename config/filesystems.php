@@ -43,9 +43,9 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'tool-images' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path('app/tool-images'),
         ],
 
         'public' => [

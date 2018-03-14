@@ -15,3 +15,7 @@
 <link rel="mask-icon" href="img/icons/safari-pinned-tab.svg" color="#24292e">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
+
+<link href="vendor/kartik-v/bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+<script src="vendor\kartik-v\bootstrap-star-rating\js\star-rating.js" type="text/javascript"></script>

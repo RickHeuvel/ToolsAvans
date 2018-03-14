@@ -8,7 +8,7 @@
         @include('includes.css')
         @yield('css')
     </head>
-    <body>
+    <body class="@yield('body-class')">
         <header>
             @include('includes.header')
         </header>

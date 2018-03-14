@@ -10,13 +10,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav group">
-                <li><a class="nav-item nav-link" href="{{ route('home') }}">Home</a></li>
-                <li><a class="nav-item nav-link" href="{{ URL::to('tools') }}">Tools</a></li>
+                <li class="@if(Route::is('home')) active @endif"><a class="nav-item nav-link" href="{{ route('home') }}">Home</a></li>
+                <li class="@if(Route::is('tools.index')) active @endif"><a class="nav-item nav-link" href="{{ URL::to('tools') }}">Tools</a></li>
                 <!-- Authentication Links -->
                 @guest
                     <li><a class="nav-link" href="{{ route('login') }}">Inloggen</a></li>
                 @else
-                    <li><a class="nav-item nav-link" href="{{ route('portal') }}">Mijn portaal</a></li>
+                    <li class="@if(Route::is('portal')) active @endif"><a class="nav-item nav-link" href="{{ route('portal') }}">Mijn portaal</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -26,7 +26,6 @@
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Uitloggen
                             </a>
-
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
@@ -34,7 +33,7 @@
                     </li>
                 @endguest
             </ul>
-            <a class="navbar-brand ml-auto" href="{{ route('home') }}"><img class="img-fluid" alt="Toolhub logo" src="{{ asset('img/full-logo-toolhub.png') }}"></a>
+            <a class="navbar-brand ml-auto" href="{{ route('home') }}"><img class="img-fluid" alt="Toolhub logo" src="{{ asset('img/logo-avans2x.png') }}"></a>
         </div>
     </div>
 </nav>

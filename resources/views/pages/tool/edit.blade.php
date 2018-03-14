@@ -1,15 +1,15 @@
 @extends('layouts.master')
 @section('title')
-    <title>Tool toevoegen | ToolHub</title>
+    <title>Tool wijzigen | ToolHub</title>
 @endsection
 
 @section('content')
-    <div class="container mt-4 pb-4">
+  <div class="container mt-4 pb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ url('portal') }}">Mijn Portaal</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tool toevoegen</li>
+                <li class="breadcrumb-item active" aria-current="page">Tool wijzigen</li>
             </ol>
         </nav>
 
@@ -17,7 +17,7 @@
 
         <div class="row">
             <div class="col-12">            
-                <h2 class="mb-0"><strong>Tool toevoegen</strong></h2>
+                <h2 class="mb-0"><strong>Tool wijzigen</strong></h2>
             </div>
         </div>
         
@@ -25,11 +25,10 @@
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::open(array('url' => 'tools','enctype' => 'multipart/form-data')) }}
-               
+        {{ Form::model($tool, array('route' => array('tools.update', $tool->slug), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
         <div class="form-group">
             {{ Form::label('name', 'Naam van de Tool *') }}
-            {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+            {{ Form::text('name', $tool->name, array('class' => 'form-control')) }}
         </div>
         <div class="row">
             <div class="col">
@@ -42,25 +41,32 @@
                 </div>
             </div>
             <div class="col">
-                <div class="form-group">
-                    {{ Form::label('status', 'Status *') }}
-                    <select name="status" class="custom-select">
-                        @foreach ($statuses as $status)
-                            @if(!strcmp($status, Input::old('status')) || $status == "Actief");
-                                <option value="{{ $status }}" selected>{{ $status }}</option>
-                            @else
-                                <option value="{{ $status }}">{{ $status }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
+                {{ Form::label('status', 'Status *') }}
+                <select name="status" class="custom-select">
+                    @foreach ($statuses as $status)
+                        @if (!strcmp($tool->status,$status))
+                            <option  value="{{ $status }}" selected>{{ $status }}</option>
+                        @else
+                            <option value="{{ $status }}">{{ $status }}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
+        
+        <!-- Script to change to label of the filebrowser to the name of the uploaded file -->
+        <script>
+            $('.custom-file-input').on('change', function() { 
+                let fileName = $(this).val().split('\\').pop(); 
+                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+            });
+        </script>
+
         <div class="row">
             <div class="col">
                 <div class="form-group">
                   {{ Form::label('url', 'Url *') }}
-                  {{ Form::text('url', Input::old('url'), array('class' => 'form-control')) }}
+                  {{ Form::text('url', $tool->url, array('class' => 'form-control')) }}
                 </div>
             </div>
             <div class="col">
@@ -68,7 +74,7 @@
                     {{ Form::label('category', 'Categorie *') }}
                     <select name="category" class="custom-select">
                         @foreach ($categories as $category)
-                            @if(!strcmp($category, Input::old('category')));
+                            @if (!strcmp($tool->category->name,$category))
                                 <option value="{{ $category }}" selected>{{ $category }}</option>
                             @else
                                 <option value="{{ $category }}">{{ $category }}</option>
@@ -81,7 +87,7 @@
 
         <div class="form-group">
             {{ Form::label('description', 'Beschrijving *') }}
-            {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control')) }}
+            {{ Form::textarea('description', $tool->description, array('class' => 'form-control')) }}
         </div>
 
         <div class="form-group">
@@ -105,7 +111,7 @@
                 <a href="{{route('portal')}}" class="btn btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
-                {{ Form::submit('Toevoegen', array('class' => 'btn btn-danger btn-avans')) }}
+                {{ Form::submit('Wijzigen', array('class' => 'btn btn-danger btn-avans')) }}
             </div>
         </div>
 

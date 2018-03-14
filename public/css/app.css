@@ -10002,11 +10002,7 @@ html {
 body {
   margin-bottom: 60px;
   /* Margin bottom by footer height */
-  background-color: #EFEFEF;
-}
-
-main {
-  padding: 30px 0;
+  background: #fff;
 }
 
 .nav-avans {
@@ -10092,11 +10088,16 @@ nav.subnav {
   background: #fff;
   font-size: 14px;
   width: 100%;
-  padding: 30px 0px 20px 0px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.nav-group .navbar-brand {
+  padding: 10px 0;
 }
 
 .nav-group .navbar-brand img {
-  max-height: 60px;
+  max-height: 48px;
 }
 
 .nav-group ul.group {
@@ -10112,14 +10113,15 @@ nav.subnav {
   margin-right: 30px;
   display: inline-block;
   float: left;
-  height: 30px;
 }
 
-.nav-group ul.group > li:hover a {
+.nav-group ul.group > li:hover a,
+.nav-group ul.group > li.active a {
   color: #00AEED;
-  border-bottom: 2px solid #00AEED;
+  border-color: #00AEED;
 }
 
+.nav-group ul.group > li.active a.active,
 .nav-group ul.group > li:hover a.active {
   color: #00AEED;
 }
@@ -10133,8 +10135,9 @@ nav.subnav {
   text-decoration: none;
   color: #999999;
   display: block;
-  padding: 0 2px;
+  padding: 2px 0 0 0 !important;
   font-weight: 700;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-group ul.group > li > a.active {
@@ -10186,6 +10189,206 @@ nav.subnav {
   color: #fff;
 }
 
+.breadcrumb {
+  font-size: 16px;
+  background: transparent;
+  margin-bottom: 0;
+  padding: 1rem 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #000;
+}
+
+.breadcrumb-item.active {
+  color: #000;
+}
+
+.breadcrumb-item a {
+  color: #989898;
+}
+
+ul.nav li a,
+ul.nav li a:visited {
+  padding-right: 20px;
+  color: #989898;
+}
+
+ul.nav li a:hover,
+ul.nav li a:active {
+  color: #989898;
+}
+
+ul.nav li.active a {
+  color: #000000;
+}
+
+.nav-group ul.group > li:hover div.submenu ul li a {
+  color: #fff;
+}
+
+#btnReport {
+  background: #C6002A;
+  color: #ffffff;
+}
+
+#reactions {
+  background: #EFEFEF;
+}
+
+.tool-view {
+  position: relative;
+}
+
+.badge-primary {
+  background: #C6002A;
+  padding: 8px;
+}
+
+.align-right-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#toolImage {
+  padding: 5%;
+  display: frame;
+  max-width: 100%;
+  height: auto;
+}
+
+#btnReport {
+  background: #C6002A;
+  color: #ffffff;
+}
+
+#reactions {
+  background: #EFEFEF;
+}
+
+ul.nav li a:hover,
+ul.nav li a:active {
+  color: #989898;
+}
+
+ul.nav li.active a {
+  color: #000000;
+}
+
+.filter-bar .form-check {
+  margin-bottom: 5px;
+}
+
+ul.pagination .page-item.active .page-link {
+  color: #000;
+  background-color: transparent;
+}
+
+ul.pagination .page-item .page-link {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.5;
+  color: #00AEED;
+  background-color: transparent;
+  border: 0;
+}
+
+.tool {
+  background: #eee;
+}
+
+.tool .tool-image {
+  width: 100%;
+  min-height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin: 15px;
+}
+
+.tool .tool-body {
+  padding: 15px 15px 45px 0;
+  position: relative;
+  height: 100%;
+}
+
+.tool .tool-body h2 {
+  line-height: 1;
+}
+
+.tool .tool-body .right-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.tool .tool-body .right-bottom .btn {
+  margin-left: 2px;
+}
+
+.tool .tool-body .tool-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tool-view .tool-body h1 {
+  line-height: 1;
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+.tool-view .tool-body .tool-uploaded {
+  color: #989898;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.tool-view .tool-body .tool-category {
+  color: #C6002A;
+  margin-bottom: 0;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.white-background {
+  background-color: #fff;
+}
+
+.gray-background {
+  background-color: #eee;
+}
+
+.btn {
+  padding: 6px 18px;
+  border-radius: 0;
+}
+
+.btn-avans {
+  color: #fff !important;
+  background-color: #C6002A;
+  border-color: #C6002A;
+}
+
+.btn-avans:hover {
+  color: #fff;
+  background-color: #C6002A;
+  border-color: #C6002A;
+}
+
+.btn-light {
+  background-color: #eee;
+  border-color: #eee;
+}
+
+.btn-center-vertical {
+  margin: 9px 0;
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -10196,5 +10399,13 @@ footer {
   color: #989898;
   font-size: 12px;
   padding: 15px 0;
+}
+
+.bottom {
+  position: absolute;
+  margin-bottom: 10px;
+  margin-right: 1px;
+  bottom: 0;
+  right: 0;
 }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Tool;
+use Auth;
 
 class PortalController extends Controller
 {
@@ -21,8 +23,11 @@ class PortalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-        return view('pages.portal');
+        $tools = Tool::all()->where('uploader_id', Auth::user()->id)->where('status', 'Actief');
+        
+        return view('pages.portal', compact('tools'));
     }
 }
