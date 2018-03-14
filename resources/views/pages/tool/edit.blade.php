@@ -91,41 +91,9 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 1 van de tool *') }}
+            {{ Form::label('fileupload', 'Upload 2 tot 5 screenshots *') }}<br>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" name="image-1">
-                <label class="custom-file-label" for="customFile"></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 2 van de tool *') }}
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="image-2">
-                <label class="custom-file-label" for="customFile"></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 3 van de tool') }}
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="image-3">
-                <label class="custom-file-label" for="customFile"></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 4 van de tool') }}
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="image-4">
-                <label class="custom-file-label" for="customFile"></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 5 van de tool') }}
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="image-5">
+                <input type="file" class="custom-file-input" name="images[]" multiple>
                 <label class="custom-file-label" for="customFile"></label>
             </div>
         </div>
@@ -136,7 +104,7 @@
                 let fileName = $(this).val().split('\\').pop(); 
                 $(this).next('.custom-file-label').addClass("selected").html(fileName); 
             });
-        </script>       
+        </script> 
 
         <div class="row">
             <div class="col-6 mt-2">

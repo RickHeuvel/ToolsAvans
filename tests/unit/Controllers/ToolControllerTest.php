@@ -43,9 +43,11 @@ class ToolControllerTest extends TestCase
             [],
             [
                 'logo'          => UploadedFile::fake()->image('logo.png'),
-                'image-1'       => UploadedFile::fake()->image('image-1.png'),
-                'image-2'       => UploadedFile::fake()->image('image-2.png'),
-                'image-3'       => UploadedFile::fake()->image('image-3.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
             ]
         );
         $controller->store($request);
@@ -92,9 +94,11 @@ class ToolControllerTest extends TestCase
             [],
             [
                 'logo'          => UploadedFile::fake()->image('logo.png'),
-                'image-1'       => UploadedFile::fake()->image('image-1.png'),
-                'image-2'       => UploadedFile::fake()->image('image-2.png'),
-                'image-3'       => UploadedFile::fake()->image('image-3.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
             ]
         );
         $controller->store($request);
@@ -112,8 +116,10 @@ class ToolControllerTest extends TestCase
             [],
             [
                 'logo'          => UploadedFile::fake()->image('logo.png'),
-                'image-1'       => UploadedFile::fake()->image('image-1.png'),
-                'image-2'       => UploadedFile::fake()->image('image-2.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
             ]
         );
         $controller->update($request, 'testname');
