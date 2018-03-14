@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>ToolHub</title>
+    <title>Home | ToolHub</title>
 @endsection
 
 @section('content')

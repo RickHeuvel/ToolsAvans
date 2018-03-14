@@ -19,9 +19,7 @@ use App\ToolImage;
 
 class ToolController extends Controller
 {
-    private $itemsPerPage = 2;
-
-    // CRUD functions
+    private $itemsPerPage = 10;
 
     /**
      * Display a listing of the resource.
@@ -30,9 +28,9 @@ class ToolController extends Controller
      */
     public function index(Request $request)
     {
-        $categories =            ToolCategory::all();
-        $selectedCategories  =   ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
-        $tools =                 ($request->has('categories')) ? Tool::whereIn('category_slug', $selectedCategories)->paginate($this->itemsPerPage) : $tools = Tool::paginate($this->itemsPerPage);
+        $categories            = ToolCategory::all();
+        $selectedCategories    = ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
+        $tools                 = ($request->has('categories')) ? Tool::where('status', 'Actief')->whereIn('category_slug', $selectedCategories)->paginate($this->itemsPerPage) : $tools = Tool::where('status', 'Actief')->paginate($this->itemsPerPage);
         if ($request->ajax()) {
             return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
         }
@@ -50,7 +48,7 @@ class ToolController extends Controller
         if(!Auth::check())
             return Redirect::to('login');
         $categories = ['' => 'Selecteer een categorie...'] + ToolCategory::pluck('name')->all();
-        $statuses = ['' => 'Selecteer een status...'] + ToolStatus::pluck('status')->all();
+        $statuses   = ['' => 'Selecteer een status...'] + ToolStatus::pluck('status')->all();
         return view('pages.tool.create')->with('categories', $categories)->with('statuses', $statuses);
     }
 
@@ -84,7 +82,7 @@ class ToolController extends Controller
                 'name'              => 'required|max:255',
                 'description'       => 'required',
                 'url'               => 'required|url',
-                'logo'              => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'logo'              => 'required|image|mimes:jpeg,png,jpg,gif|max:255',
                 'status'            => 'required|exists:tool_status,status',
                 'category'          => 'required|exists:tool_category,name',
                 'uploadedImages'    => 'array|between:2,5',
@@ -93,7 +91,7 @@ class ToolController extends Controller
             for($i = 1; $i < count($uploadedImages); $i++) 
             {
                 $imageRule = [
-                    'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                    'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif|max:255',
                 ];
                 $rules = array_merge($rules, $imageRule);
             }
@@ -194,7 +192,7 @@ class ToolController extends Controller
             'name'              => 'required|max:255',
             'description'       => 'required',
             'url'               => 'required|url',
-            'logo'              => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+            'logo'              => 'required|image|mimes:jpeg,png,jpg,gif|max:255',
             'status'            => 'required|exists:tool_status,status',
             'category'          => 'required|exists:tool_category,name',
             'uploadedImages'    => 'array|between:2,5',
@@ -203,7 +201,7 @@ class ToolController extends Controller
         for($i = 1; $i < count($uploadedImages); $i++) 
         {
             $imageRule = [
-                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'image' . '-' . $i => 'required|image|mimes:jpeg,png,jpg,gif|max:255',
             ];
             $rules = array_merge($rules, $imageRule);
         }
@@ -248,8 +246,26 @@ class ToolController extends Controller
             Session::flash('message', 'Tool succesvol aangepast!');
             return Redirect::to('tools/' . $tool->slug);
         }
-            
 
+    }
+
+    /**
+     * Deactivate the specified resource
+     *
+     * @param  int  $slug
+     * @return Response
+     */
+    public function deactivate($slug)
+    {
+        if(!Auth::check())
+            return Redirect::to('login');
+
+        $tool = Tool::where('slug', $slug)->firstOrFail();
+        $tool->status = "Inactief";
+        $tool->save();
+
+        Session::flash('message', 'Tool succesvol verwijderd!');
+        return Redirect::to('portal');
     }
 
     /**

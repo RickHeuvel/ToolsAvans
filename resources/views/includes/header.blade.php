@@ -33,7 +33,7 @@
                     </li>
                 @endguest
             </ul>
-            <a class="navbar-brand ml-auto" href="{{ route('home') }}"><img class="img-fluid" alt="Toolhub logo" src="{{ asset('img/full-logo-toolhub.png') }}"></a>
+            <a class="navbar-brand ml-auto" href="{{ route('home') }}"><img class="img-fluid" alt="Toolhub logo" src="{{ asset('img/logo-avans2x.png') }}"></a>
         </div>
     </div>
 </nav>

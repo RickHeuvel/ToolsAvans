@@ -10092,8 +10092,12 @@ nav.subnav {
   padding: 10px;
 }
 
+.nav-group .navbar-brand {
+  padding: 10px 0;
+}
+
 .nav-group .navbar-brand img {
-  max-height: 60px;
+  max-height: 48px;
 }
 
 .nav-group ul.group {
@@ -10131,7 +10135,7 @@ nav.subnav {
   text-decoration: none;
   color: #999999;
   display: block;
-  padding: 0 !important;
+  padding: 2px 0 0 0 !important;
   font-weight: 700;
   border-bottom: 2px solid transparent;
 }
@@ -10305,8 +10309,7 @@ ul.pagination .page-item .page-link {
 }
 
 .tool .tool-body {
-  padding: 15px;
-  padding-left: 0;
+  padding: 15px 15px 45px 0;
   position: relative;
   height: 100%;
 }
@@ -10321,8 +10324,15 @@ ul.pagination .page-item .page-link {
   right: 0;
 }
 
-.tool .tool-body .right-bottom .btn:first-of-type {
-  margin-right: 2px;
+.tool .tool-body .right-bottom .btn {
+  margin-left: 2px;
+}
+
+.tool .tool-body .tool-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tool-view .tool-body h1 {
@@ -10359,7 +10369,7 @@ ul.pagination .page-item .page-link {
 }
 
 .btn-avans {
-  color: #fff;
+  color: #fff !important;
   background-color: #C6002A;
   border-color: #C6002A;
 }
@@ -10368,6 +10378,15 @@ ul.pagination .page-item .page-link {
   color: #fff;
   background-color: #C6002A;
   border-color: #C6002A;
+}
+
+.btn-light {
+  background-color: #eee;
+  border-color: #eee;
+}
+
+.btn-center-vertical {
+  margin: 9px 0;
 }
 
 footer {

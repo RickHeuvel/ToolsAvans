@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>ToolHub</title>
+    <title>Mijn portaal | ToolHub</title>
 @endsection
 
 @section('content')
@@ -33,15 +33,16 @@
                                 <div class="col-12 col-md-3">
                                     @if (!empty($tool->logo_filename))
                                         <div class="p-3">
-                                            <img src="{{ route('tool.image', ['filename' => $tool->logo_filename]) }}" class="img-fluid" />
+                                            <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}" class="img-fluid" />
                                         </div>
                                     @endif
                                 </div>
                                 <div class="col-12 col-md-9 pl-0">
                                     <div class="tool-body">
                                         <h2>{{$tool->name}}</h2>
-                                        <p>{{$tool->description}}</p>
+                                        <p class="tool-description">{{$tool->description}}</p>
                                         <div class="right-bottom">
+                                            <a data-toggle="modal" data-target="#{{$tool->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
                                             <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
                                             <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Bekijken</a>
                                         </div>
@@ -51,8 +52,28 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="{{$tool->slug}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{$tool->slug}}ModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="{{$tool->slug}}ModalLabel">Tool verwijderen</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Weet u zeker dat u de tool {{$tool->name}} wilt verwijderen?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Annuleren</button>
+                                <a href="{{ URL::to('tools/' . $tool->slug . '/deactivate') }}" class="btn btn-danger btn-avans">Verwijderen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
-            {{ $tools->render() }}
         @else
             <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken!</p>
         @endif

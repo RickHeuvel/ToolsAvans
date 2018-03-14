@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>ToolHub</title>
+    <title>Tool wijzigen | ToolHub</title>
 @endsection
 
 @section('content')
@@ -27,30 +27,30 @@
 
         {{ Form::model($tool, array('route' => array('tools.update', $tool->slug), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
         <div class="form-group">
-            {{ Form::label('name', 'Naam van de Tool') }}
+            {{ Form::label('name', 'Naam van de Tool *') }}
             {{ Form::text('name', $tool->name, array('class' => 'form-control')) }}
         </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                        {{ Form::label('fileupload', 'Upload hier het logo van de tool') }}
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="logo">
-                            <label class="custom-file-label" for="customFile"></label>
-                        </div>
+                    {{ Form::label('fileupload', 'Upload hier het logo van de tool *') }}
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="logo">
+                        <label class="custom-file-label" for="customFile"></label>
+                    </div>
                 </div>
             </div>
             <div class="col">
-                {{ Form::label('status', 'Status') }}
-                    <select name="status" class="custom-select">
-                        @foreach ($statuses as $status)
-                            @if (!strcmp($tool->status,$status))
-                                <option  value="{{ $status }}" selected>{{ $status }}</option>
-                            @else
-                                <option value="{{ $status }}">{{ $status }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                {{ Form::label('status', 'Status *') }}
+                <select name="status" class="custom-select">
+                    @foreach ($statuses as $status)
+                        @if (!strcmp($tool->status,$status))
+                            <option  value="{{ $status }}" selected>{{ $status }}</option>
+                        @else
+                            <option value="{{ $status }}">{{ $status }}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
         </div>
         
@@ -65,13 +65,13 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                  {{ Form::label('url', 'Url') }}
+                  {{ Form::label('url', 'Url *') }}
                   {{ Form::text('url', $tool->url, array('class' => 'form-control')) }}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('category', 'Categorie') }}
+                    {{ Form::label('category', 'Categorie *') }}
                     <select name="category" class="custom-select">
                         @foreach ($categories as $category)
                             @if (!strcmp($tool->category->name,$category))
@@ -86,12 +86,12 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('description', 'Beschrijving') }}
+            {{ Form::label('description', 'Beschrijving *') }}
             {{ Form::textarea('description', $tool->description, array('class' => 'form-control')) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 1 van de tool') }}
+            {{ Form::label('fileupload', 'Upload hier plaatje 1 van de tool *') }}
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="image-1">
                 <label class="custom-file-label" for="customFile"></label>
@@ -99,7 +99,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('fileupload', 'Upload hier plaatje 2 van de tool') }}
+            {{ Form::label('fileupload', 'Upload hier plaatje 2 van de tool *') }}
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="image-2">
                 <label class="custom-file-label" for="customFile"></label>
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-                 <!-- Script to change to lable of the filebrowser to the name of the uploaded file -->
+        <!-- Script to change to lable of the filebrowser to the name of the uploaded file -->
         <script>
             $('.custom-file-input').on('change', function() { 
                 let fileName = $(this).val().split('\\').pop(); 
@@ -140,7 +140,7 @@
 
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{route('portal')}}" class="btn btn-secondary">Annuleren</a>
+                <a href="{{route('portal')}}" class="btn btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
                 {{ Form::submit('Wijzigen', array('class' => 'btn btn-danger btn-avans')) }}
