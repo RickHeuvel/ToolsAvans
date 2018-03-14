@@ -2,8 +2,8 @@
 
 | Stage         | Hosting       | Travis        |
 | ------------- | ------------- | ------------- |
-| Production    | [toolhub.herokuapp.com](https://toolhub.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
-| Development   | [toolhub-dev.herokuapp.com](https://toolhub-dev.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=dev)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
+| Production    | [toolhub.herokuapp.com](http://toolhub.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=master)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
+| Development   | [toolhub-dev.herokuapp.com](http://toolhub-dev.herokuapp.com) | [![Build Status](https://travis-ci.com/Peter-JanGootzen/ToolHub.svg?token=gKkRerZGe1KXx3pyWUTq&branch=dev)](https://travis-ci.com/Peter-JanGootzen/ToolHub) |
 
 ## About ToolHub
 
