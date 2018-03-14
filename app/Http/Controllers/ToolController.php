@@ -16,6 +16,7 @@ use App\ToolCategory;
 use App\ToolStatus;
 use App\Tool;
 use App\ToolImage;
+use App\Rules\NameExistsInDatabase;
 
 class ToolController extends Controller
 {
@@ -162,11 +163,25 @@ class ToolController extends Controller
      */
     public function update(Request $request, $slug)
     {
+        
         if(!Auth::check())
             return Redirect::to('login');
 
+        $tool = Tool::where('slug', $slug)->firstOrFail();
+
         $rules = [
-            'name'              => 'required|max:255',
+            'name'              => ['required','max:255', 
+            function($attribute, $value, $fail) use($tool){
+                $newslug = Str::slug($value);
+                if($tool->slug === $newslug)
+                {
+                    return true;
+                }
+                else if(Tool::where('slug', $newslug)->exists())
+                {
+                    return $fail('Name already exists');
+                }
+            }],
             'description'       => 'required',
             'url'               => 'required|url',
             'logo'              => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
@@ -178,11 +193,10 @@ class ToolController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('tools/create')
+            return Redirect::to('tools/' . $slug . '/edit')
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            $tool = Tool::where('slug', $slug)->firstOrFail();
             $tool->name             = $request->input('name');
             $tool->description      = $request->input('description');
             $tool->url              = $request->input('url');
