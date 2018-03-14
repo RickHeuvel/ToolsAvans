@@ -20,5 +20,10 @@ class ToolCategoryTableSeeder extends Seeder
             'name' => 'Website',
             'slug' => 'website'
         ]);
+
+        DB::table('tool_category')->insert([
+            'name' => 'Download',
+            'slug' => 'download'
+        ]);
     }
 }
