@@ -10,13 +10,17 @@
                     <div class="col-12 col-md-3">
                         @if (!empty($tool->logo_filename))
                             <div class="p-3">
-                                <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}" class="img-fluid" />
+                                <a href="{{ URL::to('tools/' . $tool->slug) }}">
+                                    <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}" class="img-fluid" />
+                                </a>
                             </div>
                         @endif
                     </div>
                     <div class="col-12 col-md-9 pl-0">
                         <div class="tool-body">
-                            <h2>{{$tool->name}}</h2>
+                            <a class="tool-name-link" href="{{ URL::to('tools/' . $tool->slug) }}">
+                                <h2>{{$tool->name}}</h2>
+                            </a>
                             <p class="tool-description">{{$tool->description}}</p>
                             <div class="right-bottom">
                                 <!-- Print crud buttons if page is portal else print show buttons -->

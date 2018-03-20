@@ -10078,6 +10078,10 @@ body {
   padding-left: 25px;
 }
 
+.logo-avans {
+  max-width: 7%;
+}
+
 nav.group,
 nav.subnav {
   border-bottom: 1px solid #eee;
@@ -10248,6 +10252,12 @@ ul.nav li.active a {
   right: 0;
 }
 
+#toolImage {
+  padding: 5%;
+  max-width: 100%;
+  height: auto;
+}
+
 #btnReport {
   background: #C6002A;
   color: #ffffff;
@@ -10282,6 +10292,15 @@ ul.pagination .page-item .page-link {
   color: #00AEED;
   background-color: transparent;
   border: 0;
+}
+
+.tool-name-link {
+  color: black;
+}
+
+.tool-name-link:hover {
+  color: black;
+  text-decoration: none;
 }
 
 .tool {

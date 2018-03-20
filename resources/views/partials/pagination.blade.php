@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 col-md-6">
         <p>
-            <strong>{{($tools->currentpage()-1)*$tools->perpage()+1}} - 
+            <strong>{{($tools->currentpage()-1)*$tools->perpage()+1}} -
                 @if ($tools->currentpage()*$tools->perpage() > $tools->total())
                     {{$tools->total()}}
                 @else
@@ -16,7 +16,7 @@
                 {{$tools->appends(['categories' => implode(',', $selectedCategories)])->links()}}
             @else
                 {{$tools->links()}}
-            @endif   
+            @endif
         </div>
     </div>
 </div>
