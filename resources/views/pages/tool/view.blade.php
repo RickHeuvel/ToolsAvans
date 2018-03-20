@@ -36,6 +36,17 @@
                             <div class="tool-body">
                                 <h1>{{$tool->name}}</h1>
                                 <p class="tool-category">in {{$tool->category->name}}</p>
+                                <p class="tool-rating">
+                                    @php $rating = $tool->Reviews()->avg('rating') @endphp
+                                    @for($x = 0; $x < 5; $x++)
+                                        @if($rating > 0)
+                                            <span class="fa-stack" style="width:2em">
+                                                <i class="fas fa-star fa-stack-2x"></i>
+                                            </span>
+                                        @endif
+                                        @php $rating-- @endphp
+                                    @endfor
+                                </p>
                                 <p class="tool-uploaded">Geplaatst op {{$tool->created_at->format('d F Y')}} door {{$tool->user->nickname}}</p>
                                 <hr>
                                 <a href={{$tool->url}}>{{$tool->url}}</a>

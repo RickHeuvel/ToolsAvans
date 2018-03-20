@@ -10354,6 +10354,13 @@ ul.pagination .page-item .page-link {
   margin-left: 5px;
 }
 
+.tool-view .tool-body .tool-rating {
+  color: #FFD700;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 .category {
   background: #eee;
   padding: 10px 10px 10px 15px;

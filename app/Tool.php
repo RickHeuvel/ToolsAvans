@@ -30,6 +30,11 @@ class Tool extends Model
         return $this->hasMany('App\ToolImage', 'tool_slug');
     }
 
+    public function Reviews()
+    {
+        return $this->hasMany('App\Review', 'tool_slug');
+    }
+
     public function Category()
     {
         return $this->belongsTo('App\ToolCategory', 'category_slug');
