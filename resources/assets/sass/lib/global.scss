@@ -241,10 +241,6 @@ ul.nav li.active a {
   background: #EFEFEF;
 }
 
-.tool-view {
-  position: relative;
-}
-
 .badge-primary {
   background: $avansred;
   padding: 8px;
@@ -256,12 +252,6 @@ ul.nav li.active a {
   right: 0;
 }
 
-#toolImage {
-  padding: 5%;
-  display: frame;
-  max-width: 100%;
-  height: auto;
-}
 #btnReport {
   background: $avansred;
   color: #ffffff;
@@ -312,6 +302,10 @@ ul.pagination {
     background-position: center center;
     margin: 15px;
   }
+  img {
+    margin: 0 auto;
+    width: 100%;
+  }
   .tool-body {
     padding: 15px 15px 45px 0;
     position: relative;
@@ -339,6 +333,10 @@ ul.pagination {
 .tool-view {
   .tool-image {
   }
+  img {
+    margin: 0 auto;
+    width: 100%;
+  }
   .tool-body {
     h1 {
       line-height: 1;
@@ -356,6 +354,28 @@ ul.pagination {
       margin-bottom: 0;
       display: inline-block;
       margin-left: 5px;
+    }
+  }
+}
+
+.category {
+  background: $gray;
+  padding: 10px 10px 10px 15px;
+  .category-name {
+    font-size: 18px;
+    margin-bottom: 0;
+    line-height: 38px;
+  }
+  .btn {
+    margin-left: 2px;
+  }
+}
+
+.tab-buttons {
+  .btn {
+    display: none;
+    &.active {
+      display: inline-block;
     }
   }
 }

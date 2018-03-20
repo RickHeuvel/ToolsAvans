@@ -10237,10 +10237,6 @@ ul.nav li.active a {
   background: #EFEFEF;
 }
 
-.tool-view {
-  position: relative;
-}
-
 .badge-primary {
   background: #C6002A;
   padding: 8px;
@@ -10250,13 +10246,6 @@ ul.nav li.active a {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-#toolImage {
-  padding: 5%;
-  display: frame;
-  max-width: 100%;
-  height: auto;
 }
 
 #btnReport {
@@ -10308,6 +10297,11 @@ ul.pagination .page-item .page-link {
   margin: 15px;
 }
 
+.tool img {
+  margin: 0 auto;
+  width: 100%;
+}
+
 .tool .tool-body {
   padding: 15px 15px 45px 0;
   position: relative;
@@ -10335,6 +10329,11 @@ ul.pagination .page-item .page-link {
   overflow: hidden;
 }
 
+.tool-view img {
+  margin: 0 auto;
+  width: 100%;
+}
+
 .tool-view .tool-body h1 {
   line-height: 1;
   margin-bottom: 0;
@@ -10353,6 +10352,29 @@ ul.pagination .page-item .page-link {
   margin-bottom: 0;
   display: inline-block;
   margin-left: 5px;
+}
+
+.category {
+  background: #eee;
+  padding: 10px 10px 10px 15px;
+}
+
+.category .category-name {
+  font-size: 18px;
+  margin-bottom: 0;
+  line-height: 38px;
+}
+
+.category .btn {
+  margin-left: 2px;
+}
+
+.tab-buttons .btn {
+  display: none;
+}
+
+.tab-buttons .btn.active {
+  display: inline-block;
 }
 
 .white-background {

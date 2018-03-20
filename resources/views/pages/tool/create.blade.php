@@ -41,20 +41,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    {{ Form::label('status', 'Status *') }}
-                    <select name="status" class="custom-select">
-                        @foreach ($statuses as $status)
-                            @if(!strcmp($status, Input::old('status')) || $status == "Actief");
-                                <option value="{{ $status }}" selected>{{ $status }}</option>
-                            @else
-                                <option value="{{ $status }}">{{ $status }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col">

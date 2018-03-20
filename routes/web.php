@@ -16,7 +16,11 @@ Route::get('portal', 'PortalController@index')->name('portal');
 
 Route::resource('tools', 'ToolController');
 Route::get('tools/image/{filename}', 'ToolController@getImage')->name('tools.image');
+Route::get('tools/{tool}/approve', 'ToolController@approve')->name('tools.approve');
+Route::get('tools/{tool}/activate', 'ToolController@activate')->name('tools.activate');
 Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.deactivate');
+
+Route::resource('categories', 'CategoryController');
 
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
 Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);

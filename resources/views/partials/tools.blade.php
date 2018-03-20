@@ -1,25 +1,7 @@
-<div class="row">
-    <div class="col-12 col-md-6">
-        <p>
-            <strong>{{($tools->currentpage()-1)*$tools->perpage()+1}} - 
-                @if ($tools->currentpage()*$tools->perpage() > $tools->total())
-                    {{$tools->total()}}
-                @else
-                    {{$tools->currentpage()*$tools->perpage()}}
-                @endif van de {{$tools->total()}} tools
-            </strong>
-        </p>
-    </div>
-    <div class="col-12 col-md-6">
-        <div class="float-right">
-            @if (!empty($selectedCategories))
-                {{$tools->appends(['categories' => implode(',', $selectedCategories)])->links()}}
-            @else
-                {{$tools->links()}}
-            @endif   
-        </div>
-    </div>
-</div>
+@if (Route::currentRouteName() == "tools.index")
+    @include('partials.pagination')
+@endif
+
 @foreach($tools as $tool)
     <div class="row">
         <div class="col-12">
@@ -37,8 +19,28 @@
                             <h2>{{$tool->name}}</h2>
                             <p class="tool-description">{{$tool->description}}</p>
                             <div class="right-bottom">
-                                <a href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
-                                <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Meer informatie</a>
+                                <!-- Print crud buttons if page is portal else print show buttons -->
+                                @if (Route::currentRouteName() == "portal")
+                                    @if ($tool->status->isInactive())
+                                        <a href="{{ URL::to('tools/' . $tool->slug . '/activate') }}" class="btn btn-danger btn-avans">Terugzetten</a>
+                                    @elseif ($tool->status->isActive())
+                                        <a data-toggle="modal" data-target="#{{$tool->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                        @include('partials.removetoolmodal')
+                                    @endif
+
+                                    @if($tool->status->isActive() || $tool->status->isInactive())
+                                        <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                        <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Bekijken</a>
+                                    @elseif(Route::currentRouteName() == "portal" && $tool->status->isConcept())
+                                        <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Bekijken</a>
+                                        <a href="{{ URL::to('tools/' . $tool->slug . '/approve') }}" class="btn btn-danger btn-avans">Goedkeuren</a>
+                                        <a data-toggle="modal" data-target="#{{$tool->slug}}Modal" class="btn btn-danger btn-avans">Afkeuren</a>
+                                        @include('partials.denytoolmodal')
+                                    @endif
+                                @else
+                                    <a href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                    <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Meer informatie</a>
+                                @endif
                             </div>
                         </div>
                     </div>

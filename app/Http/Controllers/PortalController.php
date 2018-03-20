@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tool;
+use App\User;
+use App\ToolCategory;
 use Auth;
 
 class PortalController extends Controller
@@ -23,11 +25,18 @@ class PortalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
     public function index()
     {
-        $tools = Tool::all()->where('uploader_id', Auth::user()->id)->where('status', 'Actief');
+        $myTools = Tool::all()->where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->sortBy('slug');
+        if (Auth::user()->isAdmin()) {
+            $users = User::all();
+            $categories = ToolCategory::all()->sortBy('slug');
+            $categoryGroups = Tool::all()->groupBy('category_slug');
+            $tools = Tool::all()->sortBy('slug');
+
+            return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'users', 'tools'));
+        }
         
-        return view('pages.portal', compact('tools'));
+        return view('pages.portal', compact('myTools'));
     }
 }

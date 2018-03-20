@@ -13,11 +13,11 @@ class Tool extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'name', 'category_slug', 'status', 'description', 'url', 'uploader_id', 'logo_filename'
+        'name', 'category_slug', 'status_slug', 'description', 'url', 'uploader_id', 'logo_filename'
     ];
 
     public function Status() {
-        return $this->hasOne('App\ToolStatus');
+        return $this->belongsTo('App\ToolStatus', 'status_slug');
     }
 
     public function User()

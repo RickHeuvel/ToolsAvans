@@ -14,69 +14,125 @@
 
         <hr class="mt-0">
 
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12 col-md-6">            
-                <h2 class="mb-0"><strong>{{auth()->user()->nickname}}</strong></h2>
+                <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
             <div class="col-12 col-md-6 text-right">
-                <a href="{{ URL::to('tools/create') }}" class="btn btn-danger btn-avans">Nieuwe tool toevoegen</a>
+                <div class="tab-buttons">
+                    <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
+                    <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
+                </div>
             </div>
         </div>
-        <hr>
 
-        @if(count($tools) > 0)
-            @foreach($tools as $tool)
-                <div class="row">
-                    <div class="col-12">
-                        <div class="tool mb-4">
-                            <div class="row">
-                                <div class="col-12 col-md-3">
-                                    @if (!empty($tool->logo_filename))
-                                        <div class="p-3">
-                                            <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}" class="img-fluid" />
+        @if (Session::has('message'))
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ Session::get('message') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        <ul class="nav nav-tabs" id="tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="mytools-tab" data-toggle="tab" href="#mytools" role="tab" aria-controls="mytools" aria-selected="true">Mijn tools</a>
+            </li>
+            @if (auth()->user()->isAdmin())
+                <li class="nav-item">
+                    <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Gebruikers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="activetools-tab" data-toggle="tab" href="#activetools" role="tab" aria-controls="activetools" aria-selected="false">Actieve tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="inactivetools-tab" data-toggle="tab" href="#inactivetools" role="tab" aria-controls="inactivetools" aria-selected="false">Inactieve tools</a>
+                </li>
+            @endif
+        </ul>
+        
+        <div class="tab-content">
+            <div class="tab-pane pt-4" id="mytools" role="tabpanel" aria-labelledby="mytools-tab">
+                @if(count($myTools) > 0)
+                    @include('partials.tools', ['tools' => $myTools])
+                @else
+                    <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken!</p>
+                @endif
+            </div>
+
+            @if (auth()->user()->isAdmin())
+                <div class="tab-pane pt-4" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                    @foreach($categories as $category)
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="category">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <p class="category-name">{{$category->name}}</p>
                                         </div>
-                                    @endif
-                                </div>
-                                <div class="col-12 col-md-9 pl-0">
-                                    <div class="tool-body">
-                                        <h2>{{$tool->name}}</h2>
-                                        <p class="tool-description">{{$tool->description}}</p>
-                                        <div class="right-bottom">
-                                            <a data-toggle="modal" data-target="#{{$tool->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            <a href="{{ URL::to('tools/' . $tool->slug) }}" class="btn btn-danger btn-avans">Bekijken</a>
+                                        <div class="col-12 col-md-6 text-right">
+                                            <a data-toggle="modal" data-target="#{{$category->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                            <a href="{{ URL::to('categories/' . $category->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                            @include('partials.removecategorymodal')
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        @if(!$loop->last)
+                            <hr>
+                        @endif
+                    @endforeach
                 </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="{{$tool->slug}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{$tool->slug}}ModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="{{$tool->slug}}ModalLabel">Tool verwijderen</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Weet u zeker dat u de tool {{$tool->name}} wilt verwijderen?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light" data-dismiss="modal">Annuleren</button>
-                                <a href="{{ URL::to('tools/' . $tool->slug . '/deactivate') }}" class="btn btn-danger btn-avans">Verwijderen</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="tab-pane pt-4" id="users" role="tabpanel" aria-labelledby="users-tab">
+                    
                 </div>
-            @endforeach
-        @else
-            <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken!</p>
-        @endif
+                <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
+                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'concept')])
+                </div>
+                <div class="tab-pane pt-4" id="activetools" role="tabpanel" aria-labelledby="activetools-tab">
+                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'actief')])
+                </div>
+                <div class="tab-pane pt-4" id="inactivetools" role="tabpanel" aria-labelledby="inactivetools-tab">
+                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'inactief')])
+                </div>
+            @endif
+            
+        </div>
 
     </div> 
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        function changedTabButtons(element) {
+            $(".tab-buttons").children().each(function(e) {
+                $(this).removeClass('active');
+            })
+            $(element + '-button').addClass('active');
+        }
+
+        // Before tab switches, change buttons and add hash to url
+        $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
+            changedTabButtons($(this).attr('href'));
+            var hash = $(e.target).attr("href");
+            if (history.pushState) {
+                history.pushState(null, null, hash);
+            } else {
+                location.hash = hash;
+            }
+        });
+
+        // On pageload check for current tab, otherwise load mytools tab
+        var hash = (window.location.hash) ? window.location.hash : '#mytools';
+        changedTabButtons(hash);
+        $('#tabs a[href="' + hash + '"]').tab('show');
+    </script>
 @endsection

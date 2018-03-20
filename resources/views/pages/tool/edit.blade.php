@@ -40,18 +40,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                {{ Form::label('status', 'Status *') }}
-                <select name="status" class="custom-select">
-                    @foreach ($statuses as $status)
-                        @if (!strcmp($tool->status,$status))
-                            <option  value="{{ $status }}" selected>{{ $status }}</option>
-                        @else
-                            <option value="{{ $status }}">{{ $status }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
         </div>
         
         <!-- Script to change to label of the filebrowser to the name of the uploaded file -->
