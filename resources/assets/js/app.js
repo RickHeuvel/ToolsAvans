@@ -7,3 +7,4 @@
 
 require('./bootstrap');
 require('./lib/global');
+require('owl.carousel');

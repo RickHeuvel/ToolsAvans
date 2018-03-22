@@ -16,6 +16,8 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 
-<link href="vendor/kartik-v/bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
-<script src="vendor\kartik-v\bootstrap-star-rating\js\star-rating.js" type="text/javascript"></script>
+<!-- owl-carrousel -->
+
+<link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css" />
+<link rel="stylesheet" href="/bower_components/owl.carousel/dist/assets/owl.carousel.min.css" />
+

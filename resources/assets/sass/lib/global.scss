@@ -84,7 +84,13 @@ margin: 1em 2em;
   border: none;
   padding-left: 25px;
 }
+.nav-tabs{
+  padding-top: 10px;
 
+}
+.nav-tabs > li{
+  padding-right:70px;
+}
 .logo-avans{
   max-width: 7%;
 }
@@ -345,7 +351,9 @@ ul.pagination {
     }
   }
 }
-
+.tool-logo{
+  max-width: 15%;
+}
 .tool-view {
   .tool-image {
   }
@@ -436,7 +444,16 @@ ul.pagination {
   margin: 9px 0;
 }
 
-footer {
+.ImageCarousel{
+  background: #0000F0;
+  height: 40vh;
+}
+
+.owl-carousel {
+
+}
+
+  footer {
   position: absolute;
   bottom: 0;
   width: 100%;
