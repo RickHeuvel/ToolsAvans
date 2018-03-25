@@ -10402,12 +10402,8 @@ body {
   padding-top: 10px;
 }
 
-.nav-tabs > li {
-  padding-right: 70px;
-}
-
 .logo-avans {
-  max-width: 7%;
+  max-height: 50px;
 }
 
 nav.group,
@@ -10674,10 +10670,6 @@ ul.pagination .page-item .page-link {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.tool-logo {
-  max-width: 15%;
 }
 
 .tool-view img {

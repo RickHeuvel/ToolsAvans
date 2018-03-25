@@ -1,7 +1,3 @@
-@if (Route::currentRouteName() == "tools.index")
-    @include('partials.pagination')
-@endif
-
 @foreach($tools as $tool)
     <div class="row">
         <div class="col-12">

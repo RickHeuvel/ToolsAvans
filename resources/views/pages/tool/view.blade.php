@@ -44,9 +44,11 @@
             <div class="col-12">
                 <div class="tool-view mt-4 mb-4">
                     <div class="row">
-                        <div class=" tool-logo col-12 col-md-3">
-                            <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}"
+                        <div class="col-12 col-md-3">
+                            <div class="tool-logo">
+                                <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}"
                                  class="img-fluid tool-image">
+                            </div>
                         </div>
                         <div class="col-12 col-md-9">
                             <div class="tool-body">

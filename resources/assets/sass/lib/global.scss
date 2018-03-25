@@ -88,11 +88,8 @@ margin: 1em 2em;
   padding-top: 10px;
 
 }
-.nav-tabs > li{
-  padding-right:70px;
-}
 .logo-avans{
-  max-width: 7%;
+  max-height: 50px;
 }
 nav.group, nav.subnav {
   border-bottom: 1px solid #eee
@@ -350,9 +347,6 @@ ul.pagination {
       overflow: hidden;
     }
   }
-}
-.tool-logo{
-  max-width: 15%;
 }
 .tool-view {
   .tool-image {

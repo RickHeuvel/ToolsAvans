@@ -27,7 +27,7 @@ class PortalController extends Controller
      */
     public function index()
     {
-        $myTools = Tool::all()->where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->sortBy('slug');
+        $myTools = Tool::where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->orderBy('slug')->paginate(10);
         if (Auth::user()->isAdmin()) {
             $users = User::all();
             $categories = ToolCategory::all()->sortBy('slug');
