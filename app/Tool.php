@@ -39,4 +39,9 @@ class Tool extends Model
     {
         return $this->belongsTo('App\ToolCategory', 'category_slug');
     }
+
+    public function Views()
+    {
+        return $this->hasMany('App\ToolView', 'tool_slug', 'slug');
+    }
 }

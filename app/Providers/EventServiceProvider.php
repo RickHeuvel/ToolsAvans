@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
             // add your listeners (aka providers) here
             'SocialiteProviders\Avans\AvansExtendSocialite@handle',
         ],
+        'App\Events\ViewTool' => [
+            'App\Listeners\IncrementViewCounter'
+        ]
     ];
 
     /**

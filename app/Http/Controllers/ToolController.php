@@ -13,10 +13,12 @@ use Session;
 use Redirect;
 use File;
 use Route;
+use Event;
 use App\ToolCategory;
 use App\ToolStatus;
 use App\Tool;
 use App\ToolImage;
+use App\Events\ViewTool;
 use App\Rules\NameExistsInDatabase;
 
 class ToolController extends Controller
@@ -44,8 +46,12 @@ class ToolController extends Controller
     public function index(Request $request)
     {
         $categories            = ToolCategory::all();
-        $selectedCategories    = ($request->has('categories')) ? explode(',', $request->input('categories')) : null;
-        $tools                 = ($request->has('categories')) ? Tool::where('status_slug', 'actief')->whereIn('category_slug', $selectedCategories)->paginate($this->itemsPerPage) : $tools = Tool::where('status_slug', 'actief')->paginate($this->itemsPerPage);
+        $selectedCategories    = ($request->has('categories')) ? 
+                                    explode(',', $request->input('categories')) : null;
+        $tools                 = ($request->has('categories')) ? 
+                                    Tool::where('status_slug', 'actief')->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) : 
+                                    $tools = Tool::where('status_slug', 'actief')->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage);
+
         if ($request->ajax()) {
             return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
         }
@@ -102,6 +108,7 @@ class ToolController extends Controller
                 'name'          => $request->input('name'),
                 'description'   => $request->input('description'),
                 'url'           => $request->input('url'),
+                'views'         => 0,
                 'uploader_id'   => Auth::id(),
                 'category_slug' => Str::slug($request->input('category')),
                 'status_slug'   => (Auth::user()->isAdmin() || Auth::user()->isEmployee()) ? "actief" : "concept",
@@ -131,6 +138,9 @@ class ToolController extends Controller
     public function show($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+        
+        Event::fire(new ViewTool($tool));
+        
         return view('pages.tool.view', compact('tool'));
     }
 
