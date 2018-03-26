@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ToolsTableSeeder::class,
             ReviewsTableSeeder::class,
+            ToolSpecificationLookupTableSeeder::class,
+            ToolSpecificationsTableSeeder::class,
         ]);
     }
 }
