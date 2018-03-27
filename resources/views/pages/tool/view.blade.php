@@ -52,6 +52,11 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <div class="tool-body">
+                                <div class="align-right-top concept-warning">
+                                    @if ($tool->status->isConcept())
+                                        <h6>Concept</h6>
+                                    @endif
+                                </div>
                                 <h1>{{$tool->name}}</h1>
                                 <p class="tool-category">in {{$tool->category->name}}</p>
                                 <p class="tool-rating">

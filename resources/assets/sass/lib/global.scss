@@ -340,6 +340,14 @@ ul.pagination {
         margin-left: 2px;
       }
     }
+    .right-top{
+      position: absolute;
+      top: 0;
+      right: 0;
+      .btn {
+        margin-left: 2px;
+      }
+    }
     .tool-description {
       display: -webkit-box;
       -webkit-line-clamp: 4;
@@ -447,6 +455,10 @@ ul.pagination {
 
 }
 
+.concept-warning{
+  margin: 10px;
+  color: $avansred;
+}
   footer {
   position: absolute;
   bottom: 0;

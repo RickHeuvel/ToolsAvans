@@ -17,6 +17,11 @@
                             <a class="tool-name-link" href="{{ URL::to('tools/' . $tool->slug) }}">
                                 <h2>{{$tool->name}}</h2>
                             </a>
+                            <div class="right-top concept-warning">
+                                    @if ($tool->status->isConcept())
+                                     <h6>Concept</h6>
+                                    @endif
+                            </div>
                             <p class="tool-description">{{$tool->description}}</p>
                             <div class="right-bottom">
                                 <!-- Print crud buttons if page is portal else print show buttons -->

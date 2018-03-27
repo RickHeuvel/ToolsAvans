@@ -10665,6 +10665,16 @@ ul.pagination .page-item .page-link {
   margin-left: 2px;
 }
 
+.tool .tool-body .right-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.tool .tool-body .right-top .btn {
+  margin-left: 2px;
+}
+
 .tool .tool-body .tool-description {
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -10764,6 +10774,11 @@ ul.pagination .page-item .page-link {
 .ImageCarousel {
   background: #0000F0;
   height: 40vh;
+}
+
+.concept-warning {
+  margin: 10px;
+  color: #C6002A;
 }
 
 footer {
