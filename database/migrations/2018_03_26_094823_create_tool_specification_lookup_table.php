@@ -14,7 +14,8 @@ class CreateToolSpecificationLookupTable extends Migration
     public function up()
     {
         Schema::create('tool_specification_lookup', function (Blueprint $table) {
-            $table->string('specification')->primary();
+            $table->string('slug')->primary();
+            $table->string('name');
             $table->string('category')->nullable();
             $table->boolean('default');
 

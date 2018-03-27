@@ -12,17 +12,20 @@ class ToolSpecificationLookupTableSeeder extends Seeder
     public function run()
     {
         DB::table('tool_specification_lookup')->insert([
-            'specification' => 'Interne tool',
+            'slug' => 'interne-tool',
+            'name' => 'Interne tool',
             'default' => '1',
         ]);
 
         DB::table('tool_specification_lookup')->insert([
-            'specification' => 'Fabrikant',
+            'slug' => 'fabrikant',
+            'name' => 'Fabrikant',
             'default' => '0',
         ]);
 
         DB::table('tool_specification_lookup')->insert([
-            'specification' => 'Download grootte',
+            'slug' => 'download-grootte',
+            'name' => 'Download grootte',
             'category' => 'download',
             'default' => '0',
         ]);

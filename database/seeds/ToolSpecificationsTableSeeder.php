@@ -13,13 +13,15 @@ class ToolSpecificationsTableSeeder extends Seeder
     {
         DB::table('tool_specifications')->insert([
             'tool_slug' => 'heroku',
-            'specification' => 'interne tool',
+            'slug' => 'interne-tool',
+            'name' => 'interne tool',
             'value' => 'Ja',
         ]);
 
         DB::table('tool_specifications')->insert([
             'tool_slug' => 'heroku',
-            'specification' => 'Download grootte',
+            'slug' => 'download-grootte',
+            'name' => 'Download grootte',
             'value' => '5MB',
         ]);
     }

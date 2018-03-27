@@ -15,11 +15,12 @@ class CreateToolSpecificationsTable extends Migration
     {
         Schema::create('tool_specifications', function (Blueprint $table) {
             $table->string('tool_slug');
-            $table->string('specification');
+            $table->string('slug');
+            $table->string('name');
             $table->string('value');
 
-            $table->primary(['tool_slug', 'specification']);
-            $table->foreign('specification')->references('specification')->on('tool_specification_lookup');
+            $table->primary(['tool_slug', 'slug']);
+            $table->foreign('slug')->references('slug')->on('tool_specification_lookup');
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade');
 
         });
