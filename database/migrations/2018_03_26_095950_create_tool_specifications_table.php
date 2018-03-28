@@ -20,7 +20,7 @@ class CreateToolSpecificationsTable extends Migration
             $table->string('value');
 
             $table->primary(['tool_slug', 'slug']);
-            $table->foreign('slug')->references('slug')->on('tool_specification_lookup');
+            $table->foreign('slug')->references('slug')->on('tool_specification_lookup')->onUpdate('cascade');
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade');
 
         });

@@ -19,6 +19,13 @@ class ToolSpecificationsTableSeeder extends Seeder
         ]);
 
         DB::table('tool_specifications')->insert([
+            'tool_slug' => 'github',
+            'slug' => 'interne-tool',
+            'name' => 'interne tool',
+            'value' => 'Ja',
+        ]);
+
+        DB::table('tool_specifications')->insert([
             'tool_slug' => 'heroku',
             'slug' => 'download-grootte',
             'name' => 'Download grootte',
