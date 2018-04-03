@@ -23,5 +23,9 @@ class ToolStatusTableSeeder extends Seeder
             'slug' => 'concept',
             'name' => 'Concept'
         ]);
+        DB::table('tool_status')->insert([
+            'slug' => 'afgekeurd',
+            'name' => 'Afgekeurd'
+        ]);
     }
 }

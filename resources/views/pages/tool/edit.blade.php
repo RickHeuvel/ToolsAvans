@@ -14,13 +14,24 @@
         </nav>
 
         <hr class="mt-0">
+        @if ($tool->feedback != null && !$tool->feedback->fixed)
+            <div class="alert alert-info" role="alert">
+                @if (Auth::check() && Auth::user()->isStudent() && !$tool->feedback->fixed)
+                    <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
+                    <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
+                    <hr>
+                @endif
+                <h5>Feedback:</h5>
+                {{ $tool->feedback->feedback }}
+            </div>
+        @endif
 
         <div class="row">
-            <div class="col-12">            
+            <div class="col-12">
                 <h2 class="mb-0"><strong>Tool wijzigen</strong></h2>
             </div>
         </div>
-        
+
         <hr>
 
         {{ Html::ul($errors->all()) }}
@@ -41,7 +52,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Script to change to label of the filebrowser to the name of the uploaded file -->
         <script>
             $('.custom-file-input').on('change', function() { 

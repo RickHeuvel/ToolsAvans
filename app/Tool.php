@@ -16,31 +16,54 @@ class Tool extends Model
         'name', 'category_slug', 'status_slug', 'description', 'url', 'uploader_id', 'logo_filename'
     ];
 
-    public function Status() {
+    public function status() {
         return $this->belongsTo('App\ToolStatus', 'status_slug');
     }
 
-    public function User()
-    {
+    public function user()  {
         return $this->belongsTo('App\User', 'uploader_id');
     }
 
-    public function Images()
-    {
+    public function images() {
         return $this->hasMany('App\ToolImage', 'tool_slug');
     }
 
-    public function Reviews()
-    {
+    public function reviews() {
         return $this->hasMany('App\Review', 'tool_slug');
     }
 
-    public function Category()
-    {
+    public function category() {
         return $this->belongsTo('App\ToolCategory', 'category_slug');
     }
 
-    public function Views()
+    public function feedback() {
+        return $this->hasOne('App\ToolFeedback', 'tool_slug');
+    }
+
+    // Query functions
+    public static function activeTools() {
+        return static::where('status_slug', 'actief');
+    }
+
+    public static function inactiveTools() {
+        return static::where('status_slug', 'inactief');
+    }
+
+    public static function rejectedTools() {
+        return static::where('status_slug', 'afgekeurd');
+    }
+
+    public static function unjudgedTools() {
+        return static::where('status_slug', 'concept')->whereDoesntHave('feedback', function ($query) {
+            $query->where('fixed', 0);
+        });
+    }
+
+    public static function conceptTools() {
+        return static::where('status_slug', 'concept');
+    }
+
+    public function views()
     {
         return $this->hasMany('App\ToolView', 'tool_slug', 'slug');
     }

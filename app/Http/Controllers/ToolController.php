@@ -104,6 +104,7 @@ class ToolController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
+            $toolStatus = (Auth::user()->isAdmin() || Auth::user()->isEmployee()) ? 'actief' : 'concept';
             $tool = Tool::create([
                 'name'          => $request->input('name'),
                 'description'   => $request->input('description'),
@@ -111,7 +112,7 @@ class ToolController extends Controller
                 'views'         => 0,
                 'uploader_id'   => Auth::id(),
                 'category_slug' => Str::slug($request->input('category')),
-                'status_slug'   => (Auth::user()->isAdmin() || Auth::user()->isEmployee()) ? "actief" : "concept",
+                'status_slug'   => $toolStatus,
                 'logo_filename' => $this->saveImage($request->file('logo'), Str::slug($request->name) . '-logo'),
             ]);
 
@@ -124,7 +125,10 @@ class ToolController extends Controller
                 ]);
             }
 
-            Session::flash('message', 'Tool succesvol toegevoegd!');
+            if ($toolStatus == 'concept')
+                Session::flash('message', 'Tool succesvol opgestuurd voor keuring!');
+            else
+                Session::flash('message', 'Tool succesvol toegevoegd!');
             return Redirect::to('tools/' . $tool->slug);
         }
     }
@@ -138,9 +142,9 @@ class ToolController extends Controller
     public function show($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
-        
+
         Event::fire(new ViewTool($tool));
-        
+
         return view('pages.tool.view', compact('tool'));
     }
 
@@ -178,6 +182,7 @@ class ToolController extends Controller
     public function update(Request $request, $slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+        $feedback = $tool->feedback;
 
         $rules = [
             'name'              => ['required','max:255', 
@@ -214,14 +219,21 @@ class ToolController extends Controller
             $tool->logo_filename    = $this->saveImage($request->file('logo'), Str::slug($request->name) . '-logo');
             $tool->save();
 
-            // Deleting the old
+            // Setting the feedback to fixed, if there was feedback
+            if ($feedback != null) {
+                $feedback->fixed = 1;
+                $feedback->save();
+            }
+
+
+            // Deleting the old images
             $toolImages = ToolImage::where('tool_slug', $tool->slug)->get();
             foreach ($toolImages as $toolImage)
             {
                $this->deleteImage($toolImage->image_filename);
             }
             ToolImage::where('tool_slug', $tool->slug)->delete();
-            // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
+            // Here we create the new ToolImage records for every image that has been uploaded, link it to the Tool and save the image to the local disk
             for($i = 0; $i < count($request->file('images')); $i++) 
             {
                 ToolImage::create([
@@ -230,7 +242,10 @@ class ToolController extends Controller
                 ]);
             }
 
-            Session::flash('message', 'Tool succesvol aangepast!');
+            if ($feedback != null)
+                Session::flash('message', 'Tool opnieuw opgestuurd voor keuring!');
+            else
+                Session::flash('message', 'Tool succesvol aangepast!');
             return Redirect::to('tools/' . $tool->slug);
         }
 
@@ -245,26 +260,10 @@ class ToolController extends Controller
     public function activate($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
-        $tool->status_slug = "actief";
+        $tool->status_slug = 'actief';
         $tool->save();
 
         Session::flash('message', 'Tool succesvol teruggezet!');
-        return Redirect::to('portal');
-    }
-
-    /**
-     * Approve the specified resource
-     *
-     * @param  int  $slug
-     * @return Response
-     */
-    public function approve($slug)
-    {
-        $tool = Tool::where('slug', $slug)->firstOrFail();
-        $tool->status_slug = "actief";
-        $tool->save();
-
-        Session::flash('message', 'Tool is goedgekeurd!');
         return Redirect::to('portal');
     }
 
@@ -277,7 +276,7 @@ class ToolController extends Controller
     public function deactivate($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
-        $tool->status_slug = "inactief";
+        $tool->status_slug = 'inactief';
         $tool->save();
 
         Session::flash('message', 'Tool succesvol verwijderd!');

@@ -57,7 +57,7 @@ class ReviewsTableSeeder extends Seeder
         ]);
 
         DB::table('reviews')->insert([
-            'tool_slug' => 'gcolor',
+            'tool_slug' => 'gcolor2',
             'user_id' => '1',
             'title' => 'Doet wat het moet doen',
             'rating' => '5',

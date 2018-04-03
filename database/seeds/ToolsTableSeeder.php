@@ -105,7 +105,7 @@ class ToolsTableSeeder extends Seeder
             'description' => 'gcolor2 is een simpele kleur selector dat gebaseerd is op gcolor',
             'logo_filename' => 'gcolor2-logo.png',
             'url' => 'http://gcolor2.sourceforge.net/',
-            'slug' => 'gcolor',
+            'slug' => 'gcolor2',
             'created_at' => now(),
         ]);
         
@@ -151,16 +151,16 @@ class ToolsTableSeeder extends Seeder
 
         if(!is_dir('storage/app/tool-images'))
             mkdir('storage/app/tool-images');
-        copy('https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png', 'storage/app/tool-images/github-logo.png');   
-        copy('https://seeklogo.com/images/G/google-drive-logo-ED4F6E7476-seeklogo.com.png', 'storage/app/tool-images/googledrive-logo.png');            
-        copy('https://www.seeklogo.net/wp-content/uploads/2015/09/slack-logo-vector-download.jpg', 'storage/app/tool-images/slack-logo.png');            
-        copy('https://a.slack-edge.com/bfaba/img/api/hosting_heroku.png', 'storage/app/tool-images/heroku-logo.png');            
-        copy('https://gamificationplus.uk/wp-content/uploads/2017/08/a5bc8ebe-f0bb-44cd-bf0c-c12bc44c8260.jpg', 'storage/app/tool-images/kahoot-logo.png');            
-        copy('http://galculator.mnim.org/images/galculator_release.png', 'storage/app/tool-images/galculator-logo.png');            
-        copy('https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Adobe_Photoshop_CS6_icon.svg/2000px-Adobe_Photoshop_CS6_icon.svg.png', 'storage/app/tool-images/photoshop-logo.png');            
-        copy('http://gcolor2.sourceforge.net/gcolor2-collapsed-small.jpg', 'storage/app/tool-images/gcolor2-logo.png');            
-        copy('https://pbs.twimg.com/profile_images/420611627696668672/8YsRFlbS_400x400.jpeg', 'storage/app/tool-images/onthehub-logo.png');            
-        copy('https://seeklogo.com/images/V/visual-studio-logo-14F95CF819-seeklogo.com.png', 'storage/app/tool-images/visualstudio-logo.png');            
+        copy('https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png', 'storage/app/tool-images/github-logo.png');
+        copy('https://seeklogo.com/images/G/google-drive-logo-ED4F6E7476-seeklogo.com.png', 'storage/app/tool-images/googledrive-logo.png');
+        copy('https://www.seeklogo.net/wp-content/uploads/2015/09/slack-logo-vector-download.jpg', 'storage/app/tool-images/slack-logo.png');
+        copy('https://a.slack-edge.com/bfaba/img/api/hosting_heroku.png', 'storage/app/tool-images/heroku-logo.png');
+        copy('https://gamificationplus.uk/wp-content/uploads/2017/08/a5bc8ebe-f0bb-44cd-bf0c-c12bc44c8260.jpg', 'storage/app/tool-images/kahoot-logo.png');
+        copy('http://galculator.mnim.org/images/galculator_release.png', 'storage/app/tool-images/galculator-logo.png');
+        copy('https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Adobe_Photoshop_CS6_icon.svg/2000px-Adobe_Photoshop_CS6_icon.svg.png', 'storage/app/tool-images/photoshop-logo.png');
+        copy('http://gcolor2.sourceforge.net/gcolor2-collapsed-small.jpg', 'storage/app/tool-images/gcolor2-logo.png');
+        copy('https://pbs.twimg.com/profile_images/420611627696668672/8YsRFlbS_400x400.jpeg', 'storage/app/tool-images/onthehub-logo.png');
+        copy('https://seeklogo.com/images/V/visual-studio-logo-14F95CF819-seeklogo.com.png', 'storage/app/tool-images/visualstudio-logo.png');
         copy('https://taiga.io/images/logo-color.png', 'storage/app/tool-images/taiga-logo.png');
     }
 }

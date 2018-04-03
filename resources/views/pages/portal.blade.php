@@ -26,28 +26,24 @@
             </div>
         </div>
 
-        @if (Session::has('message'))
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                {{ Session::get('message') }}
+        @if ($errors->isNotEmpty())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ Html::ul($errors->all()) }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         @endif
+        @include('partials.alert')
 
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link" id="mytools-tab" data-toggle="tab" href="#mytools" role="tab" aria-controls="mytools" aria-selected="true">Mijn tools</a>
             </li>
+
             @if (auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Gebruikers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="activetools-tab" data-toggle="tab" href="#activetools" role="tab" aria-controls="activetools" aria-selected="false">Actieve tools</a>
@@ -55,9 +51,22 @@
                 <li class="nav-item">
                     <a class="nav-link" id="inactivetools-tab" data-toggle="tab" href="#inactivetools" role="tab" aria-controls="inactivetools" aria-selected="false">Inactieve tools</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="concepttools-tab" data-toggle="tab" href="#concepttools" role="tab" aria-controls="concepttools" aria-selected="false">Concept tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="rejectedtools-tab" data-toggle="tab" href="#rejectedtools" role="tab" aria-controls="rejectedtools" aria-selected="false">Afgekeurde tools</a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" id="myconcepttools-tab" data-toggle="tab" href="#myconcepttools" role="tab" aria-controls="myconcepttools" aria-selected="false">Mijn Concept tools</a>
+                </li>
             @endif
         </ul>
-        
+
         <div class="tab-content">
             <div class="tab-pane pt-4" id="mytools" role="tabpanel" aria-labelledby="mytools-tab">
                 @if(count($myTools) > 0)
@@ -93,20 +102,27 @@
                         @endif
                     @endforeach
                 </div>
-                <div class="tab-pane pt-4" id="users" role="tabpanel" aria-labelledby="users-tab">
-                    
-                </div>
-                <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
-                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'concept')])
-                </div>
                 <div class="tab-pane pt-4" id="activetools" role="tabpanel" aria-labelledby="activetools-tab">
-                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'actief')])
+                    @include('partials.tools', ['tools' => $activeTools])
                 </div>
                 <div class="tab-pane pt-4" id="inactivetools" role="tabpanel" aria-labelledby="inactivetools-tab">
-                    @include('partials.tools', ['tools' => $tools->where('status_slug', 'inactief')])
+                    @include('partials.tools', ['tools' => $inactiveTools])
+                </div>
+                <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
+                    @include('partials.tools', ['tools' => $unjudgedTools])
+                </div>
+                <div class="tab-pane pt-4" id="concepttools" role="tabpanel" aria-labelledby="concepttools-tab">
+                    @include('partials.tools', ['tools' => $conceptTools])
+                </div>
+                <div class="tab-pane pt-4" id="rejectedtools" role="tabpanel" aria-labelledby="rejectedtools-tab">
+                    @include('partials.tools', ['tools' => $rejectedTools])
+                </div>
+            @else
+                <div class="tab-pane pt-4" id="myconcepttools" role="tabpanel" aria-labelledby="myconcepttools-tab">
+                    @include('partials.tools', ['tools' => $myConceptTools])
                 </div>
             @endif
-            
+
         </div>
 
     </div> 

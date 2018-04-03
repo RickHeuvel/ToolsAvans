@@ -15,7 +15,7 @@
         <hr class="mt-0">
 
         <div class="row">
-            <div class="col-12">            
+            <div class="col-12">
                 <h2 class="mb-0"><strong>Tools</strong></h2>
             </div>
         </div>

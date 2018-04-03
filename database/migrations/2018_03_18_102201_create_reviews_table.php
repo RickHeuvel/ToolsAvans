@@ -23,7 +23,7 @@ class CreateReviewsTable extends Migration
 
             $table->primary(['tool_slug', 'user_id']);
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
-            $table->foreign('tool_slug')->references('slug')->on('tools');
+            $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

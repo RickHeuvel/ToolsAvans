@@ -20,10 +20,11 @@
         });</script>
 @endsection
 @section('content')
-
     <div class="container mt-4">
+        @include('partials.alert')
+
         <div class="row">
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-5">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -32,14 +33,31 @@
                     </ol>
                 </nav>
             </div>
-            <div class="col-12 col-md-4 text-right">
-                @if (Auth::check() && $tool->uploader_id == auth()->user()->id)
+            <div class="col-12 col-md-7 text-right">
+                @if (Auth::check() && ((Auth::user()->isAdmin() || Auth::user()->isEmployee()) || Auth::user()->id == $tool->uploader_id))
                     <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}"
                        class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
+                    @if (Auth::user()->isAdmin())
+                        <a href="{{ URL::to('tools/' . $tool->slug . '/approve') }}" class="btn btn-danger btn-avans">Goedkeuren</a>
+                        @if ($tool->feedback == null || $tool->feedback->fixed)
+                            <a data-toggle="modal" data-target="#{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
+                            @include('partials.modals.requesttoolchanges')
+                        @endif
+                        <a data-toggle="modal" data-target="#{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
+                    @endif
                 @endif
             </div>
         </div>
         <hr class="mt-0">
+        @if ($tool->feedback != null && !$tool->feedback->fixed)
+            <div class="alert alert-info" role="alert">
+                 <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
+                 <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
+                 <hr>
+                <h5>Feedback:</h5>
+                {{ $tool->feedback->feedback }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="tool-view mt-4 mb-4">
@@ -53,7 +71,11 @@
                         <div class="col-12 col-md-9">
                             <div class="tool-body">
                                 <div class="align-right-top concept-warning">
-                                    @if ($tool->status->isConcept())
+                                    @if ($tool->status->isConcept() && ($tool->feedback != null && !$tool->feedback->fixed))
+                                        <h6>Concept met onverwerkte feedback</h6>
+                                    @elseif ($tool->status->isConcept() && ($tool->feedback == null || ($tool->feedback != null && $tool->feedback->fixed)))
+                                        <h6>Concept opgestuurd voor keuring</h6>
+                                    @elseif ($tool->status->isConcept())
                                         <h6>Concept</h6>
                                     @endif
                                 </div>
