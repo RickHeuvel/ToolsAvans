@@ -10631,15 +10631,6 @@ ul.pagination .page-item .page-link {
   background: #eee;
 }
 
-.tool .tool-image {
-  width: 100%;
-  min-height: 100%;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  margin: 15px;
-}
-
 .tool img {
   margin: 0 auto;
   width: 100%;
@@ -10712,6 +10703,11 @@ ul.pagination .page-item .page-link {
   font-size: 16px;
   margin-top: 10px;
   margin-bottom: 0;
+}
+
+.tool-image {
+  height: 150px;
+  width: 150px;
 }
 
 .category {

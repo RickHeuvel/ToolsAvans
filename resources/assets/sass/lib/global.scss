@@ -313,14 +313,6 @@ ul.pagination {
 
 .tool {
   background: $gray;
-  .tool-image {
-    width: 100%;
-    min-height: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    margin: 15px;
-  }
   img {
     margin: 0 auto;
     width: 100%;
@@ -357,8 +349,6 @@ ul.pagination {
   }
 }
 .tool-view {
-  .tool-image {
-  }
   img {
     margin: 0 auto;
     width: 100%;
@@ -388,6 +378,11 @@ ul.pagination {
       margin-bottom: 0;
     }
   }
+}
+
+.tool-image {
+    height: 150px;
+    width: 150px;
 }
 
 .category {

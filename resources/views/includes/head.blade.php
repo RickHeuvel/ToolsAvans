@@ -17,7 +17,4 @@
 <meta name="theme-color" content="#ffffff">
 
 <!-- owl-carrousel -->
-
 <link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css" />
-<link rel="stylesheet" href="/bower_components/owl.carousel/dist/assets/owl.carousel.min.css" />
-

@@ -1,2 +1,5 @@
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+<!-- lightbox2 -->
+<link href="{{ asset('css/lightbox.css') }}" rel="stylesheet" }}

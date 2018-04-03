@@ -47,7 +47,7 @@
                         <div class="col-12 col-md-3">
                             <div class="tool-logo">
                                 <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}"
-                                 class="img-fluid tool-image">
+                                 class="img-fluid tool-logo">
                             </div>
                         </div>
                         <div class="col-12 col-md-9">
@@ -91,14 +91,15 @@
         </div>
         <hr class="mt-0">
         <div class="row">
-                <div class="owl-carousel owl-theme col-12">
+            <div class="row justify-content-center">
+                <div class="col-12">
                     @for ($i = 0; $i < count($tool->images); $i++)
-                        <div>
-                            <img src="{{ route('tools.image', ['filename' => $tool->images[$i]->image_filename]) }}"
-                                 class="img-fluid">
-                        </div>
+                    <a href="{{ route('tools.image', ['filename' => $tool->images[$i]->image_filename]) }}" data-lightbox="lightbox" class="col-sm-4">
+                        <img src="{{ route('tools.image', ['filename' => $tool->images[$i]->image_filename]) }}" class="img-fluid" height="150px" width="150px">
+                    </a>
                     @endfor
                 </div>
+            </div>
         </div>
         <hr class="mt-4">
         <div class="row">
