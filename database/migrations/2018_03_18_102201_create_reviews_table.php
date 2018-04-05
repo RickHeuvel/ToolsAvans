@@ -13,15 +13,15 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('tool_reviews', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('tool_slug');
             $table->integer('user_id')->unsigned();
-            $table->string('title');
+            $table->string('title')->nullable(true);
             $table->integer('rating');
-            $table->text('description');
+            $table->text('description')->nullable(true);
             $table->timestamps();
 
-            $table->primary(['tool_slug', 'user_id']);
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade')->onDelete('cascade');
         });
@@ -34,6 +34,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('tool_reviews');
     }
 }

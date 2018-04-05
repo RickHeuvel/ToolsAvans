@@ -9994,16 +9994,21 @@ a.text-dark:focus {
   }
 }
 
-/*
- *  Owl Carousel - Core
+/**
+ * Owl Carousel v2.3.2
+ * Copyright 2013-2018 David Deutsch
+ * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
  */
+
+.owl-carousel,
+.owl-carousel .owl-item {
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
 
 .owl-carousel {
   display: none;
   width: 100%;
-  -webkit-tap-highlight-color: transparent;
-  /* position relative and z-index fix webkit rendering fonts issue */
-  position: relative;
   z-index: 1;
 }
 
@@ -10012,7 +10017,6 @@ a.text-dark:focus {
   -ms-touch-action: pan-Y;
   touch-action: manipulation;
   -moz-backface-visibility: hidden;
-  /* fix firefox animation glitch */
 }
 
 .owl-carousel .owl-stage:after {
@@ -10027,12 +10031,11 @@ a.text-dark:focus {
 .owl-carousel .owl-stage-outer {
   position: relative;
   overflow: hidden;
-  /* fix for flashing background */
-  -webkit-transform: translate3d(0px, 0px, 0px);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
-.owl-carousel .owl-wrapper,
-.owl-carousel .owl-item {
+.owl-carousel .owl-item,
+.owl-carousel .owl-wrapper {
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
@@ -10042,11 +10045,9 @@ a.text-dark:focus {
 }
 
 .owl-carousel .owl-item {
-  position: relative;
   min-height: 1px;
   float: left;
   -webkit-backface-visibility: hidden;
-  -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
 }
 
@@ -10055,14 +10056,19 @@ a.text-dark:focus {
   width: 100%;
 }
 
-.owl-carousel .owl-nav.disabled,
-.owl-carousel .owl-dots.disabled {
+.owl-carousel .owl-dots.disabled,
+.owl-carousel .owl-nav.disabled {
   display: none;
 }
 
-.owl-carousel .owl-nav .owl-prev,
+.no-js .owl-carousel,
+.owl-carousel.owl-loaded {
+  display: block;
+}
+
+.owl-carousel .owl-dot,
 .owl-carousel .owl-nav .owl-next,
-.owl-carousel .owl-dot {
+.owl-carousel .owl-nav .owl-prev {
   cursor: pointer;
   cursor: hand;
   -webkit-user-select: none;
@@ -10071,18 +10077,14 @@ a.text-dark:focus {
   user-select: none;
 }
 
-.owl-carousel .owl-nav button.owl-prev,
 .owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev,
 .owl-carousel button.owl-dot {
-  background: none;
+  background: 0 0;
   color: inherit;
   border: none;
   padding: 0 !important;
   font: inherit;
-}
-
-.owl-carousel.owl-loaded {
-  display: block;
 }
 
 .owl-carousel.owl-loading {
@@ -10100,7 +10102,7 @@ a.text-dark:focus {
 
 .owl-carousel.owl-drag .owl-item {
   -ms-touch-action: none;
-      touch-action: none;
+  touch-action: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -10121,19 +10123,9 @@ a.text-dark:focus {
   float: right;
 }
 
-/* No Js */
-
-.no-js .owl-carousel {
-  display: block;
-}
-
-/*
- *  Owl Carousel - Animate Plugin
- */
-
 .owl-carousel .animated {
-  -webkit-animation-duration: 1000ms;
-          animation-duration: 1000ms;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
   -webkit-animation-fill-mode: both;
           animation-fill-mode: both;
 }
@@ -10171,33 +10163,21 @@ a.text-dark:focus {
   }
 }
 
-/*
- * 	Owl Carousel - Auto Height Plugin
- */
-
 .owl-height {
-  -webkit-transition: height 500ms ease-in-out;
-  transition: height 500ms ease-in-out;
+  -webkit-transition: height .5s ease-in-out;
+  transition: height .5s ease-in-out;
 }
-
-/*
- * 	Owl Carousel - Lazy Load Plugin
- */
 
 .owl-carousel .owl-item .owl-lazy {
   opacity: 0;
-  -webkit-transition: opacity 400ms ease;
-  transition: opacity 400ms ease;
+  -webkit-transition: opacity .4s ease;
+  transition: opacity .4s ease;
 }
 
 .owl-carousel .owl-item img.owl-lazy {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
 }
-
-/*
- * 	Owl Carousel - Video Plugin
- */
 
 .owl-carousel .owl-video-wrapper {
   position: relative;
@@ -10213,14 +10193,14 @@ a.text-dark:focus {
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url(/images/vendor/owl.carousel/src/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
+  background: url(/images/vendor/owl.carousel/dist/owl.video.play.png?4cbde124d6cd8122c801118696c16f07) no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;
-  -webkit-transition: -webkit-transform 100ms ease;
-  transition: -webkit-transform 100ms ease;
-  transition: transform 100ms ease;
-  transition: transform 100ms ease, -webkit-transform 100ms ease;
+  -webkit-transition: -webkit-transform .1s ease;
+  transition: -webkit-transform .1s ease;
+  transition: transform .1s ease;
+  transition: transform .1s ease, -webkit-transform .1s ease;
 }
 
 .owl-carousel .owl-video-play-icon:hover {
@@ -10228,8 +10208,8 @@ a.text-dark:focus {
           transform: scale(1.3, 1.3);
 }
 
-.owl-carousel .owl-video-playing .owl-video-tn,
-.owl-carousel .owl-video-playing .owl-video-play-icon {
+.owl-carousel .owl-video-playing .owl-video-play-icon,
+.owl-carousel .owl-video-playing .owl-video-tn {
   display: none;
 }
 
@@ -10239,8 +10219,8 @@ a.text-dark:focus {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  -webkit-transition: opacity 400ms ease;
-  transition: opacity 400ms ease;
+  -webkit-transition: opacity .4s ease;
+  transition: opacity .4s ease;
 }
 
 .owl-carousel .owl-video-frame {
@@ -10693,18 +10673,27 @@ ul.pagination .page-item .page-link {
 
 .tool-view .tool-body .tool-category {
   color: #C6002A;
+  margin-top: 5px;
   margin-bottom: 0;
-  display: inline-block;
-  margin-left: 5px;
 }
 
 .tool-view .tool-body .tool-rating {
-  color: #FFD700;
-  font-size: 16px;
   margin-top: 10px;
   margin-bottom: 0;
 }
 
+.tool-view .tool-body .tool-rating .fa {
+  font-size: 30px;
+  color: #FFD700;
+}
+
+.tool-view .tool-body .tool-rating .starrr {
+  display: inline-block;
+}
+
+.tool-view .tool-body .tool-rating #engagereview {
+  line-height: 32px;
+}
 .tool-image {
   height: 150px;
   width: 150px;

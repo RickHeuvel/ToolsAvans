@@ -27,3 +27,6 @@ Route::resource('categories', 'CategoryController');
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
 Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);
 Route::post('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
+
+Route::get('tools/{tool}/createrating', 'ReviewController@createRating')->name('tools.createrating');
+Route::post('tools/{tool}/addreview', 'ReviewController@addReview')->name('tools.addreview');

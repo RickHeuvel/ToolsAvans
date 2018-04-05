@@ -15,6 +15,3 @@
 <link rel="mask-icon" href="{{ asset('img/icons/safari-pinned-tab.svg') }}" color="#24292e">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
-
-<!-- owl-carrousel -->
-<link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css" />

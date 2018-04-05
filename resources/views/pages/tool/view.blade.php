@@ -2,23 +2,6 @@
 @section('title')
     <title>{{$tool->name}} | ToolHub</title>
 @endsection
-@section('js')
-    <script>$('.owl-carousel').owlCarousel({
-            margin: 10,
-            nav: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 1
-                },
-                1000: {
-                    items: 2
-                }
-            }
-        });</script>
-@endsection
 @section('content')
     <div class="container mt-4">
         @include('partials.alert')
@@ -48,6 +31,16 @@
                 @endif
             </div>
         </div>
+
+        @if (Session::has('message'))
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ Session::get('message') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        
         <hr class="mt-0">
         @if ($tool->feedback != null && !$tool->feedback->fixed)
             <div class="alert alert-info" role="alert">
@@ -81,17 +74,10 @@
                                 </div>
                                 <h1>{{$tool->name}}</h1>
                                 <p class="tool-category">in {{$tool->category->name}}</p>
-                                <p class="tool-rating">
-                                    @php $rating = $tool->Reviews()->avg('rating') @endphp
-                                    @for($x = 0; $x < 5; $x++)
-                                        @if($rating > 0)
-                                            <span class="fa-stack" style="width:2em">
-                                                <i class="fas fa-star fa-stack-2x"></i>
-                                            </span>
-                                        @endif
-                                        @php $rating-- @endphp
-                                    @endfor
-                                </p>
+                                <div class="tool-rating">
+                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Klik op een ster om een rating achter te laten!"></div>
+                                    @include('partials.addreviewmodal')
+                                </div>
                                 <p class="tool-uploaded">Geplaatst op {{$tool->created_at->format('d F Y')}} door {{$tool->user->nickname}}</p>
                                 <hr>
                                 <a href={{$tool->url}}>{{$tool->url}}</a>
@@ -135,41 +121,33 @@
         <div class="row">
             <div class="tool-reviews container-fluid col-12">
                 <h2 id=reviews>Reviews</h2>
-                <div class="owl-carousel owl-theme col-12">
-                    <div class="col-6">
-                        <p>Username</p>
-                        <p>sterren</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed blandit
-                            tortor. Nunc non nisl vitae diam blandit sollicitudin.
-                            Duis velit ante, pretium in mattis a, pharetra sit amet mauris. Proin
-                            vitae turpis est. Pellentesque ut turpis id </p>
-                    </div>
-
-                    <div class="col-6">
-                        <p>Username</p>
-                        <p>sterren</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed blandit
-                            tortor. Nunc non nisl vitae diam blandit sollicitudin.
-                            Duis velit ante, pretium in mattis a, pharetra sit amet mauris. Proin
-                            vitae turpis est. Pellentesque ut turpis id </p>
-                    </div>
-                    <div class="col-6">
-                        <p>Username</p>
-                        <p>sterren</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed blandit
-                            tortor. Nunc non nisl vitae diam blandit sollicitudin.
-                            Duis velit ante, pretium in mattis a, pharetra sit amet mauris. Proin
-                            vitae turpis est. Pellentesque ut turpis id </p>
-                    </div>
-
-                    <div class="col-6">
-                        <p>Username</p>
-                        <p>sterren</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed blandit
-                            tortor. Nunc non nisl vitae diam blandit sollicitudin.
-                            Duis velit ante, pretium in mattis a, pharetra sit amet mauris. Proin
-                            vitae turpis est. Pellentesque ut turpis id </p>
-                    </div>
+                <div class="owl-carousel owl-theme">
+                    @foreach($tool->reviews as $review)
+                        <p>{{ $review->username }}</p>
+                        <p><b>{{ $review->title }}</b></p>
+                        <p class="tool-rating">
+                            @for($x = 0; $x < $review->rating; $x++)
+                                <span class="fa-stack" style="width:2em">
+                                    <i class="fas fa-star fa-stack-2x"></i>
+                                </span>
+                            @endfor
+                        </p>
+                        <p>{{ $review->description }}</p>
+                    @endforeach
+                        @foreach($tool->reviews as $review)
+                            <div class="col-12">
+                                <p>{{ $review->username }}</p>
+                                <p><b>{{ $review->title }}</b></p>
+                                <p class="tool-rating">
+                                    @for($x = 0; $x < $review->rating; $x++)
+                                        <span class="fa-stack" style="width:2em">
+                                        <i class="fas fa-star fa-stack-2x"></i>
+                                    </span>
+                                    @endfor
+                                </p>
+                                <p>{{ $review->description }}</p>
+                            </div>
+                        @endforeach
                 </div>
             </div>
         </div>
@@ -210,4 +188,54 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.owl-carousel').owlCarousel({
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 2
+                }
+            }
+        });
+
+        $( document ).ready(function() {
+            
+            @if (!empty($tool->reviews))
+                $('.starrr').starrr({
+                    rating: {{$tool->reviews->avg('rating')}}
+                });
+            @else
+                $('.starrr').starrr();
+            @endif
+
+            $('.starrr').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
+                    type: 'GET',
+                    data: { rating: value },
+                }).done(function (data) {
+                    $('#reviewmodal').modal('show');
+                }).fail(function () {
+                    alert('Review kon niet worden geplaatst.');
+                });
+            })
+
+            setTimeout(function() {
+                $('#stars').tooltip('show')
+            }, 2000);
+            $('#stars').mouseover(function() {
+                $('#stars').tooltip('hide')
+            });
+        });
+    </script>
 @endsection

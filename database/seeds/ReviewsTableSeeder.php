@@ -11,7 +11,7 @@ class ReviewsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'heroku',
             'user_id' => '1',
             'title' => 'Goede webhosting, makkelijk in gebruik',
@@ -20,25 +20,34 @@ class ReviewsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'github',
             'user_id' => '1',
             'title' => 'Beter dan bitbucket',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Github is voor mij essentieel voor het werken in projecten.',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
+            'tool_slug' => 'github',
+            'user_id' => '2',
+            'title' => 'Tja...',
+            'rating' => '4',
+            'description' => 'Opzich best OK tool, maar soms doet het niet helemaal wat je verwacht.',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'google-drive',
             'user_id' => '1',
             'title' => 'Samen documenten maken',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Samen documenten maken is de beste feature van Googol Drive.',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'slack',
             'user_id' => '1',
             'title' => 'Kan beter',
@@ -47,34 +56,34 @@ class ReviewsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'kahoot',
             'user_id' => '1',
             'title' => 'Leuke, andere manier voor een quiz',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Weg met de quiz, kahoot! is hier die een interactieve manier geeft om te leren.',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'gcolor2',
             'user_id' => '1',
             'title' => 'Doet wat het moet doen',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Ik gebruik het dagelijks, erg aanbevolen!',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'galculator',
             'user_id' => '1',
             'title' => 'Een rekenmachine',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Voor Linux gebruikers kan je dit niet missen op je systeem.',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'photoshop',
             'user_id' => '1',
             'title' => 'Erg duur',
@@ -83,7 +92,7 @@ class ReviewsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'visualstudio',
             'user_id' => '1',
             'title' => 'Makkelijke software om software te maken',
@@ -92,16 +101,16 @@ class ReviewsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'onthehub',
             'user_id' => '1',
             'title' => 'Wie wil geen gratis software',
-            'rating' => '5',
+            'rating' => '4',
             'description' => 'Onmisbare software als student.',
             'created_at' => now(),
         ]);
 
-        DB::table('reviews')->insert([
+        DB::table('tool_reviews')->insert([
             'tool_slug' => 'taiga',
             'user_id' => '1',
             'title' => 'Scrumboard slecht vindbaar',

@@ -367,15 +367,22 @@ ul.pagination {
     }
     .tool-category {
       color: $avansred;
+      margin-top: 5px;
       margin-bottom: 0;
-      display: inline-block;
-      margin-left: 5px;
     }
-    .tool-rating{
-      color: #FFD700;
-      font-size: 16px;
+    .tool-rating {
       margin-top: 10px;
       margin-bottom: 0;
+      .fa {
+        font-size: 30px;
+        color: #FFD700;
+      }
+      .starrr {
+        display: inline-block;
+      }
+      #engagereview {
+        line-height: 32px;
+      }
     }
   }
 }
