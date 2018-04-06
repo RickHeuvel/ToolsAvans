@@ -20,13 +20,15 @@
                                         <h2>{{$tool->name}}</h2>
                                     </a>
                                 </div>
-                                <div class="col text-right concept-warning">
-                                    @if ($tool->feedback != null && !$tool->feedback->fixed)
-                                        <h6>Concept met onverwerkte feedback</h6>
-                                    @else
-                                        <h6>Concept opgestuurd voor keuring</h6>
-                                    @endif
-                                </div>
+                                @if ($tool->isConcept())
+                                    <div class="col text-right concept-warning">
+                                        @if ($tool->feedback != null && !$tool->feedback->fixed)
+                                            <h6>Concept met onverwerkte feedback</h6>
+                                        @else
+                                            <h6>Concept opgestuurd voor keuring</h6>
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
                             <p class="tool-description">{{$tool->description}}</p>
                             <div class="right-bottom">
