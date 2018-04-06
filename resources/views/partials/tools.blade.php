@@ -20,7 +20,7 @@
                                         <h2>{{$tool->name}}</h2>
                                     </a>
                                 </div>
-                                @if ($tool->isConcept())
+                                @if ($tool->status->isConcept())
                                     <div class="col text-right concept-warning">
                                         @if ($tool->feedback != null && !$tool->feedback->fixed)
                                             <h6>Concept met onverwerkte feedback</h6>

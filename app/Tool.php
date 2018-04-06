@@ -40,6 +40,11 @@ class Tool extends Model
         return $this->hasOne('App\ToolFeedback', 'tool_slug');
     }
 
+    public function views()
+    {
+        return $this->hasMany('App\ToolView', 'tool_slug', 'slug');
+    }
+
     // Query functions
     public static function activeTools() {
         return static::where('status_slug', 'actief');
@@ -61,10 +66,5 @@ class Tool extends Model
 
     public static function conceptTools() {
         return static::where('status_slug', 'concept');
-    }
-
-    public function views()
-    {
-        return $this->hasMany('App\ToolView', 'tool_slug', 'slug');
     }
 }
