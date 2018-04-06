@@ -17,11 +17,11 @@ class ToolControllerTest extends TestCase
 {
 
     /**
-     * Test store()
+     * Test employee store()
      *
      * @return void
      */
-    public function testStore()
+    public function testEmployeeStore()
     {
         $auth = new AuthController();
         $controller = new ToolController();
@@ -37,7 +37,6 @@ class ToolControllerTest extends TestCase
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
             ],
             [],
@@ -54,6 +53,54 @@ class ToolControllerTest extends TestCase
 
         $this->assertDatabaseHas('tools', [
             'name' => 'testName',
+            'status_slug' => 'actief',
+        ]);
+        Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
+        $toolImages = ToolImage::where('tool_slug', 'testname')->get();
+        $this->assertTrue(count($toolImages) == 3);
+        foreach ($toolImages as $toolImage)
+        {
+            Storage::disk('tool-images')->assertExists($toolImage->image_filename);
+        }
+    }
+    /**
+     * Test student store()
+     *
+     * @return void
+     */
+    public function testStudentStore()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('student')->make();
+        $auth->login($user);
+
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => 'testName',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+
+        $this->assertDatabaseHas('tools', [
+            'name' => 'testName',
+            'status_slug' => 'concept',
         ]);
         Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
         $toolImages = ToolImage::where('tool_slug', 'testname')->get();
@@ -80,7 +127,7 @@ class ToolControllerTest extends TestCase
 
         $oldName = 'testName';
         $newName = 'newTestName';
-        
+
         $request = Request::create(
             'tools',
             'POST',

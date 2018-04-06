@@ -77,7 +77,7 @@ class CategoryControllerTest extends TestCase
 
         $oldName = 'testName';
         $newName = 'newTestName';
-        
+
         $request = Request::create(
             'categories',
             'POST',
@@ -170,7 +170,7 @@ class CategoryControllerTest extends TestCase
         $this->assertDatabaseHas('tool_category', [
             'name' => $name,
         ]);
-            
+
         $controller->destroy(Str::slug($name));
 
         $this->assertDatabaseMissing('tool_category', [
