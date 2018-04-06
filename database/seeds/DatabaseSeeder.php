@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ToolStatusTableSeeder::class,
             UsersTableSeeder::class,
             ToolsTableSeeder::class,
+            ToolImageTableSeeder::class,
             ReviewsTableSeeder::class,
             ToolFeedbackTableSeeder::class,
             ToolSpecificationLookupTableSeeder::class,

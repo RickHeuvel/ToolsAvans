@@ -29,7 +29,7 @@ class Tool extends Model
     }
 
     public function reviews() {
-        return $this->hasMany('App\Review', 'tool_slug');
+        return $this->hasMany('App\ToolReview', 'tool_slug');
     }
 
     public function category() {

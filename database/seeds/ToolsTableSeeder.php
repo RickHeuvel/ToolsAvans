@@ -22,7 +22,7 @@ class ToolsTableSeeder extends Seeder
             'slug' => 'github',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'Google Drive',
             'uploader_id' => '2',
@@ -42,12 +42,12 @@ class ToolsTableSeeder extends Seeder
             'status_slug' => 'actief',
             'description' => '
         Slack verenigt de communicatie van uw hele team, waardoor uw workflow een stuk beter stroomt. Alle apps die u nodig hebt, zijn naadloos geïntegreerd in ons platform en u kunt eenvoudig al uw bestanden, oproepen, berichten en collegas op één plek zoeken en vinden',
-            'logo_filename' => 'slack-logo.png',
+            'logo_filename' => 'slack-logo.jpg',
             'url' => 'https://slack.com',
             'slug' => 'slack',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'Heroku',
             'uploader_id' => '1',
@@ -67,12 +67,12 @@ class ToolsTableSeeder extends Seeder
             'status_slug' => 'actief',
             'description' => 'Kahoot! is een onderwijsplatform uit Noorwegen. Kahoot! werkt met multiple choice-quizzen genaamd kahoots. Gebruikers hoeven niet geregistreerd te zijn om aan een kahoot deel te nemen, maar er is wel een registratie vereist om zelf kahoots te maken.
                     Kahoot! is begonnen als een project tussen Mobitroll en de Technisch-natuurwetenschappelijke Universiteit van Noorwegen, maar is nu een op zichzelf staand bedrijf genaamd Kahoot!',
-            'logo_filename' => 'kahoot-logo.png',
+            'logo_filename' => 'kahoot-logo.jpg',
             'url' => 'https://kahoot.com/',
             'slug' => 'kahoot',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'galculator',
             'uploader_id' => '1',
@@ -84,7 +84,7 @@ class ToolsTableSeeder extends Seeder
             'slug' => 'galculator',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'Photoshop',
             'uploader_id' => '1',
@@ -96,31 +96,31 @@ class ToolsTableSeeder extends Seeder
             'slug' => 'photoshop',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'gcolor2',
             'uploader_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'concept',
             'description' => 'gcolor2 is een simpele kleur selector dat gebaseerd is op gcolor',
-            'logo_filename' => 'gcolor2-logo.png',
+            'logo_filename' => 'gcolor2-logo.jpg',
             'url' => 'http://gcolor2.sourceforge.net/',
             'slug' => 'gcolor2',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'On the hub',
             'uploader_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'description' => 'Op on the hub kan je verschillende software downloaden met kortingen of soms zelfs gratis software voor studenten',
-            'logo_filename' => 'onthehub-logo.png',
+            'logo_filename' => 'onthehub-logo.jpeg',
             'url' => 'https://msdnaa.avans.nl/',
             'slug' => 'onthehub',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'Visual Studio',
             'uploader_id' => '1',
@@ -131,12 +131,12 @@ class ToolsTableSeeder extends Seeder
         Visual Studio bevat een broncode-editor die zowel IntelliSense (het code-aanvulling-component) als refactoren ondersteunt. De geïntegreerde debugger werkt zowel op broncode-niveau als op machinetaal-niveau. Daarnaast bevat Visual Studio een profiler, vormenontwerper voor het bouwen van GUI-applicaties, webontwerper, klasseontwerper en databaseschemaontwerper.
         
         Visual Studio ondersteunt 36 verschillende programmeertalen en de broncode-editor en debugger kunnen bijna elke programmeertaal ondersteunen. C, C++ en C++/CLI (via Visual C++), VB.NET (via Visual Basic .NET), C# (via Visual C#), F# (sinds Visual Studio 2010) en TypeScript (sinds Visual Studio 2013 Update 2) zijn ingebouwd. Ondersteuning voor andere talen, zoals Python, Ruby, Node.js en M, zijn beschikbaar via taalservices die apart geïnstalleerd kunnen worden. Het ondersteunt ook XML/XSLT, HTML/XHTML, JavaScript en CSS. Java (en J#) werden in het verleden ondersteund.',
-            'logo_filename' => 'heroku-logo.png',
+            'logo_filename' => 'visualstudio-logo.png',
             'url' => 'https://www.visualstudio.com/',
             'slug' => 'visualstudio',
             'created_at' => now(),
         ]);
-        
+
         DB::table('tools')->insert([
             'name' => 'Taiga',
             'uploader_id' => '1',
@@ -149,18 +149,57 @@ class ToolsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        DB::table('tools')->insert([
+            'name' => 'MySQL Workbench',
+            'uploader_id' => '1',
+            'category_slug' => 'download',
+            'status_slug' => 'actief',
+            'logo_filename' => 'mysql-workbench-logo.png',
+            'description' => 'Zoek een een GUI voor het beheren van je (MySQL) database? Dan is MySQL Workbench misschien wel de ideale oplossing!',
+            'url' => 'https://www.mysql.com/products/workbench/',
+            'slug' => 'mysql-workbench',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Discord',
+            'uploader_id' => '1',
+            'category_slug' => 'download',
+            'status_slug' => 'actief',
+            'logo_filename' => 'discord-logo.jpg',
+            'description' => 'All-in-one voice and text chat for gamers that\'s free, secure, and works on both your desktop and phone.',
+            'url' => 'https://discordapp.com/',
+            'slug' => 'discord',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'YouTube',
+            'uploader_id' => '1',
+            'category_slug' => 'website',
+            'status_slug' => 'actief',
+            'logo_filename' => 'youtube-logo.png',
+            'description' => 'Volgens mij kijken we hier vaak naar filmpjes...',
+            'url' => 'https://www.youtube.com/',
+            'slug' => 'youtube',
+            'created_at' => now(),
+        ]);
+
         if(!is_dir('storage/app/tool-images'))
             mkdir('storage/app/tool-images');
         copy('https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png', 'storage/app/tool-images/github-logo.png');
         copy('https://seeklogo.com/images/G/google-drive-logo-ED4F6E7476-seeklogo.com.png', 'storage/app/tool-images/googledrive-logo.png');
-        copy('https://www.seeklogo.net/wp-content/uploads/2015/09/slack-logo-vector-download.jpg', 'storage/app/tool-images/slack-logo.png');
+        copy('https://www.seeklogo.net/wp-content/uploads/2015/09/slack-logo-vector-download.jpg', 'storage/app/tool-images/slack-logo.jpg');
         copy('https://a.slack-edge.com/bfaba/img/api/hosting_heroku.png', 'storage/app/tool-images/heroku-logo.png');
-        copy('https://gamificationplus.uk/wp-content/uploads/2017/08/a5bc8ebe-f0bb-44cd-bf0c-c12bc44c8260.jpg', 'storage/app/tool-images/kahoot-logo.png');
+        copy('https://gamificationplus.uk/wp-content/uploads/2017/08/a5bc8ebe-f0bb-44cd-bf0c-c12bc44c8260.jpg', 'storage/app/tool-images/kahoot-logo.jpg');
         copy('http://galculator.mnim.org/images/galculator_release.png', 'storage/app/tool-images/galculator-logo.png');
         copy('https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Adobe_Photoshop_CS6_icon.svg/2000px-Adobe_Photoshop_CS6_icon.svg.png', 'storage/app/tool-images/photoshop-logo.png');
-        copy('http://gcolor2.sourceforge.net/gcolor2-collapsed-small.jpg', 'storage/app/tool-images/gcolor2-logo.png');
-        copy('https://pbs.twimg.com/profile_images/420611627696668672/8YsRFlbS_400x400.jpeg', 'storage/app/tool-images/onthehub-logo.png');
+        copy('http://gcolor2.sourceforge.net/gcolor2-collapsed-small.jpg', 'storage/app/tool-images/gcolor2-logo.jpg');
+        copy('https://pbs.twimg.com/profile_images/420611627696668672/8YsRFlbS_400x400.jpeg', 'storage/app/tool-images/onthehub-logo.jpeg');
         copy('https://seeklogo.com/images/V/visual-studio-logo-14F95CF819-seeklogo.com.png', 'storage/app/tool-images/visualstudio-logo.png');
         copy('https://taiga.io/images/logo-color.png', 'storage/app/tool-images/taiga-logo.png');
+        copy('https://orig00.deviantart.net/0aa3/f/2012/324/1/3/mysql_workbench_metro_tile__for_oblytile__by_mixxorz-d5ln45d.png', 'storage/app/tool-images/mysql-workbench-logo.png');
+        copy('https://cdn.xgn.nl/articles/970/d/discord-verified-servers-vanaf-vandaag-beschikbaar-119771-4.jpg', 'storage/app/tool-images/discord-logo.jpg');
+        copy('https://www.seeklogo.net/wp-content/uploads/2011/02/youtube-logo-vector.png', 'storage/app/tool-images/youtube-logo.png');
     }
 }
