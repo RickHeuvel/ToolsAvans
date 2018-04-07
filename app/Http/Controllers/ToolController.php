@@ -314,7 +314,7 @@ class ToolController extends Controller
         $tool->status_slug = 'inactief';
         $tool->save();
 
-        Session::flash('message', 'Tool succesvol verwijderd!');
+        Session::flash('message', 'Tool succesvol gedeactiveerd!');
         return Redirect::to('portal');
     }
 

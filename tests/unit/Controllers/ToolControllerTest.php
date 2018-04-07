@@ -186,4 +186,197 @@ class ToolControllerTest extends TestCase
         }
         Storage::disk('tool-images')->assertMissing('testname-3.png');
     }
+
+    /**
+     * Test specification store()
+     *
+     * @return void
+     */
+    public function testSpecificationsStore()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('employee')->make();
+        $auth->login($user);
+
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => 'testName',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'status'        => 'Actief',
+                'url'           => 'https://www.testWebsite.nl',
+                'specifications' => [
+                    'interne-tool' => 'ja',
+                ]
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+
+        $controller->store($request);
+        $this->assertDatabaseHas('tool_specifications', [
+            'tool_slug' => Str::slug('testName'),
+        ]);
+    }
+
+    /**
+     * Test specification update())
+     *
+     * @return void
+     */
+    public function testSpecificationUpdate()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('employee')->make();
+        $auth->login($user);
+
+        $name = 'newTestName';
+
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => $name,
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'status'        => 'Actief',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+
+        $this->assertDatabaseMissing('tool_specifications', [
+            'tool_slug' => Str::slug($name),
+        ]);
+
+        $request = Request::create(
+            'tools/' . 'testname',
+            'POST',
+            [
+                'name'          => $name,
+                'description'   => 'coole test description',
+                'category'      => 'Webservice',
+                'status'        => 'Inactief',
+                'url'           => 'https://www.newTestWebsite.nl',
+                'specifications' => [
+                    'interne-tool' => 'ja',
+                ]
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->update($request, Str::slug($name));
+
+        $this->assertDatabaseHas('tool_specifications', [
+            'tool_slug' => Str::slug($name),
+        ]);
+    }
+
+    /**
+     * Test deactivate tool
+     *
+     * @return void
+     */
+    public function testDeactivateTool()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('employee')->make();
+        $auth->login($user);
+
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => 'testName',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+        $controller->deactivate(Str::slug('testName'));
+        $tool = Tool::where('slug', Str::slug('testName'))->first();
+        $this->assertTrue($tool->status->isInactive());
+    }
+
+    /**
+     * Test activate tool
+     *
+     * @return void
+     */
+    public function testActivateTool()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('student')->make();
+        $auth->login($user);
+
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => 'testName',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+        $controller->activate(Str::slug('testName'));
+        $tool = Tool::where('slug', Str::slug('testName'))->first();
+        $this->assertTrue($tool->status->isActive());
+    }
 }
