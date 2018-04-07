@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('portal', 'PortalController@index')->name('portal');
+Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');
 
 Route::resource('tools', 'ToolController');
 Route::get('tools/image/{filename}', 'ToolController@getImage')->name('tools.image');

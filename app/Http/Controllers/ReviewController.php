@@ -36,7 +36,7 @@ class ReviewController extends Controller
             $rules = [
                 'rating' => 'required|integer|between:1,5'
             ];
-    
+
             $validator = Validator::make($request->all(), $rules);
             if (!$validator->fails()) {
                 $review = ToolReview::where('tool_slug', $slug)->where('user_id', Auth::id())->first();
@@ -50,7 +50,7 @@ class ReviewController extends Controller
                         'rating'        => $request->input('rating')
                     ]);
                 }
-                
+
                 return response('Success', 200);
             }
         }

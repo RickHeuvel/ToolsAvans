@@ -15,16 +15,21 @@
         <hr class="mt-0">
 
         <div class="row mb-4">
-            <div class="col-12 col-md-6">            
+            <div class="col-12 col-md-4">
                 <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
-            <div class="col-12 col-md-6 text-right">
-                <div class="tab-buttons">
-                    <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
-                    <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
-                    <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+            @if (Auth::user()->isAdmin())
+                <div class="col-12 col-md-3">
+                        <a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de concept Tools mail</a>
                 </div>
-            </div>
+                <div class="col-12 col-md-5 text-right">
+                    <div class="tab-buttons">
+                        <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
+                        <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
+                        <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+                    </div>
+                </div>
+            @endif
         </div>
 
         @if ($errors->isNotEmpty())

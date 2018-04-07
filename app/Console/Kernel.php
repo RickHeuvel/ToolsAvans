@@ -33,9 +33,8 @@ class Kernel extends ConsoleKernel
             $tools = Tool::where('status_slug', 'concept')->get();
             $users = User::where('role', 'admin')->get();
 
-            $mailController = new MailController();
-            $mailController->sendMailable(new ConceptTools($tools), $users);
-        })->daily();
+            MailController::sendMailable(new ConceptTools($tools), $users);
+        })->monthly();
     }
 
     /**

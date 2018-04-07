@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Tool;
 use App\ToolFeedback;
 use App\User;
+use App\Mail\ConceptToolApproved;
+use App\Mail\ConceptToolRejected;
+use App\Mail\ConceptToolFeedbackReceived;
+use App\Mail\ConceptTools;
 use Session;
 use Redirect;
 use Auth;
@@ -21,10 +25,13 @@ class JudgingController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // if (!Auth::user()->isAdmin()) {
-        //     Session::flash('message', 'Administrator rechten vereist');
-        //     Redirect::to(route('portal'));
-        // }
+        $this->middleware(function ($request, $next) {
+            if (!Auth::user()->isAdmin()) {
+                Session::flash('message', 'Administrator rechten vereist');
+                Redirect::to(route('portal'));
+            }
+            return $next($request);
+        });
     }
 
     /**
@@ -43,6 +50,10 @@ class JudgingController extends Controller
 
             if ($tool->feedback != null)
                 $tool->feedback->delete();
+
+            $mail = new ConceptToolApproved($tool);
+            $user = User::find($tool->uploader_id);
+            MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Tool is goedgekeurd!');
             return Redirect::to(route('portal') . '#judgetools');
@@ -69,6 +80,10 @@ class JudgingController extends Controller
             if ($tool->feedback != null)
                 $tool->feedback->delete();
 
+            $mail = new ConceptToolRejected($tool);
+            $user = User::find($tool->uploader_id);
+            MailController::sendMailable($mail, $user);
+
             Session::flash('message', 'Tool is succesvol afgekeurd');
             return Redirect::to(route('portal') . '#judgetools');
         } else {
@@ -84,7 +99,7 @@ class JudgingController extends Controller
      * This Request includes:
      * string feedback
      * @param  string  $toolSlug
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function requestToolChanges(Request $request, $slug)
@@ -108,8 +123,26 @@ class JudgingController extends Controller
                 'feedback'      => $request->input('feedback'),
             ]);
 
+            $mail = new ConceptToolFeedbackReceived($tool);
+            $user = User::find($tool->uploader_id);
+            MailController::sendMailable($mail, $user);
+
             Session::flash('message', 'Feedback successvol opgestuurd.');
             return Redirect::to(route('portal') . '#judgetools');
         }
+    }
+
+    /**
+     * DO some shit
+     *
+     */
+    public function sendmail(Request $request) {
+        $tools = Tool::unjudgedTools()->get();
+        $mail = new ConceptTools($tools);
+        $users = User::where('role', 'admin')->get();
+
+        MailController::sendMailable($mail, $users);
+
+        return Redirect::to(route('portal'));
     }
 }

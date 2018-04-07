@@ -89,7 +89,7 @@
                 if (categories.length > 0) {
                     urlParams.append('categories', categories.join(","));
                 }
-                
+
                 var url = $(location).attr('pathname') + (categories.length > 0) ? "?" + urlParams.toString() : "";
                 getTools(url);
                 window.history.pushState("", "", url);

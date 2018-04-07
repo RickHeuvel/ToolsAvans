@@ -1,10 +1,10 @@
 @component('mail::message')
-# Concept {{ str_plural('tool', count($tools)) }}
+# Ongekeurde concept {{ str_plural('tool', count($tools)) }}
 
-Er staan {{ count($tools) }} {{ str_plural('tool', count($tools)) }} op ToolHub die gekeurd kunnen worden!
+Er staan {{ count($tools) }} concept {{ str_plural('tool', count($tools)) }} op ToolHub die gekeurd kunnen worden!
 
 @component('mail::button', ['url' => $url])
-Bekijk {{ str_plural('tool', count($tools)) }}
+Bekijk de ongekeurde concept{{ str_plural('tool', count($tools)) }}
 @endcomponent
 
 Met vriendelijke groet,<br>

@@ -40,7 +40,7 @@
                 </button>
             </div>
         @endif
-        
+
         <hr class="mt-0">
         @if ($tool->feedback != null && !$tool->feedback->fixed)
             <div class="alert alert-info" role="alert">
@@ -199,7 +199,7 @@
         });
 
         $( document ).ready(function() {
-            
+
             @if (!empty($tool->reviews))
                 $('.starrr').starrr({
                     rating: {{$tool->reviews->avg('rating')}}
