@@ -31,16 +31,16 @@ class ToolControllerTest extends TestCase
         $auth->login($user);
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
             ],
-            [],
-            [
+            [],     // Cookies
+            [       // POST files
                 'logo'          => UploadedFile::fake()->image('logo.png'),
                 'images'        => [
                     UploadedFile::fake()->image('image-1.png'),
