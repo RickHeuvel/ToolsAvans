@@ -23,6 +23,8 @@ Route::get('tools/{tool}/activate', 'ToolController@activate')->name('tools.acti
 Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.deactivate');
 
 Route::resource('categories', 'CategoryController');
+Route::resource('specifications', 'SpecificationController');
+
 
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
 Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);

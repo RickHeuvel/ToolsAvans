@@ -10694,6 +10694,7 @@ ul.pagination .page-item .page-link {
 .tool-view .tool-body .tool-rating #engagereview {
   line-height: 32px;
 }
+
 .tool-image {
   height: 150px;
   width: 150px;
@@ -10711,6 +10712,21 @@ ul.pagination .page-item .page-link {
 }
 
 .category .btn {
+  margin-left: 2px;
+}
+
+.specification {
+  background: #eee;
+  padding: 10px 10px 10px 15px;
+}
+
+.specification .specification-name {
+  font-size: 18px;
+  margin-bottom: 0;
+  line-height: 38px;
+}
+
+.specification .btn {
   margin-left: 2px;
 }
 

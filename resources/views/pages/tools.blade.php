@@ -24,19 +24,41 @@
 
         <div class="row">
             <div class="col-12 col-md-3">
-                <p><strong>Categorieën</strong></p>
-                @foreach($categories as $category)
-                    <div class="form-check mb-1">
-                        @if (!empty($selectedCategories))
-                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
-                        @else
-                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
-                        @endif
-                        <label class="form-check-label" for="cat{{$category->id}}">
-                            {{$category->name}}
-                        </label>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p><strong>Categorieën</strong></p>
+                        @foreach($categories as $category)
+                            <div class="form-check mb-1">
+                                @if (!empty($selectedCategories))
+                                    <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
+                                @else
+                                    <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
+                                @endif
+                                <label class="form-check-label" for="cat{{$category->id}}">
+                                    {{$category->name}}
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
+                
+                <!--<div class="row mb-3">
+                    <div class="col-12">
+                        <p><strong>Specificaties</strong></p>
+                        @foreach($specifications as $specification)
+                            <div class="form-check mb-1">
+                                @if (!empty($selectedSpecifications))
+                                    <input class="form-check-input" name="spec[]" type="checkbox" value="{{$specification->slug}}" id="spec{{$specification->id}}" {{ in_array($specification->slug, $selectedSpecifications) ? "checked" : "" }}>
+                                @else
+                                    <input class="form-check-input" name="spec[]" type="checkbox" value="{{$specification->slug}}" id="spec{{$specification->id}}">
+                                @endif
+                                <label class="form-check-label" for="spec{{$specification->id}}">
+                                    {{$specification->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>-->
             </div>
             <div class="col-12 col-md-9">
                 <section class="tools">

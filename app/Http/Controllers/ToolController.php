@@ -18,6 +18,8 @@ use App\ToolCategory;
 use App\ToolStatus;
 use App\Tool;
 use App\ToolImage;
+use App\ToolSpecification;
+use App\Specification;
 use App\Events\ViewTool;
 use App\Rules\NameExistsInDatabase;
 
@@ -45,18 +47,22 @@ class ToolController extends Controller
      */
     public function index(Request $request)
     {
-        $categories            = ToolCategory::all();
-        $selectedCategories    = ($request->has('categories')) ? 
+        $categories             = ToolCategory::all();
+        $selectedCategories     = ($request->has('categories')) ? 
                                     explode(',', $request->input('categories')) : null;
-        $tools                 = ($request->has('categories')) ? 
+
+        $specifications         = ToolSpecification::all();
+        $selectedSpecifications = ($request->has('specifications')) ? 
+                                    explode(',', $request->input('specifications')) : null;
+        
+        $tools                  = ($request->has('categories')) ? 
                                     Tool::where('status_slug', 'actief')->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) : 
                                     $tools = Tool::where('status_slug', 'actief')->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage);
-
         if ($request->ajax()) {
-            return view('partials.tools', compact('tools', 'categories', 'selectedCategories'))->render();  
+            return view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'))->render();  
         }
 
-        return view('pages.tools', compact('tools', 'categories', 'selectedCategories'));
+        return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'));
     }
 
     /**
@@ -66,9 +72,11 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $categories = ['' => 'Selecteer een categorie...'] + ToolCategory::pluck('name')->all();
-        $statuses   = ['' => 'Selecteer een status...'] + ToolStatus::pluck('name')->all();
-        return view('pages.tool.create', compact('categories', 'statuses'));
+        $categories     = ['' => 'Selecteer een categorie...'] + ToolCategory::pluck('name')->all();
+        $statuses       = ['' => 'Selecteer een status...'] + ToolStatus::pluck('name')->all();
+        $specifications = Specification::all();
+
+        return view('pages.tool.create', compact('categories', 'statuses', 'specifications'));
     }
 
     /**
@@ -117,12 +125,23 @@ class ToolController extends Controller
             ]);
 
             // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
-            for($i = 0; $i < count($request->file('images')); $i++) 
-            {
+            for ($i = 0; $i < count($request->file('images')); $i++) {
                 ToolImage::create([
                     'tool_slug'         => $tool->slug,
                     'image_filename'    => $this->saveImage($request->file('images')[$i], $tool->slug . '-' . ($i+1)),
                 ]);
+            }
+
+            // Creating new records for specifications
+            $specifications = $request->input('specifications');
+            if (!empty($specifications)) {
+                foreach ($specifications as $key => $value) {
+                    $specification = ToolSpecification::create([
+                        'tool_slug' => $tool->slug,
+                        'specification_slug' => $key,
+                        'value' => $value,
+                    ]);
+                }
             }
 
             if ($toolStatus == 'concept')
@@ -142,10 +161,10 @@ class ToolController extends Controller
     public function show($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
-
+        $toolspecifications = ToolSpecification::where('tool_slug', $slug)->get();
         Event::fire(new ViewTool($tool));
-
-        return view('pages.tool.view', compact('tool'));
+        
+        return view('pages.tool.view', compact('tool', 'toolspecifications'));
     }
 
     /**
@@ -159,7 +178,9 @@ class ToolController extends Controller
         $categories = ToolCategory::pluck('name')->all();
         $statuses = ToolStatus::pluck('name')->all();
         $tool = Tool::where('slug', $slug)->firstOrFail();
-        return view('pages.tool.edit', compact('tool', 'categories', 'statuses'));
+        $toolspecifications = Tool::where('slug', $slug)->firstOrFail()->specifications()->get();
+        $specifications = Specification::all();
+        return view('pages.tool.edit', compact('tool', 'categories', 'statuses', 'toolspecifications', 'specifications'));
     }
 
     /**
@@ -240,6 +261,20 @@ class ToolController extends Controller
                     'tool_slug'         => $tool->slug,
                     'image_filename'    => $this->saveImage($request->file('images')[$i], $tool->slug . '-' . ($i+1)),
                 ]);
+            }
+            // Deleting all specifcations from tool
+            ToolSpecification::where('tool_slug', $tool->slug)->delete();
+
+            // Creating new records for specifications
+            $specifications = $request->input('specifications');
+            if (!empty($specifications)) {
+                foreach ($specifications as $key => $value) {
+                    ToolSpecification::create([
+                        'tool_slug' => $tool->slug,
+                        'specification_slug' => $key,
+                        'value' => $value,
+                    ]);
+                }
             }
 
             if ($feedback != null)

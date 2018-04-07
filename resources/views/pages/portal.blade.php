@@ -22,6 +22,7 @@
                 <div class="tab-buttons">
                     <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
                     <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
+                    <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
                 </div>
             </div>
         </div>
@@ -46,6 +47,9 @@
                     <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">Specificaties</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="activetools-tab" data-toggle="tab" href="#activetools" role="tab" aria-controls="activetools" aria-selected="false">Actieve tools</a>
                 </li>
                 <li class="nav-item">
@@ -53,9 +57,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="concepttools-tab" data-toggle="tab" href="#concepttools" role="tab" aria-controls="concepttools" aria-selected="false">Concept tools</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="rejectedtools-tab" data-toggle="tab" href="#rejectedtools" role="tab" aria-controls="rejectedtools" aria-selected="false">Afgekeurde tools</a>
@@ -102,6 +103,30 @@
                         @endif
                     @endforeach
                 </div>
+
+                <div class="tab-pane pt-4" id="specifications" role="tabpanel" aria-labelledby="categories-tab">
+                    @foreach($specifications as $specification)
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="specification">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <p class="specification-name">{{$specification->name}}</p>
+                                        </div>
+                                        <div class="col-12 col-md-6 text-right">
+                                            <a data-toggle="modal" data-target="#{{$specification->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                            <a href="{{ URL::to('specifications/' . $specification->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                            @include('partials.removespecificationmodal')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if(!$loop->last)
+                            <hr>
+                        @endif
+                    @endforeach
+                </div>
                 <div class="tab-pane pt-4" id="activetools" role="tabpanel" aria-labelledby="activetools-tab">
                     @include('partials.tools', ['tools' => $activeTools])
                 </div>
@@ -110,9 +135,6 @@
                 </div>
                 <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
                     @include('partials.tools', ['tools' => $unjudgedTools])
-                </div>
-                <div class="tab-pane pt-4" id="concepttools" role="tabpanel" aria-labelledby="concepttools-tab">
-                    @include('partials.tools', ['tools' => $conceptTools])
                 </div>
                 <div class="tab-pane pt-4" id="rejectedtools" role="tabpanel" aria-labelledby="rejectedtools-tab">
                     @include('partials.tools', ['tools' => $rejectedTools])

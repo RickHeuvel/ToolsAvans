@@ -48,7 +48,7 @@
                                     @if ($tool->status->isInactive())
                                         <a href="{{ URL::to('tools/' . $tool->slug . '/activate') }}" class="btn btn-danger btn-avans">Terugzetten</a>
                                     @elseif ($tool->status->isActive())
-                                        <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactieveren</a>
+                                        <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
                                         @include('partials.deactivatetoolmodal')
                                     @endif
                                 @else

@@ -167,22 +167,12 @@
                 <h2 id="specificaties">Specificaties</h2>
                 <table class="table table-striped">
                     <tbody>
-                    <tr>
-                        <th scope="row">Categorie:</th>
-                        <td>{{$tool->category->name}}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Avans tool:</th>
-                        <td>Ja</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Webtool:</th>
-                        <td>Nee</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Download:</th>
-                        <td>Ja</td>
-                    </tr>
+                    @foreach($toolspecifications as $toolspecification)
+                        <tr>
+                            <th scope="row">{{ $toolspecification->specification()->first()->name }}</th>
+                            <td>{{ $toolspecification->value }}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

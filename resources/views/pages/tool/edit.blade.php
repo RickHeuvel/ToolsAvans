@@ -85,6 +85,39 @@
         </div>
 
         <div class="form-group">
+            {{ Form::label('specifications', 'Specificaties *') }}
+            @foreach($toolspecifications as $toolspecification)
+                <div id="{{ $toolspecification->specification_slug }}" class="row">
+                    <div class="col">
+                        <label>{{ $toolspecification->specification->name }}</label>
+                    </div>
+                    <div class="col">
+                        <input class="form-control mb-2" type="text" value="{{ $toolspecification->value }}" name="specifications[{{ $toolspecification->specification_slug }}]">
+                    </div>
+                    @if($toolspecification->specification->default == 0)
+                        <a onClick="removeSpecification('{{ $toolspecification->specification_slug }}')"><i class="fas fa-trash-alt"></i></a>
+                    @endif
+                </div>
+            @endforeach
+            @foreach($specifications as $specification)
+                @if($toolspecifications->where('specification_slug', $specification->slug)->first() == null && $specification->default == 1)
+                    <div id="{{ $specification->slug }}" class="row">
+                        <div class="col">
+                            <label>{{ $specification->name }}</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control mb-2" type="text" name="specifications[{{ $specification->slug }}]">
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+            <div id="specifications">
+                <!--This div is intentionally empty, here will the code appear after clicking the button "Voeg nog een specificatie toe" -->
+            </div>
+            <input class="btn btn-avans mt-2" type="button" value="Voeg nog een specificatie toe" onClick="addSpecification()">
+        </div>
+
+        <div class="form-group">
             {{ Form::label('description', 'Beschrijving *') }}
             {{ Form::textarea('description', $tool->description, array('class' => 'form-control')) }}
         </div>
@@ -116,4 +149,29 @@
 
         {{ Form::close() }}
     </div> 
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        function addSpecification(){
+            var newdiv = document.createElement('div');
+            var divid = Math.random();
+            var selectid = Math.random(); 
+            var inputid = Math.random();
+            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a onClick='removeSpecification(" + divid + ")'><i class='fas fa-trash-alt'></a></i></div></div>" 
+            document.getElementById('specifications').appendChild(newdiv);
+        }
+
+        function setInputName(selectid, inputid){
+            var specification = document.getElementById(selectid);
+            var specificationValue = specification.options[specification.selectedIndex].value;
+            var specificationInput = document.getElementById(inputid);
+            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');    
+        }
+
+        function removeSpecification(divid){
+            var element = document.getElementById(divid);
+            element.parentNode.removeChild(element);
+        }
+     </script>
 @endsection

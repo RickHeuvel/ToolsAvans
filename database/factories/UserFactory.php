@@ -24,3 +24,7 @@ $factory->state(App\User::class, 'student', [
 $factory->state(App\User::class, 'employee', [
     'role' => 'employee',
 ]);
+
+$factory->state(App\User::class, 'admin', [
+    'role' => 'admin',
+]);

@@ -19,7 +19,7 @@ class CreateToolSpecificationLookupTable extends Migration
             $table->string('category')->nullable();
             $table->boolean('default');
 
-            $table->foreign('category')->references('slug')->on('tool_category');
+            $table->foreign('category')->references('slug')->on('tool_category')->onUpdate('cascade');
         });
     }
 
