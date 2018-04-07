@@ -13,7 +13,7 @@ class CreateToolViewTable extends Migration
      */
     public function up()
     {
-        Schema::create('tool_view', function (Blueprint $table) {
+        Schema::create('tool_views', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tool_slug');
             $table->dateTime('created_at');

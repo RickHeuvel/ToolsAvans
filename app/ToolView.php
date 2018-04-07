@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ToolView extends Model
 {
     protected $primaryKey = 'id';
-    protected $table = 'tool_view';
+    protected $table = 'tool_views';
     public $timestamps = false;
 
     protected $fillable = [
