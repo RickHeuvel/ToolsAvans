@@ -371,7 +371,7 @@ class ToolImageTableSeeder extends Seeder
         copy('https://assets.pcmag.com/media/images/568839-slack-highlights-2017.png?thumb=y&width=980&height=745', 'storage/app/tool-images/slack-2.png');
 
         copy('https://heroku-blog-files.s3.amazonaws.com/posts/1473343761-1424309905-screenshot-%2523%2528dashboard%252C-orgs%252C-demo%252C-access%2529.png', 'storage/app/tool-images/heroku-1.png');
-        copy('http://www.nanostuffs.com/images/heroku/Heroku-Performance-Dashboard.jpg', 'storage/app/tool-images/heroku-2.jpg');
+        copy('https://s3.amazonaws.com/heroku-devcenter-files/article-images/1947-imported-1443570528-1947-imported-1443554999-472-original.jpg', 'storage/app/tool-images/heroku-2.jpg');
         copy('https://res.cloudinary.com/hy4kyit2a/image/upload/v1509046297/doc/trailhead/staging/team-trailhead_heroku_en-us_heroku-enterprise-basics_images_heroku-101-app-access-tab_af976bd3c465cb62d336509c25d6ccab.png', 'storage/app/tool-images/heroku-3.png');
         copy('https://www-assets0.herokucdn.com/assets/dx/screenshot_metrics-a4507bc964228c14825f7a5c0fbe09125fc41ae5fca220657715d1320409c9ec.png', 'storage/app/tool-images/heroku-4.png');
         copy('http://jr0cket.co.uk/slides/images/heroku-developer-workflow-overview.png', 'storage/app/tool-images/heroku-5.png');
