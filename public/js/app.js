@@ -13608,6 +13608,19 @@ __webpack_require__(12);
 __webpack_require__(36);
 __webpack_require__(37);
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+// Smooth scroll
+$(document).on('click', 'a[href^="#"]', function (event) {
+    event.preventDefault();
+
+    $('html, body').animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+    }, 500);
+});
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {

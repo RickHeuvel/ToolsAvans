@@ -18,6 +18,7 @@ use App\ToolCategory;
 use App\ToolStatus;
 use App\Tool;
 use App\ToolImage;
+use App\ToolReview;
 use App\ToolSpecification;
 use App\Specification;
 use App\Events\ViewTool;
@@ -161,10 +162,11 @@ class ToolController extends Controller
     public function show($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+        $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
         $toolspecifications = ToolSpecification::where('tool_slug', $slug)->get();
         Event::fire(new ViewTool($tool));
         
-        return view('pages.tool.view', compact('tool', 'toolspecifications'));
+        return view('pages.tool.view', compact('tool', 'toolspecifications', 'curUserReview'));
     }
 
     /**

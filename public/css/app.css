@@ -10562,6 +10562,21 @@ ul.nav li.active a {
   height: auto;
 }
 
+.fa-star {
+  font-size: 20px !important;
+  color: #FFD700;
+}
+
+.starrr .fa {
+  font-size: 30px !important;
+}
+
+.screenshots .item .img-fluid {
+  max-height: 300px;
+  width: auto !important;
+  margin: 0 auto;
+}
+
 #btnReport {
   background: #C6002A;
   color: #ffffff;
@@ -10682,13 +10697,12 @@ ul.pagination .page-item .page-link {
   margin-bottom: 0;
 }
 
-.tool-view .tool-body .tool-rating .fa {
-  font-size: 30px;
-  color: #FFD700;
-}
-
 .tool-view .tool-body .tool-rating .starrr {
   display: inline-block;
+}
+
+.tool-view .tool-body .tool-rating .starrr.readOnly a {
+  cursor: auto !important;
 }
 
 .tool-view .tool-body .tool-rating #engagereview {
@@ -10782,7 +10796,11 @@ ul.pagination .page-item .page-link {
   color: #C6002A;
 }
 
-footer {
+.tool-reviews .blockquote {
+  font-size: 16px !important;
+}
+
+footer.footer {
   position: absolute;
   bottom: 0;
   width: 100%;

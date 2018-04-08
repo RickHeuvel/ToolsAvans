@@ -264,6 +264,21 @@ ul.nav li.active a {
   height: auto;
 }
 
+.fa-star {
+  font-size: 20px !important;
+  color: #FFD700;
+}
+
+.starrr .fa {
+  font-size: 30px !important;
+}
+
+.screenshots .item .img-fluid {
+  max-height: 300px;
+  width: auto !important;
+  margin: 0 auto;
+}
+
 #btnReport {
   background: $avansred;
   color: #ffffff;
@@ -373,12 +388,11 @@ ul.pagination {
     .tool-rating {
       margin-top: 10px;
       margin-bottom: 0;
-      .fa {
-        font-size: 30px;
-        color: #FFD700;
-      }
       .starrr {
         display: inline-block;
+      }
+      .starrr.readOnly a {
+        cursor: auto !important;
       }
       #engagereview {
         line-height: 32px;
@@ -466,15 +480,16 @@ ul.pagination {
   height: 40vh;
 }
 
-.owl-carousel {
-
-}
-
 .concept-warning{
   margin: 10px;
   color: $avansred;
 }
-  footer {
+
+.tool-reviews .blockquote {
+  font-size: 16px !important;
+}
+
+footer.footer {
   position: absolute;
   bottom: 0;
   width: 100%;

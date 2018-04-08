@@ -15,14 +15,11 @@
         <hr class="mt-0">
 
         <div class="row mb-4">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-6">
                 <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
             @if (Auth::user()->isAdmin())
-                <div class="col-12 col-md-3">
-                        <a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de concept Tools mail</a>
-                </div>
-                <div class="col-12 col-md-5 text-right">
+                <div class="col-12 col-md-6 text-right">
                     <div class="tab-buttons">
                         <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
                         <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
@@ -65,6 +62,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="rejectedtools-tab" data-toggle="tab" href="#rejectedtools" role="tab" aria-controls="rejectedtools" aria-selected="false">Afgekeurde tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
                 </li>
             @else
                 <li class="nav-item">
@@ -143,6 +143,9 @@
                 </div>
                 <div class="tab-pane pt-4" id="rejectedtools" role="tabpanel" aria-labelledby="rejectedtools-tab">
                     @include('partials.tools', ['tools' => $rejectedTools])
+                </div>
+                <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
+                    <a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de 'concept tools' mail</a>
                 </div>
             @else
                 <div class="tab-pane pt-4" id="myconcepttools" role="tabpanel" aria-labelledby="myconcepttools-tab">

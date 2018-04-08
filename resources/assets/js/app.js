@@ -8,3 +8,16 @@
 require('./bootstrap');
 require('owl.carousel');
 require('./lib/global');
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Smooth scroll
+$(document).on('click', 'a[href^="#"]', function (event) {
+    event.preventDefault();
+
+    $('html, body').animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+    }, 500);
+});

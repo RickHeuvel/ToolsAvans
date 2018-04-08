@@ -2,13 +2,16 @@
     <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="review">Review achterlaten</h5>
+                <h5 class="modal-title" id="review">Bedankt!</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             {{ Form::open(array('url' => 'tools/' . $tool->slug . '/addreview')) }}
                 <div class="modal-body">
+                    <p><strong>Bedankt voor je rating!</strong></p>
+                    <p>Zou je toevallig ook nog een review achter willen laten? dit zou ons als ToolHub community enorm helpen.</p>
+
                     <div class="form-group">
                         {{ Form::label('title', 'Titel') }}
                         {{ Form::text('title', '', array('class' => 'form-control')) }}
