@@ -137,7 +137,7 @@
             <div class="tool-reviews container-fluid col-12">
                 <h2 id="reviews">Reviews</h2>
                 <div class="owl-carousel reviews owl-theme mt-4">
-                    @foreach($tool->reviews as $review)
+                    @foreach($tool->reviews->sortByDesc('created_at') as $review)
                         <div class="item">
                             <blockquote class="blockquote text-center">
                                 <p class="mb-2"><b>{{ $review->title }}</b></p>
