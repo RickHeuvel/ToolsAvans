@@ -7,6 +7,7 @@ use App\Http\Controllers\ToolController;
 use App\User;
 use App\Tool;
 use App\ToolImage;
+use App\ToolView;
 use Auth;
 use Illuminate\Http\UploadedFile;
 use App\Http\Controllers\AuthController;
@@ -378,5 +379,48 @@ class ToolControllerTest extends TestCase
         $controller->activate(Str::slug('testName'));
         $tool = Tool::where('slug', Str::slug('testName'))->first();
         $this->assertTrue($tool->status->isActive());
+    }
+
+    /**
+     * Test view counter tool
+     *
+     * @return void
+     */
+    public function testViewCounterTool()
+    {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('student')->make();
+        $auth->login($user);
+
+        $toolname = 'testName';
+        $toolslug = Str::slug('testName');
+        $request = Request::create(
+            'tools',
+            'POST',
+            [
+                'name'          => $toolname,
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],
+            [
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+        $this->assertTrue(ToolView::where('tool_slug', $toolslug)->count() == 0);
+        //Showing the tool twice so we know that the view counter is not adding up per refresh of the webpage which would invalidate the viewcounter.
+        $controller->show($toolslug);
+        $controller->show($toolslug);
+        $this->assertTrue(ToolView::where('tool_slug', $toolslug)->count() == 1);
     }
 }
