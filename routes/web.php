@@ -11,7 +11,6 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
 Route::get('portal', 'PortalController@index')->name('portal');
 Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');
 
@@ -22,6 +21,10 @@ Route::get('tools/{tool}/reject', 'JudgingController@rejectTool')->name('tools.r
 Route::post('tools/{tool}/requestchanges', 'JudgingController@requestToolChanges')->name('tools.requestToolChanges');
 Route::get('tools/{tool}/activate', 'ToolController@activate')->name('tools.activate');
 Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.deactivate');
+
+Route::get('/', function() {
+    return redirect(route('tools.index'));
+})->name('home');
 
 Route::resource('categories', 'CategoryController');
 Route::resource('specifications', 'SpecificationController');
