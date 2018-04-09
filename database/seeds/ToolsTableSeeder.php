@@ -126,11 +126,7 @@ class ToolsTableSeeder extends Seeder
             'uploader_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
-            'description' => 'Microsoft Visual Studio is een integrated development environment (IDE) van Microsoft. Het biedt een complete set ontwikkelingstools om computerprogrammas in diverse programmeertalen voor met name Windows-omgevingen te ontwikkelen. Visual Studio gebruikt software-ontwikkelingsplatformen van Microsoft zoals Windows API, Windows Forms, Windows Presentation Foundation, Microsoft Store en Microsoft Silverlight. Het kan zowel native code als managed code produceren.
-        
-        Visual Studio bevat een broncode-editor die zowel IntelliSense (het code-aanvulling-component) als refactoren ondersteunt. De geïntegreerde debugger werkt zowel op broncode-niveau als op machinetaal-niveau. Daarnaast bevat Visual Studio een profiler, vormenontwerper voor het bouwen van GUI-applicaties, webontwerper, klasseontwerper en databaseschemaontwerper.
-        
-        Visual Studio ondersteunt 36 verschillende programmeertalen en de broncode-editor en debugger kunnen bijna elke programmeertaal ondersteunen. C, C++ en C++/CLI (via Visual C++), VB.NET (via Visual Basic .NET), C# (via Visual C#), F# (sinds Visual Studio 2010) en TypeScript (sinds Visual Studio 2013 Update 2) zijn ingebouwd. Ondersteuning voor andere talen, zoals Python, Ruby, Node.js en M, zijn beschikbaar via taalservices die apart geïnstalleerd kunnen worden. Het ondersteunt ook XML/XSLT, HTML/XHTML, JavaScript en CSS. Java (en J#) werden in het verleden ondersteund.',
+            'description' => 'Microsoft Visual Studio is een integrated development environment (IDE) van Microsoft. Het biedt een complete set ontwikkelingstools om computerprogrammas in diverse programmeertalen voor met name Windows-omgevingen te ontwikkelen. Visual Studio gebruikt software-ontwikkelingsplatformen van Microsoft zoals Windows API, Windows Forms, Windows Presentation Foundation, Microsoft Store en Microsoft Silverlight.',
             'logo_filename' => 'visualstudio-logo.png',
             'url' => 'https://www.visualstudio.com/',
             'slug' => 'visualstudio',
