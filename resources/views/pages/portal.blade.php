@@ -79,9 +79,7 @@
         <div class="tab-content">
             <div class="tab-pane pt-4" id="mytools" role="tabpanel" aria-labelledby="mytools-tab">
                 @if(count($myTools) > 0)
-                    @include('partials.pagination', ['tools' => $myTools])
                     @include('partials.tools', ['tools' => $myTools])
-                    @include('partials.pagination', ['tools' => $myTools])
                 @else
                     <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken!</p>
                 @endif

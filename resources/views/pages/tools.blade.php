@@ -63,9 +63,7 @@
             </div>
             <div class="col-12 col-md-9">
                 <section class="tools">
-                    @include('partials.pagination')
                     @include('partials.tools')
-                    @include('partials.pagination')
                 </section>
             </div>
         </div>

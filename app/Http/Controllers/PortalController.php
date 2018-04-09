@@ -29,22 +29,22 @@ class PortalController extends Controller
      */
     public function index()
     {
-        $myTools = Tool::where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->orderBy('slug')->paginate(10);
+        $myTools = Tool::where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->orderBy('slug')->get();
         if (Auth::user()->isAdmin()) {
             $categories = ToolCategory::all()->sortBy('slug');
             $categoryGroups = Tool::all()->groupBy('category_slug');
             $tools = Tool::all()->sortBy('slug');
             $specifications = Specification::all()->sortBy('slug');
             $specificationGroups = ToolSpecification::all();
-            $activeTools = Tool::activeTools()->orderBy('slug')->paginate(10);
-            $inactiveTools = Tool::inactiveTools()->orderBy('slug')->paginate(10);
-            $unjudgedTools = Tool::unjudgedTools()->orderBy('created_at')->paginate(10);
-            $conceptTools = Tool::conceptTools()->paginate(10);
-            $rejectedTools = Tool::rejectedTools()->paginate(10);
+            $activeTools = Tool::activeTools()->orderBy('slug')->get();
+            $inactiveTools = Tool::inactiveTools()->orderBy('slug')->get();
+            $unjudgedTools = Tool::unjudgedTools()->orderBy('created_at')->get();
+            $conceptTools = Tool::conceptTools()->get();
+            $rejectedTools = Tool::rejectedTools()->get();
 
             return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'activeTools', 'inactiveTools', 'unjudgedTools', 'conceptTools', 'rejectedTools', 'tools', 'specifications', 'specificationGroups'));
         } else {
-            $myConceptTools = Tool::conceptTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->paginate(10);
+            $myConceptTools = Tool::conceptTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
 
             return view('pages.portal', compact('myTools', 'myConceptTools'));
         }
