@@ -2,6 +2,7 @@
 # Je tool is geaccepteerd
 
 De administrator heeft je tool geaccepteerd
+<br>
 De tool staat nu publiek op de website, voor iedereen om te zien! :)
 
 @component('mail::button', ['url' => $url])

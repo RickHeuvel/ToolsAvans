@@ -71,7 +71,7 @@
                 </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link" id="myconcepttools-tab" data-toggle="tab" href="#myconcepttools" role="tab" aria-controls="myconcepttools" aria-selected="false">Mijn Concept tools</a>
+                    <a class="nav-link" id="myconcepttools-tab" data-toggle="tab" href="#myconcepttools" role="tab" aria-controls="myconcepttools" aria-selected="false">Mijn concept tools</a>
                 </li>
             @endif
         </ul>

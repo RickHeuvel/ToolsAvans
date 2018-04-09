@@ -185,7 +185,7 @@ class ToolController extends Controller
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
         if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
-            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->user_id) || Auth::user()->isEmployee()))) {
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
             Session::flash('message', 'Je hebt geen rechten om deze tool te wijzigen');
             return Redirect::route('tools.index');
         }
@@ -219,7 +219,7 @@ class ToolController extends Controller
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
         if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
-            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->user_id) || Auth::user()->isEmployee()))) {
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
             Session::flash('message', 'Je hebt geen rechten om deze tool te wijzigen');
             return Redirect::route('tools.index');
         }

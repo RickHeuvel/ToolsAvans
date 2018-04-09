@@ -2,6 +2,7 @@
 # Feedback ontvangen
 
 De administrator heeft feedback achter gelaten op je opgestuurde Tool
+<br>
 Verbeter de feedback om de tool nogmaals op te sturen voor keuring
 
 @component('mail::button', ['url' => $url])
