@@ -102,7 +102,7 @@
             @foreach($specifications as $specification)
                 @if($toolspecifications->where('specification_slug', $specification->slug)->first() == null && $specification->default == 1)
                     <div id="{{ $specification->slug }}" class="row">
-                        <div class="col">
+                        <div class="col specification-label">
                             <label>{{ $specification->name }}</label>
                         </div>
                         <div class="col">
@@ -148,7 +148,7 @@
         </div>
 
         {{ Form::close() }}
-    </div> 
+    </div>
 @endsection
 
 @section('js')
@@ -158,7 +158,7 @@
             var divid = Math.random();
             var selectid = Math.random(); 
             var inputid = Math.random();
-            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a onClick='removeSpecification(" + divid + ")'><i class='fas fa-trash-alt'></a></i></div></div>" 
+            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a class=\"btn btn-avans\" onClick='removeSpecification(" + divid + ")'><i class='fa fa-trash'></i></a></div></div>"
             document.getElementById('specifications').appendChild(newdiv);
         }
 

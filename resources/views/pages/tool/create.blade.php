@@ -16,17 +16,17 @@
         <hr class="mt-0">
 
         <div class="row">
-            <div class="col-12">            
+            <div class="col-12">
                 <h2 class="mb-0"><strong>Tool toevoegen</strong></h2>
             </div>
         </div>
-        
+
         <hr>
 
         {{ Html::ul($errors->all()) }}
 
         {{ Form::open(array('url' => 'tools','enctype' => 'multipart/form-data')) }}
-               
+
         <div class="form-group">
             {{ Form::label('name', 'Naam van de Tool *') }}
             {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
@@ -75,7 +75,7 @@
             @foreach($specifications as $specification)
                 @if($specification->default == 1 && is_null($specification->category))
                 <div class="row">
-                    <div class="col">
+                    <div class="col specification-label">
                         <label>{{ $specification->name }}</label>
                     </div>
                     <div class="col">
@@ -99,9 +99,9 @@
 
         <!-- Script to change to lable of the filebrowser to the name of the uploaded file -->
         <script>
-            $('.custom-file-input').on('change', function() { 
-                let fileName = $(this).val().split('\\').pop(); 
-                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+            $('.custom-file-input').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
             });
         </script> 
 
@@ -115,7 +115,7 @@
         </div>
 
         {{ Form::close() }}
-    </div> 
+    </div>
 @endsection
 
 @section('js')
@@ -124,9 +124,9 @@
         function addSpecification(){
             var newdiv = document.createElement('div');
             var divid = Math.random();
-            var selectid = Math.random(); 
+            var selectid = Math.random();
             var inputid = Math.random();
-            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a onClick='removeSpecification(" + divid + ")'><i class='fas fa-trash-alt'></a></i></div></div>" 
+            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a class=\"btn btn-avans\" onClick='removeSpecification(" + divid + ")'><i class='fa fa-trash'></i></a></div></div>"
             document.getElementById('specifications').appendChild(newdiv);
         }
 
@@ -134,7 +134,7 @@
             var specification = document.getElementById(selectid);
             var specificationValue = specification.options[specification.selectedIndex].value;
             var specificationInput = document.getElementById(inputid);
-            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');    
+            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');
         }
 
         function removeSpecification(divid){

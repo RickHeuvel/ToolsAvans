@@ -10744,6 +10744,10 @@ ul.pagination .page-item .page-link {
   margin-left: 2px;
 }
 
+.specification-label {
+  padding-top: 10px;
+}
+
 .tab-buttons .btn {
   display: none;
 }
