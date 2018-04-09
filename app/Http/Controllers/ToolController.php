@@ -103,6 +103,7 @@ class ToolController extends Controller
             'category'          => 'required|exists:tool_category,name',
             'images.*'          => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
             'images'            => 'array|between:2,5',
+            'specifications.*'  => 'required|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);

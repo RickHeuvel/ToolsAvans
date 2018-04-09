@@ -158,7 +158,7 @@
         <div class="row pb-5">
             <div class="tool-specs col-12">
                 <h2 id="specificaties" class="mb-4">Specificaties</h2>
-                @if (count($toolspecifications) > 1)
+                @if (count($toolspecifications) > 0)
                     <table class="table table-striped">
                         <tbody>
                             @foreach($toolspecifications as $toolspecification)
