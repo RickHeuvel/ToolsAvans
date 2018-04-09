@@ -88,5 +88,71 @@ class UsersTableSeeder extends Seeder
             'location' => 'OWB',
             'role' => 'admin'
         ]);
+        DB::table('users')->insert([
+            'name' => 'wdalton',
+            'email' => 'w.dalton@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'wdalton',
+            'nickname' => 'Waylon Dalton',
+            'firstName' => 'Waylon',
+            'lastName' => 'Dalton',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'jhenderson',
+            'email' => 'j.henderson@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'jhenderson',
+            'nickname' => 'Justine Henderson',
+            'firstName' => 'Justine',
+            'lastName' => 'Henderson',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'mcruz',
+            'email' => 'm.Cruz@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'mcruz',
+            'nickname' => 'Marcus Cruz',
+            'firstName' => 'Marcus',
+            'lastName' => 'Cruz',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'erand',
+            'email' => 'e.Randolph@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'erand',
+            'nickname' => 'Eddie Randolph',
+            'firstName' => 'Eddie',
+            'lastName' => 'Randolph',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'hahartman',
+            'email' => 'h.Hartman@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'hahartman',
+            'nickname' => 'Hadassah Hartman',
+            'firstName' => 'Hadassah',
+            'lastName' => 'Hartman',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'jsahffer',
+            'email' => 'j.Shaffer@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'jsahffer',
+            'nickname' => 'Joanna Shaffer',
+            'firstName' => 'Joanna',
+            'lastName' => 'Shaffer',
+            'location' => 'OWB',
+            'role' => 'student'
+        ]);
     }
 }
