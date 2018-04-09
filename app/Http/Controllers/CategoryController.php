@@ -16,6 +16,18 @@ use App\Rules\NameExistsInDatabase;
 class CategoryController extends Controller
 {
     /**
+     * Create a new controller instance
+     * Require login and user to have admin role
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admingate');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response

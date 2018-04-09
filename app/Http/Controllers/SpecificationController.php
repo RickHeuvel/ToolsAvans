@@ -16,15 +16,16 @@ use App\ToolCategory;
 
 class SpecificationController extends Controller
 {
-    public function __construct() {
+    /**
+     * Create a new controller instance
+     * Require login and user to have admin role
+     *
+     * @return void
+     */
+    public function __construct()
+    {
         $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (!Auth::user()->isAdmin()) {
-                Session::flash('message', 'Administrator rechten vereist');
-                Redirect::to(route('portal'));
-            }
-            return $next($request);
-        });
+        $this->middleware('admingate');
     }
 
     /**

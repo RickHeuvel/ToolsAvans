@@ -16,14 +16,59 @@ use Illuminate\Support\Str;
 
 class ToolControllerTest extends TestCase
 {
+    /**
+     * Test admin store()
+     *
+     * @return void
+     */
+    public function testAdminStore() {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('admin')->make();
+        $auth->login($user);
+
+        $request = Request::create(
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => 'testName',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+            ],
+            [],     // Cookies
+            [       // POST files
+                'logo'          => UploadedFile::fake()->image('logo.png'),
+                'images'        => [
+                    UploadedFile::fake()->image('image-1.png'),
+                    UploadedFile::fake()->image('image-2.png'),
+                    UploadedFile::fake()->image('image-3.png')
+                ],
+            ]
+        );
+        $controller->store($request);
+
+        $this->assertDatabaseHas('tools', [
+            'name' => 'testName',
+            'status_slug' => 'actief',
+        ]);
+        Storage::disk('tool-images')->assertExists(Tool::where('name', 'testName')->first()->logo_filename);
+        $toolImages = ToolImage::where('tool_slug', 'testname')->get();
+        $this->assertTrue(count($toolImages) == 3);
+        foreach ($toolImages as $toolImage)
+        {
+            Storage::disk('tool-images')->assertExists($toolImage->image_filename);
+        }
+    }
 
     /**
      * Test employee store()
      *
      * @return void
      */
-    public function testEmployeeStore()
-    {
+    public function testEmployeeStore() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
@@ -64,13 +109,13 @@ class ToolControllerTest extends TestCase
             Storage::disk('tool-images')->assertExists($toolImage->image_filename);
         }
     }
+
     /**
      * Test student store()
      *
      * @return void
      */
-    public function testStudentStore()
-    {
+    public function testStudentStore() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
@@ -117,8 +162,7 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate()
-    {
+    public function testUpdate() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
@@ -193,8 +237,7 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testSpecificationsStore()
-    {
+    public function testSpecificationsStore() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
@@ -237,8 +280,7 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testSpecificationUpdate()
-    {
+    public function testSpecificationUpdate() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
@@ -308,13 +350,12 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDeactivateTool()
-    {
+    public function testDeactivateTool() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
 
-        $user = factory(User::class)->states('employee')->make();
+        $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
         $request = Request::create(
@@ -347,13 +388,12 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testActivateTool()
-    {
+    public function testActivateTool() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');
 
-        $user = factory(User::class)->states('student')->make();
+        $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
         $request = Request::create(
@@ -386,8 +426,7 @@ class ToolControllerTest extends TestCase
      *
      * @return void
      */
-    public function testViewCounterTool()
-    {
+    public function testViewCounterTool() {
         $auth = new AuthController();
         $controller = new ToolController();
         Storage::fake('tool-images');

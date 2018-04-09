@@ -17,7 +17,7 @@
                 </nav>
             </div>
             <div class="col-12 col-md-7 text-right">
-                @if (Auth::check() && ((Auth::user()->isAdmin()) || (Auth::user()->id == $tool->uploader_id && Auth::user()->isEmployee())))
+                @if (Auth::check() && ((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
                     <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}"
                        class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
                     @if (Auth::user()->isAdmin())
@@ -41,7 +41,7 @@
         </div>
 
         <hr class="mt-0">
-        @if ($tool->feedback != null && !$tool->feedback->fixed)
+        @if ($tool->status->isConcept() && $tool->feedback != null && !$tool->feedback->fixed)
             <div class="alert alert-info" role="alert">
                  <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
                  <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>

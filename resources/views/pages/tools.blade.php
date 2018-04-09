@@ -13,6 +13,7 @@
         </nav>
 
         <hr class="mt-0">
+        @include('partials.alert')
 
         <div class="row">
             <div class="col-12">
@@ -41,7 +42,7 @@
                         @endforeach
                     </div>
                 </div>
-                
+
                 <!--<div class="row mb-3">
                     <div class="col-12">
                         <p><strong>Specificaties</strong></p>

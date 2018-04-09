@@ -51,19 +51,17 @@ class ToolController extends Controller
         $categories             = ToolCategory::all();
         $selectedCategories     = ($request->has('categories')) ? 
                                     explode(',', $request->input('categories')) : null;
-
         $specifications         = ToolSpecification::all();
         $selectedSpecifications = ($request->has('specifications')) ? 
                                     explode(',', $request->input('specifications')) : null;
-        
         $tools                  = ($request->has('categories')) ? 
-                                    Tool::where('status_slug', 'actief')->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) : 
+                                    Tool::where('status_slug', 'actief')->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) :
                                     $tools = Tool::where('status_slug', 'actief')->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage);
-        if ($request->ajax()) {
-            return view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'))->render();  
-        }
 
-        return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'));
+        if ($request->ajax())
+            return view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'))->render();  
+        else
+            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'));
     }
 
     /**
@@ -162,10 +160,16 @@ class ToolController extends Controller
     public function show($slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+
+        if ($tool->status->isConcept() && Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) {
+            Session::flash('message', 'Je hebt geen rechten om deze tool te bekijken');
+            return Redirect::route('tools.index');
+        }
+
         $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
         $toolspecifications = ToolSpecification::where('tool_slug', $slug)->get();
         Event::fire(new ViewTool($tool));
-        
+
         return view('pages.tool.view', compact('tool', 'toolspecifications', 'curUserReview'));
     }
 
@@ -177,9 +181,16 @@ class ToolController extends Controller
      */
     public function edit($slug)
     {
+        $tool = Tool::where('slug', $slug)->firstOrFail();
+
+        if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->user_id) || Auth::user()->isEmployee()))) {
+            Session::flash('message', 'Je hebt geen rechten om deze tool te wijzigen');
+            return Redirect::route('tools.index');
+        }
+
         $categories = ToolCategory::pluck('name')->all();
         $statuses = ToolStatus::pluck('name')->all();
-        $tool = Tool::where('slug', $slug)->firstOrFail();
         $toolspecifications = Tool::where('slug', $slug)->firstOrFail()->specifications()->get();
         $specifications = Specification::all();
         return view('pages.tool.edit', compact('tool', 'categories', 'statuses', 'toolspecifications', 'specifications'));
@@ -205,6 +216,13 @@ class ToolController extends Controller
     public function update(Request $request, $slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+
+        if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->user_id) || Auth::user()->isEmployee()))) {
+            Session::flash('message', 'Je hebt geen rechten om deze tool te wijzigen');
+            return Redirect::route('tools.index');
+        }
+
         $feedback = $tool->feedback;
 
         $rules = [
@@ -296,6 +314,11 @@ class ToolController extends Controller
      */
     public function activate($slug)
     {
+        if (!Auth::user()->isAdmin()) {
+            Session::flash('message', 'Je hebt geen rechten om dat te doen');
+            return Redirect::route('tools.index');
+        }
+
         $tool = Tool::where('slug', $slug)->firstOrFail();
         $tool->status_slug = 'actief';
         $tool->save();
@@ -312,6 +335,11 @@ class ToolController extends Controller
      */
     public function deactivate($slug)
     {
+        if (!Auth::user()->isAdmin()) {
+            Session::flash('message', 'Je hebt geen rechten om dat te doen');
+            return Redirect::route('tools.index');
+        }
+
         $tool = Tool::where('slug', $slug)->firstOrFail();
         $tool->status_slug = 'inactief';
         $tool->save();

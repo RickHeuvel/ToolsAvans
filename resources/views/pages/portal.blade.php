@@ -18,15 +18,15 @@
             <div class="col-12 col-md-6">
                 <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
-            @if (Auth::user()->isAdmin())
                 <div class="col-12 col-md-6 text-right">
                     <div class="tab-buttons">
                         <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
-                        <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
-                        <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+                        @if (Auth::user()->isAdmin())
+                            <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
+                            <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+                        @endif
                     </div>
                 </div>
-            @endif
         </div>
 
         @if ($errors->isNotEmpty())
@@ -59,6 +59,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="concepttools-tab" data-toggle="tab" href="#concepttools" role="tab" aria-controls="concepttools" aria-selected="false">Concept tools</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="rejectedtools-tab" data-toggle="tab" href="#rejectedtools" role="tab" aria-controls="rejectedtools" aria-selected="false">Afgekeurde tools</a>
@@ -140,6 +143,9 @@
                 </div>
                 <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
                     @include('partials.tools', ['tools' => $unjudgedTools])
+                </div>
+                <div class="tab-pane pt-4" id="concepttools" role="tabpanel" aria-labelledby="concepttools-tab">
+                    @include('partials.tools', ['tools' => $conceptTools])
                 </div>
                 <div class="tab-pane pt-4" id="rejectedtools" role="tabpanel" aria-labelledby="rejectedtools-tab">
                     @include('partials.tools', ['tools' => $rejectedTools])
