@@ -3,10 +3,6 @@ php:
     - 7.2
 services:
     - mysql
-addons:
-    firefox: latest
-env:
-    - MOZ_HEADLESS=1
 
 before_script:
     - echo Settinng the php server timezone to Amsterdam
