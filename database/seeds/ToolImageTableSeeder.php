@@ -354,7 +354,7 @@ class ToolImageTableSeeder extends Seeder
         copy('http://gcolor2.sourceforge.net/gcolor2-full-small.jpg', 'storage/app/tool-images/gcolor2-2.jpg');
         copy('http://gcolor2.sourceforge.net/gcolor2-about-small.jpg', 'storage/app/tool-images/gcolor2-3.jpg');
 
-        copy('https://cdn.makeuseof.com/wp-content/uploads/2017/02/add-frame.png', 'storage/app/tool-images/photoshop-1.png');
+        copy('http://static.filehorse.com/screenshots/imaging-and-digital-photo/adobe-photoshop-screenshot-04.jpg', 'storage/app/tool-images/photoshop-1.png');
         copy('https://images.sftcdn.net/images/t_optimized,f_auto/p/bbdedd58-96bf-11e6-ab2f-00163ed833e7/3794397298/adobe-photoshop-cc-screenshot.jpg', 'storage/app/tool-images/photoshop-2.jpg');
         copy('https://www.derooijfotografie.nl/wp-content/uploads/2015/03/gevorderde-cursus-adobe-photoshop-portretfotografie.jpg', 'storage/app/tool-images/photoshop-3.jpg');
         copy('https://static.filehorse.com/screenshots/imaging-and-digital-photo/adobe-photoshop-screenshot-04.jpg', 'storage/app/tool-images/photoshop-4.jpg');
