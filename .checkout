@@ -1,4 +1,10 @@
 #!/bin/bash
+echo Please login
+while [ git config --global credential.helper wincred -ne 0 ]; do
+    echo Your credentials were incorrect
+done
+
+echo Starting xampp
 if [ -f C:/xampp/xampp-control.exe ]; then
     C:/xampp/xampp-control.exe &
 else
@@ -6,6 +12,7 @@ else
     exit
 fi
 
+echo Checking out to the specified branch
 git fetch
 if [ $# -eq 0 ]; then
     git checkout dev
@@ -19,6 +26,7 @@ else
     fi
 fi
 
+echo Running setup and deployment
 composer install
 npm install
 npm run dev
