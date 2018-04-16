@@ -355,6 +355,7 @@ ul.pagination {
       }
     }
     .tool-description {
+      padding-top: 10px;
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -483,7 +484,10 @@ ul.pagination {
 }
 
 .concept-warning{
-  margin: 10px;
+  h6 {
+    margin: 0;
+    line-height: 32px;
+  }
   color: $avansred;
 }
 

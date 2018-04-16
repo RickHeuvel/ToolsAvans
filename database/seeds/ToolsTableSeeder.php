@@ -183,19 +183,13 @@ class ToolsTableSeeder extends Seeder
 
         if(!is_dir('storage/app/tool-images'))
             mkdir('storage/app/tool-images');
-        copy('https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png', 'storage/app/tool-images/github-logo.png');
-        copy('https://seeklogo.com/images/G/google-drive-logo-ED4F6E7476-seeklogo.com.png', 'storage/app/tool-images/googledrive-logo.png');
-        copy('https://www.seeklogo.net/wp-content/uploads/2015/09/slack-logo-vector-download.jpg', 'storage/app/tool-images/slack-logo.jpg');
-        copy('https://a.slack-edge.com/bfaba/img/api/hosting_heroku.png', 'storage/app/tool-images/heroku-logo.png');
-        copy('https://gamificationplus.uk/wp-content/uploads/2017/08/a5bc8ebe-f0bb-44cd-bf0c-c12bc44c8260.jpg', 'storage/app/tool-images/kahoot-logo.jpg');
-        copy('http://galculator.mnim.org/images/galculator_release.png', 'storage/app/tool-images/galculator-logo.png');
-        copy('https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Adobe_Photoshop_CS6_icon.svg/2000px-Adobe_Photoshop_CS6_icon.svg.png', 'storage/app/tool-images/photoshop-logo.png');
-        // copy('http://gcolor2.sourceforge.net/gcolor2-collapsed-small.jpg', 'storage/app/tool-images/gcolor2-logo.jpg');
-        copy('https://pbs.twimg.com/profile_images/420611627696668672/8YsRFlbS_400x400.jpeg', 'storage/app/tool-images/onthehub-logo.jpeg');
-        copy('https://seeklogo.com/images/V/visual-studio-logo-14F95CF819-seeklogo.com.png', 'storage/app/tool-images/visualstudio-logo.png');
-        copy('https://taiga.io/images/logo-color.png', 'storage/app/tool-images/taiga-logo.png');
-        copy('https://orig00.deviantart.net/0aa3/f/2012/324/1/3/mysql_workbench_metro_tile__for_oblytile__by_mixxorz-d5ln45d.png', 'storage/app/tool-images/mysql-workbench-logo.png');
-        copy('https://cdn.xgn.nl/articles/970/d/discord-verified-servers-vanaf-vandaag-beschikbaar-119771-4.jpg', 'storage/app/tool-images/discord-logo.jpg');
-        copy('https://www.seeklogo.net/wp-content/uploads/2011/02/youtube-logo-vector.png', 'storage/app/tool-images/youtube-logo.png');
+
+        $src = 'resources/storage/tool-images';
+        $dst = 'storage/app/tool-images';
+        $files = glob("resources/storage/tool-images/*.*");
+        foreach($files as $file) {
+            $file_to_go = str_replace($src, $dst, $file);
+            copy($file, $file_to_go);
+        }
     }
 }

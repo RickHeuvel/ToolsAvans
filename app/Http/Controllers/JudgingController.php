@@ -10,7 +10,6 @@ use App\Mail\ConceptToolRejected;
 use App\Mail\ConceptToolFeedbackReceived;
 use App\Mail\ConceptTools;
 use Session;
-use Redirect;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
@@ -25,8 +24,7 @@ class JudgingController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admingate');
+        $this->middleware(['auth', 'adminrole']);
     }
 
     /**
@@ -39,7 +37,7 @@ class JudgingController extends Controller
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
-        if ($tool->status_slug == 'concept') {
+        if ($tool->status->isConcept()) {
             $tool->status_slug = 'actief';
             $tool->save();
 
@@ -47,15 +45,14 @@ class JudgingController extends Controller
                 $tool->feedback->delete();
 
             $mail = new ConceptToolApproved($tool);
-            $user = User::find($tool->uploader_id);
+            $user = User::findOrFail($tool->uploader_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Tool is goedgekeurd!');
-            return Redirect::to(route('portal') . '#judgetools');
         } else {
             Session::flash('message', 'Deze tool kan niet geaccepteerd worden');
-            return Redirect::to(route('portal') . '#judgetools');
         }
+        return redirect(route('portal') . '#unjudgedtools');
     }
 
     /**
@@ -68,7 +65,7 @@ class JudgingController extends Controller
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
-        if ($tool->status_slug == 'concept') {
+        if ($tool->status->isConcept()) {
             $tool->status_slug = 'afgekeurd';
             $tool->save();
 
@@ -76,15 +73,14 @@ class JudgingController extends Controller
                 $tool->feedback->delete();
 
             $mail = new ConceptToolRejected($tool);
-            $user = User::find($tool->uploader_id);
+            $user = User::findOrFail($tool->uploader_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Tool is succesvol afgekeurd');
-            return Redirect::to(route('portal') . '#judgetools');
         } else {
             Session::flash('message', 'Deze tool kan niet afgekeurd worden');
-            return Redirect::to(route('portal') . '#judgetools');
         }
+        return redirect(route('portal') . '#unjudgedtools');
     }
 
     /**
@@ -105,25 +101,23 @@ class JudgingController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to(route('portal') . '#judgetools')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect(route('portal') . '#unjudgedtools')->withErrors($validator)->withInput();
         } else {
             $tool = Tool::where('slug', $slug)->firstOrFail();
             if ($tool->feedback != null)
                 $tool->feedback->delete();
 
             ToolFeedback::create([
-                'tool_slug'     => $slug,
-                'feedback'      => $request->input('feedback'),
+                'tool_slug' => $slug,
+                'feedback'  => $request->input('feedback'),
             ]);
 
             $mail = new ConceptToolFeedbackReceived($tool);
-            $user = User::find($tool->uploader_id);
+            $user = User::findOrFail($tool->uploader_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Feedback successvol opgestuurd.');
-            return Redirect::to(route('portal') . '#judgetools');
+            return redirect(route('portal') . '#unjudgedtools');
         }
     }
 
@@ -134,10 +128,10 @@ class JudgingController extends Controller
     public function sendmail(Request $request) {
         $tools = Tool::unjudgedTools()->get();
         $mail = new ConceptTools($tools);
-        $users = User::where('role', 'admin')->get();
+        $users = User::admins()->get();
 
         MailController::sendMailable($mail, $users);
 
-        return Redirect::to(route('portal'));
+        return redirect()->route('portal');
     }
 }

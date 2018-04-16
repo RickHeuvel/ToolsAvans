@@ -11,28 +11,33 @@
 |
 */
 
-Route::get('portal', 'PortalController@index')->name('portal');
-Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');
+Route::get('/', function() {
+    return redirect()->route('tools.index');
+})->name('home');
 
-Route::resource('tools', 'ToolController');
+Route::resources([
+    'tools' => 'ToolController',
+    'categories' => 'CategoryController',
+    'specifications' => 'SpecificationController'
+]);
+
+/* Custom tool routes */
 Route::get('tools/image/{filename}', 'ToolController@getImage')->name('tools.image');
 Route::get('tools/{tool}/approve', 'JudgingController@approveTool')->name('tools.approveTool');
 Route::get('tools/{tool}/reject', 'JudgingController@rejectTool')->name('tools.rejectTool');
 Route::post('tools/{tool}/requestchanges', 'JudgingController@requestToolChanges')->name('tools.requestToolChanges');
+
 Route::get('tools/{tool}/activate', 'ToolController@activate')->name('tools.activate');
 Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.deactivate');
 
-Route::get('/', function() {
-    return redirect(route('tools.index'));
-})->name('home');
-
-Route::resource('categories', 'CategoryController');
-Route::resource('specifications', 'SpecificationController');
-
-
-Route::get('login', ['as' => 'login', 'uses' => 'AuthController@redirectToProvider']);
-Route::get('login-callback', ['as' => 'register', 'uses' => 'AuthController@handleProviderCallback']);
-Route::post('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
-
 Route::get('tools/{tool}/createrating', 'ReviewController@createRating')->name('tools.createrating');
 Route::post('tools/{tool}/addreview', 'ReviewController@addReview')->name('tools.addreview');
+
+/* Authentication routes */
+Route::get('login', 'AuthController@redirectToProvider')->name('login');
+Route::get('login-callback', 'AuthController@handleProviderCallback')->name('register');
+Route::post('logout', 'AuthController@logout')->name('logout');
+
+/* Portal routes */
+Route::get('portal', 'PortalController@index')->name('portal');
+Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');

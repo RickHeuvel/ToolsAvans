@@ -7,8 +7,8 @@
     <div class="container mt-4 pb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('portal') }}">Mijn Portaal</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('portal') }}">Mijn Portaal</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Specificatie toevoegen</li>
             </ol>
         </nav>
@@ -25,11 +25,11 @@
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::open(array('url' => 'specifications', 'class' => 'form-horizontal')) }}
+        {{ Form::open(['route' => 'specifications.store', 'class' => 'form-horizontal']) }}
                
         <div class="form-group">
             {{ Form::label('name', 'Naam  *') }}
-            {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+            {{ Form::text('name', Input::old('name'), ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">
@@ -38,9 +38,9 @@
                 <option value="" selected>Selecteer een categorie als deze van toepassing is.</option>
                 @foreach ($categories as $category)
                     @if(!strcmp($category, Input::old('category')));
-                        <option value="{{ $category }}" selected>{{ $category->name }}</option>
+                        <option value="{{ $category->slug }}" selected>{{ $category->name }}</option>
                     @else
-                        <option value="{{ $category }}">{{ $category->name }}</option>
+                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
                     @endif
                 @endforeach
             </select>
@@ -48,15 +48,15 @@
 
         <div class="form-group">
             {{ Form::label('default', 'Standaard specificatie  *') }}
-            {{ Form::checkbox('default',null,false) }}  
+            {{ Form::checkbox('default', null, false) }}  
         </div>
 
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{route('portal')}}" class="btn btn-light">Annuleren</a>
+                <a href="{{ route('portal') }}" class="btn btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
-                {{ Form::submit('Toevoegen', array('class' => 'btn btn-danger btn-avans')) }}
+                {{ Form::submit('Toevoegen', ['class' => 'btn btn-danger btn-avans']) }}
             </div>
         </div>
 

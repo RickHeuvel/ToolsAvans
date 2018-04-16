@@ -29,4 +29,16 @@ class User extends Authenticatable
     {
         return ($this->role == "student");
     }
+
+    public static function admins() {
+        return static::where('role', 'admin');
+    }
+
+    public static function empolyees() {
+        return static::where('role', 'employee');
+    }
+
+    public static function students() {
+        return static::where('role', 'student');
+    }
 }

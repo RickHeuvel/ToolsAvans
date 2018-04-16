@@ -46,25 +46,16 @@
 
             @if (auth()->user()->isAdmin())
                 <li class="nav-item">
+                    <a class="nav-link" id="tools-tab" data-toggle="tab" href="#tools" role="tab" aria-controls="tools" aria-selected="false">Alle tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="unjudgedtools-tab" data-toggle="tab" href="#unjudgedtools" role="tab" aria-controls="unjudgedtools" aria-selected="false">Te keuren tools</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">Specificaties</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="activetools-tab" data-toggle="tab" href="#activetools" role="tab" aria-controls="activetools" aria-selected="false">Actieve tools</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="inactivetools-tab" data-toggle="tab" href="#inactivetools" role="tab" aria-controls="inactivetools" aria-selected="false">Inactieve tools</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="judgetools-tab" data-toggle="tab" href="#judgetools" role="tab" aria-controls="judgetools" aria-selected="false">Tools keuren</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="concepttools-tab" data-toggle="tab" href="#concepttools" role="tab" aria-controls="concepttools" aria-selected="false">Concept tools</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="rejectedtools-tab" data-toggle="tab" href="#rejectedtools" role="tab" aria-controls="rejectedtools" aria-selected="false">Afgekeurde tools</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
@@ -86,6 +77,39 @@
             </div>
 
             @if (auth()->user()->isAdmin())
+                <div class="tab-pane pt-4" id="tools" role="tabpanel" aria-labelledby="activetools-tab">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p><strong>Tool status</strong></p>
+                                    @foreach($statuses as $status)
+                                        <div class="form-check mb-1">
+                                            @if (!empty($selectedStatuses))
+                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->id}}" {{ in_array($status->slug, $selectedStatuses) ? "checked" : "" }}>
+                                            @else
+                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->id}}">
+                                            @endif
+                                            <label class="form-check-label" for="status{{$status->id}}">
+                                                {{$status->name}}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <section class="tools">
+                                @include('partials.tools')
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane pt-4" id="unjudgedtools" role="tabpanel" aria-labelledby="unjudgedtools-tab">
+                    @include('partials.tools', ['tools' => $unjudgedTools])
+                </div>
+
                 <div class="tab-pane pt-4" id="categories" role="tabpanel" aria-labelledby="categories-tab">
                     @foreach($categories as $category)
                         <div class="row">
@@ -97,8 +121,8 @@
                                         </div>
                                         <div class="col-12 col-md-6 text-right">
                                             <a data-toggle="modal" data-target="#{{$category->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ URL::to('categories/' . $category->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            @include('partials.removecategorymodal')
+                                            <a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                            @include('partials.modals.removecategory')
                                         </div>
                                     </div>
                                 </div>
@@ -121,8 +145,8 @@
                                         </div>
                                         <div class="col-12 col-md-6 text-right">
                                             <a data-toggle="modal" data-target="#{{$specification->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ URL::to('specifications/' . $specification->slug . '/edit') }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            @include('partials.removespecificationmodal')
+                                            <a href="{{ route('specifications.edit', $specification->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                            @include('partials.modals.removespecification')
                                         </div>
                                     </div>
                                 </div>
@@ -132,21 +156,6 @@
                             <hr>
                         @endif
                     @endforeach
-                </div>
-                <div class="tab-pane pt-4" id="activetools" role="tabpanel" aria-labelledby="activetools-tab">
-                    @include('partials.tools', ['tools' => $activeTools])
-                </div>
-                <div class="tab-pane pt-4" id="inactivetools" role="tabpanel" aria-labelledby="inactivetools-tab">
-                    @include('partials.tools', ['tools' => $inactiveTools])
-                </div>
-                <div class="tab-pane pt-4" id="judgetools" role="tabpanel" aria-labelledby="judgetools-tab">
-                    @include('partials.tools', ['tools' => $unjudgedTools])
-                </div>
-                <div class="tab-pane pt-4" id="concepttools" role="tabpanel" aria-labelledby="concepttools-tab">
-                    @include('partials.tools', ['tools' => $conceptTools])
-                </div>
-                <div class="tab-pane pt-4" id="rejectedtools" role="tabpanel" aria-labelledby="rejectedtools-tab">
-                    @include('partials.tools', ['tools' => $rejectedTools])
                 </div>
                 <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
                     <a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de 'concept tools' mail</a>
@@ -186,5 +195,46 @@
         var hash = (window.location.hash) ? window.location.hash : '#mytools';
         changedTabButtons(hash);
         $('#tabs a[href="' + hash + '"]').tab('show');
+
+        $(function() {
+            var statuses = [];
+
+            // Listen for 'change' event, so this triggers when the user clicks on the checkboxes labels
+            $('input[name="status[]"]').on('change', function (e) {
+                e.preventDefault();
+                statuses = []; // reset 
+
+                $('input[name="status[]"]:checked').each(function() {
+                    statuses.push($(this).val());
+                });
+
+                var urlParams = new URLSearchParams();
+                if (statuses.length > 0) {
+                    urlParams.append('statuses', statuses.join(","));
+                }
+
+                var url = $(location).attr('pathname') + (statuses.length > 0) ? "?" + urlParams.toString() : "";
+                getTools(url);
+                window.history.pushState("", "", url);
+            });
+
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+
+                var url = $(this).attr('href');
+                getTools(url);
+                window.history.pushState("", "", url);
+            });
+
+            function getTools(url) {
+                $.ajax({
+                    url : url
+                }).done(function (data) {
+                    $('.tools').html(data);
+                }).fail(function () {
+                    alert('Tools could not be loaded.');
+                });
+            }
+        });
     </script>
 @endsection

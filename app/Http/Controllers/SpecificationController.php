@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Validator;
-use Redirect;
 use Session;
 use Auth;
 use App\Tool;
 use App\Specification;
 use App\ToolSpecification;
 use App\ToolCategory;
-
+use App\Rules\SpecificationDoesNotExist;
 
 class SpecificationController extends Controller
 {
@@ -24,8 +23,7 @@ class SpecificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admingate');
+        $this->middleware(['auth', 'adminrole']);
     }
 
     /**
@@ -37,6 +35,7 @@ class SpecificationController extends Controller
     public function create()
     {
         $categories = ToolCategory::all();
+        
         return view('pages.specification.create', compact('categories'));
     }
 
@@ -57,24 +56,17 @@ class SpecificationController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('specifications/create')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('specifications.create')->withErrors($validator)->withInput();
         } else {
-            if(is_null($request->input('default'))){
-                $default = false;
-            }
-            else{
-                $default = true;
-            }
+            $default = !is_null($request->input('default'));
             $specification = Specification::create([
-                'slug' => Str::slug($request->input('name')),
                 'name' => $request->input('name'),
+                'category' => $request->input('category'),
                 'default' => $default,
             ]);
 
             Session::flash('message', 'Specificatie succesvol toegevoegd!');
-            return Redirect::to(route('portal') . '#specifications');
+            return redirect(route('portal') . '#specifications');
         }
     }
 
@@ -88,6 +80,7 @@ class SpecificationController extends Controller
     {
         $specification = Specification::where('slug', $slug)->firstOrFail();
         $categories = ToolCategory::all();
+
         return view('pages.specification.edit', compact('specification', 'categories'));
     }
 
@@ -107,47 +100,21 @@ class SpecificationController extends Controller
         $specification = Specification::where('slug', $slug)->firstOrFail();
 
         $rules = [
-            'name' => 'required',
-            function($attribute, $value, $fail) use($specification){
-                $newslug = Str::slug($value);
-                if($specification->slug === $newslug){
-                    return true;
-                } else if(ToolSpecification::where('slug', $newslug)->exists()){
-                    return $fail('Deze naam bestaat al');
-                }
-            },
-            'category' => function($attribute, $value, $fail){
-                if(ToolCategory::exists('slug', $value))
-                {
-                    return true;
-                } else if(is_null($value)){
-                    return true;
-                } else {
-                    return $fail('Categorie bestaat niet niet');
-                }
-            },
+            'name' => ['required', new SpecificationDoesNotExist($specification)]
         ];
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('specifications/' . $slug . '/edit')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('specifications.edit', ['specification' => $slug])->withErrors($validator)->withInput();
         } else {
-            if(is_null($request->input('default'))){
-                $default = false;
-            }
-            else{
-                $default = true;
-            }
-            $specification->slug = Str::slug($request->input('name'));
+            $default = !is_null($request->input('default'));
             $specification->name = $request->input('name');
             $specification->default = $default;
             $specification->category = $request->input('category');
             $specification->save();
 
             Session::flash('message', 'Specificatie succesvol aangepast!');
-            return Redirect::to(route('portal') . '#specifications');
+            return redirect(route('portal') . '#specifications');
         }
     }
 
@@ -163,6 +130,6 @@ class SpecificationController extends Controller
         $specification->delete();
 
         Session::flash('message', 'Specificatie succesvol verwijderd!');
-        return Redirect::to(route('portal') . '#specifications');
+        return redirect(route('portal') . '#specifications');
     }
 }

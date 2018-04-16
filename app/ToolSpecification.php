@@ -13,7 +13,7 @@ class ToolSpecification extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tool_slug', 'specification_slug','value',
+        'tool_slug', 'specification_slug', 'value',
     ];
 
     public function specification() {

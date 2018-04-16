@@ -10,14 +10,14 @@
             <div class="modal-body">
                 {{ Html::ul($errors->all()) }}
 
-                {{ Form::open(array('url' => 'tools/' . $tool->slug . '/requestchanges')) }}
+                {{ Form::open(['route' => ['tools.requestToolChanges', $tool->slug]]) }}
                 <form>
                     <div class="form-group">
                         {{ Form::label('feedback', 'Feedback: ') }}
-                        {{ Form::textarea('feedback', '', array('class' => 'form-control')), 'rows=5' }}
+                        {{ Form::textarea('feedback', '', ['class' => 'form-control']), 'rows=5' }}
                     </div>
                     <div class="modal-footer">
-                        {{ Form::submit('Vraag wijzigingen aan', array('class' => 'btn btn-danger btn-avans')) }}
+                        {{ Form::submit('Vraag wijzigingen aan', ['class' => 'btn btn-danger btn-avans']) }}
                         <a class="btn btn-light" data-dismiss="modal">Annuleren</a>
                     </div>
                 </form>

@@ -10,19 +10,18 @@
             <div class="col-12 col-md-5">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('tools.index')}}">Tools</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('tools.index') }}">Tools</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{$tool->name}}</li>
                     </ol>
                 </nav>
             </div>
             <div class="col-12 col-md-7 text-right">
                 @if (Auth::check() && ((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
-                    <a href="{{ URL::to('tools/' . $tool->slug . '/edit') }}"
-                       class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
+                    <a href="{{ route('tools.edit', $tool->slug) }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
                     @if (Auth::user()->isAdmin())
                         @if ($tool->status->isConcept())
-                            <a href="{{ URL::to('tools/' . $tool->slug . '/approve') }}" class="btn btn-danger btn-avans">Goedkeuren</a>
+                            <a href="{{ route('tools.approveTool', $tool->slug) }}" class="btn btn-danger btn-avans">Goedkeuren</a>
                             @if ($tool->feedback == null || $tool->feedback->fixed)
                                 <a data-toggle="modal" data-target="#{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
                                 @include('partials.modals.requesttoolchanges')
@@ -31,9 +30,9 @@
                         @endif
                         @if ($tool->status->isActive())
                             <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
-                            @include('partials.deactivatetoolmodal')
+                            @include('partials.modals.deactivatetool')
                         @elseif ($tool->status->isInactive())
-                            <a href="{{ URL::to('tools/' . $tool->slug . '/activate') }}" class="btn btn-danger btn-avans">Terugzetten</a>
+                            <a href="{{ route('tools.activate', $tool->slug) }}" class="btn btn-danger btn-avans">Terugzetten</a>
                         @endif
                     @endif
                 @endif
@@ -57,7 +56,7 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="tool-logo">
-                                <img src="{{ route('tools.image', ['filename' => $tool->logo_filename]) }}"
+                                <img src="{{ route('tools.image', $tool->logo_filename) }}"
                                  class="img-fluid tool-logo">
                             </div>
                         </div>
@@ -80,7 +79,7 @@
                                     @else
                                         <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Klik op een ster om een rating achter te laten!"></div>
                                     @endif
-                                    @include('partials.addreviewmodal')
+                                    @include('partials.modals.addreview')
                                 </div>
                                 <p class="tool-uploaded">Geplaatst op {{$tool->created_at->format('d F Y')}} door {{$tool->user->nickname}}</p>
                                 <hr>
@@ -117,8 +116,8 @@
                 <div class="owl-carousel screenshots owl-theme mt-4">
                     @foreach ($tool->images as $screenshot)
                         <div class="item">
-                            <a href="{{ route('tools.image', ['filename' => $screenshot->image_filename]) }}" data-lightbox="lightbox">
-                                <img src="{{ route('tools.image', ['filename' => $screenshot->image_filename]) }}" class="img-fluid">
+                            <a href="{{ route('tools.image', $screenshot->image_filename) }}" data-lightbox="lightbox">
+                                <img src="{{ route('tools.image', $screenshot->image_filename) }}" class="img-fluid">
                             </a>
                         </div>
                     @endforeach

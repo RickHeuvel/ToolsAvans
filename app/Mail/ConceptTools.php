@@ -34,7 +34,7 @@ class ConceptTools extends Mailable
                     ->from('noreply@toolhub.com', config('app.name'))
                     ->subject('Concept tools keuren')
                     ->with([
-                        'url' => route('portal') . '#judgetools',
+                        'url' => route('portal') . '?statuses=concept#unjudgedtools',
                         'tools' => $this->tools,
                     ]);
     }

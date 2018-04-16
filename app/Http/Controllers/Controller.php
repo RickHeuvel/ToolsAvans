@@ -10,4 +10,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /* Global controller variables */
+    protected $itemsPerPage = 10;
+    private $maxImageSize = 1500; // In KiloBytes
 }

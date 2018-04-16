@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Validator;
-use Redirect;
 use Auth;
 use Session;
 use App\Tool;
@@ -45,13 +44,13 @@ class ReviewController extends Controller
                     $review->save();
                 } else {
                     $review = ToolReview::create([
-                        'tool_slug'     => $slug,
-                        'user_id'       => Auth::id(),
-                        'rating'        => $request->input('rating')
+                        'tool_slug' => $slug,
+                        'user_id'   => Auth::id(),
+                        'rating'    => $request->input('rating')
                     ]);
                 }
 
-                return response('Success', 200);
+                return response();
             }
         }
     }
@@ -68,15 +67,13 @@ class ReviewController extends Controller
     */
     public function addReview(Request $request, $slug) {
         $rules = [
-            'title' => 'required',
+            'title' => 'required|max:255',
             'description' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('tools/' . $slug)
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('tools.show', ['tool' => $slug])->withErrors($validator)->withInput();
         } else {
             $review = ToolReview::where('tool_slug', $slug)->where('user_id', Auth::id())->firstOrFail();
             $review->title = $request->input('title');
@@ -84,7 +81,7 @@ class ReviewController extends Controller
             $review->save();
 
             Session::flash('message', 'Bedankt voor het plaatsen van je review!');
-            return back();
+            return redirect()->route('tools.show', ['tool' => $slug]);
         }
     }
 }

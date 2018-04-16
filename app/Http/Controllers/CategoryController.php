@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Auth;
 use Validator;
 use Input;
-use Redirect;
 use Session;
 use App\Tool;
 use App\ToolCategory;
@@ -23,8 +22,7 @@ class CategoryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admingate');
+        $this->middleware(['auth', 'adminrole']);
     }
 
     /**
@@ -54,16 +52,14 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('categories/create')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('categories.create')->withErrors($validator)->withInput();
         } else {
             $category = ToolCategory::create([
                 'name' => $request->input('name')
             ]);
 
             Session::flash('message', 'Categorie succesvol toegevoegd!');
-            return Redirect::to(route('portal') . '#categories');
+            return redirect(route('portal') . '#categories');
         }
     }
 
@@ -100,9 +96,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return Redirect::to('categories/' . $slug . '/edit')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->route('categories.edit', ['category' => $slug])->withErrors($validator)->withInput();
         } else {
             $tools = Tool::all()->where('category_slug', $slug);
 
@@ -115,7 +109,7 @@ class CategoryController extends Controller
             }
 
             Session::flash('message', 'Category succesvol aangepast!');
-            return Redirect::to(route('portal') . '#categories');
+            return redirect(route('portal') . '#categories');
         }
     }
 
@@ -137,6 +131,6 @@ class CategoryController extends Controller
         $category->delete();
 
         Session::flash('message', 'Categorie succesvol verwijderd!');
-        return Redirect::to(route('portal') . '#categories');
+        return redirect(route('portal') . '#categories');
     }
 }

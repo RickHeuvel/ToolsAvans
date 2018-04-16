@@ -10662,6 +10662,7 @@ ul.pagination .page-item .page-link {
 }
 
 .tool .tool-body .tool-description {
+  padding-top: 10px;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
@@ -10796,8 +10797,12 @@ ul.pagination .page-item .page-link {
 }
 
 .concept-warning {
-  margin: 10px;
   color: #C6002A;
+}
+
+.concept-warning h6 {
+  margin: 0;
+  line-height: 32px;
 }
 
 .tool-reviews .blockquote {

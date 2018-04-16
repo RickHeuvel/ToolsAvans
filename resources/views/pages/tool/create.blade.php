@@ -7,8 +7,8 @@
     <div class="container mt-4 pb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('portal') }}">Mijn Portaal</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('portal') }}">Mijn Portaal</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tool toevoegen</li>
             </ol>
         </nav>
@@ -25,11 +25,11 @@
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::open(array('url' => 'tools','enctype' => 'multipart/form-data')) }}
+        {{ Form::open(['route' => 'tools.index', 'files' => true]) }}
 
         <div class="form-group">
             {{ Form::label('name', 'Naam van de Tool *') }}
-            {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+            {{ Form::text('name', Input::old('name'), ['class' => 'form-control']) }}
         </div>
         <div class="row">
             <div class="col">
@@ -46,18 +46,19 @@
             <div class="col">
                 <div class="form-group">
                   {{ Form::label('url', 'Url *') }}
-                  {{ Form::text('url', Input::old('url'), array('class' => 'form-control')) }}
+                  {{ Form::text('url', Input::old('url'), ['class' => 'form-control']) }}
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('category', 'Categorie *') }}
                     <select id="category" name="category" class="custom-select">
+                        <option value="" selected>Selecteer een categorie...</option>
                         @foreach ($categories as $category)
-                            @if(!strcmp($category, Input::old('category')));
-                                <option value="{{ $category }}" selected>{{ $category }}</option>
+                            @if (!strcmp(Input::old('category'), $category->slug))
+                                <option value="{{ $category->slug }}" selected>{{ $category->name }}</option>
                             @else
-                                <option value="{{ $category }}">{{ $category }}</option>
+                                <option value="{{ $category->slug }}">{{ $category->name }}</option>
                             @endif
                         @endforeach
                     </select>
@@ -67,7 +68,7 @@
 
         <div class="form-group">
             {{ Form::label('description', 'Beschrijving *') }}
-            {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control')) }}
+            {{ Form::textarea('description', Input::old('description'), ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">
@@ -107,10 +108,10 @@
 
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{route('portal')}}" class="btn btn-light">Annuleren</a>
+                <a href="{{ route('portal') }}" class="btn btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
-                {{ Form::submit('Toevoegen', array('class' => 'btn btn-danger btn-avans')) }}
+                {{ Form::submit('Toevoegen', ['class' => 'btn btn-danger btn-avans']) }}
             </div>
         </div>
 

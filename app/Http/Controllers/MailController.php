@@ -15,7 +15,7 @@ class MailController extends Controller
      * Send mailable to users
      */
     public static function sendMailable(Mailable $mailable, $users) {
-        if(env('MAIL_USERNAME') != null || env('MAIL_PASSWORD') != null)
+        if (env('MAIL_USERNAME') != null || env('MAIL_PASSWORD') != null)
             Mail::to($users)->send($mailable);
 
         return null;

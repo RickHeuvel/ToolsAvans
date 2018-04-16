@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tool;
 use App\User;
 use App\ToolCategory;
+use App\ToolStatus;
 use App\Specification;
 use App\ToolSpecification;
 use Auth;
@@ -27,24 +28,31 @@ class PortalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $myTools = Tool::where('uploader_id', Auth::user()->id)->where('status_slug', 'actief')->orderBy('slug')->get();
+        $myTools = Tool::activeTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
         if (Auth::user()->isAdmin()) {
             $categories = ToolCategory::all()->sortBy('slug');
             $categoryGroups = Tool::all()->groupBy('category_slug');
-            $tools = Tool::all()->sortBy('slug');
             $specifications = Specification::all()->sortBy('slug');
             $specificationGroups = ToolSpecification::all();
-            $activeTools = Tool::activeTools()->orderBy('slug')->get();
-            $inactiveTools = Tool::inactiveTools()->orderBy('slug')->get();
-            $unjudgedTools = Tool::unjudgedTools()->orderBy('created_at')->get();
-            $conceptTools = Tool::conceptTools()->get();
-            $rejectedTools = Tool::rejectedTools()->get();
 
-            return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'activeTools', 'inactiveTools', 'unjudgedTools', 'conceptTools', 'rejectedTools', 'tools', 'specifications', 'specificationGroups'));
+            $statuses = ToolStatus::all();
+            if ($request->has('statuses'))
+                $selectedStatuses = explode(',', $request->input('statuses'));
+
+            if ($request->has('statuses'))
+                $tools = Tool::whereIn('status_slug', $selectedStatuses)->paginate($this->itemsPerPage);
+            else
+                $tools = Tool::paginate($this->itemsPerPage);
+
+            $unjudgedTools = Tool::unjudgedTools()->get();
+            if ($request->ajax())
+                return view('partials.tools', compact('tools', 'statuses', 'selectedStatuses'))->render();  
+            else
+                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'statuses', 'selectedStatuses', 'specifications', 'specificationGroups'));
         } else {
-            $myConceptTools = Tool::conceptTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
+            $myConceptTools = $myTools->where('status_slug', 'active');
 
             return view('pages.portal', compact('myTools', 'myConceptTools'));
         }

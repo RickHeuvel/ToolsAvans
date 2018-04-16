@@ -13,7 +13,7 @@
             @include('includes.header')
         </header>
 
-        <main>
+        <main class="pb-5">
             @yield('content')
         </main>
 

@@ -10,7 +10,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav group">
-                <li class="@if(Route::is('tools.index')) active @endif"><a class="nav-item nav-link" href="{{ URL::to('tools') }}">Tools</a></li>
+                <li class="@if(Route::is('tools.index')) active @endif"><a class="nav-item nav-link" href="{{ route('tools.index') }}">Tools</a></li>
                 <!-- Authentication Links -->
                 @guest
                     <li><a class="nav-link" href="{{ route('login') }}">Inloggen</a></li>
