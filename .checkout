@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ -f C:/xampp/xampp-control.exe ]; then
+    C:/xampp/xampp-control.exe
+else
+    echo xampp is found in C:/xampp/xampp-control.exe
+    exit
+fi
+
 git fetch
 if [ $# -eq 0 ]; then
     git checkout dev
@@ -17,3 +24,4 @@ npm install
 npm run dev
 php artisan migrate:fresh --seed
 php artisan serve
+
