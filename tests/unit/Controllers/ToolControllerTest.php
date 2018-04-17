@@ -16,6 +16,48 @@ use Illuminate\Support\Str;
 
 class ToolControllerTest extends TestCase
 {
+    public function testSearch() {
+        $controller = new ToolController();
+        $discordToolName = 'discord';
+        $slackToolName = 'slack';
+
+        $discordTool = Tool::find($discordToolName);
+        $slackTool = Tool::find($slackToolName);
+
+        $request = Request::create(
+            'tools',// URI
+            'GET', // Method
+            [
+                'searchQuery'   => $discordToolName,
+            ]
+        );
+        $view = $controller->index($request);
+        $data = $view->getData();
+        $this->assertTrue($data['tools']->contains($discordTool));
+        $this->assertFalse($data['tools']->contains($slackTool));
+    }
+
+    public function testSearchWithSpecification() {
+        $controller = new ToolController();
+        $discordToolName = 'discord';
+        $slackToolName = 'slack';
+
+        $discordTool = Tool::find($discordToolName);
+        $slackTool = Tool::find($slackToolName);
+
+        $request = Request::create(
+            'tools',// URI
+            'GET', // Method
+            [
+                'searchQuery'   => $discordToolName,
+                'categories'    => 'download',
+            ]
+        );
+        $view = $controller->index($request);
+        $data = $view->getData();
+        $this->assertTrue($data['tools']->contains($discordTool));
+        $this->assertFalse($data['tools']->contains($slackTool));
+    }
     /**
      * Test admin store()
      *

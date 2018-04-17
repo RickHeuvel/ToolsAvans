@@ -19,6 +19,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
+        "nicolaslopezj/searchable": "^1.9",
         "socialiteproviders/generators": "^4.1",
         "socialiteproviders/manager": "^3.3"
     },

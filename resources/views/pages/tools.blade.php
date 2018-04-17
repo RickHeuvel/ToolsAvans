@@ -16,8 +16,18 @@
         @include('partials.alert')
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-3">
                 <h2 class="mb-0"><strong>Tools</strong></h2>
+            </div>
+            <div class="col-9 my-2 my-lg-0 justify-content-right">
+                <div class="input-group">
+                    <input class="form-control" name="searchQuery" type="search" placeholder="Zoek" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -73,40 +83,46 @@
 @section('js')
     <script type="text/javascript">
         $(function() {
-            var categories = [];
-
-            // Listen for 'change' event, so this triggers when the user clicks on the checkboxes labels
+            // Listeners
+            // Category checkboxes
             $('input[name="cat[]"]').on('change', function (e) {
                 e.preventDefault();
-                categories = []; // reset 
+                getTools(generateURL());
+            });
+            // Search input field
+            $('input[name="searchQuery"]').on('change', function (e) {
+                e.preventDefault();
+                getTools(generateURL());
+            });
+            // Pagination buttons
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                getTools(url);
+            });
 
+            function generateURL() {
+                var categories = [];
                 $('input[name="cat[]"]:checked').each(function() {
                     categories.push($(this).val());
                 });
+                searchQuery = $('input[name="searchQuery"]').val();
 
                 var urlParams = new URLSearchParams();
-                if (categories.length > 0) {
+                if (categories.length > 0)
                     urlParams.append('categories', categories.join(","));
-                }
+                if (searchQuery)
+                    urlParams.append('searchQuery', searchQuery);
 
-                var url = $(location).attr('pathname') + (categories.length > 0) ? "?" + urlParams.toString() : "";
-                getTools(url);
-                window.history.pushState("", "", url);
-            });
-
-            $('body').on('click', '.pagination a', function(e) {
-                e.preventDefault();
-
-                var url = $(this).attr('href');
-                getTools(url);
-                window.history.pushState("", "", url);
-            });
-
+                return $(location).attr('pathname') + (categories.length > 0 || searchQuery) ? "?" + urlParams.toString() : "";
+            }
             function getTools(url) {
+                $('.tools').html('<div class="mt-5 mx-auto loader"></div>');
                 $.ajax({
                     url : url
                 }).done(function (data) {
                     $('.tools').html(data);
+                    window.history.pushState("", "", url);
                 }).fail(function () {
                     alert('Tools could not be loaded.');
                 });

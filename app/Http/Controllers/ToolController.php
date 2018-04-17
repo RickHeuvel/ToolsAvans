@@ -43,6 +43,7 @@ class ToolController extends Controller
      */
     public function index(Request $request)
     {
+        $search = $request->has('searchQuery');
         $categories = ToolCategory::all();
         if ($request->has('categories'))
             $selectedCategories = explode(',', $request->input('categories'));
@@ -50,12 +51,16 @@ class ToolController extends Controller
         $specifications = ToolSpecification::all();
         if ($request->has('specifications'))
             $selectedSpecifications = explode(',', $request->input('specifications'));
-        
-        if ($request->has('categories'))
-            $tools = Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage);
-        else 
-            $tools = Tool::activeTools()->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage);
-
+      
+        $tools = ($request->has('categories')) ?
+                    (($request->has('searchQuery')) ?
+                        Tool::activeTools()->whereIn('category_slug', $selectedCategories)
+                            ->withCount('views')->search($request->input('searchQuery'))->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) :
+                        Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage)) :
+                    (($request->has('searchQuery')) ?
+                        Tool::activeTools()->withCount('views')->search($request->input('searchQuery'))->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) :
+                        Tool::activeTools()->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage));
+      
         if ($request->ajax())
             return view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'))->render();  
         else
