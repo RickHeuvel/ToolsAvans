@@ -1,4 +1,5 @@
 #!/bin/bash
+git reset --hard
 echo Please login
 while [ git config --global credential.helper wincred -ne 0 ]; do
     echo Your credentials were incorrect
