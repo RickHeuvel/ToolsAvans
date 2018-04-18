@@ -1,11 +1,6 @@
 #!/bin/bash
 git reset --hard origin/$(git symbolic-ref --short HEAD)
 
-echo Please login
-if git config --global credential.helper wincred; then
-    echo Your credentials were incorrect
-fi
-
 echo Starting xampp
 if [ -f C:/xampp/xampp-control.exe ]; then
     C:/xampp/xampp-control.exe &
