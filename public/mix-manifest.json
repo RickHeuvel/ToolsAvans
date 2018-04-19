@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/starrr.js": "/js/starrr.js",
-    "/css/starrr.css": "/css/starrr.css"
+    "/css/starrr.css": "/css/starrr.css",
+    "/js/lightbox.min.js": "/js/lightbox.min.js",
+    "/css/lightbox.min.css": "/css/lightbox.min.css"
 }
