@@ -12,6 +12,7 @@ use Storage;
 use App\Tool;
 use Validator;
 use App\ToolImage;
+use App\SortOption;
 use App\ToolReview;
 use App\ToolStatus;
 use App\ToolCategory;
@@ -43,28 +44,36 @@ class ToolController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->has('searchQuery');
         $categories = ToolCategory::all();
-        if ($request->has('categories'))
-            $selectedCategories = explode(',', $request->input('categories'));
+        $selectedCategories = ($request->has('categories')) ? explode('+', $request->input('categories')) : null;
 
         $specifications = ToolSpecification::all();
-        if ($request->has('specifications'))
-            $selectedSpecifications = explode(',', $request->input('specifications'));
-      
-        $tools = ($request->has('categories')) ?
-                    (($request->has('searchQuery')) ?
-                        Tool::activeTools()->whereIn('category_slug', $selectedCategories)
-                            ->withCount('views')->search($request->input('searchQuery'))->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) :
-                        Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage)) :
-                    (($request->has('searchQuery')) ?
-                        Tool::activeTools()->withCount('views')->search($request->input('searchQuery'))->orderBy('views_count', 'desc')->paginate($this->itemsPerPage) :
-                        Tool::activeTools()->withCount('views')->orderBy('views_count', 'desc')->paginate($this->itemsPerPage));
+        $selectedSpecifications = ($request->has('specifications')) ? explode('+', $request->input('specifications')) : null;
+
+        $sortOptions = SortOption::all();
+        $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? $request->input('sort') : implode('-', ['views_count', 'desc']);
+        
+        $sortType = explode('-', $selectedSortOptions)[0]; 
+        $sortDirection = explode('-', $selectedSortOptions)[1];
+        $sortOptions->where('type', $sortType)->where('direction', $sortDirection)->first()->active = true;
+
+        if ($request->has('categories')) {
+            $tools = (($request->has('searchQuery')) ?
+                Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->search($request->input('searchQuery'))->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage) :
+                Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage));
+        } else {
+            $tools = (($request->has('searchQuery')) ?
+                Tool::activeTools()->withCount('views')->search($request->input('searchQuery'))->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage) :
+                Tool::activeTools()->withCount('views')->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage));
+        }
       
         if ($request->ajax())
-            return view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'))->render();  
+            return response()->json([
+                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications', 'selectedSortOptions'))->render(),
+                'sorting' => view('partials.sorting', compact('selectedSortOptions', 'sortOptions'))->render()
+            ]);
         else
-            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications'));
+            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications', 'selectedSortOptions', 'sortOptions'));
     }
 
     /**

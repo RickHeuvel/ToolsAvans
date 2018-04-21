@@ -18,7 +18,7 @@
                     </div>
                     <div class="modal-footer">
                         {{ Form::submit('Vraag wijzigingen aan', ['class' => 'btn btn-danger btn-avans']) }}
-                        <a class="btn btn-light" data-dismiss="modal">Annuleren</a>
+                        <a class="btn btn-square btn-light" data-dismiss="modal">Annuleren</a>
                     </div>
                 </form>
                 {{ Form::close() }}

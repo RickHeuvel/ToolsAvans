@@ -19,7 +19,7 @@
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Annuleren</button>
+                <button type="button" class="btn btn-square btn-light" data-dismiss="modal">Annuleren</button>
                 {{ Form::model($category, ['route' => ['categories.destroy', $category->slug], 'method' => 'DELETE']) }}
                     @if(array_key_exists($category->slug, $categoryGroups->toArray()) && $categoryGroups[$category->slug]->count() > 0)
                         {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans', 'disabled' => 'disabled']) }}

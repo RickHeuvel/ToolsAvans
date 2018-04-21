@@ -11,7 +11,7 @@
                 Weet u zeker dat u de tool {{$tool->name}} wilt afkeuren?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Annuleren</button>
+                <button type="button" class="btn btn-square btn-light" data-dismiss="modal">Annuleren</button>
                 <a href="{{ route('tools.rejectTool', $tool->slug) }}" class="btn btn-danger btn-avans">Afkeuren</a>
             </div>
         </div>

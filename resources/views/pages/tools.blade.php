@@ -20,12 +20,21 @@
                 <h2 class="mb-0"><strong>Tools</strong></h2>
             </div>
             <div class="col-9 my-2 my-lg-0 justify-content-right">
-                <div class="input-group">
-                    <input class="form-control" name="searchQuery" type="search" placeholder="Zoek" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
+                <div class="row">
+                    <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="input-group">
+                            <input class="form-control" name="searchQuery" type="search" placeholder="Zoeken naar tools..." aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-dark px-3" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                        <section class="sorting">
+                            @include('partials.sorting')
+                        </section>
                     </div>
                 </div>
             </div>
@@ -81,26 +90,49 @@
 @endsection
 
 @section('js')
+    <div id="sort" data-sort-type="{{ explode('-', $selectedSortOptions)[0] }}" data-sort-direction="{{ explode('-', $selectedSortOptions)[1] }}"></div>
     <script type="text/javascript">
         $(function() {
-            // Listeners
+            /* Variables */
+            var sortType = $('#sort').data('sort-type'),
+                sortDirection = $('#sort').data('sort-direction');
+
+            /* Listeners */
             // Category checkboxes
             $('input[name="cat[]"]').on('change', function (e) {
                 e.preventDefault();
+
                 getTools(generateURL());
             });
+
             // Search input field
             $('input[name="searchQuery"]').on('change', function (e) {
                 e.preventDefault();
+
                 getTools(generateURL());
             });
+
             // Pagination buttons
             $('body').on('click', '.pagination a', function(e) {
                 e.preventDefault();
+
                 var url = $(this).attr('href');
                 getTools(url);
             });
 
+            function setSortListeners() {
+                // Sort button clicked
+                $('.sort-dropdown .dropdown-item').on('click', function (e) {
+                    e.preventDefault();
+                    
+                    sortType = $(this).data('sort-type');
+                    sortDirection = $(this).data('sort-direction');
+                    getTools(generateURL());
+                });
+            }
+            setSortListeners();
+
+            /* Functions */
             function generateURL() {
                 var categories = [];
                 $('input[name="cat[]"]:checked').each(function() {
@@ -110,18 +142,25 @@
 
                 var urlParams = new URLSearchParams();
                 if (categories.length > 0)
-                    urlParams.append('categories', categories.join(","));
+                    urlParams.append('categories', categories.join("+"));
                 if (searchQuery)
                     urlParams.append('searchQuery', searchQuery);
+                if (sortType && sortDirection)
+                    urlParams.append('sort', sortType + "-" + sortDirection);
 
                 return $(location).attr('pathname') + (categories.length > 0 || searchQuery) ? "?" + urlParams.toString() : "";
             }
+
             function getTools(url) {
                 $('.tools').html('<div class="mt-5 mx-auto loader"></div>');
                 $.ajax({
                     url : url
                 }).done(function (data) {
-                    $('.tools').html(data);
+                    $('section.sorting').html(data['sorting']);
+                    $('section.tools').html(data['tools']);
+
+                    // Set sort listeners again because html was replaces
+                    setSortListeners();
                     window.history.pushState("", "", url);
                 }).fail(function () {
                     alert('Tools could not be loaded.');

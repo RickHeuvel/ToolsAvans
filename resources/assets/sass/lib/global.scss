@@ -468,12 +468,14 @@ ul.pagination {
   background-color: $gray;
 }
 
-.btn {
+.btn-square {
   padding: 6px 18px;
   border-radius: 0;
 }
 
 .btn-avans {
+  padding: 6px 18px;
+  border-radius: 0;
   color: #fff !important;
   background-color: $avansred;
   border-color: $avansred;
@@ -495,9 +497,17 @@ ul.pagination {
 }
 
 .input-group-append {
-    .btn {
-        border-radius: 0.25rem;
+  .btn {
+    border-radius: 0.25rem;
+  }
+}
+
+.sort-dropdown {
+  .dropdown-menu {
+    .dropdown-item {
+      padding: 6px 12px;
     }
+  }
 }
 
 .ImageCarousel{

@@ -19,7 +19,7 @@
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Annuleren</button>
+                <button type="button" class="btn btn-square btn-light" data-dismiss="modal">Annuleren</button>
                 {{ Form::model($specification, ['route' => ['specifications.destroy', $specification->slug], 'method' => 'DELETE']) }}
                     @if($specificationGroups->where('specification_slug', $specification->slug)->count() > 0)
                         {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans', 'disabled' => 'disabled']) }}
