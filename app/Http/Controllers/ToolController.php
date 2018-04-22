@@ -355,7 +355,7 @@ class ToolController extends Controller
     public function getImage($filename)
     {
         $image = Storage::disk('tool-images')->get($filename);
-        return new Response($image, 200);
+        return new Response($image, 200, ['content-type' => 'image/jpeg']);
     }
 
     /**
