@@ -25,7 +25,7 @@
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::open(['route' => 'tools.index', 'files' => true]) }}
+        {{ Form::open(['route' => 'tools.store', 'files' => true]) }}
 
         <div class="form-group">
             {{ Form::label('name', 'Naam van de Tool *') }}
