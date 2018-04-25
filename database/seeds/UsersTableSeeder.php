@@ -154,5 +154,27 @@ class UsersTableSeeder extends Seeder
             'location' => 'OWB',
             'role' => 'student'
         ]);
+        DB::table('users')->insert([
+            'name' => 'taakesse',
+            'email' => 'taa.vankessel@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'taakesse',
+            'nickname' => 'taakesse',
+            'firstName' => 'Tim',
+            'lastName' => 'van Kessel',
+            'location' => 'OWB',
+            'role' => 'admin'
+        ]);
+        DB::table('users')->insert([
+            'name' => 'tgapaans',
+            'email' => 'tga.paans@student.avans.nl',
+            'provider' => 'avans',
+            'provider_id' => 'tgapaans',
+            'nickname' => 'Tom Paans',
+            'firstName' => 'Tom',
+            'lastName' => 'Paans',
+            'location' => 'OWB',
+            'role' => 'admin'
+        ]);
     }
 }
