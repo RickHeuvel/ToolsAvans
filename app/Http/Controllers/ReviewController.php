@@ -50,7 +50,7 @@ class ReviewController extends Controller
                     ]);
                 }
 
-                return response();
+                return response(null, 200);
             }
         }
     }

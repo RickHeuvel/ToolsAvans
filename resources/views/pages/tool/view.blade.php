@@ -73,17 +73,26 @@
                                 </div>
                                 <h1>{{$tool->name}}</h1>
                                 <p class="tool-category">in {{$tool->category->name}}</p>
-                                <div class="tool-rating">
-                                    @if (!empty($curUserReview) || !Auth::check())
-                                        <div id="stars" class="starrr"></div>
-                                    @else
-                                        <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Klik op een ster om een rating achter te laten!"></div>
-                                    @endif
-                                    @include('partials.modals.addreview')
+                                <div class="tool-rating" id="toolRating">
+                                    <div id="starRating">
+                                        @if (!Auth::check())
+                                            <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Login om een rating achter te laten!"></div>
+                                        @elseif (empty($curUserReview))
+                                            <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Klik op een ster om een rating achter te laten!"></div>
+                                        @else
+                                            <div id="stars" class="starrr"></div>
+                                        @endif
+                                    </div>
+                                    @include('partials.modals.review-with-rating')
+                                    @include('partials.modals.review-without-rating')
                                 </div>
                                 <p class="tool-uploaded">Geplaatst op {{$tool->created_at->format('d F Y')}} door {{$tool->user->nickname}}</p>
                                 <hr>
-                                <a href={{$tool->url}}>{{$tool->url}}</a>
+                                @if (Auth::check() && empty($curUserReview))
+                                    <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
+                                @else
+                                    <a target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -178,6 +187,8 @@
 
 @section('js')
     <script>
+
+        var tooltip = true;
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,
             nav: false,
@@ -211,57 +222,113 @@
         });
 
         $( document ).ready(function() {
-            
             @if (!empty($curUserReview))
-                $('.starrr').starrr({
-                    rating: {{$review->rating}},
+                $('#stars').starrr({
+                    rating: {{$curUserReview->rating}},
                     readOnly: true
                 });
-                $('.starrr').addClass('readOnly');
+                $('#stars').addClass('readOnly');
             @elseif (!$tool->reviews->isEmpty() && Auth::check())
-                $('.starrr').starrr({
+                $('#stars').starrr({
                     rating: {{$tool->reviews->avg('rating')}}
                 });
                 enableReviewModal();
                 enableTooltip();
             @elseif (!$tool->reviews->isEmpty() && !Auth::check())
-                $('.starrr').starrr({
+                $('#stars').starrr({
                     rating: {{$tool->reviews->avg('rating')}},
-                    readOnly: true
+                }).click(function(){
+                    location.href = '{{route("login")}}'
                 });
-                $('.starrr').addClass('readOnly');
+                enableTooltip();
             @elseif ($tool->reviews->isEmpty() && !Auth::check())
                 $('.tool-rating').hide();
             @else
-                $('.starrr').starrr();
+                $('#stars').starrr();
                 enableReviewModal();
                 enableTooltip();
             @endif
 
-            var showTooltip = true;
             function enableReviewModal() {
-                $('.starrr').on('starrr:change', function(e, value) {
-                    $.ajax({
-                        url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
-                        type: 'GET',
-                        data: { rating: value },
-                    }).done(function (data) {
-                        showTooltip = false;
-                        $('#reviewmodal').modal('show');
-                    }).fail(function () {
-                        alert('Review kon niet worden geplaatst.');
-                    });
+                $('#stars').on('starrr:change', function(e, value) {
+                    @if(Auth::check())
+                        $.ajax({
+                            url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
+                            type: 'GET',
+                            data: { rating: value },
+                        }).done(function (data) {
+                            $('#review-with-rating .ratingreview').starrr({
+                                rating: value,
+                            });
+                            disableTooltip();
+                            $('#review-with-rating').modal('show');
+                        }).fail(function () {
+                            alert('Rating kon niet worden geplaatst.');
+                        });
+                    @else
+                        window.location.href = '{{route("login")}}';
+                    @endif
                 })
+            }
+
+            $('#review-with-rating .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (date) {
+                    setMainRating(value);
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+
+            $('#review-without-rating .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (date) {
+                    setMainRating(value);
+                    $('#review-with-rating .ratingreview').starrr({
+                        rating: value,
+                    });
+                    disableTooltip();
+                    $('#review-without-rating').modal('hide');
+                    $('#review-with-rating').modal('show');
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+            
+            $('#url').click(function() {
+                disableTooltip();
+                $('#review-without-rating .ratingreview').starrr();
+                $('#review-without-rating').modal('show');
+            });
+
+            function setMainRating(value) {
+                $('#starRating').empty();
+                $('#starRating').append('<div id="stars" class="starrr"></div>');
+                $('#stars').starrr({
+                    rating: parseInt(value)
+                });
             }
 
             function enableTooltip() {
                 setTimeout(function() {
-                    if (showTooltip) $('#stars').tooltip('show')
-                }, 2000);
+                    if (tooltip)
+                        $('#stars').tooltip('show')
+                }, 1000);
                 $('#stars').mouseover(function() {
-                    $('#stars').tooltip('hide')
+                    $('#stars').tooltip('hide');
                 });
             }
+        
+            function disableTooltip() {
+                tooltip = false;
+                $('#stars').tooltip('hide');
+            }
         });
-    </script>
+   </script>
 @endsection

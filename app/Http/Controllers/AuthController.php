@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Socialite;
 use Auth;
+use Session;
 use App\User;
 
 class AuthController extends Controller
@@ -40,6 +41,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
+        Session::put('redirectUrl', url()->previous());
         return Socialite::driver($this->provider)->redirect();
     }
 
@@ -54,7 +56,10 @@ class AuthController extends Controller
         $authUser = $this->findOrCreateUser($user);
         Auth::login($authUser, true);
 
-        return redirect()->route('portal');
+        if (Session::has('redirectUrl'))
+            return redirect(Session::get('redirectUrl'));
+        else
+            return redirect()->route('portal');
     }
 
     /**
