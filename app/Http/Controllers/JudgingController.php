@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Session;
 use App\Tool;
-use App\ToolFeedback;
 use App\User;
+use Validator;
+use App\ToolFeedback;
+use App\Mail\ConceptTools;
+use Illuminate\Http\Request;
+use App\Jobs\SendConceptMail;
 use App\Mail\ConceptToolApproved;
 use App\Mail\ConceptToolRejected;
 use App\Mail\ConceptToolFeedbackReceived;
-use App\Mail\ConceptTools;
-use Session;
-use Auth;
-use Validator;
-use Illuminate\Http\Request;
 
 class JudgingController extends Controller
 {
@@ -126,11 +127,7 @@ class JudgingController extends Controller
      *
      */
     public function sendmail(Request $request) {
-        $tools = Tool::unjudgedTools()->get();
-        $mail = new ConceptTools($tools);
-        $users = User::admins()->get();
-
-        MailController::sendMailable($mail, $users);
+        Artisan::call('conceptmail:send');
 
         return redirect()->route('portal');
     }

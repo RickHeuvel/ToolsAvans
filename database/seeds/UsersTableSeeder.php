@@ -20,7 +20,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'beheerder',
             'lastName' => '',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'employee',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'pjmgootz',
@@ -31,7 +32,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Peter-Jan',
             'lastName' => 'Gootzen',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'magweter',
@@ -42,7 +44,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Martijn',
             'lastName' => 'van de Wetering',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'kmthulst',
@@ -53,7 +56,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Koen',
             'lastName' => 'van der Hulst',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'rheuvel12',
@@ -64,7 +68,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Rick',
             'lastName' => 'van den Heuvel',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'bbmeerlo',
@@ -75,7 +80,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Bram-Boris',
             'lastName' => 'Meerlo',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'jbscholl',
@@ -86,7 +92,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Jan',
             'lastName' => 'Schollaert',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'wdalton',

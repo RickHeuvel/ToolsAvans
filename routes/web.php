@@ -41,3 +41,8 @@ Route::post('logout', 'AuthController@logout')->name('logout');
 /* Portal routes */
 Route::get('portal', 'PortalController@index')->name('portal');
 Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');
+
+Route::put('users/updateadmins', 'UserController@updateAdmins')->name('users.updateadmins');
+
+Route::post('settings', 'SettingController@store')->name('settings.store');
+Route::put('settings/updateconceptmail', 'SettingController@updateConceptMail')->name('settings.updateconceptmail');

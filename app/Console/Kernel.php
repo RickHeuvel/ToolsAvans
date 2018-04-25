@@ -2,13 +2,11 @@
 
 namespace App\Console;
 
+use App\Setting;
+use App\Console\Commands\SendConceptMail;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
-use App\Http\Controllers\MailController;
-use App\Mail\ConceptTools;
-use App\Tool;
-use App\User;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,12 +27,29 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            $tools = Tool::where('status_slug', 'concept')->get();
-            $users = User::where('role', 'admin')->get();
+        if (Schema::hasTable('settings')) {
+            $settings = Setting::all();
+            $schedule
+                ->job(SendConceptMail::class)
+                ->when(function () {
+                    return ((!empty($settings->conceptmailday) && $settings->conceptmailday->val == date('l')) || 'Sunday' == date('l'));
+                })
+                ->cron($this->getCron($settings));
+        }
+    }
 
-            MailController::sendMailable(new ConceptTools($tools), $users);
-        })->monthly();
+    private function getCron($settings) {
+        switch((!empty($settings->conceptmailfrequence) ? $settings->conceptmailfrequence->val : 'Weekly')) {
+            case 'Monthly':
+                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' 1 * *';
+                break;
+            case 'Weekly':
+                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' * * 0';
+                break;
+            case 'Daily':
+                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' * * *';
+                break;
+        }
     }
 
     /**

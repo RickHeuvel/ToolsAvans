@@ -98,6 +98,7 @@ class AuthController extends Controller
             'role'        => $user->role,
             'provider'    => $this->provider,
             'provider_id' => $user->id,
+            'admin'       => $user->admin
         ]);
     }
 

@@ -17,7 +17,7 @@
                         'categories' => (!empty($selectedCategories)) ? implode('+', $selectedCategories) : null, 
                         'specifications' => (!empty($selectedSpecifications)) ? implode('+', $selectedSpecifications) : null, 
                         'statuses' => (!empty($selectedStatuses)) ? implode('+', $selectedStatuses) : null,
-                        'sort' => $selectedSortOptions
+                        'sort' => (!empty($selectedSortOptions)) ? $selectedSortOptions : null
                     ])->links() }}
             </div>
         </div>

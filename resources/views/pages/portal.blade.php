@@ -4,29 +4,34 @@
 @endsection
 
 @section('content')
-<div class="container pt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Mijn portaal</li>
-            </ol>
-        </nav>
-
-        <hr class="mt-0">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Mijn portaal</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0">
+    <div class="container pt-5">
 
         <div class="row mb-4">
             <div class="col-12 col-md-6">
                 <h2><strong>{{auth()->user()->nickname}}</strong></h2>
             </div>
-                <div class="col-12 col-md-6 text-right">
-                    <div class="tab-buttons">
-                        <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
-                        @if (Auth::user()->isAdmin())
-                            <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
-                            <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
-                        @endif
-                    </div>
+            <div class="col-12 col-md-6 text-right">
+                <div class="tab-buttons">
+                    <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
+                    @if (Auth::user()->isAdmin())
+                        <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
+                        <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+                    @endif
                 </div>
+            </div>
         </div>
 
         @if ($errors->isNotEmpty())
@@ -38,6 +43,7 @@
             </div>
         @endif
         @include('partials.alert')
+
 
         <ul class="nav nav-tabs" id="tabs" role="tablist">
             <li class="nav-item">
@@ -158,7 +164,93 @@
                     @endforeach
                 </div>
                 <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
-                    <a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de 'concept tools' mail</a>
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#v-pills-admins" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
+                                <a class="nav-link" id="v-pills-mail-tab" data-toggle="pill" href="#v-pills-mail" role="tab" aria-controls="v-pills-mail" aria-selected="false">Mail</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="v-pills-admins" role="tabpanel" aria-labelledby="v-pills-admins-tab">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Beheerders</h2>
+                                        </div>
+                                    </div>
+                                    {{ Form::open(['route' => 'users.updateadmins', 'method' => 'PUT']) }}
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Naam</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Beheerder</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($users as $user)
+                                            <tr>
+                                                <th scope="row">{{ $user->id }}</th>
+                                                <td>{{ $user->nickname }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ Form::checkbox('admins[]', $user->id, $user->isAdmin()) }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                    {{ Form::close() }}
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-mail" role="tabpanel" aria-labelledby="v-pills-mail-tab">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Mail</h2>
+                                        </div>
+                                    </div>
+                                    {{ Form::open(['route' => 'settings.updateconceptmail', 'method' => 'PUT']) }}
+                                    
+                                    <div class="form-group row">
+                                        {{ Form::label('conceptmailfrequence', 'Concept mailing frequentie *', ['class' => 'col-3']) }}
+                                        <div class="col-9">
+                                            {{ Form::select('settings[conceptmailfrequence]', [
+                                                'Monthly' => 'Elke maand', 
+                                                'Weekly' => 'Elke week',
+                                                'Daily' => 'Elke dag'
+                                        ], (!empty($settings->conceptmailfrequence)) ? $settings->conceptmailfrequence->val : null, ['class' => 'form-control']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('conceptmailday', 'Concept mailing dag *', ['class' => 'col-3']) }}
+                                        <div class="col-9">
+                                            {{ Form::select('settings[conceptmailday]', [
+                                                'Monday' => 'Maandag', 
+                                                'Tuesday' => 'Dinsdag',
+                                                'Wednesday' => 'Woensdag', 
+                                                'Thursday' => 'Donderdag', 
+                                                'Friday' => 'Vrijdag', 
+                                                'Saturday' => 'Zaterdag', 
+                                                'Sunday' => 'Zondag'
+                                        ], (!empty($settings->conceptmailday)) ? $settings->conceptmailday->val : null, ['class' => 'form-control']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        {{ Form::label('conceptmailtime', 'Concept mailing tijd *', ['class' => 'col-3 col-form-label']) }}
+                                        <div class="col-9">
+                                            <input class="form-control" type="time" value="{{ (!empty($settings->conceptmailtime)) ? $settings->conceptmailtime->val : '20:00:00' }}" name="settings[conceptmailtime]" id="conceptmailtime">
+                                        </div>
+                                    </div>
+
+                                    {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                    {{ Form::close() }}
+                                    <!--<a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de 'concept tools' mail</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @else
                 <div class="tab-pane pt-4" id="myconcepttools" role="tabpanel" aria-labelledby="myconcepttools-tab">
@@ -167,7 +259,6 @@
             @endif
 
         </div>
-
     </div> 
 @endsection
 
@@ -184,11 +275,7 @@
         $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
             changedTabButtons($(this).attr('href'));
             var hash = $(e.target).attr("href");
-            if (history.pushState) {
-                history.pushState(null, null, hash);
-            } else {
-                location.hash = hash;
-            }
+            history.pushState(null, null, hash);
         });
 
         // On pageload check for current tab, otherwise load mytools tab

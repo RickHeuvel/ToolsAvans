@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
 use App\Tool;
 use App\User;
-use App\ToolCategory;
+use App\Setting;
 use App\ToolStatus;
+use App\ToolCategory;
 use App\Specification;
 use App\ToolSpecification;
-use Auth;
+use Illuminate\Http\Request;
 
 class PortalController extends Controller
 {
@@ -37,6 +38,9 @@ class PortalController extends Controller
             $specifications = Specification::all()->sortBy('slug');
             $specificationGroups = ToolSpecification::all();
 
+            $users = User::all();
+            $settings = Setting::all();
+
             $statuses = ToolStatus::all();
             if ($request->has('statuses'))
                 $selectedStatuses = explode(',', $request->input('statuses'));
@@ -50,7 +54,7 @@ class PortalController extends Controller
             if ($request->ajax())
                 return view('partials.tools', compact('tools', 'statuses', 'selectedStatuses'))->render();  
             else
-                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'statuses', 'selectedStatuses', 'specifications', 'specificationGroups'));
+                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users', 'settings', 'statuses', 'selectedStatuses', 'specifications', 'specificationGroups'));
         } else {
             $myConceptTools = $myTools->where('status_slug', 'active');
 

@@ -12,6 +12,10 @@ body {
 main {
 }
 
+a {
+  color: $avansblue;
+}
+
 .nav-avans {
 background-color: $avansred;
 color: $white;
@@ -545,4 +549,11 @@ footer.footer {
   margin-right: 1px;
   bottom: 0;
   right: 0;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: $avansred !important;
+}
+.nav-pills .nav-link {
+  //border-radius: 0;
 }

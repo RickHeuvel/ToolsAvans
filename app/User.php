@@ -9,13 +9,13 @@ class User extends Authenticatable
     use Notifiable;
     
     protected $fillable = [
-        'name', 'email', 'nickname', 'firstName', 'lastName', 'location', 'role', 'provider', 'provider_id'
+        'name', 'email', 'nickname', 'firstName', 'lastName', 'location', 'role', 'provider', 'provider_id', 'admin'
     ];
 
     // Returns boolean provided by if statement
     public function isAdmin()
     {
-        return ($this->role == "admin");
+        return boolval($this->admin);
     }
 
     // Returns boolean provided by if statement
@@ -31,7 +31,7 @@ class User extends Authenticatable
     }
 
     public static function admins() {
-        return static::where('role', 'admin');
+        return static::where('admin', true);
     }
 
     public static function empolyees() {

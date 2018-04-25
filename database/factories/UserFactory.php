@@ -13,7 +13,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'firstName' => $firstName,
         'lastName' => $faker->lastName,
         'location' => 'OWB',
-        'role' => '',
+        'admin' => false
     ];
 });
 
@@ -26,5 +26,6 @@ $factory->state(App\User::class, 'employee', [
 ]);
 
 $factory->state(App\User::class, 'admin', [
-    'role' => 'admin',
+    'role' => 'employee',
+    'admin' => true
 ]);
