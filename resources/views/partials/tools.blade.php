@@ -19,14 +19,33 @@
                     <div class="col-12 col-md-9 pl-0">
                         <div class="tool-body">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-8">
                                     <a class="tool-name-link" href="{{ route('tools.show', $tool->slug) }}">
                                         <h2>{{$tool->name}}</h2>
                                     </a>
+                                <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
+                                <div class="col-4 text-right">
+                                    <div class="tool-rating marginright">
+                                        <div class="review-rating starrr">
+                                            @for($x =0; $x < round($tool->reviews->avg('rating')); $x++)
+                                                <i class="fa fa-star"></i>
+                                            @endfor
+                                            @if(round($tool->reviews->avg('rating')) < 5)
+                                                @for($i = 0; $i < 5 - round($tool->reviews->avg('rating')); $i++)
+                                                    <i class="fa fa-star-o"></i>
+                                                @endfor
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
+                                </div>
+                            </div>           
+                            <p class="tool-description">{{$tool->description}}</p>
+                            <div class="row">
                                 @if(Route::currentRouteName() == "portal")
                                     @if ($tool->status->isConcept())
-                                        <div class="col text-right concept-warning">
+                                        <div class="col concept-warning">
                                             @if ($tool->feedback != null && !$tool->feedback->fixed)
                                                 <h6>Concept met onverwerkte feedback</h6>
                                             @else
@@ -34,15 +53,12 @@
                                             @endif
                                         </div>
                                     @else
-                                        <div class="col text-right concept-warning">
+                                        <div class="col concept-warning">
                                             <h6>{{ $tool->status->name }}</h6>
                                         </div>
                                     @endif
                                 @endif
                             </div>
-                            <p class="tool-description">
-                                {{$tool->description}}
-                            </p>
                             <div class="right-bottom">
                                 <!-- Print crud buttons if page is portal else print show buttons -->
                                 @if (Route::currentRouteName() == "portal")

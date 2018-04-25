@@ -334,6 +334,7 @@ ul.pagination {
   img {
     margin: 0 auto;
     width: 100%;
+    border: 1px solid #000000;
   }
   .tool-body {
     padding: 15px 15px 45px 0;
@@ -341,6 +342,10 @@ ul.pagination {
     height: 100%;
     h2 {
       line-height: 1;
+    }
+    .tool-views{
+      font-weight: 500;
+      font-size: 16px;
     }
     .right-bottom {
       position: absolute;
@@ -359,11 +364,16 @@ ul.pagination {
       }
     }
     .tool-description {
-      padding-top: 10px;
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+    .rating{
+      font-weight: 500;
+      color: #5a5a5a;
+      display: inline-block;
+      font-size: 16px;
     }
   }
 }
@@ -371,6 +381,10 @@ ul.pagination {
   img {
     margin: 0 auto;
     width: 100%;
+  }
+  .tool-logo {
+      border: 1px solid #000000;
+      padding: 4px;
   }
   .tool-body {
     h1 {
@@ -381,17 +395,28 @@ ul.pagination {
     .tool-uploaded {
       color: #989898;
       font-size: 16px;
-      margin-top: 10px;
-      margin-bottom: 0;
     }
     .tool-category {
       color: $avansred;
       margin-top: 5px;
       margin-bottom: 0;
     }
+    .tool-views{ 
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .rating{
+      color: #989898;
+      font-size: 16px;
+    }
     .tool-rating {
       margin-top: 10px;
       margin-bottom: 0;
+      .p{
+        font-size: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
       .starrr {
         display: inline-block;
       }
@@ -551,6 +576,38 @@ footer.footer {
   right: 0;
 }
 
+.arrow {
+  position: absolute; top: 50%;
+  display: block;
+  margin-top: -50px; /* = height / 2 */
+  width: 60px; height: 60px;
+}
+.arrow:after {
+  border: 4px solid rgba(0, 0, 0, .5);
+  content: '';
+  display: block;
+  position: absolute; top: 21%;
+  width: 48%; height: 48%;
+  transform: rotate(45deg);
+}
+.owl-next .arrow:after {
+  border-bottom: 0;
+  border-left: 0;
+  left: 10%;
+}
+.owl-prev .arrow:after {
+  border-right: 0;
+  border-top: 0;
+  right: 10%;
+}
+.owl-next,
+.owl-next .arrow {
+  right: 0;
+}
+.owl-prev,
+.owl-prev .arrow {
+  left: 0;
+}
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   background-color: $avansred !important;
 }

@@ -16,6 +16,7 @@ use App\SortOption;
 use App\ToolReview;
 use App\ToolStatus;
 use App\ToolCategory;
+use App\ToolView;
 use App\Specification;
 use App\Events\ViewTool;
 use App\ToolSpecification;

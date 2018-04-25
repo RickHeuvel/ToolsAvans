@@ -56,8 +56,7 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="tool-logo">
-                                <img src="{{ route('tools.image', $tool->logo_filename) }}"
-                                 class="img-fluid tool-logo">
+                                <img src="{{ route('tools.image', $tool->logo_filename) }}"class="img-fluid">
                             </div>
                         </div>
                         <div class="col-12 col-md-9">
@@ -82,11 +81,13 @@
                                         @else
                                             <div id="stars" class="starrr"></div>
                                         @endif
+                                        <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
                                     </div>
                                     @include('partials.modals.review-with-rating')
                                     @include('partials.modals.review-without-rating')
                                 </div>
-                                <p class="tool-uploaded">Geplaatst op {{$tool->created_at->format('d F Y')}} door {{$tool->user->nickname}}</p>
+                                <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
+                                <p class="tool-uploaded">{{$tool->created_at->format('d F Y')}}</p>
                                 <hr>
                                 @if (Auth::check() && empty($curUserReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
@@ -191,7 +192,8 @@
         var tooltip = true;
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,
-            nav: false,
+            nav: true,
+            navText: ['<div class="arrow"></div>', '<div class="arrow"></div>'], 
             responsive: {
                 0: {
                     items: 1
@@ -207,7 +209,8 @@
 
         $('.owl-carousel.reviews').owlCarousel({
             margin: 30,
-            nav: false,
+            autoplay: true,
+            loop: true,
             responsive: {
                 0: {
                     items: 1
@@ -300,7 +303,7 @@
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
-            
+
             $('#url').click(function() {
                 disableTooltip();
                 $('#review-without-rating .ratingreview').starrr();
@@ -324,7 +327,7 @@
                     $('#stars').tooltip('hide');
                 });
             }
-        
+
             function disableTooltip() {
                 tooltip = false;
                 $('#stars').tooltip('hide');

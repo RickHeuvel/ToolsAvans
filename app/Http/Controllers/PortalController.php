@@ -7,6 +7,8 @@ use App\Tool;
 use App\User;
 use App\Setting;
 use App\ToolStatus;
+use App\ToolView;
+use App\ToolReview;
 use App\ToolCategory;
 use App\Specification;
 use App\ToolSpecification;

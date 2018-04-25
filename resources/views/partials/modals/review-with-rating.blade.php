@@ -24,7 +24,7 @@
                 </div>
                 <div class="modal-footer">
                     {{ Form::submit('Plaatsen', ['class' => 'btn btn-danger btn-avans']) }}
-                    <a class="btn btn-square btn-light" data-dismiss="modal">Annuleren</a>                  
+                    <a class="btn btn-link float-left" data-dismiss="modal">Nee, bedankt</a>
                 </div>       
             {{ Form::close() }}   
         </div>
