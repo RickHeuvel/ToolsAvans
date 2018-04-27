@@ -328,7 +328,12 @@ ul.pagination {
   color: black;
   text-decoration: none;
 }
-
+.filter-button{
+  margin-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
 .tool {
   background: $gray;
   img {

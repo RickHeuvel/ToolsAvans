@@ -53,7 +53,7 @@
                     <div class="col-12">
                         <p><strong>Categorieën</strong></p>
                         @foreach($categories as $category)
-                            <div class="form-check mb-1">
+                            <div class="form-check mb-1" name="input">
                                 @if (!empty($selectedCategories))
                                     <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
                                 @else
@@ -91,7 +91,7 @@
                 </section>
             </div>
         </div>
-    </div> 
+    </div>
 @endsection
 
 @section('js')
@@ -124,6 +124,15 @@
                 var url = $(this).attr('href');
                 getTools(url);
             });
+
+            function setFilterListeners() {
+                $('.filter-button').on('click', function(e) {
+                    var slug = $(this).data('slug');
+                    uncheckItem(slug);
+                    getTools(generateURL());
+                });
+            }
+            setFilterListeners();
 
             function setSortListeners() {
                 // Sort button clicked
@@ -166,10 +175,23 @@
 
                     // Set sort listeners again because html was replaces
                     setSortListeners();
+                    setFilterListeners();
                     window.history.pushState("", "", url);
                 }).fail(function () {
                     alert('Tools could not be loaded.');
                 });
+            }
+
+            function uncheckItem(slug) {
+                var uncheck = document.getElementsByTagName('input');
+                var button = document.getElementById('btn' + slug);
+
+                button.remove();
+                for (var i = 0; i < uncheck.length; i++) {
+                    if (uncheck[i].value == slug) {
+                        uncheck[i].checked = false;
+                    }
+                }
             }
         });
     </script>
