@@ -1,4 +1,4 @@
-<div class="modal fade text-left" id="review-with-rating" tabindex="-1" role="dialog">
+<div class="modal fade text-left" id="{{$id}}" tabindex="-1" role="dialog">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <a class="btn btn-link mr-auto" data-dismiss="modal">Nee, bedankt</a>
                     {{ Form::submit('Plaatsen', ['class' => 'btn btn-danger btn-avans']) }}
-                    <a class="btn btn-link float-left" data-dismiss="modal">Nee, bedankt</a>
                 </div>       
             {{ Form::close() }}   
         </div>

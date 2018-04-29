@@ -37,22 +37,23 @@
                                     <a class="tool-name-link" href="{{ route('tools.show', $tool->slug) }}">
                                         <h2>{{$tool->name}}</h2>
                                     </a>
-                                <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
+                                    <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <div class="tool-rating marginright">
-                                        <div class="review-rating starrr">
-                                            @for($x =0; $x < round($tool->reviews->avg('rating')); $x++)
-                                                <i class="fa fa-star"></i>
-                                            @endfor
-                                            @if(round($tool->reviews->avg('rating')) < 5)
-                                                @for($i = 0; $i < 5 - round($tool->reviews->avg('rating')); $i++)
-                                                    <i class="fa fa-star-o"></i>
-                                                @endfor
-                                            @endif
-                                        </div>
+                                    <div class="tool-rating mb-2">
+                                        <div id="stars-{{$tool->slug}}" class="starrr"></div>
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
+                                    @section('js')
+                                        @parent
+                                        <script>
+                                            $('#stars-{{$tool->slug}}').starrr({
+                                                rating: {{$tool->reviews->avg('rating')}},
+                                                readOnly: true
+                                            });
+                                            $('#stars-{{$tool->slug}}').addClass('readOnly');
+                                        </script>
+                                    @endsection
                                 </div>
                             </div>           
                             <p class="tool-description">{{$tool->description}}</p>
@@ -101,7 +102,19 @@
                                     @endif
 
                                 @else
-                                    <a href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                    @if (Auth::check() && empty($tool->reviews->where('user_id', Auth::id())->first()))
+                                        <a target="_blank" id="url-{{$tool->slug}}" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                        @include('partials.modals.review-with-rating', ['id' => 'review-with-rating-' . $tool->slug])
+                                        @include('partials.modals.review-without-rating', ['id' => 'review-without-rating-' . $tool->slug])
+                                        @section('js')
+                                            @parent
+                                            <script>
+                                                setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                            </script>
+                                        @endsection
+                                    @else
+                                        <a target="_blank" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                    @endif
                                     <a href="{{ route('tools.show', $tool->slug) }}" class="btn btn-danger btn-avans">Meer informatie</a>
                                 @endif
                             </div>

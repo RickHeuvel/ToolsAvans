@@ -1,4 +1,4 @@
-<div class="modal fade text-left" id="review-without-rating" tabindex="-1" role="dialog">
+<div class="modal fade text-left" id="{{$id}}" tabindex="-1" role="dialog">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
             <div class="modal-header">

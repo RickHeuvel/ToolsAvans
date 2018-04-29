@@ -339,7 +339,8 @@ ul.pagination {
   img {
     margin: 0 auto;
     width: 100%;
-    border: 1px solid #000000;
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 4px;
   }
   .tool-body {
     padding: 15px 15px 45px 0;
@@ -376,8 +377,6 @@ ul.pagination {
     }
     .rating{
       font-weight: 500;
-      color: #5a5a5a;
-      display: inline-block;
       font-size: 16px;
     }
   }
@@ -388,8 +387,11 @@ ul.pagination {
     width: 100%;
   }
   .tool-logo {
-      border: 1px solid #000000;
-      padding: 4px;
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 4px;
+    img {
+      border-radius: 4px;
+    }
   }
   .tool-body {
     h1 {
@@ -411,7 +413,7 @@ ul.pagination {
       font-size: 16px;
     }
     .rating{
-      color: #989898;
+      font-weight: 500;
       font-size: 16px;
     }
     .tool-rating {
@@ -425,14 +427,14 @@ ul.pagination {
       .starrr {
         display: inline-block;
       }
-      .starrr.readOnly a {
-        cursor: auto !important;
-      }
       #engagereview {
         line-height: 32px;
       }
     }
   }
+}
+.starrr.readOnly a {
+  cursor: auto !important;
 }
 
 .tools {
@@ -581,13 +583,13 @@ footer.footer {
   right: 0;
 }
 
-.arrow {
+.carousel-arrow {
   position: absolute; top: 50%;
   display: block;
   margin-top: -50px; /* = height / 2 */
   width: 60px; height: 60px;
 }
-.arrow:after {
+.carousel-arrow:after {
   border: 4px solid rgba(0, 0, 0, .5);
   content: '';
   display: block;
@@ -595,22 +597,22 @@ footer.footer {
   width: 48%; height: 48%;
   transform: rotate(45deg);
 }
-.owl-next .arrow:after {
+.owl-next .carousel-arrow:after {
   border-bottom: 0;
   border-left: 0;
   left: 10%;
 }
-.owl-prev .arrow:after {
+.owl-prev .carousel-arrow:after {
   border-right: 0;
   border-top: 0;
   right: 10%;
 }
 .owl-next,
-.owl-next .arrow {
+.owl-next .carousel-arrow {
   right: 0;
 }
 .owl-prev,
-.owl-prev .arrow {
+.owl-prev .carousel-arrow {
   left: 0;
 }
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

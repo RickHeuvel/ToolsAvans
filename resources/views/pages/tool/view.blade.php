@@ -7,7 +7,7 @@
         @include('partials.alert')
 
         <div class="row">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-4">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -16,7 +16,7 @@
                     </ol>
                 </nav>
             </div>
-            <div class="col-12 col-md-7 text-right">
+            <div class="col-12 col-md-8 text-right">
                 @if (Auth::check() && ((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
                     <a href="{{ route('tools.edit', $tool->slug) }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
                     @if (Auth::user()->isAdmin())
@@ -27,8 +27,7 @@
                                 @include('partials.modals.requesttoolchanges')
                             @endif
                             <a data-toggle="modal" data-target="#{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
-                        @endif
-                        @if ($tool->status->isActive())
+                        @elseif ($tool->status->isActive())
                             <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
                             @include('partials.modals.deactivatetool')
                         @elseif ($tool->status->isInactive())
@@ -58,36 +57,42 @@
                             <div class="tool-logo">
                                 <img src="{{ route('tools.image', $tool->logo_filename) }}"class="img-fluid">
                             </div>
+                            <div class="concept-warning text-center pt-2">
+                                @if ($tool->status->isConcept() && ($tool->feedback != null && !$tool->feedback->fixed))
+                                    <h6>Concept met onverwerkte feedback</h6>
+                                @elseif ($tool->status->isConcept() && ($tool->feedback == null || ($tool->feedback != null && $tool->feedback->fixed)))
+                                    <h6>Concept opgestuurd voor keuring</h6>
+                                @elseif ($tool->status->isConcept())
+                                    <h6>Concept</h6>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-12 col-md-9">
                             <div class="tool-body">
-                                <div class="align-right-top concept-warning">
-                                    @if ($tool->status->isConcept() && ($tool->feedback != null && !$tool->feedback->fixed))
-                                        <h6>Concept met onverwerkte feedback</h6>
-                                    @elseif ($tool->status->isConcept() && ($tool->feedback == null || ($tool->feedback != null && $tool->feedback->fixed)))
-                                        <h6>Concept opgestuurd voor keuring</h6>
-                                    @elseif ($tool->status->isConcept())
-                                        <h6>Concept</h6>
-                                    @endif
-                                </div>
-                                <h1>{{$tool->name}}</h1>
-                                <p class="tool-category">in {{$tool->category->name}}</p>
-                                <div class="tool-rating" id="toolRating">
-                                    <div id="starRating">
-                                        @if (!Auth::check())
-                                            <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Login om een rating achter te laten!"></div>
-                                        @elseif (empty($curUserReview))
-                                            <div id="stars" class="starrr" data-toggle="tooltip" data-placement="right" title="Klik op een ster om een rating achter te laten!"></div>
-                                        @else
-                                            <div id="stars" class="starrr"></div>
-                                        @endif
-                                        <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <h1>{{$tool->name}}</h1>
+                                        <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
+                                        <p class="tool-uploaded mb-0 mt-5">{{$tool->created_at->format('d F Y H:i')}}</p>
                                     </div>
-                                    @include('partials.modals.review-with-rating')
-                                    @include('partials.modals.review-without-rating')
+                                    <div class="col-12 col-md-6 text-right">
+                                        <div class="tool-rating" id="toolRating">
+                                            <div id="starRating">
+                                                @if (!Auth::check())
+                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Login om een rating achter te laten!"></div>
+                                                @elseif (empty($curUserReview))
+                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Klik op een ster om een rating achter te laten!"></div>
+                                                @else
+                                                    <div id="stars" class="starrr"></div>
+                                                @endif
+                                                <p class="rating mt-2">{{ $tool->reviews->count() }} keer gereviewed</p>
+                                            </div>
+                                            @include('partials.modals.review-with-rating', ['id' => 'review-with-rating'])
+                                            @include('partials.modals.review-without-rating', ['id' => 'review-without-rating'])
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
-                                <p class="tool-uploaded">{{$tool->created_at->format('d F Y')}}</p>
+                                
                                 <hr>
                                 @if (Auth::check() && empty($curUserReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
@@ -100,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <hr>
+        <hr class="mb-1">
         <div class="row">
             <div class="col-12">
                 <ul class="nav nav-pills">
@@ -119,7 +124,7 @@
                 </ul>
             </div>
         </div>
-        <hr>
+        <hr class="mt-1">
         <div class="row justify-content-center">
             <div class="col-12">
                 <h2 id="screenshots">Screenshots</h2>
@@ -193,7 +198,7 @@
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,
             nav: true,
-            navText: ['<div class="arrow"></div>', '<div class="arrow"></div>'], 
+            navText: ['<div class="carousel-arrow"></div>', '<div class="carousel-arrow"></div>'], 
             responsive: {
                 0: {
                     items: 1

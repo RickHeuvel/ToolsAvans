@@ -10,7 +10,7 @@ require('owl.carousel');
 require('./lib/global');
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 })
 
 var smoothScroll = true;

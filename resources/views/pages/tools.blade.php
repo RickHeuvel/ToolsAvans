@@ -194,5 +194,39 @@
                 }
             }
         });
+
+        function setModal(slug, route) {
+            $('#url-' + slug).click(function() {
+                $('#review-without-rating-' + slug + ' .ratingreview').starrr();
+                $('#review-without-rating-' + slug).modal('show');
+            });
+        
+            $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (date) {
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+        
+            $('#review-without-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (date) {
+                    $('#review-with-rating-' + slug + ' .ratingreview').starrr({
+                        rating: value,
+                    });
+                    $('#review-without-rating-' + slug).modal('hide');
+                    $('#review-with-rating-' + slug).modal('show');
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+        }
     </script>
 @endsection
