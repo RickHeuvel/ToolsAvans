@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-    
+
     protected $fillable = [
         'name', 'email', 'nickname', 'firstName', 'lastName', 'location', 'role', 'provider', 'provider_id', 'admin'
     ];
@@ -21,13 +21,13 @@ class User extends Authenticatable
     // Returns boolean provided by if statement
     public function isEmployee()
     {
-        return ($this->role == "employee");
+        return $this->isAdmin() ? false : ($this->role == "employee");
     }
 
     // Returns boolean provided by if statement
     public function isStudent()
     {
-        return ($this->role == "student");
+        return $this->isAdmin() ? false : ($this->role == "student");
     }
 
     public static function admins() {
