@@ -84,7 +84,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $categories = ToolCategory::pluck('name','slug');
+        $categories = ToolCategory::pluck('name', 'slug');
         $specifications = Specification::all();
 
         return view('pages.tool.create', compact('categories', 'specifications'));

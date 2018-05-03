@@ -39,16 +39,7 @@
 
         <div class="form-group">
             {{ Form::label('category', 'Categorie *') }}
-            <select name="category" autocomplete="off" class="custom-select">
-                <option value="">Selecteer een categorie als deze van toepassing is.</option>
-                @foreach ($categories as $category)
-                    @if(!strcmp($category->slug, $specification->category)));
-                        <option value="{{ $category->slug }}" selected>{{ $category->name }}</option>
-                    @else
-                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
-                    @endif
-                @endforeach
-            </select>
+            {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'custom-select form-control']) }}
         </div>
 
         <div class="form-group">

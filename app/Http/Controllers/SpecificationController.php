@@ -34,7 +34,7 @@ class SpecificationController extends Controller
      */
     public function create()
     {
-        $categories = ToolCategory::all();
+        $categories = ToolCategory::pluck('name','slug');
         
         return view('pages.specification.create', compact('categories'));
     }
@@ -79,7 +79,7 @@ class SpecificationController extends Controller
     public function edit($slug)
     {
         $specification = Specification::where('slug', $slug)->firstOrFail();
-        $categories = ToolCategory::all();
+        $categories = ToolCategory::pluck('name', 'slug');
 
         return view('pages.specification.edit', compact('specification', 'categories'));
     }
