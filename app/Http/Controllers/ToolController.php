@@ -84,7 +84,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $categories = ToolCategory::all();
+        $categories = ToolCategory::pluck('name','slug');
         $specifications = Specification::all();
 
         return view('pages.tool.create', compact('categories', 'specifications'));
@@ -200,7 +200,7 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
-        $categories = ToolCategory::all();
+        $categories = ToolCategory::pluck('name','slug');
         $specifications = Specification::all();
         $toolspecifications = Tool::where('slug', $slug)->firstOrFail()->specifications()->get();
         
