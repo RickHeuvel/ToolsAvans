@@ -35,24 +35,18 @@ class ReviewControllerTest extends TestCase
         $reviewrating = 4;      
         //Store a tool to make a review
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => 'testName',
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
         //Simulate Ajax request
@@ -91,24 +85,18 @@ class ReviewControllerTest extends TestCase
         $reviewrating = 4;      
         //Store a tool to make a review
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => 'testName',
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
 
@@ -147,24 +135,18 @@ class ReviewControllerTest extends TestCase
         $newreviewrating = 1;     
         //Store a tool to make a review
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => 'testName',
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
 
@@ -222,24 +204,18 @@ class ReviewControllerTest extends TestCase
 
         //Store a tool to make a review
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => 'testName',
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
 
@@ -294,24 +270,18 @@ class ReviewControllerTest extends TestCase
 
         //Store a tool to make a review
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => 'testName',
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
 

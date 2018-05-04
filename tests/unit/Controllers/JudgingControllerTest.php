@@ -33,24 +33,19 @@ class JudgingControllerTest extends TestCase
 
         $toolname = 'testName';
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'status'        => 'concept',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
         
@@ -82,24 +77,19 @@ class JudgingControllerTest extends TestCase
 
         $toolname = 'testName';
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'status'        => 'concept',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $toolController->store($request);
         
@@ -132,25 +122,21 @@ class JudgingControllerTest extends TestCase
         $toolname = 'testName';
         $feedback = 'test feedback';
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $toolname,
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'status'        => 'concept',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
+        
         $toolController->store($request);
         
         $request = Request::create(
@@ -168,6 +154,4 @@ class JudgingControllerTest extends TestCase
         $this->assertTrue($tool->feedback()->first()->feedback == $feedback);
 
     }
-
-    
 }

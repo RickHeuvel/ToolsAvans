@@ -18,4 +18,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .copy('node_modules/lightbox2/dist/js/lightbox.min.js', 'public/js')
    .copy('node_modules/lightbox2/dist/css/lightbox.min.css', 'public/css')
    .copyDirectory('resources/assets/img', 'public/img')
-   .copyDirectory('node_modules/lightbox2/dist/images', 'public/images');
+   .copyDirectory('node_modules/lightbox2/dist/images', 'public/images')
+   .copy('node_modules/dropzone/dist/min/dropzone.min.js', 'public/js')
+   .copy('node_modules/dropzone/dist/min/dropzone.min.css', 'public/css');

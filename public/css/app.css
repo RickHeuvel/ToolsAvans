@@ -11362,3 +11362,9 @@ footer.footer {
   background-color: #C6002A !important;
 }
 
+#logo-uploader {
+  max-width: 200px;
+  min-height: 217px;
+  margin-bottom: 0.4rem;
+}
+

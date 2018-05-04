@@ -79,16 +79,11 @@ class ToolControllerTest extends TestCase
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
             [],     // Cookies
-            [       // POST files
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            []      // POST files
         );
         $controller->store($request);
 
@@ -126,16 +121,11 @@ class ToolControllerTest extends TestCase
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
             [],     // Cookies
-            [       // POST files
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            []      // POST files
         );
         $controller->store($request);
 
@@ -166,23 +156,18 @@ class ToolControllerTest extends TestCase
         $auth->login($user);
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
 
@@ -216,47 +201,36 @@ class ToolControllerTest extends TestCase
         $newName = 'newTestName';
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $oldName,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
 
         $request = Request::create(
-            'tools/' . 'testname',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $newName,
-                'description'   => 'coole test description',
-                'category'      => 'Webservice',
-                'status'        => 'Inactief',
-                'url'           => 'https://www.newTestWebsite.nl',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage() ]),
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
-        $controller->update($request, 'testname');
+        $controller->update($request, $oldName);
 
         $this->assertDatabaseMissing('tools', [
             'name' => $oldName,
@@ -288,27 +262,21 @@ class ToolControllerTest extends TestCase
         $auth->login($user);
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
                 'specifications' => [
                     'interne-tool' => 'ja',
                 ]
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
 
         $controller->store($request);
@@ -333,24 +301,18 @@ class ToolControllerTest extends TestCase
         $name = 'newTestName';
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $name,
                 'description'   => 'test description',
                 'category'      => 'Website',
-                'status'        => 'Actief',
                 'url'           => 'https://www.testWebsite.nl',
-            ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
                 ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
 
@@ -359,26 +321,21 @@ class ToolControllerTest extends TestCase
         ]);
 
         $request = Request::create(
-            'tools/' . 'testname',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => $name,
-                'description'   => 'coole test description',
-                'category'      => 'Webservice',
-                'status'        => 'Inactief',
-                'url'           => 'https://www.newTestWebsite.nl',
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
                 'specifications' => [
                     'interne-tool' => 'ja',
                 ]
             ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-3.png')
-                ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->update($request, Str::slug($name));
 
@@ -401,23 +358,21 @@ class ToolControllerTest extends TestCase
         $auth->login($user);
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
-            ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'specifications' => [
+                    'interne-tool' => 'ja',
+                ]
                 ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
         $controller->deactivate(Str::slug('testName'));
@@ -439,23 +394,21 @@ class ToolControllerTest extends TestCase
         $auth->login($user);
 
         $request = Request::create(
-            'tools',
-            'POST',
-            [
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
                 'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
-            ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'specifications' => [
+                    'interne-tool' => 'ja',
+                ]
                 ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
         $controller->activate(Str::slug('testName'));
@@ -479,23 +432,21 @@ class ToolControllerTest extends TestCase
         $toolname = 'testName';
         $toolslug = Str::slug('testName');
         $request = Request::create(
-            'tools',
-            'POST',
-            [
-                'name'          => $toolname,
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => 'testName',
                 'description'   => 'test description',
                 'category'      => 'Website',
                 'url'           => 'https://www.testWebsite.nl',
-            ],
-            [],
-            [
-                'logo'          => UploadedFile::fake()->image('logo.png'),
-                'images'        => [
-                    UploadedFile::fake()->image('image-1.png'),
-                    UploadedFile::fake()->image('image-2.png'),
-                    UploadedFile::fake()->image('image-3.png')
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'specifications' => [
+                    'interne-tool' => 'ja',
+                ]
                 ],
-            ]
+            [],     // Cookies
+            []      // POST files
         );
         $controller->store($request);
         $this->assertTrue(ToolView::where('tool_slug', $toolslug)->count() == 0);

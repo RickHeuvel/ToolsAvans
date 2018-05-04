@@ -16,20 +16,20 @@
         <hr class="mt-0">
 
         <div class="row">
-            <div class="col-12">            
+            <div class="col-12">
                 <h2 class="mb-0"><strong>Categorie toevoegen</strong></h2>
             </div>
         </div>
-        
+
         <hr>
 
         {{ Html::ul($errors->all()) }}
 
         {{ Form::open(['route' => 'categories.store']) }}
-               
+
         <div class="form-group">
             {{ Form::label('name', 'Naam  *') }}
-            {{ Form::text('name', Input::old('name'), ['class' => 'form-control']) }}
+            {{ Form::text('name', old('name'), ['class' => 'form-control']) }}
         </div>
 
         <div class="row">

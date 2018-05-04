@@ -15,10 +15,9 @@ class CreateToolImagesTable extends Migration
     {
         Schema::create('tool_images', function (Blueprint $table) {
             $table->string('tool_slug');
-            $table->string('image_filename');
+            $table->string('image_filename')->primary();
             $table->timestamps();
 
-            $table->primary(['tool_slug', 'image_filename']);
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade')->onDelete('cascade');
         });
     }

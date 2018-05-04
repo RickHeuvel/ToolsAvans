@@ -37,29 +37,23 @@
         {{ Html::ul($errors->all()) }}
 
         {{ Form::model($tool, ['route' => ['tools.update', $tool->slug], 'method' => 'PUT', 'files' => true]) }}
-        <div class="form-group">
-            {{ Form::label('name', 'Naam van de Tool *') }}
-            {{ Form::text('name', $tool->name, ['class' => 'form-control']) }}
-        </div>
+
         <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    {{ Form::label('fileupload', 'Upload hier het logo van de tool *') }}
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="logo">
-                        <label class="custom-file-label" for="customFile"></label>
+            <div class="col-lg-3 col-md-4">
+                {{ Form::label('logo', 'Logo *') }}
+                <div id="logo-uploader" class="dropzone">
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    {{ Form::label('name', 'Naam van de Tool *') }}
+                    {{ Form::text('name', $tool->name, ['class' => 'form-control']) }}
+                </div>
+            </div>
         </div>
-
-        <!-- Script to change to label of the filebrowser to the name of the uploaded file -->
-        <script>
-            $('.custom-file-input').on('change', function() { 
-                let fileName = $(this).val().split('\\').pop(); 
-                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
-            });
-        </script>
 
         <div class="row">
             <div class="col">
@@ -114,21 +108,12 @@
             {{ Form::textarea('description', $tool->description, ['class' => 'form-control']) }}
         </div>
 
-        <div class="form-group">
-            {{ Form::label('fileupload', 'Upload 2 tot 5 screenshots *') }}<br>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="images[]" multiple>
-                <label class="custom-file-label" for="customFile"></label>
+        {{ Form::label('images', 'Plaatjes * minimaal 2, maximaal 7') }}
+        <div id="image-uploader" class="dropzone">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
             </div>
         </div>
-
-        <!-- Script to change to lable of the filebrowser to the name of the uploaded file -->
-        <script>
-            $('.custom-file-input').on('change', function() { 
-                let fileName = $(this).val().split('\\').pop(); 
-                $(this).next('.custom-file-label').addClass("selected").html(fileName); 
-            });
-        </script> 
 
         <div class="row">
             <div class="col-6 mt-2">
@@ -139,6 +124,9 @@
             </div>
         </div>
 
+        <input hidden id="images" name="images" value="">
+        <input hidden id="logo" name="logo" value="">
+
         {{ Form::close() }}
     </div>
 @endsection
@@ -148,7 +136,7 @@
         function addSpecification(){
             var newdiv = document.createElement('div');
             var divid = Math.random();
-            var selectid = Math.random(); 
+            var selectid = Math.random();
             var inputid = Math.random();
             newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a class=\"btn btn-avans\" onClick='removeSpecification(" + divid + ")'><i class='fa fa-trash'></i></a></div></div>"
             document.getElementById('specifications').appendChild(newdiv);
@@ -158,12 +146,163 @@
             var specification = document.getElementById(selectid);
             var specificationValue = specification.options[specification.selectedIndex].value;
             var specificationInput = document.getElementById(inputid);
-            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');    
+            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');
         }
 
         function removeSpecification(divid){
             var element = document.getElementById(divid);
             element.parentNode.removeChild(element);
         }
+
+        Dropzone.autoDiscover = false;
+
+        var imgURI = '{{ route('tools.image', '') }}' + '/';
+        var logo = '{{ $tool->logo_filename }}';
+        var images = [];
+        var imagesOriginalFilenames = [];
+        @foreach($tool->images as $toolImage)
+            images.push('{{ $toolImage->image_filename }}');
+            imagesOriginalFilenames.push('{{ $toolImage->image_filename }}');
+        @endforeach
+
+        // The only way to remove an thumbnail from dropzone when it errored is to call click on the removeLink of the file
+        // This will trigger the removedfile event.
+        // But when you do not want to do the stuff that's done when removing an uploaded image we need to bypass that block of code
+        // I found keeping a bool of wether the remove was triggered by error to be probably the only and easiest solution
+        var error = false;
+
+        $('div#logo-uploader').dropzone({
+            url: '{{ route('tools.uploadImage') }}',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            addRemoveLinks: true,
+            parallelUploads: 1,
+            paramName: 'image',
+            maxFiles: 1,
+            maxFilesize: 1.5,
+            acceptedFiles: '.jpeg,.png,.jpg,.gif',
+            dictDefaultMessage: 'Upload hier het nieuwe logo',
+            dictFallbackMessage: 'Je browser is te oud, deze zal niet optimaal werken',
+            dictFileTooBig: 'Dit logo is te groot, hij mag maximaal 1,5MB zijn',
+            dictInvalidFileType: 'Dit bestands type is niet ondersteund, gebruik jpeg, png, jpg of gif',
+            dictResponseError: 'Er ging iets fout op de server',
+            dictCancelUpload: 'Stop upload',
+            dictUploadCanceled: 'Upload gestopt',
+            dictRemoveFile: 'Verwijder logo',
+            dictMaxFilesExceeded: 'Je mag maar 1 logo gebruiken',
+
+            init: function() {
+                var logoUploader = this;
+
+                // accepted: true let's dropzone include the mock in the current amount of images
+                // otherwise the maxFiles will not take into account the preloaded images
+                var logoMock = { name: logo, size: 1000, accepted: true, dataURL: imgURI + logo };
+                logoUploader.emit("addedfile", logoMock);
+                logoUploader.createThumbnailFromUrl(logoMock,
+                    logoUploader.options.thumbnailWidth, logoUploader.options.thumbnailHeight, logoUploader.options.thumbnailMethod,
+                    true, function(thumbnail) {
+                        logoUploader.emit('thumbnail', logoMock, thumbnail);
+                    }
+                );
+                logoUploader.emit("complete", logoMock);
+                logoUploader.files.push(logoMock);
+            },
+            success: function(file, response) {
+                logo = response;
+                fillHiddenInput();
+            },
+            removedfile: function(file) {
+                if (!error) {
+                    logo = '';
+                    fillHiddenInput();
+                }
+
+                error = false;
+                // Removing the thumbnail, dropzone doesn't do this for you
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            },
+            error: function(file, errorMessage) {
+                error = true;
+                file._removeLink.click();
+                alert(errorMessage);
+                console.log(errorMessage);
+            },
+        });
+
+        $('div#image-uploader').dropzone({
+            url: '{{ route('tools.uploadImage') }}',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            addRemoveLinks: true,
+            parallelUploads: 8,
+            paramName: 'image',
+            maxFiles: 7,
+            maxFilesize: 1.5,
+            acceptedFiles: '.jpeg,.png,.jpg,.gif',
+            dictDefaultMessage: 'Upload hier de nieuwe plaatjes',
+            dictFallbackMessage: 'Je browser is te oud, deze zal niet optimaal werken',
+            dictFileTooBig: 'Dit plaatje is te groot, hij mag maximaal 1,5MB zijn',
+            dictInvalidFileType: 'Dit bestands type is niet ondersteund, gebruik jpeg, png, jpg of gif',
+            dictResponseError: 'Er ging iets fout op de server',
+            dictCancelUpload: 'Stop upload',
+            dictUploadCanceled: 'Upload gestopt',
+            dictRemoveFile: 'Verwijder plaatje',
+            dictMaxFilesExceeded: 'Je mag maximaal maar 7 plaatjes gebruiken',
+
+            init: function() {
+                var imageUploader = this;
+
+                for (i = 0; i < images.length; i++) {
+                    // accepted: true let's dropzone include the mock in the current amount of images
+                    // otherwise the maxFiles will not take into account the preloaded images
+                    let imageMock = { name: images[i], size: 1000, accepted: true, dataURL: imgURI + images[i] };
+                    imageUploader.emit("addedfile", imageMock);
+                    imageUploader.createThumbnailFromUrl(imageMock,
+                        imageUploader.options.thumbnailWidth, imageUploader.options.thumbnailHeight, imageUploader.options.thumbnailMethod,
+                        true, function(thumbnail) {
+                            imageUploader.emit('thumbnail', imageMock, thumbnail);
+                        }
+                    );
+                    imageUploader.emit("complete", imageMock);
+                    imageUploader.files.push(imageMock);
+                }
+            },
+            success: function(file, response) {
+                images.push(response);
+                imagesOriginalFilenames.push(file.name);
+                fillHiddenInput();
+            },
+            removedfile: function(file) {
+                if (!error) {
+                    var index = imagesOriginalFilenames.indexOf(file.name);
+
+                    images.splice(index, 1);
+                    imagesOriginalFilenames.splice(index, 1);
+                    fillHiddenInput();
+                }
+
+                error = false;
+
+                // Removing the thumbnail, dropzone doesn't do this for you
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            },
+            error: function(file, errorMessage) {
+                error = true;
+                file._removeLink.click();
+                alert(errorMessage);
+                console.log(errorMessage);
+            },
+        });
+
+        function fillHiddenInput() {
+            $('#images').val(JSON.stringify(images));
+            $('#logo').val(logo);
+        }
+        // Calling it once on js load so that the preloaded images get put into the hidden input
+        fillHiddenInput();
      </script>
 @endsection

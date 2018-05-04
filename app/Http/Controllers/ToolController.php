@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Rules\ToolDoesNotExist;
 use App\Rules\NameExistsInDatabase;
+use App\Rules\ImageExistsOnDisk;
 
 class ToolController extends Controller
 {
@@ -53,8 +54,8 @@ class ToolController extends Controller
 
         $sortOptions = SortOption::all();
         $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? $request->input('sort') : implode('-', ['views_count', 'desc']);
-        
-        $sortType = explode('-', $selectedSortOptions)[0]; 
+
+        $sortType = explode('-', $selectedSortOptions)[0];
         $sortDirection = explode('-', $selectedSortOptions)[1];
         $sortOptions->where('type', $sortType)->where('direction', $sortDirection)->first()->active = true;
 
@@ -67,7 +68,7 @@ class ToolController extends Controller
                 Tool::activeTools()->withCount('views')->search($request->input('searchQuery'))->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage) :
                 Tool::activeTools()->withCount('views')->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage));
         }
-      
+
         if ($request->ajax())
             return response()->json([
                 'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications', 'selectedSortOptions'))->render(),
@@ -101,24 +102,28 @@ class ToolController extends Controller
      * file 'logo'
      * string 'status'
      * int 'category'
-     * array with files 'images[]'
-     * 
+     * encoded json string containing uploaded image filenames
+     *
      * @return Response
      */
     public function store(Request $request)
     {
+        // Converting the images string with the filenames to an array and insert it into the request for validation
+        $images = json_decode($request->input('images'));
+        $thingsToValidate = array_merge($request->all(), ['images' => $images]);
+
         $rules = [
             'name'              => 'required|unique:tools|max:255',
             'description'       => 'required',
             'url'               => 'required|url',
-            'logo'              => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
+            'logo'              => ['required', new ImageExistsOnDisk],
             'category'          => 'required|exists:tool_category,slug',
-            'images.*'          => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
-            'images'            => 'array|between:2,8',
             'specifications.*'  => 'required|max:255',
+            'images'            => 'array|between:2,8',
+            'images.*'          => [new ImageExistsOnDisk],
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($thingsToValidate, $rules);
         if ($validator->fails()) {
             return redirect()->route('tools.create')->withErrors($validator)->withInput();
         } else {
@@ -130,14 +135,14 @@ class ToolController extends Controller
                 'uploader_id'   => Auth::id(),
                 'category_slug' => $request->input('category'),
                 'status_slug'   => $status->slug,
-                'logo_filename' => $this->saveImage($request->file('logo'), Str::slug($request->name) . '-logo'),
+                'logo_filename' => $request->input('logo'),
             ]);
 
-            // Here we create a ToolImage record for every image that has been uploaded, link it to the Tool and save the image to the local disk
-            for ($i = 0; $i < count($request->file('images')); $i++) {
+            // Here we create a ToolImage record for every image that has been uploaded
+            for ($i = 0; $i < count($images); $i++) {
                 ToolImage::create([
                     'tool_slug'      => $tool->slug,
-                    'image_filename' => $this->saveImage($request->file('images')[$i], $tool->slug . '-' . ($i+1)),
+                    'image_filename' => $images[$i]
                 ]);
             }
 
@@ -203,7 +208,7 @@ class ToolController extends Controller
         $categories = ToolCategory::pluck('name','slug');
         $specifications = Specification::all();
         $toolspecifications = Tool::where('slug', $slug)->firstOrFail()->specifications()->get();
-        
+
         return view('pages.tool.edit', compact('tool', 'categories', 'toolspecifications', 'specifications'));
     }
 
@@ -218,15 +223,18 @@ class ToolController extends Controller
      * file 'logo'
      * string 'status'
      * int 'category'
-     * array with files 'images[]'
-     * 
+     * encoded json string containing uploaded image filenames
+     *
      * @param $slug
-     * 
+     *
      * @return Response
      */
     public function update(Request $request, $slug)
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
+        // Converting the images string with the filenames to an array and insert it into the request for validation
+        $images = json_decode($request->input('images'));
+        $thingsToValidate = array_merge($request->all(), ['images' => $images]);
 
         if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
             ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
@@ -238,14 +246,13 @@ class ToolController extends Controller
         $rules = [
             'name'        => ['required','max:255', new ToolDoesNotExist($tool)],
             'description' => 'required',
-            'url'         => 'required|url',
-            'logo'        => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
+            'logo'        => ['required', new ImageExistsOnDisk],
             'category'    => 'required|exists:tool_category,slug',
-            'images.*'    => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
             'images'      => 'array|between:2,8',
+            'images.*'    => [new ImageExistsOnDisk],
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($thingsToValidate, $rules);
         if ($validator->fails()) {
             return redirect()->route('tools.edit', ['tool' => $slug])->withErrors($validator)->withInput();
         } else {
@@ -254,7 +261,7 @@ class ToolController extends Controller
             $tool->url           = $request->input('url');
             $tool->uploader_id   = Auth::id();
             $tool->category_slug = $request->input('category');
-            $tool->logo_filename = $this->saveImage($request->file('logo'), Str::slug($request->name) . '-logo');
+            $tool->logo_filename = $request->input('logo');
             $tool->save();
 
             // Setting the feedback to fixed, if there was feedback
@@ -264,17 +271,18 @@ class ToolController extends Controller
             }
 
             // Deleting the old images
-            $toolImages = ToolImage::where('tool_slug', $tool->slug)->get();
-            foreach ($toolImages as $toolImage) {
-               $this->deleteImage($toolImage->image_filename);
+            $oldImages = ToolImage::where('tool_slug', $tool->slug)->pluck('image_filename')->all();
+            $removedImages = array_diff($oldImages, $images);
+            foreach ($removedImages as $removedImage_filename) {
+                $this->deleteImage($removedImage_filename);
             }
 
             ToolImage::where('tool_slug', $tool->slug)->delete();
-            // Here we create the new ToolImage records for every image that has been uploaded, link it to the Tool and save the image to the local disk
-            for ($i = 0; $i < count($request->file('images')); $i++) {
+            // Here we create the new ToolImage records for every image that has been uploaded
+            for ($i = 0; $i < count($images); $i++) {
                 ToolImage::create([
                     'tool_slug'      => $tool->slug,
-                    'image_filename' => $this->saveImage($request->file('images')[$i], $tool->slug . '-' . ($i+1)),
+                    'image_filename' => $images[$i],
                 ]);
             }
 
@@ -300,8 +308,59 @@ class ToolController extends Controller
 
             return redirect()->route('tools.show', ['tool' => $tool->slug]);
         }
-
     }
+
+    public function uploadImage(Request $request) {
+        $image = $request->file('image');
+
+        $rules = [
+            'image'    => 'required|image|mimes:jpeg,png,jpg,gif|max:1500',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        $filename = null;
+        do {
+            $randomString = $this->generateRandomString();
+            $filename = $this->saveImage($image, $randomString);
+        } while (!$filename);
+
+        return $filename;
+    }
+    /**
+     * Remove an image
+     *
+     * @param Request $request
+     * input filename
+     * @return Repsonse
+     */
+    public function removeImage(Request $request) {
+        $filename = $request->input('filename');
+        /**
+         * Check if the filename is already linked to a tool
+         * If so check permissions to prevent the possibility to remove all the tool images as a student
+         * Else the logged in user can remove any non linked image
+         * I do not think the time between uploading and linking is enough for someone to
+         * maliciously remove the image from the server with bruteforcing the filename
+         */
+        $toolImage = ToolImage::where('image_filename', $filename)->first();
+        if ($toolImage != null) {
+            $tool = $toolImage->tool;
+
+            if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
+                ($tool->status->isConcept() && ((Auth::user()->isStudent() &&
+                $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
+                Session::flash('message', 'Je hebt geen rechten om deze tool aan te passen');
+                return redirect()->route('tools.index');
+            }
+        }
+
+        return $this->deleteImage($filename) ? 'deleted' : null;
+    }
+
 
     /**
      * Activate the specified resource
@@ -362,13 +421,17 @@ class ToolController extends Controller
     /**
      * Save a given image to the local disk with a given filename
      * Adds the image extention to the filename before saving
-     * 
+     * Will return null if the filenameWithExtention already exists
+     *
      * @param UploadedFile $image
      * @return string $filenameWithExtention
      */
     private function saveImage($image, $filename)
     {
         $filenameWithExtention = $filename . '.' . $image->getClientOriginalExtension();
+        if (Storage::disk('tool-images')->exists($filenameWithExtention))
+            return null;
+
         Storage::disk('tool-images')->put($filenameWithExtention, File::get($image));
 
         return $filenameWithExtention;
@@ -376,12 +439,24 @@ class ToolController extends Controller
 
     /**
      * Deletes a given image filename
-     * 
+     *
      * @param string $imageFilename
      * @return bool $deleted
      */
     private function deleteImage($imageFilename)
     {
         return Storage::disk('tool-images')->delete($imageFilename);
+    }
+
+
+    private function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

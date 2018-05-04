@@ -138,7 +138,7 @@
                 // Sort button clicked
                 $('.sort-dropdown .dropdown-item').on('click', function (e) {
                     e.preventDefault();
-                    
+
                     sortType = $(this).data('sort-type');
                     sortDirection = $(this).data('sort-direction');
                     getTools(generateURL());
