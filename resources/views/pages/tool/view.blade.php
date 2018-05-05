@@ -73,7 +73,6 @@
                                     <div class="col-12 col-md-6">
                                         <h1>{{$tool->name}}</h1>
                                         <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
-                                        <p class="tool-uploaded mb-0 mt-5">{{$tool->created_at->format('d F Y H:i')}}</p>
                                     </div>
                                     <div class="col-12 col-md-6 text-right">
                                         <div class="tool-rating" id="toolRating">
@@ -92,7 +91,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <p>{{$tool->description}}</p>
+                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
                                 <hr>
                                 @if (Auth::check() && empty($curUserReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
@@ -113,13 +113,13 @@
                         <a class="nav-link" href="#screenshots">Screenshots</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#info">Informatie</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#reviews">Reviews</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#specificaties">Specificaties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#vragen">Vragen</a>
                     </li>
                 </ul>
             </div>
@@ -137,13 +137,6 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
-        </div>
-        <hr class="mt-4">
-        <div class="row">
-            <div class="tool-info col-12">
-                <h2 id="info">Informatie</h2>
-                <p class="mt-4 mb-4">{{$tool->description}}</p>
             </div>
         </div>
         <hr class="mt-4">
@@ -186,6 +179,13 @@
                 @else
                     <p>Deze tool heeft nog geen specificaties!</p>
                 @endif
+            </div>
+        </div>
+        <hr class="mt-4">
+        <div class="row pb-5">
+            <div class="tool-specs col-12">
+                <h2 id="vragen" class="mb-4">Vragen</h2>
+                @include('partials.questions')
             </div>
         </div>
     </div>

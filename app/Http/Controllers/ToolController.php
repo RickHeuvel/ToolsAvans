@@ -16,6 +16,8 @@ use App\SortOption;
 use App\ToolReview;
 use App\ToolStatus;
 use App\ToolCategory;
+use App\ToolQuestion;
+use App\ToolAnswer;
 use App\ToolView;
 use App\Specification;
 use App\Events\ViewTool;
@@ -184,9 +186,10 @@ class ToolController extends Controller
 
         $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
         $toolspecifications = ToolSpecification::where('tool_slug', $slug)->get();
+        $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
         Event::fire(new ViewTool($tool));
 
-        return view('pages.tool.view', compact('tool', 'toolspecifications', 'curUserReview'));
+        return view('pages.tool.view', compact('tool', 'toolspecifications', 'curUserReview', 'questions'));
     }
 
     /**

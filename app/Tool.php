@@ -76,6 +76,10 @@ class Tool extends Model
         return $this->hasMany('App\ToolView', 'tool_slug', 'slug');
     }
 
+    public function questions(){
+        return $this->hasMany('App\ToolQuestion', 'tool_slug', 'slug');
+    }
+
     // Query functions
     public static function activeTools() {
         return static::where('status_slug', 'actief');

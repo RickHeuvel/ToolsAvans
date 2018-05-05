@@ -35,20 +35,20 @@ class IncrementViewCounter
         if (array_key_exists($tool->slug, $session)) {
             if (strtotime($session[$tool->slug]) < strtotime("-5 minutes")) {
                 $this->createView($tool);
-                $session[$tool->slug] = date('Y-m-d H:i:s');
+                $session[$tool->slug] = now();
             }
         } else {
             $this->createView($tool);
-            $session[$tool->slug] = date('Y-m-d H:i:s');
+            $session[$tool->slug] = now();
         }
 
         Session::put('views', $session);
     }
 
     private function createView($tool) {
-        $view = new ToolView();
-        $view->tool_slug = $tool->slug;
-        $view->created_at = date('Y-m-d H:i:s');
-        $view->save();
+        ToolView::create([
+            'tool_slug' => $tool->slug,
+            'created_at' => now()
+        ]);
     }
 }

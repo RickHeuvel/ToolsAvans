@@ -35,6 +35,15 @@ Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.
 Route::get('tools/{tool}/createrating', 'ReviewController@createRating')->name('tools.createrating');
 Route::post('tools/{tool}/addreview', 'ReviewController@addReview')->name('tools.addreview');
 
+Route::get('tools/{tool}/questions', 'QuestionController@show')->name('tools.questions');
+
+/* Question/answer routes */
+Route::get('questions/{question}/upvote', 'QuestionController@upvote')->name('questions.upvote');
+Route::get('answers/{answer}/upvote', 'AnswerController@upvote')->name('answers.upvote');
+
+Route::post('tools/{tool}/addquestion', 'QuestionController@store')->name('questions.store');
+Route::post('tools/{tool}/{question}', 'AnswerController@store')->name('answer.store');
+
 /* Authentication routes */
 Route::get('login', 'AuthController@redirectToProvider')->name('login');
 Route::get('login-callback', 'AuthController@handleProviderCallback')->name('register');

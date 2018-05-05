@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             ToolFeedbackTableSeeder::class,
             ToolSpecificationLookupTableSeeder::class,
             ToolSpecificationsTableSeeder::class,
+            ToolQuestionTableSeeder::class,
+            ToolAnswerTableSeeder::class,
             ToolViewTableSeeder::class,
             SortOptionsTableSeeder::class
         ]);
