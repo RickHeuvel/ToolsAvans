@@ -62,9 +62,9 @@ class Tool extends Model
         return $this->belongsTo('App\ToolCategory', 'category_slug');
     }
 
-    public function specifications()
+    public function tags()
     {
-        return $this->hasMany('App\ToolSpecification', 'tool_slug');
+        return $this->hasMany('App\ToolTag', 'tool_slug');
     }
 
     public function feedback() {

@@ -2,14 +2,23 @@
 @if (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal")
     <div class="row">
         <div class="col-12">
-            @if (!empty($selectedCategories) && count($selectedCategories) > 0)
+            @if ((!empty($selectedCategories) && count($selectedCategories) > 0) || (!empty($selectedTags) && count($selectedTags) > 0))
                 <h8>Actieve filters:</h8>
                 <br>
-                @foreach($categories as $category)
-                    @if (in_array($category->slug,$selectedCategories))
-                        <button type="button" id="btn{{$category->slug}}" data-slug="{{$category->slug}}" class="btn  filter-button">{{ in_array($category->slug, $selectedCategories) ? $category->slug : ""}} <span class="badge">X</span></button>
-                    @endif
-                @endforeach
+                @if(!empty($selectedCategories) && count($selectedCategories) > 0)
+                    @foreach($categories as $category)
+                        @if (in_array($category->slug,$selectedCategories))
+                            <button type="button" id="btn{{$category->slug}}" data-slug="{{$category->slug}}" class="btn  filter-button">{{ in_array($category->slug, $selectedCategories) ? $category->name : ""}} <span class="badge">X</span></button>
+                        @endif
+                    @endforeach
+                @endif
+                @if(!empty($selectedTags) && count($selectedTags) > 0)
+                    @foreach($tags as $tag)
+                        @if (in_array($tag->tag_slug,$selectedTags))
+                            <button type="button" id="btn{{$tag->tag_slug}}" data-slug="{{$tag->tag_slug}}" class="btn  filter-button">{{ in_array($tag->tag_slug, $selectedTags) ? $tag->tag->name : ""}} <span class="badge">X</span></button>
+                        @endif
+                    @endforeach
+                @endif
             @endif
         </div>
     </div>

@@ -4,6 +4,7 @@ namespace tests\unit\Controllers;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\TagController;
 use App\User;
 use App\Tool;
 use App\ToolImage;
@@ -249,17 +250,28 @@ class ToolControllerTest extends TestCase
     }
 
     /**
-     * Test specification store()
+     * Test tag store()
      *
      * @return void
      */
-    public function testSpecificationsStore() {
+    public function testTagsStore() {
         $auth = new AuthController();
         $controller = new ToolController();
+        $tagController = new TagController();
         Storage::fake('tool-images');
 
         $user = factory(User::class)->states('employee')->make();
         $auth->login($user);
+
+        $request = Request::create(
+            'tags',
+            'POST',
+            [
+                'name'          => 'testName',
+                'default'       => true,
+            ]
+        );
+        $tagController->store($request);
 
         $request = Request::create(
             'tools',// URI
@@ -271,8 +283,8 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'specifications' => [
-                    'interne-tool' => 'ja',
+                'tags' => [
+                    'testname',
                 ]
             ],
             [],     // Cookies
@@ -280,25 +292,37 @@ class ToolControllerTest extends TestCase
         );
 
         $controller->store($request);
-        $this->assertDatabaseHas('tool_specifications', [
+        $this->assertDatabaseHas('tool_tags', [
             'tool_slug' => Str::slug('testName'),
         ]);
     }
 
     /**
-     * Test specification update())
+     * Test tag update())
      *
      * @return void
      */
-    public function testSpecificationUpdate() {
+    public function testTagUpdate() {
         $auth = new AuthController();
         $controller = new ToolController();
+        $tagController = new TagController();
+
         Storage::fake('tool-images');
 
         $user = factory(User::class)->states('employee')->make();
         $auth->login($user);
 
         $name = 'newTestName';
+
+        $request = Request::create(
+            'tags',
+            'POST',
+            [
+                'name'          => $name,
+                'default'       => true,
+            ]
+        );
+        $tagController->store($request);
 
         $request = Request::create(
             'tools',// URI
@@ -316,7 +340,7 @@ class ToolControllerTest extends TestCase
         );
         $controller->store($request);
 
-        $this->assertDatabaseMissing('tool_specifications', [
+        $this->assertDatabaseMissing('tool_tags', [
             'tool_slug' => Str::slug($name),
         ]);
 
@@ -330,8 +354,8 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'specifications' => [
-                    'interne-tool' => 'ja',
+                'tags' => [
+                    Str::slug($name),
                 ]
             ],
             [],     // Cookies
@@ -339,7 +363,7 @@ class ToolControllerTest extends TestCase
         );
         $controller->update($request, Str::slug($name));
 
-        $this->assertDatabaseHas('tool_specifications', [
+        $this->assertDatabaseHas('tool_tags', [
             'tool_slug' => Str::slug($name),
         ]);
     }

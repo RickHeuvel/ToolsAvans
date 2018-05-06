@@ -3,13 +3,13 @@ namespace tests\unit\Controllers;
 
 use Tests\TestCase;
 use Illuminate\Http\Request;
-use App\Http\Controllers\SpecificationController;
+use App\Http\Controllers\TagController;
 use App\User;
 use Auth;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Str;
 
-class SpecificationControllerTest extends TestCase
+class TagControllerTest extends TestCase
 {
     /**
      * Test store()
@@ -19,12 +19,12 @@ class SpecificationControllerTest extends TestCase
     public function testStore()
     {
         $auth = new AuthController();
-        $controller = new SpecificationController();
+        $controller = new TagController();
         $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
                 'name'          => 'testName',
@@ -33,7 +33,7 @@ class SpecificationControllerTest extends TestCase
         );
         $controller->store($request);
 
-        $this->assertDatabaseHas('tool_specification_lookup', [
+        $this->assertDatabaseHas('tool_tag_lookup', [
             'name' => 'testName',
             'default' => true,
         ]);
@@ -47,19 +47,19 @@ class SpecificationControllerTest extends TestCase
     public function testStoreValidationFail()
     {
         $auth = new AuthController();
-        $controller = new SpecificationController();
+        $controller = new TagController();
         $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
             ]
         );
         $controller->store($request);
 
-        $this->assertDatabaseMissing('tool_specification_lookup', [
+        $this->assertDatabaseMissing('tool_tag_lookup', [
             'name' => 'testName',
         ]);
     }
@@ -72,7 +72,7 @@ class SpecificationControllerTest extends TestCase
     public function testUpdate()
     {
         $auth = new AuthController();
-        $controller = new SpecificationController();
+        $controller = new TagController();
         $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
@@ -80,7 +80,7 @@ class SpecificationControllerTest extends TestCase
         $newName = 'newTestName';
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
                 'name'          => $oldName,
@@ -89,7 +89,7 @@ class SpecificationControllerTest extends TestCase
         $controller->store($request);
 
         $request = Request::create(
-            'specifications',
+            'tag',
             'POST',
             [
                 'name'          => $newName,
@@ -97,10 +97,10 @@ class SpecificationControllerTest extends TestCase
         );
         $controller->update($request, 'testname');
 
-        $this->assertDatabaseMissing('tool_specification_lookup', [
+        $this->assertDatabaseMissing('tool_tag_lookup', [
             'name' => $oldName,
         ]);
-        $this->assertDatabaseHas('tool_specification_lookup', [
+        $this->assertDatabaseHas('tool_tag_lookup', [
             'name' => $newName,
         ]);
     }
@@ -113,7 +113,7 @@ class SpecificationControllerTest extends TestCase
     public function testUpdateValidationFail()
     {
         $auth = new AuthController();
-        $controller = new SpecificationController();
+        $controller = new TagController();
         $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
@@ -121,7 +121,7 @@ class SpecificationControllerTest extends TestCase
         $newName = 'newTestName';
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
                 'name'          => $oldName,
@@ -130,17 +130,18 @@ class SpecificationControllerTest extends TestCase
         $controller->store($request);
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
+                'fail'
             ]
         );
         $controller->update($request, 'testname');
 
-        $this->assertDatabaseHas('tool_specification_lookup', [
+        $this->assertDatabaseHas('tool_tag_lookup', [
             'name' => $oldName,
         ]);
-        $this->assertDatabaseMissing('tool_specification_lookup', [
+        $this->assertDatabaseMissing('tool_tag_lookup', [
             'name' => $newName,
         ]);
     }
@@ -153,14 +154,14 @@ class SpecificationControllerTest extends TestCase
     public function testDestroy()
     {
         $auth = new AuthController();
-        $controller = new SpecificationController();
+        $controller = new TagController();
         $user = factory(User::class)->states('admin')->make();
         $auth->login($user);
 
         $name = 'testname';
 
         $request = Request::create(
-            'specifications',
+            'tags',
             'POST',
             [
                 'name'          => $name,
@@ -168,13 +169,13 @@ class SpecificationControllerTest extends TestCase
         );
         $controller->store($request);
 
-        $this->assertDatabaseHas('tool_specification_lookup', [
+        $this->assertDatabaseHas('tool_tag_lookup', [
             'name' => $name,
         ]);
             
         $controller->destroy(Str::slug($name));
 
-        $this->assertDatabaseMissing('tool_specification_lookup', [
+        $this->assertDatabaseMissing('tool_tag_lookup', [
             'name' => $name,
         ]);
     }

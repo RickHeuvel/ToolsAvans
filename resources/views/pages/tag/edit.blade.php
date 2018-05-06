@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>Specificatie aanpassen | ToolHub</title>
+    <title>Tag aanpassen | ToolHub</title>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('portal') }}">Mijn portaal</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Specificatie aanpassen</li>
+                <li class="breadcrumb-item active" aria-current="page">Tag aanpassen</li>
             </ol>
         </nav>
 
@@ -17,34 +17,29 @@
 
         <div class="row">
             <div class="col-12">            
-                <h2 class="mb-0"><strong>Specificatie aanpassen</strong></h2>
+                <h2 class="mb-0"><strong>Tag aanpassen</strong></h2>
             </div>
         </div>
         
         <hr>
 
         <div class="alert alert-warning" role="alert">
-            <strong>Let op!</strong> Bij het aanpassen van een specificatie worden automatisch alle tools bijgewerkt naar de nieuwe specificatie.
+            <strong>Let op!</strong> Bij het aanpassen van een tag worden automatisch alle tools bijgewerkt naar de nieuwe tag.
         </div>
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::model($specification, ['route' => ['specifications.update', $specification->slug], 'method' => 'PUT']) }}
+        {{ Form::model($tag, ['route' => ['tags.update', $tag->slug], 'method' => 'PUT']) }}
                
 
         <div class="form-group">
             {{ Form::label('name', 'Naam  *') }}
-            {{ Form::text('name', $specification->name, ['class' => 'form-control']) }}
+            {{ Form::text('name', $tag->name, ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('category', 'Categorie *') }}
-            {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'custom-select form-control']) }}
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('default', 'Standaard specificatie *') }}
-            {{ Form::checkbox('default', null, $specification->default) }}  
+            {{ Form::label('default', 'Standaard tag *') }}
+            {{ Form::checkbox('default', null, $tag->default) }}  
         </div>
         
         <div class="row">

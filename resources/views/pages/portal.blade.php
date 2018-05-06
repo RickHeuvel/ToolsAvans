@@ -28,7 +28,7 @@
                     <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
                     @if (Auth::user()->isAdmin())
                         <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
-                        <a href="{{ route('specifications.create') }}" class="btn btn-danger btn-avans" id="specifications-button">Nieuwe specificatie toevoegen</a>
+                        <a href="{{ route('tags.create') }}" class="btn btn-danger btn-avans" id="tags-button">Nieuwe tag toevoegen</a>
                     @endif
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="specifications-tab" data-toggle="tab" href="#specifications" role="tab" aria-controls="specifications" aria-selected="false">Specificaties</a>
+                    <a class="nav-link" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Tags</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
@@ -140,19 +140,19 @@
                     @endforeach
                 </div>
 
-                <div class="tab-pane pt-4" id="specifications" role="tabpanel" aria-labelledby="categories-tab">
-                    @foreach($specifications as $specification)
+                <div class="tab-pane pt-4" id="tags" role="tabpanel" aria-labelledby="tags-tab">
+                    @foreach($tags as $tag)
                         <div class="row">
                             <div class="col-12">
-                                <div class="specification">
+                                <div class="tags">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <p class="specification-name">{{$specification->name}}</p>
+                                            <p class="tags-name">{{$tag->name}}</p>
                                         </div>
                                         <div class="col-12 col-md-6 text-right">
-                                            <a data-toggle="modal" data-target="#{{$specification->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ route('specifications.edit', $specification->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            @include('partials.modals.removespecification')
+                                            <a data-toggle="modal" data-target="#{{$tag->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                            <a href="{{ route('tags.edit', $tag->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                            @include('partials.modals.removetag')
                                         </div>
                                     </div>
                                 </div>

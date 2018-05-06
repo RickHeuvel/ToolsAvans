@@ -19,13 +19,14 @@ use App\ToolCategory;
 use App\ToolQuestion;
 use App\ToolAnswer;
 use App\ToolView;
-use App\Specification;
+use App\Tag;
 use App\Events\ViewTool;
-use App\ToolSpecification;
+use App\ToolTag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Rules\ToolDoesNotExist;
+use App\Rules\ToolOnlyOnceInList;
 use App\Rules\NameExistsInDatabase;
 use App\Rules\ImageExistsOnDisk;
 
@@ -51,8 +52,8 @@ class ToolController extends Controller
         $categories = ToolCategory::all();
         $selectedCategories = ($request->has('categories')) ? explode('+', $request->input('categories')) : null;
 
-        $specifications = ToolSpecification::all();
-        $selectedSpecifications = ($request->has('specifications')) ? explode('+', $request->input('specifications')) : null;
+        $tags = ToolTag::all()->unique('tag_slug');
+        $selectedTags = ($request->has('tags')) ? explode('+', $request->input('tags')) : null;
 
         $sortOptions = SortOption::all();
         $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? $request->input('sort') : implode('-', ['views_count', 'desc']);
@@ -61,23 +62,29 @@ class ToolController extends Controller
         $sortDirection = explode('-', $selectedSortOptions)[1];
         $sortOptions->where('type', $sortType)->where('direction', $sortDirection)->first()->active = true;
 
-        if ($request->has('categories')) {
-            $tools = (($request->has('searchQuery')) ?
-                Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->search($request->input('searchQuery'))->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage) :
-                Tool::activeTools()->whereIn('category_slug', $selectedCategories)->withCount('views')->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage));
-        } else {
-            $tools = (($request->has('searchQuery')) ?
-                Tool::activeTools()->withCount('views')->search($request->input('searchQuery'))->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage) :
-                Tool::activeTools()->withCount('views')->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage));
+        $tools = Tool::activeTools();
+
+        if($request->has('categories')){
+            $tools = $tools->whereIn('category_slug', $selectedCategories);
         }
+        if($request->has('tags')){
+            $tools = $tools->whereIn('tools.slug', $tags->whereIn('tag_slug', $selectedTags)->pluck('tool_slug'));
+        } 
+        $tools = $tools->withCount('views');
+        if($request->has('searchQuery')) {
+                $tools = $tools->search($request->input('searchQuery'));
+        }
+
+        // Filter on sorting type, and paginate
+        $tools = $tools->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage);
 
         if ($request->ajax())
             return response()->json([
-                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications', 'selectedSortOptions'))->render(),
+                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'tags', 'selectedTags', 'selectedSortOptions'))->render(),
                 'sorting' => view('partials.sorting', compact('selectedSortOptions', 'sortOptions'))->render()
             ]);
         else
-            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'specifications', 'selectedSpecifications', 'selectedSortOptions', 'sortOptions'));
+            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'tags', 'selectedTags', 'selectedSortOptions', 'sortOptions'));
     }
 
     /**
@@ -87,10 +94,9 @@ class ToolController extends Controller
      */
     public function create()
     {
+        $tags = Tag::all();
         $categories = ToolCategory::pluck('name', 'slug');
-        $specifications = Specification::all();
-
-        return view('pages.tool.create', compact('categories', 'specifications'));
+        return view('pages.tool.create', compact('categories', 'tags'));
     }
 
     /**
@@ -120,9 +126,10 @@ class ToolController extends Controller
             'url'               => 'required|url',
             'logo'              => ['required', new ImageExistsOnDisk],
             'category'          => 'required|exists:tool_category,slug',
-            'specifications.*'  => 'required|max:255',
             'images'            => 'array|between:2,8',
             'images.*'          => [new ImageExistsOnDisk],
+            'tags'              => new ToolOnlyOnceInList($request->input('tags')),
+
         ];
 
         $validator = Validator::make($thingsToValidate, $rules);
@@ -148,14 +155,13 @@ class ToolController extends Controller
                 ]);
             }
 
-            // Creating new records for specifications
-            $specifications = $request->input('specifications');
-            if (!empty($specifications)) {
-                foreach ($specifications as $key => $value) {
-                    $specification = ToolSpecification::create([
+            // Creating new records for tags
+            $tags = $request->input('tags');
+            if (!empty($tags)) {
+                foreach ($tags as $tag) {
+                    $specification = ToolTag::create([
                         'tool_slug' => $tool->slug,
-                        'specification_slug' => $key,
-                        'value' => $value,
+                        'tag_slug' => $tag,
                     ]);
                 }
             }
@@ -185,11 +191,11 @@ class ToolController extends Controller
         }
 
         $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
-        $toolspecifications = ToolSpecification::where('tool_slug', $slug)->get();
+        $toolTags = ToolTag::where('tool_slug', $slug)->get();
         $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
         Event::fire(new ViewTool($tool));
 
-        return view('pages.tool.view', compact('tool', 'toolspecifications', 'curUserReview', 'questions'));
+        return view('pages.tool.view', compact('tool', 'toolTags', 'curUserReview', 'questions'));
     }
 
     /**
@@ -208,11 +214,10 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
+        $tags = Tag::all();
+        $toolTags = ToolTag::where('tool_slug', $slug)->get();
         $categories = ToolCategory::pluck('name','slug');
-        $specifications = Specification::all();
-        $toolspecifications = Tool::where('slug', $slug)->firstOrFail()->specifications()->get();
-
-        return view('pages.tool.edit', compact('tool', 'categories', 'toolspecifications', 'specifications'));
+        return view('pages.tool.edit', compact('tool', 'categories', 'toolTags', 'tags'));
     }
 
     /**
@@ -251,8 +256,8 @@ class ToolController extends Controller
             'description' => 'required',
             'logo'        => ['required', new ImageExistsOnDisk],
             'category'    => 'required|exists:tool_category,slug',
-            'images'      => 'array|between:2,8',
             'images.*'    => [new ImageExistsOnDisk],
+            'tags'        => new ToolOnlyOnceInList($request->input('tags')),
         ];
 
         $validator = Validator::make($thingsToValidate, $rules);
@@ -289,17 +294,16 @@ class ToolController extends Controller
                 ]);
             }
 
-            // Deleting all specifcations from tool
-            ToolSpecification::where('tool_slug', $tool->slug)->delete();
+            // Deleting all tags from tool
+            ToolTag::where('tool_slug', $tool->slug)->delete();
 
-            // Creating new records for specifications
-            $specifications = $request->input('specifications');
-            if (!empty($specifications)) {
-                foreach ($specifications as $key => $value) {
-                    ToolSpecification::create([
+            // Creating new records for tags
+            $tags = $request->input('tags');
+            if (!empty($tags)) {
+                foreach ($tags as $tag) {
+                    $specification = ToolTag::create([
                         'tool_slug' => $tool->slug,
-                        'specification_slug' => $key,
-                        'value' => $value,
+                        'tag_slug' => $tag,
                     ]);
                 }
             }

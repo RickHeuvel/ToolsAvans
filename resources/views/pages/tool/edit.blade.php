@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-  <div class="container mt-4 pb-4">
+    <div class="container mt-4 pb-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -55,15 +55,13 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
                   {{ Form::label('url', 'Url *') }}
                   {{ Form::text('url', $tool->url, ['class' => 'form-control']) }}
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
+                <div class="col">
                     {{ Form::label('category', 'Categorie *') }}
                     {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'custom-select form-control']) }}
                 </div>
@@ -71,36 +69,31 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('specifications', 'Specificaties *') }}
-            @foreach($toolspecifications as $toolspecification)
-                <div id="{{ $toolspecification->specification_slug }}" class="row">
-                    <div class="col">
-                        <label>{{ $toolspecification->specification->name }}</label>
+            {{ Form::label('tags', 'Tags *') }}
+            @foreach($toolTags as $toolTag)
+                <div id="{{ $toolTag->tag->slug }}" class="row">
+                    <div class="col tag-label">
+                        <label>{{ $toolTag->tag->name }}</label>
+                        <input type="hidden" value="{{ $toolTag->tag->slug }}" name="tags[]"/>
                     </div>
-                    <div class="col">
-                        <input class="form-control mb-2" type="text" value="{{ $toolspecification->value }}" name="specifications[{{ $toolspecification->specification_slug }}]">
-                    </div>
-                    @if($toolspecification->specification->default == 0)
-                        <a onClick="removeSpecification('{{ $toolspecification->specification_slug }}')"><i class="fas fa-trash-alt"></i></a>
+                    @if(!$toolTag->tag->default)
+                        <a onClick="removeSpecification('{{ $toolTag->tag->slug }}')"><i class="fas fa-trash-alt"></i></a>
                     @endif
                 </div>
             @endforeach
-            @foreach($specifications as $specification)
-                @if($toolspecifications->where('specification_slug', $specification->slug)->first() == null && $specification->default == 1)
-                    <div id="{{ $specification->slug }}" class="row">
-                        <div class="col specification-label">
-                            <label>{{ $specification->name }}</label>
-                        </div>
-                        <div class="col">
-                            <input class="form-control mb-2" type="text" name="specifications[{{ $specification->slug }}]">
-                        </div>
+            @foreach($tags as $tag)
+                @if($tag->default && !$toolTags->pluck('tag_slug')->contains($tag->slug))
+                <div class="row">
+                    <div class="col tag-label">
+                        <label>{{ $tag->name }}</label>
+                        <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
                     </div>
+                </div>
                 @endif
             @endforeach
-            <div id="specifications">
-                <!--This div is intentionally empty, here will the code appear after clicking the button "Voeg nog een specificatie toe" -->
+            <div id="tags">
             </div>
-            <input class="btn btn-avans mt-2" type="button" value="Voeg nog een specificatie toe" onClick="addSpecification()">
+            <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
         </div>
 
         <div class="form-group">
@@ -132,27 +125,29 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        function addSpecification(){
+    <script>
+        
+        /* Tags */
+
+        var addTagButton = document.querySelector('#addTag');
+        addTagButton.addEventListener('click', function(){
+            addTag();
+        });
+
+        function addTag(){
             var newdiv = document.createElement('div');
             var divid = Math.random();
-            var selectid = Math.random();
-            var inputid = Math.random();
-            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a class=\"btn btn-avans\" onClick='removeSpecification(" + divid + ")'><i class='fa fa-trash'></i></a></div></div>"
-            document.getElementById('specifications').appendChild(newdiv);
+            var selectid = Math.random(); 
+            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2 text-right'><div class='col'><select name='tags[]' id='" + selectid + "' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2'><a class=\"btn btn-avans\" onClick='removeTag(" + divid + ")'><i class='fa fa-trash'></i></a><div>"
+            document.querySelector('#tags').appendChild(newdiv);
         }
 
-        function setInputName(selectid, inputid){
-            var specification = document.getElementById(selectid);
-            var specificationValue = specification.options[specification.selectedIndex].value;
-            var specificationInput = document.getElementById(inputid);
-            specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');
-        }
-
-        function removeSpecification(divid){
+        function removeTag(divid){
             var element = document.getElementById(divid);
             element.parentNode.removeChild(element);
         }
+
+        /* Dropzone */
 
         Dropzone.autoDiscover = false;
 

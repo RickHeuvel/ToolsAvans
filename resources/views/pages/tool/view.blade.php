@@ -116,7 +116,7 @@
                         <a class="nav-link" href="#reviews">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#specificaties">Specificaties</a>
+                        <a class="nav-link" href="#tags">Specificaties</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#vragen">Vragen</a>
@@ -164,20 +164,17 @@
         <hr class="mt-4">
         <div class="row pb-5">
             <div class="tool-specs col-12">
-                <h2 id="specificaties" class="mb-4">Specificaties</h2>
-                @if (count($toolspecifications) > 0)
-                    <table class="table table-striped">
-                        <tbody>
-                            @foreach($toolspecifications as $toolspecification)
-                                <tr>
-                                    <th scope="row">{{ $toolspecification->specification()->first()->name }}</th>
-                                    <td>{{ $toolspecification->value }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <h2 id="tags" class="mb-4">Tags</h2>
+                @if (count($toolTags) > 0)
+                    @foreach($toolTags as $toolTag)
+                        @if($loop->last)
+                            {{ $toolTag->tag->name }}
+                        @else
+                            {{ $toolTag->tag->name }},
+                        @endif
+                    @endforeach
                 @else
-                    <p>Deze tool heeft nog geen specificaties!</p>
+                    <p>Deze tool heeft nog geen tags!</p>
                 @endif
             </div>
         </div>

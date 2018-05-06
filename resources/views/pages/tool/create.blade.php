@@ -65,22 +65,19 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('specifications', 'Specificaties *') }}
-            @foreach($specifications as $specification)
-                @if($specification->default == 1 && is_null($specification->category))
-                    <div class="row">
-                        <div class="col specification-label">
-                            <label>{{ $specification->name }}</label>
-                        </div>
-                        <div class="col">
-                            <input class="form-control mb-2" type="text" name="specifications[{{ $specification->slug }}]">
-                        </div>
+            {{ Form::label('tags', 'Tags *') }}
+            @foreach($tags as $tag)
+                @if($tag->default)
+                <div class="row">
+                    <div class="col tag-label">
+                        <label>{{ $tag->name }}</label>
+                        <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
                     </div>
                 @endif
             @endforeach
-            <div id="specifications">
+            <div id="tags">
             </div>
-            <input class="btn btn-avans mt-2" type="button" value="Voeg nog een specifcatie toe" onClick="addSpecification()">
+            <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
         </div>
 
         {{ Form::label('images', 'Plaatjes * minimaal 2, maximaal 7') }}
@@ -107,29 +104,27 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        /* specifications */
-    function addSpecification(){
+    <script>
+    /*Tags*/
+    var addTagButton = document.querySelector('#addTag');
+    addTagButton.addEventListener('click', function(){
+        addTag();
+    });
+
+    function addTag(){
         var newdiv = document.createElement('div');
         var divid = Math.random();
-        var selectid = Math.random();
-        var inputid = Math.random();
-        newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2'><div class='col'><select id='"+ selectid + "' onChange='setInputName(" + selectid + "," + inputid + ")' class='custom-select'><option>Selecteer een specificatie</option>@foreach ($specifications as $specification)<option value='{{ $specification->slug }}'>{{ $specification->name }}</option>@endforeach</select></div><div class='col'><input id='"+ inputid+"' class='form-control' type='text'></div><div class='text-right'><a class=\"btn btn-avans\" onClick='removeSpecification(" + divid + ")'><i class='fa fa-trash'></i></a></div></div>"
-        document.getElementById('specifications').appendChild(newdiv);
+        var selectid = Math.random(); 
+        newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2 text-right'><div class='col'><select name='tags[]' id='" + selectid + "' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2'><a class=\"btn btn-avans\" onClick='removeTag(" + divid + ")'><i class='fa fa-trash'></i></a><div>"
+        document.querySelector('#tags').appendChild(newdiv);
     }
 
-    function setInputName(selectid, inputid){
-        var specification = document.getElementById(selectid);
-        var specificationValue = specification.options[specification.selectedIndex].value;
-        var specificationInput = document.getElementById(inputid);
-        specificationInput.setAttribute('name', 'specifications[' + specificationValue + ']');
-    }
-
-    function removeSpecification(divid){
+    function removeTag(divid){
         var element = document.getElementById(divid);
         element.parentNode.removeChild(element);
     }
 
+    /*Dropzone*/
     Dropzone.autoDiscover = false;
 
     var logo = '';

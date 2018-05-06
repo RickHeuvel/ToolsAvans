@@ -4,20 +4,20 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
-use App\Specification;
+use App\Tag;
 
-class SpecificationDoesNotExist implements Rule
+class TagDoesNotExist implements Rule
 {
-    private $specification;
+    private $tag;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($specification)
+    public function __construct($tag)
     {
-        $this->specification = $specification;
+        $this->tag = $tag;
     }
 
     /**
@@ -30,7 +30,7 @@ class SpecificationDoesNotExist implements Rule
     public function passes($attribute, $value)
     {
         $newSlug = Str::slug($value);
-        if ($this->specification->slug == $newSlug || ($this->specification->slug != $newSlug && !Specification::where('slug', $newSlug)->exists()))
+        if ($this->tag->slug == $newSlug || ($this->tag->slug != $newSlug && !Tag::where('slug', $newSlug)->exists()))
             return true;
         
         return false;
@@ -43,6 +43,6 @@ class SpecificationDoesNotExist implements Rule
      */
     public function message()
     {
-        return 'Deze specificatienaam bestaat al.';
+        return 'Deze tagnaam bestaat al.';
     }
 }

@@ -67,23 +67,23 @@
                     </div>
                 </div>
 
-                <!--<div class="row mb-3">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <p><strong>Specificaties</strong></p>
-                        @foreach($specifications as $specification)
+                        <p><strong>Tags</strong></p>
+                        @foreach($tags as $tag)
                             <div class="form-check mb-1">
-                                @if (!empty($selectedSpecifications))
-                                    <input class="form-check-input" name="spec[]" type="checkbox" value="{{$specification->slug}}" id="spec{{$specification->id}}" {{ in_array($specification->slug, $selectedSpecifications) ? "checked" : "" }}>
+                                @if (!empty($selectedTags))
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->tag_slug}}" id="tag{{$tag->id}}" {{ in_array($tag->tag_slug, $selectedTags) ? "checked" : "" }}>
                                 @else
-                                    <input class="form-check-input" name="spec[]" type="checkbox" value="{{$specification->slug}}" id="spec{{$specification->id}}">
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->tag_slug}}" id="tag{{$tag->id}}">
                                 @endif
-                                <label class="form-check-label" for="spec{{$specification->id}}">
-                                    {{$specification->name}}
+                                <label class="form-check-label" for="tag{{$tag->id}}">
+                                    {{$tag->tag->name}}
                                 </label>
                             </div>
                         @endforeach
                     </div>
-                </div>-->
+                </div>
             </div>
             <div class="col-12 col-md-9">
                 <section class="tools">
@@ -105,6 +105,13 @@
             /* Listeners */
             // Category checkboxes
             $('input[name="cat[]"]').on('change', function (e) {
+                e.preventDefault();
+
+                getTools(generateURL());
+            });
+
+            // Tag checkboxes
+            $('input[name="tag[]"]').on('change', function (e) {
                 e.preventDefault();
 
                 getTools(generateURL());
@@ -149,20 +156,27 @@
             /* Functions */
             function generateURL() {
                 var categories = [];
+                var tags = [];
                 $('input[name="cat[]"]:checked').each(function() {
                     categories.push($(this).val());
+                });
+
+                $('input[name="tag[]"]:checked').each(function() {
+                    tags.push($(this).val());
                 });
                 searchQuery = $('input[name="searchQuery"]').val();
 
                 var urlParams = new URLSearchParams();
                 if (categories.length > 0)
                     urlParams.append('categories', categories.join("+"));
+                if (tags.length > 0)
+                    urlParams.append('tags', tags.join("+"));
                 if (searchQuery)
                     urlParams.append('searchQuery', searchQuery);
                 if (sortType && sortDirection)
                     urlParams.append('sort', sortType + "-" + sortDirection);
 
-                return $(location).attr('pathname') + (categories.length > 0 || searchQuery) ? "?" + urlParams.toString() : "";
+                return $(location).attr('pathname') + (categories.length > 0 || tags.length > 0 || searchQuery) ? "?" + urlParams.toString() : "";
             }
 
             function getTools(url) {

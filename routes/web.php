@@ -18,7 +18,7 @@ Route::get('/', function() {
 Route::resources([
     'tools' => 'ToolController',
     'categories' => 'CategoryController',
-    'specifications' => 'SpecificationController'
+    'tags' => 'TagController'
 ]);
 
 /* Custom tool routes */
