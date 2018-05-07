@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-10 col-md-11 answer-content">
                                     <p class="text">{{ $answer->text }}</p>
-                                    <p class="answer-uploaded">Geplaatst op {{ $question->created_at->format('d F Y') }} door {{ $question->user->nickname }}</p>
+                                    <p class="answer-uploaded">Geplaatst op {{ $answer->created_at->format('d F Y') }} door {{ $answer->user->nickname }}</p>
                                 </div>
                             </div>
                             <hr>
