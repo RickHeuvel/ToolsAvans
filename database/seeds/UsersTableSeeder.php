@@ -170,7 +170,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Tim',
             'lastName' => 'van Kessel',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
         DB::table('users')->insert([
             'name' => 'tgapaans',
@@ -181,7 +182,8 @@ class UsersTableSeeder extends Seeder
             'firstName' => 'Tom',
             'lastName' => 'Paans',
             'location' => 'OWB',
-            'role' => 'admin'
+            'role' => 'student',
+            'admin' => true
         ]);
     }
 }
