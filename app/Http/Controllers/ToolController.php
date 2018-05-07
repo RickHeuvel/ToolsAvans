@@ -159,7 +159,7 @@ class ToolController extends Controller
             $tags = $request->input('tags');
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
-                    $specification = ToolTag::create([
+                    ToolTag::create([
                         'tool_slug' => $tool->slug,
                         'tag_slug' => $tag,
                     ]);
@@ -301,7 +301,7 @@ class ToolController extends Controller
             $tags = $request->input('tags');
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
-                    $specification = ToolTag::create([
+                    ToolTag::create([
                         'tool_slug' => $tool->slug,
                         'tag_slug' => $tag,
                     ]);

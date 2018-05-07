@@ -116,7 +116,7 @@
                         <a class="nav-link" href="#reviews">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tags">Specificaties</a>
+                        <a class="nav-link" href="#tags">Tags</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#vragen">Vragen</a>
@@ -143,38 +143,42 @@
         <div class="row">
             <div class="tool-reviews container-fluid col-12">
                 <h2 id="reviews">Reviews</h2>
-                <div class="owl-carousel reviews owl-theme mt-4">
-                    @foreach($tool->reviews->sortByDesc('created_at') as $review)
-                        <div class="item">
-                            <blockquote class="blockquote text-center">
-                                <p class="mb-2"><b>{{ $review->title }}</b></p>
-                                <p class="mb-2">{{ $review->description }}</p>
-                                <p class="review-rating">
-                                    @for($x = 0; $x < $review->rating; $x++)
-                                        <i class="fa fa-star"></i>
-                                    @endfor
-                                </p>
-                                <div class="blockquote-footer">{{ $review->user->nickname }}</div>
-                            </blockquote>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($tool->reviews->isEmpty())
+                        <b>Er zijn geen reviews :(</b>
+                @else
+                    <div class="owl-carousel reviews owl-theme mt-4">
+                            @foreach($tool->reviews->sortByDesc('created_at') as $review)
+                                <div class="item">
+                                    <blockquote class="blockquote text-center">
+                                        <p class="mb-2"><b>{{ $review->title }}</b></p>
+                                        <p class="mb-2">{{ $review->description }}</p>
+                                        <p class="review-rating">
+                                            @for($x = 0; $x < $review->rating; $x++)
+                                                <i class="fa fa-star"></i>
+                                            @endfor
+                                        </p>
+                                        <div class="blockquote-footer">{{ $review->user->nickname }}</div>
+                                    </blockquote>
+                                </div>
+                            @endforeach
+                    </div>
+                @endif
             </div>
         </div>
         <hr class="mt-4">
-        <div class="row pb-5">
+        <div class="row pb-1">
             <div class="tool-specs col-12">
                 <h2 id="tags" class="mb-4">Tags</h2>
                 @if (count($toolTags) > 0)
                     @foreach($toolTags as $toolTag)
                         @if($loop->last)
-                            {{ $toolTag->tag->name }}
+                            <b>{{ $toolTag->tag->name }}</b>
                         @else
-                            {{ $toolTag->tag->name }},
+                            <b>{{ $toolTag->tag->name }}</b>,
                         @endif
                     @endforeach
                 @else
-                    <p>Deze tool heeft nog geen tags!</p>
+                    <b>Deze tool heeft geen tags :(</b>
                 @endif
             </div>
         </div>

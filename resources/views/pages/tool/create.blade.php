@@ -66,16 +66,16 @@
 
         <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}
-            @foreach($tags as $tag)
-                @if($tag->default)
-                <div class="row">
-                    <div class="col tag-label">
-                        <label>{{ $tag->name }}</label>
-                        <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
-                    </div>
-                @endif
-            @endforeach
             <div id="tags">
+                @foreach($tags as $tag)
+                    @if($tag->default)
+                    <div class="row">
+                        <div class="col tag-label">
+                            <label>{{ $tag->name }}</label>
+                            <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
+                        </div>
+                    @endif
+                @endforeach
             </div>
             <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
         </div>
@@ -105,18 +105,17 @@
 
 @section('js')
     <script>
-    /*Tags*/
-    var addTagButton = document.querySelector('#addTag');
-    addTagButton.addEventListener('click', function(){
+    var currentTagId = 0;
+    /* Tags */
+
+    $('#addTag').on('click', function(){
         addTag();
     });
 
     function addTag(){
-        var newdiv = document.createElement('div');
-        var divid = Math.random();
-        var selectid = Math.random(); 
-        newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2 text-right'><div class='col'><select name='tags[]' id='" + selectid + "' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2'><a class=\"btn btn-avans\" onClick='removeTag(" + divid + ")'><i class='fa fa-trash'></i></a><div>"
-        document.querySelector('#tags').appendChild(newdiv);
+        currentTagId++;
+        $('#tags').append("<div id='" + currentTagId + "' class='row mb-2 text-right'><div class='col'><select name='tags[]' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2'><a class=\"btn btn-avans\" onClick='removeTag(" + currentTagId + ")'><i class='fa fa-trash'></i></a><div>"
+);
     }
 
     function removeTag(divid){

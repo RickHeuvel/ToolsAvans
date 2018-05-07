@@ -38,7 +38,7 @@ class ToolControllerTest extends TestCase
         $this->assertFalse($data['tools']->contains($slackTool));
     }
 
-    public function testSearchWithSpecification() {
+    public function testSearchWithCategory() {
         $controller = new ToolController();
         $discordToolName = 'discord';
         $slackToolName = 'slack';
@@ -391,8 +391,8 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'specifications' => [
-                    'interne-tool' => 'ja',
+                'tags' => [
+                    'interne-tool'
                 ]
                 ],
             [],     // Cookies
@@ -427,8 +427,8 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'specifications' => [
-                    'interne-tool' => 'ja',
+                'tags' => [
+                    'interne-tool'
                 ]
                 ],
             [],     // Cookies
@@ -465,8 +465,8 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'specifications' => [
-                    'interne-tool' => 'ja',
+                'tags' => [
+                    'interne-tool'
                 ]
                 ],
             [],     // Cookies

@@ -180,16 +180,5 @@ class ToolsTableSeeder extends Seeder
             'slug' => 'youtube',
             'created_at' => now(),
         ]);
-
-        if(!is_dir('storage/app/tool-images'))
-            mkdir('storage/app/tool-images');
-
-        $src = 'resources/storage/tool-images';
-        $dst = 'storage/app/tool-images';
-        $files = glob("resources/storage/tool-images/*.*");
-        foreach($files as $file) {
-            $file_to_go = str_replace($src, $dst, $file);
-            copy($file, $file_to_go);
-        }
     }
 }

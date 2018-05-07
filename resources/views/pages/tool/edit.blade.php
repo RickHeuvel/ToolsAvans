@@ -63,13 +63,14 @@
                 </div>
                 <div class="col">
                     {{ Form::label('category', 'Categorie *') }}
-                    {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'custom-select form-control']) }}
+                    {{ Form::select('category', $categories,old('category'),['class' => 'custom-select form-control', 'default' => $tool->category ]) }}
                 </div>
             </div>
         </div>
 
         <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}
+            <div id="tags">
             @foreach($toolTags as $toolTag)
                 <div id="{{ $toolTag->tag->slug }}" class="row">
                     <div class="col tag-label">
@@ -77,7 +78,9 @@
                         <input type="hidden" value="{{ $toolTag->tag->slug }}" name="tags[]"/>
                     </div>
                     @if(!$toolTag->tag->default)
-                        <a onClick="removeSpecification('{{ $toolTag->tag->slug }}')"><i class="fas fa-trash-alt"></i></a>
+                        <div class="col-md-2 text-right">
+                            <button class="btn btn-avans"onClick="removeTag('{{ $toolTag->tag->slug }}')"><i class="fa fa-trash"></i></button>
+                        </div>
                     @endif
                 </div>
             @endforeach
@@ -91,7 +94,6 @@
                 </div>
                 @endif
             @endforeach
-            <div id="tags">
             </div>
             <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
         </div>
@@ -126,20 +128,17 @@
 
 @section('js')
     <script>
-        
+        var currentTagId = 0;
         /* Tags */
 
-        var addTagButton = document.querySelector('#addTag');
-        addTagButton.addEventListener('click', function(){
+        $('#addTag').on('click', function(){
             addTag();
         });
 
         function addTag(){
-            var newdiv = document.createElement('div');
-            var divid = Math.random();
-            var selectid = Math.random(); 
-            newdiv.innerHTML = "<div id='" + divid + "' class='row mb-2 text-right'><div class='col'><select name='tags[]' id='" + selectid + "' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2'><a class=\"btn btn-avans\" onClick='removeTag(" + divid + ")'><i class='fa fa-trash'></i></a><div>"
-            document.querySelector('#tags').appendChild(newdiv);
+            currentTagId++;
+            $('#tags').append("<div id='" + currentTagId + "' class='row mb-2'><div class='col'><select name='tags[]' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2 text-right'><a class=\"btn btn-avans\" onClick='removeTag(" + currentTagId + ")'><i class='fa fa-trash'></i></a><div>"
+);
         }
 
         function removeTag(divid){

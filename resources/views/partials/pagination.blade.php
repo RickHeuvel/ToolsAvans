@@ -14,8 +14,8 @@
         <div class="col-12 col-md-6">
             <div class="float-right">
                 {{ $tools->appends([
-                        'categories' => (!empty($selectedCategories)) ? implode('+', $selectedCategories) : null, 
-                        'specifications' => (!empty($selectedSpecifications)) ? implode('+', $selectedSpecifications) : null, 
+                        'categories' => (!empty($selectedCategories)) ? implode('+', $selectedCategories) : null,
+                        'tags' => (!empty($selectedTags)) ? implode('+', $selectedTags) : null,
                         'statuses' => (!empty($selectedStatuses)) ? implode('+', $selectedStatuses) : null,
                         'sort' => (!empty($selectedSortOptions)) ? $selectedSortOptions : null
                     ])->links() }}
