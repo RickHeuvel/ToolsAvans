@@ -66,7 +66,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
                 </li>
-            @else
+            @elseif (auth()->user()->isStudent())
                 <li class="nav-item">
                     <a class="nav-link" id="myconcepttools-tab" data-toggle="tab" href="#myconcepttools" role="tab" aria-controls="myconcepttools" aria-selected="false">Mijn concept tools</a>
                 </li>
