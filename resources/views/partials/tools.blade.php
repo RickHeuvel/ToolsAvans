@@ -1,21 +1,20 @@
 
 @if (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal")
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-12">
             @if ((!empty($selectedCategories) && count($selectedCategories) > 0) || (!empty($selectedTags) && count($selectedTags) > 0))
-                <h8>Actieve filters:</h8>
-                <br>
+                <p class="mb-2">Actieve filters:</p>
                 @if(!empty($selectedCategories) && count($selectedCategories) > 0)
                     @foreach($categories as $category)
-                        @if (in_array($category->slug,$selectedCategories))
-                            <button type="button" id="btn{{$category->slug}}" data-slug="{{$category->slug}}" class="btn  filter-button">{{ in_array($category->slug, $selectedCategories) ? $category->name : ""}} <span class="badge">X</span></button>
+                        @if (in_array($category->slug, $selectedCategories))
+                            <button type="button" id="btn{{$category->slug}}" data-slug="{{$category->slug}}" class="btn btn-light filter-button">{{ in_array($category->slug, $selectedCategories) ? $category->name : ""}} <span class="badge">X</span></button>
                         @endif
                     @endforeach
                 @endif
                 @if(!empty($selectedTags) && count($selectedTags) > 0)
                     @foreach($tags as $tag)
-                        @if (in_array($tag->tag_slug,$selectedTags))
-                            <button type="button" id="btn{{$tag->tag_slug}}" data-slug="{{$tag->tag_slug}}" class="btn  filter-button">{{ in_array($tag->tag_slug, $selectedTags) ? $tag->tag->name : ""}} <span class="badge">X</span></button>
+                        @if (in_array($tag->tag_slug, $selectedTags))
+                            <button type="button" id="btn{{$tag->tag_slug}}" data-slug="{{$tag->tag_slug}}" class="btn btn-light filter-button">{{ in_array($tag->tag_slug, $selectedTags) ? $tag->tag->name : ""}} <span class="badge">X</span></button>
                         @endif
                     @endforeach
                 @endif
@@ -44,28 +43,25 @@
                             <div class="row">
                                 <div class="col-8">
                                     <a class="tool-name-link" href="{{ route('tools.show', $tool->slug) }}">
-                                        <h2>{{$tool->name}}</h2>
+                                        <h2>{{ $tool->name }}</h2>
                                     </a>
                                     <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
                                 <div class="col-4 text-right">
                                     <div class="tool-rating mb-2">
-                                        <div id="stars-{{$tool->slug}}" class="starrr"></div>
+                                        <div class="starrr readOnly">
+                                            @php
+                                                $stars = ($tool->reviews->count() > 0) ? $tool->reviews->avg('rating') : 0;
+                                            @endphp
+                                            @for($i = 1; $i < 6; $i++)
+                                                <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
+                                            @endfor
+                                        </div>
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
-                                    @section('js')
-                                        @parent
-                                        <script>
-                                            $('#stars-{{$tool->slug}}').starrr({
-                                                rating: {{$tool->reviews->avg('rating')}},
-                                                readOnly: true
-                                            });
-                                            $('#stars-{{$tool->slug}}').addClass('readOnly');
-                                        </script>
-                                    @endsection
                                 </div>
                             </div>           
-                            <p class="tool-description">{{$tool->description}}</p>
+                            <p class="tool-description">{{ $tool->description }}</p>
                             <div class="row">
                                 @if(Route::currentRouteName() == "portal")
                                     @if ($tool->status->isConcept())

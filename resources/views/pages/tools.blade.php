@@ -49,9 +49,9 @@
 
         <div class="row">
             <div class="col-12 col-md-3">
-                <div class="row mb-3">
+                <div class="row mb-4">
                     <div class="col-12">
-                        <p><strong>Categorieën</strong></p>
+                        <p class="mb-2"><strong>Categorieën</strong></p>
                         @foreach($categories as $category)
                             <div class="form-check mb-1" name="input">
                                 @if (!empty($selectedCategories))
@@ -67,9 +67,9 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
+                <div class="row mb-4">
                     <div class="col-12">
-                        <p><strong>Tags</strong></p>
+                        <p class="mb-2"><strong>Tags</strong></p>
                         @foreach($tags as $tag)
                             <div class="form-check mb-1">
                                 @if (!empty($selectedTags))

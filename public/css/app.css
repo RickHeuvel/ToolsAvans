@@ -10964,6 +10964,10 @@ ul.nav li.active a {
   color: #FFD700;
 }
 
+.starrr {
+  font-size: 0;
+}
+
 .starrr .fa {
   font-size: 30px !important;
 }
@@ -11020,10 +11024,15 @@ ul.pagination .page-item .page-link {
 }
 
 .filter-button {
-  margin-right: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.badge-light {
+  background-color: #eee;
+  padding: 8px;
+  font-size: 14px;
 }
 
 .tool {

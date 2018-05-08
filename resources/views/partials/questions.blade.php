@@ -1,5 +1,5 @@
 @if ($tool->questions->isEmpty())
-    <b>Er zijn nog geen vragen :(</b>
+    <p>Er zijn nog geen vragen :(</p>
 @else
     @foreach($questions as $question)
         <div class="question">
