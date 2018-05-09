@@ -41,9 +41,13 @@
         <hr class="mt-0">
         @if ($tool->status->isConcept() && $tool->feedback != null && !$tool->feedback->fixed)
             <div class="alert alert-info" role="alert">
-                 <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
-                 <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
-                 <hr>
+                @if (auth()->user()->isStudent())
+                    <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
+                @else
+                    <h5 class="alert-heading">Er staat onverwerkte feedback open op deze tool</h5>
+                @endif
+                <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
+                <hr>
                 <h5>Feedback:</h5>
                 {{ $tool->feedback->feedback }}
             </div>
