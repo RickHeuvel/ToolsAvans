@@ -10848,10 +10848,13 @@ nav.subnav {
   float: left;
 }
 
-.nav-group ul.group > li:hover a,
-.nav-group ul.group > li.active a {
-  color: #00AEED;
+.nav-group ul.group > li:hover a {
+  color: #00AEED !important;
   border-color: #00AEED;
+}
+
+.nav-group ul.group > li.active a {
+  color: #000;
 }
 
 .nav-group ul.group > li.active a.active,
@@ -11026,6 +11029,89 @@ ul.nav li.active a {
 
 .filter-bar .form-check {
   margin-bottom: 5px;
+}
+
+.home {
+  background-color: #eee;
+}
+
+.home .hero {
+  z-index: 0;
+}
+
+.home .hero .owl-dots {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.home .hero .owl-dots .owl-dot span {
+  background: transparent;
+  border: 2px solid #fff;
+  height: 12px;
+  width: 12px;
+}
+
+.home .hero .owl-dots .owl-dot.active span {
+  background: white;
+}
+
+.home .hero .hero-item {
+  height: 400px;
+  position: relative;
+}
+
+.home .hero .hero-item .inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.home .hero .hero-item .inner h1 {
+  line-height: 1;
+}
+
+.home .hero .hero-item .inner .tool-logo {
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  background-color: #fff;
+  float: right;
+}
+
+.home .hero .hero-item .inner .tool-logo img {
+  max-height: 155px;
+  border-radius: 4px;
+  width: auto !important;
+}
+
+.home .top-list {
+  margin-top: -45px;
+  background: white;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+.home .top-list .top-tool .tool-logo {
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  background-color: #fff;
+  float: right;
+}
+
+.home .top-list .top-tool .tool-logo img {
+  border-radius: 4px;
+  width: auto !important;
+}
+
+.home .top-list .top-tool h4 {
+  font-size: 1.35rem;
+}
+
+.home .top-list .top-tool .starrr .fa {
+  font-size: 1.35rem !important;
 }
 
 ul.pagination .page-item.active .page-link {

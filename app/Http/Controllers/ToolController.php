@@ -64,13 +64,14 @@ class ToolController extends Controller
 
         $tools = Tool::activeTools();
 
-        if($request->has('categories')){
+        if ($request->has('categories')){
             $tools = $tools->whereIn('category_slug', $selectedCategories);
         }
-        if($request->has('tags')){
+        if ($request->has('tags')){
             $tools = $tools->whereIn('tools.slug', $tags->whereIn('tag_slug', $selectedTags)->pluck('tool_slug'));
         }
         $tools = $tools->withCount('views');
+      
         $searchColumns = [
             'name'            => 10,
             'slug'            => 9,
@@ -81,7 +82,7 @@ class ToolController extends Controller
             'tags.tag.name'   => 8,
             'user.nickname'   => 4,
         ];
-        if($request->has('searchQuery')) {
+        if ($request->has('searchQuery')) {
                 $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, false);
         }
 

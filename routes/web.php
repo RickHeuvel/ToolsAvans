@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function() {
-    return redirect()->route('tools.index');
-})->name('home');
-
+Route::get('/', 'HomeController@index')->name('home');
 Route::resources([
     'tools' => 'ToolController',
     'categories' => 'CategoryController',
