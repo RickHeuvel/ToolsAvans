@@ -231,13 +231,7 @@
         });
 
         $( document ).ready(function() {
-            @if (!empty($curUserReview))
-                $('#stars').starrr({
-                    rating: {{$curUserReview->rating}},
-                    readOnly: true
-                });
-                $('#stars').addClass('readOnly');
-            @elseif (!$tool->reviews->isEmpty() && Auth::check())
+            @if (!$tool->reviews->isEmpty() && Auth::check())
                 $('#stars').starrr({
                     rating: {{$tool->reviews->avg('rating')}}
                 });
