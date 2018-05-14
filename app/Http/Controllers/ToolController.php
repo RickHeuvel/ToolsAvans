@@ -69,10 +69,20 @@ class ToolController extends Controller
         }
         if($request->has('tags')){
             $tools = $tools->whereIn('tools.slug', $tags->whereIn('tag_slug', $selectedTags)->pluck('tool_slug'));
-        } 
+        }
         $tools = $tools->withCount('views');
+        $searchColumns = [
+            'name'            => 10,
+            'slug'            => 9,
+            'description'     => 3,
+            'category_slug'   => 7,
+            'category.name'   => 8,
+            'tags.tag_slug'   => 7,
+            'tags.tag.name'   => 8,
+            'user.nickname'   => 4,
+        ];
         if($request->has('searchQuery')) {
-                $tools = $tools->search($request->input('searchQuery'));
+                $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, false);
         }
 
         // Filter on sorting type, and paginate
