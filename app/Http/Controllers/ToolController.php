@@ -91,7 +91,7 @@ class ToolController extends Controller
             'user.nickname'   => 4,
         ];
         if ($request->has('searchQuery')) {
-                $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, false);
+                $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, true);
         }
 
         // Filter on sorting type, and paginate
