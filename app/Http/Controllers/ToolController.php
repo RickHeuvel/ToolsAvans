@@ -22,6 +22,9 @@ use App\ToolView;
 use App\TagCategory;
 use App\Events\ViewTool;
 use App\ToolTag;
+use App\ToolOutdatedReport;
+use App\Mail\ToolOutdated;
+use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -66,7 +69,7 @@ class ToolController extends Controller
         $sortDirection = explode('-', $selectedSortOptions)[1];
         $sortOptions->where('type', $sortType)->where('direction', $sortDirection)->first()->active = true;
 
-        $tools = Tool::activeTools();
+        $tools = Tool::publicTools();
 
         if ($request->has('categories')){
             $tools = $tools->whereIn('category_slug', $selectedCategories);
@@ -283,9 +286,10 @@ class ToolController extends Controller
             $tool->name          = $request->input('name');
             $tool->description   = $request->input('description');
             $tool->url           = $request->input('url');
-            $tool->uploader_id   = Auth::id();
             $tool->category_slug = $request->input('category');
             $tool->logo_filename = $request->input('logo');
+            if ($tool->status->isOutdated())
+                $tool->status_slug = "actief";
             $tool->save();
 
             // Setting the feedback to fixed, if there was feedback
@@ -385,7 +389,7 @@ class ToolController extends Controller
     /**
      * Activate the specified resource
      *
-     * @param  int  $slug
+     * @param  string  $slug
      * @return Response
      */
     public function activate($slug)
@@ -406,7 +410,7 @@ class ToolController extends Controller
     /**
      * Deactivate the specified resource
      *
-     * @param  int  $slug
+     * @param  string  $slug
      * @return Response
      */
     public function deactivate($slug)
@@ -423,6 +427,38 @@ class ToolController extends Controller
         Session::flash('message', 'Tool succesvol gedeactiveerd!');
         return redirect()->route('portal');
     }
+
+    /**
+     * Report a tool for being outdated
+     *
+     * @param Request $request
+     * contains:
+     * string feedback
+     * @param string $slug
+     */
+    public function reportOutdated(Request $request, $slug) {
+        $request->validate([
+            'feedback' => 'required|max:1000',
+        ]);
+
+        ToolOutdatedReport::create([
+            'tool_slug' => $slug,
+            'user_id'   => Auth::id(),
+            'feedback'  => $request->input('feedback'),
+        ]);
+
+        $tool = Tool::where('slug', $slug)->firstOrFail();
+        $tool->status_slug = "verouderd";
+        $tool->save();
+
+        $mail = new ToolOutdated($tool);
+        $user = User::findOrFail($tool->uploader_id);
+        MailController::sendMailable($mail, $user);
+
+        Session::flash('message', 'Tool succesvol verouderd gemeld');
+        return redirect()->route('tools.show', $slug);
+    }
+
 
     // Helper functions
 

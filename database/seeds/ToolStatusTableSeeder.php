@@ -27,5 +27,9 @@ class ToolStatusTableSeeder extends Seeder
             'slug' => 'afgekeurd',
             'name' => 'Afgekeurd'
         ]);
+        DB::table('tool_status')->insert([
+            'slug' => 'verouderd',
+            'name' => 'Verouderd'
+        ]);
     }
 }

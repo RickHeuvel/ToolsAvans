@@ -125,7 +125,7 @@ class ToolsTableSeeder extends Seeder
             'name' => 'Visual Studio',
             'uploader_id' => '1',
             'category_slug' => 'download',
-            'status_slug' => 'actief',
+            'status_slug' => 'verouderd',
             'description' => 'Microsoft Visual Studio is een integrated development environment (IDE) van Microsoft. Het biedt een complete set ontwikkelingstools om computerprogrammas in diverse programmeertalen voor met name Windows-omgevingen te ontwikkelen. Visual Studio gebruikt software-ontwikkelingsplatformen van Microsoft zoals Windows API, Windows Forms, Windows Presentation Foundation, Microsoft Store en Microsoft Silverlight.',
             'logo_filename' => 'visualstudio-logo.png',
             'url' => 'https://www.visualstudio.com/',

@@ -14,15 +14,30 @@
         </nav>
 
         <hr class="mt-0">
-        @if ($tool->feedback != null && !$tool->feedback->fixed)
+        @if ($tool->status->isConcept() && $tool->feedback != null && !$tool->feedback->fixed)
             <div class="alert alert-info" role="alert">
-                @if (Auth::check() && Auth::user()->isStudent() && !$tool->feedback->fixed)
+                @if (auth()->user()->isStudent())
                     <h5 class="alert-heading">Je hebt feedback ontvangen op je tool</h5>
-                    <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
-                    <hr>
+                @else
+                    <h5 class="alert-heading">Er staat onverwerkte feedback open op deze tool</h5>
                 @endif
+                <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
+                <hr>
                 <h5>Feedback:</h5>
                 {{ $tool->feedback->feedback }}
+            </div>
+        @elseif($tool->status->isOutdated())
+            <div class="alert alert-warning" role="alert">
+                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->uploader_id))
+                    <h5 class="alert-heading">Deze tool is door {{ $tool->outdatedReport->user->nickname }} als verouderd gemeld</h5>
+                    <p>Pas de tool aan met de feedback verwerkt om de verouderd status weg te halen</p>
+                    <hr>
+                    <h5>Feedback:</h5>
+                    {{ $tool->outdatedReport->feedback }}
+                @else
+                    <h5 class="alert-heading">Opgepast! Deze tool is door een andere student als verouderd gemeld</h5>
+                    <p>De tool eigenaar en de beheerder is er op de hoogste van gesteld dat deze tool verouderd is</p>
+                @endif
             </div>
         @endif
 

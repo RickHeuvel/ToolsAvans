@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateToolFeedbackTable extends Migration
+class CreateToolOutdatedReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateToolFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('tool_feedback', function (Blueprint $table) {
-            $table->string('tool_slug')->primary();
+        Schema::create('tool_outdated_reports', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('tool_slug');
+            $table->integer('user_id')->unsigned();
             $table->string('feedback', 1000);
-            $table->boolean('fixed')->default(false);
             $table->timestamps();
 
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateToolFeedbackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('tool_outdated_reports');
     }
 }

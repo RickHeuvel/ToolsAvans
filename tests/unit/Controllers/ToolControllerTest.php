@@ -59,6 +59,101 @@ class ToolControllerTest extends TestCase
         $this->assertTrue($data['tools']->contains($discordTool));
         $this->assertFalse($data['tools']->contains($slackTool));
     }
+
+    public function testReportOutdated() {
+        $controller = new ToolController();
+        $authController = new AuthController();
+        $toolSlug = 'slack';
+        $feedback = 'Het gebruikt electron, dus het is outdated';
+        $tool = Tool::find($toolSlug);
+
+        $user = factory(User::class)->states('student')->make();
+        $authController->login($user);
+
+        $request = Request::create(
+            'tools.reportOutdated',
+            'GET',
+            [
+                'feedback' => $feedback,
+            ]
+        );
+        $controller->reportOutdated($request, $toolSlug);
+        $this->assertDatabaseHas('tools', [
+            'slug'        => $toolSlug,
+            'status_slug' => 'verouderd'
+        ]);
+        $this->assertDatabaseHas('tool_outdated_reports', [
+            'tool_slug'   => $toolSlug,
+            'feedback'    => $feedback
+        ]);
+    }
+
+    public function testOutdatedToolUpdate() {
+        $auth = new AuthController();
+        $controller = new ToolController();
+        Storage::fake('tool-images');
+
+        $user = factory(User::class)->states('employee')->make();
+        $auth->login($user);
+
+        $oldName  = 'testName';
+        $newName  = 'newTestName';
+        $feedback = 'Deze tool werkt alleen op windows 93';
+
+        $request = Request::create(
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $oldName,
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+            ],
+            [],     // Cookies
+            []      // POST files
+        );
+        $controller->store($request);
+
+        $request = Request::create(
+            'tools.reportOutdated',
+            'GET',
+            [
+                'feedback' => $feedback,
+            ]
+        );
+        $controller->reportOutdated($request, $oldName);
+        $this->assertDatabaseHas('tools', [
+            'slug'        => $oldName,
+            'status_slug' => 'verouderd'
+        ]);
+
+        $request = Request::create(
+            'tools',// URI
+            'POST', // Method
+            [       // POST input
+                'name'          => $newName,
+                'description'   => 'test description',
+                'category'      => 'Website',
+                'url'           => 'https://www.testWebsite.nl',
+                'logo'          => $this->uploadImage(),
+                'images'        => json_encode([ $this->uploadImage(), $this->uploadImage() ]),
+            ],
+            [],     // Cookies
+            []      // POST files
+        );
+        $controller->update($request, $oldName);
+        $this->assertDatabaseHas('tools', [
+            'slug'        => $newName,
+            'status_slug' => 'actief'
+        ]);
+
+    }
+
+
+
+
     /**
      * Test admin store()
      *

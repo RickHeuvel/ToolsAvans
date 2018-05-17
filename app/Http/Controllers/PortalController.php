@@ -34,17 +34,8 @@ class PortalController extends Controller
      */
     public function index(Request $request)
     {
-        $myTools = Tool::activeTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
+        $myTools = Tool::publicTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
         if (Auth::user()->isAdmin()) {
-            $categories = ToolCategory::all()->sortBy('slug');
-            $categoryGroups = Tool::all()->groupBy('category_slug');
-            $tags = ToolTag::all()->sortBy('slug');
-            $tagGroups = ToolTag::usedTags()->get()->sortBy('slug');
-            $tagCategories = TagCategory::all()->sortBy('slug');
-            $tagCategoryGroups = ToolTag::all()->groupBy('category_slug');
-            $users = User::all();
-            $settings = Setting::all();
-
             $statuses = ToolStatus::all();
             if ($request->has('statuses'))
                 $selectedStatuses = explode(',', $request->input('statuses'));
@@ -55,12 +46,22 @@ class PortalController extends Controller
             else
                 $tools = Tool::paginate($this->itemsPerPage);
 
+            // Returning now to increase performance
+            if ($request->ajax())
+                return view('partials.tools', compact('tools'))->render();
+
+            $categories = ToolCategory::all()->sortBy('slug');
+            $categoryGroups = Tool::all()->groupBy('category_slug');
+            $tags = ToolTag::all()->sortBy('slug');
+            $tagGroups = ToolTag::usedTags()->get()->sortBy('slug');
+            $tagCategories = TagCategory::all()->sortBy('slug');
+            $tagCategoryGroups = ToolTag::all()->groupBy('category_slug');
+            $users = User::all();
+            $settings = Setting::all();
             $unjudgedTools = Tool::unjudgedTools()->get();
 
-            if ($request->ajax())
-                return view('partials.tools', compact('tools', 'statuses', 'selectedStatuses'))->render();  
-            else
-                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users', 'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
+            return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users',
+                'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
         } else {
             $myConceptTools = $myTools->where('status_slug', 'active');
 

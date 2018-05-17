@@ -17,21 +17,27 @@
                 </nav>
             </div>
             <div class="col-12 col-md-8 text-right">
-                @if (Auth::check() && ((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
-                    <a href="{{ route('tools.edit', $tool->slug) }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
-                    @if (Auth::user()->isAdmin())
-                        @if ($tool->status->isConcept())
-                            <a href="{{ route('tools.approveTool', $tool->slug) }}" class="btn btn-danger btn-avans">Goedkeuren</a>
-                            @if ($tool->feedback == null || $tool->feedback->fixed)
-                                <a data-toggle="modal" data-target="#{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
-                                @include('partials.modals.requesttoolchanges')
+                @if (Auth::check())
+                    @if ($tool->status->isActive())
+                        @include('partials.modals.reporttooloutdated')
+                        <a data-toggle="modal" data-target="#ReportToolOutdatedModal" class="btn btn-danger btn-avans">Meld als verouderd</a>
+                    @endif
+                    @if (((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
+                        <a href="{{ route('tools.edit', $tool->slug) }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
+                        @if (Auth::user()->isAdmin())
+                            @if ($tool->status->isConcept())
+                                <a href="{{ route('tools.approveTool', $tool->slug) }}" class="btn btn-danger btn-avans">Goedkeuren</a>
+                                @if ($tool->feedback == null || $tool->feedback->fixed)
+                                    <a data-toggle="modal" data-target="#{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
+                                    @include('partials.modals.requesttoolchanges')
+                                @endif
+                                <a data-toggle="modal" data-target="#{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
+                            @elseif ($tool->status->isActive())
+                                <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
+                                @include('partials.modals.deactivatetool')
+                            @elseif ($tool->status->isInactive())
+                                <a href="{{ route('tools.activate', $tool->slug) }}" class="btn btn-danger btn-avans">Terugzetten</a>
                             @endif
-                            <a data-toggle="modal" data-target="#{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
-                        @elseif ($tool->status->isActive())
-                            <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
-                            @include('partials.modals.deactivatetool')
-                        @elseif ($tool->status->isInactive())
-                            <a href="{{ route('tools.activate', $tool->slug) }}" class="btn btn-danger btn-avans">Terugzetten</a>
                         @endif
                     @endif
                 @endif
@@ -46,10 +52,23 @@
                 @else
                     <h5 class="alert-heading">Er staat onverwerkte feedback open op deze tool</h5>
                 @endif
-                <p>Update de tool met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
+                <p>Pas de tool aan met de feedback verwerkt om hem opnieuw op te sturen voor keuring</p>
                 <hr>
                 <h5>Feedback:</h5>
                 {{ $tool->feedback->feedback }}
+            </div>
+        @elseif($tool->status->isOutdated())
+            <div class="alert alert-warning" role="alert">
+                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->uploader_id))
+                    <h5 class="alert-heading">Deze tool is door {{ $tool->outdatedReport->user->nickname }} als verouderd gemeld</h5>
+                    <p>Pas de tool aan met de feedback verwerkt om de verouderd status te weg te halen</p>
+                    <hr>
+                    <h5>Feedback:</h5>
+                    {{ $tool->outdatedReport->feedback }}
+                @else
+                    <h5 class="alert-heading">Opgepast! Deze tool is door een andere student als verouderd gemeld</h5>
+                    <p>De tool eigenaar en de beheerder is er op de hoogste van gesteld dat deze tool verouderd is</p>
+                @endif
             </div>
         @endif
 
@@ -199,7 +218,7 @@
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,
             nav: true,
-            navText: ['<div class="carousel-arrow"></div>', '<div class="carousel-arrow"></div>'], 
+            navText: ['<div class="carousel-arrow"></div>', '<div class="carousel-arrow"></div>'],
             responsive: {
                 0: {
                     items: 1
@@ -281,7 +300,7 @@
                     data: { rating: value },
                 }).done(function (date) {
                     setMainRating(value);
-                }).fail(function () { 
+                }).fail(function () {
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
@@ -299,7 +318,7 @@
                     disableTooltip();
                     $('#review-without-rating').modal('hide');
                     $('#review-with-rating').modal('show');
-                }).fail(function () { 
+                }).fail(function () {
                     alert('Rating kon niet geplaatst worden.');
                 });
             });

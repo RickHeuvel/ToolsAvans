@@ -14,9 +14,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $heroTools = Tool::activeTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get()->shuffle();
-        $newTools = Tool::activeTools()->orderBy('created_at', 'desc')->limit(5)->get();
-        $popularTools = Tool::activeTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get();
+        $heroTools = Tool::publicTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get()->shuffle();
+        $newTools = Tool::publicTools()->orderBy('created_at', 'desc')->limit(5)->get();
+        $popularTools = Tool::publicTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get();
         return view('pages.home', compact('heroTools', 'newTools', 'popularTools'));
     }
 }

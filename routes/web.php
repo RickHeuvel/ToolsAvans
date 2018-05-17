@@ -35,6 +35,8 @@ Route::post('tools/{tool}/addreview', 'ReviewController@addReview')->name('tools
 
 Route::get('tools/{tool}/questions', 'QuestionController@show')->name('tools.questions');
 
+Route::post('tools/{tool}/reportoutdated', 'ToolController@reportOutdated')->name('tools.reportOutdated');
+
 /* Question/answer routes */
 Route::get('questions/{question}/upvote', 'QuestionController@upvote')->name('questions.upvote');
 Route::get('answers/{answer}/upvote', 'AnswerController@upvote')->name('answers.upvote');

@@ -56,9 +56,13 @@ class Tool extends Model
         return $this->hasMany('App\ToolQuestion', 'tool_slug', 'slug');
     }
 
+    public function outdatedReport() {
+        return $this->belongsTo('App\ToolOutdatedReport', 'slug', 'tool_slug');
+    }
+
     // Query functions
-    public static function activeTools() {
-        return static::where('status_slug', 'actief');
+    public static function publicTools() {
+        return static::where('status_slug', 'actief')->orWhere('status_slug', 'verouderd');
     }
 
     public static function inactiveTools() {

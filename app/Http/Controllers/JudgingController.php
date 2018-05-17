@@ -97,7 +97,7 @@ class JudgingController extends Controller
     public function requestToolChanges(Request $request, $slug)
     {
         $rules = [
-            'feedback' => 'max:1000'
+            'feedback' => 'required|max:1000'
         ];
 
         $validator = Validator::make($request->all(), $rules);

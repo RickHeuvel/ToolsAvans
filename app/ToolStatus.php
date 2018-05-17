@@ -36,9 +36,14 @@ class ToolStatus extends Model
         return ($this->slug == "inactief");
     }
 
-     // Returns boolean provided by if statement
-     public function isRejected()
-     {
-         return ($this->slug == "afgekeurd");
-     }
+    // Returns boolean provided by if statement
+    public function isRejected()
+    {
+        return ($this->slug == "afgekeurd");
+    }
+
+    public function isOutdated()
+    {
+        return ($this->slug == "verouderd");
+    }
 }
