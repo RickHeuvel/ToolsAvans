@@ -11581,3 +11581,18 @@ footer.footer {
   margin-bottom: 0.4rem;
 }
 
+.chevron:before {
+  display: block;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+.chevron.down:before {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.tag-list {
+  cursor: pointer;
+}
+

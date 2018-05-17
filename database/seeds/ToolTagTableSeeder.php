@@ -40,5 +40,20 @@ class ToolTagTableSeeder extends Seeder
             'tool_slug' => 'kahoot',
             'tag_slug' => 'quiz',
         ]);
+
+        DB::table('tool_tags')->insert([
+            'tool_slug' => 'heroku',
+            'tag_slug' => 'externe-tool',
+        ]);
+
+        DB::table('tool_tags')->insert([
+            'tool_slug' => 'discord',
+            'tag_slug' => 'externe-tool',
+        ]);
+
+        DB::table('tool_tags')->insert([
+            'tool_slug' => 'visualstudio',
+            'tag_slug' => 'csharp',
+        ]);
     }
 }

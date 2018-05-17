@@ -71,29 +71,17 @@
         <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}
             <div id="tags">
-            @foreach($toolTags as $toolTag)
-                <div id="{{ $toolTag->tag->slug }}" class="row">
-                    <div class="col tag-label">
-                        <label>{{ $toolTag->tag->name }}</label>
-                        <input type="hidden" value="{{ $toolTag->tag->slug }}" name="tags[]"/>
-                    </div>
-                    @if(!$toolTag->tag->default)
-                        <div class="col-md-2 text-right">
-                            <button class="btn btn-avans"onClick="removeTag('{{ $toolTag->tag->slug }}')"><i class="fa fa-trash"></i></button>
+                @foreach($tool->tags as $toolTag)
+                    <div id="{{ $toolTag->slug }}" class="row">
+                        <div class="col tag-label">
+                            <label>{{ $toolTag->name }}</label>
+                            <input type="hidden" value="{{ $toolTag->slug }}" name="tags[]"/>
                         </div>
-                    @endif
-                </div>
-            @endforeach
-            @foreach($tags as $tag)
-                @if($tag->default && !$toolTags->pluck('tag_slug')->contains($tag->slug))
-                <div class="row">
-                    <div class="col tag-label">
-                        <label>{{ $tag->name }}</label>
-                        <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
+                        <div class="col-md-2 text-right">
+                            <button class="btn btn-avans"onClick="removeTag('{{ $toolTag->slug }}')"><i class="fa fa-trash"></i></button>
+                        </div>
                     </div>
-                </div>
-                @endif
-            @endforeach
+                @endforeach
             </div>
             <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
         </div>
@@ -112,7 +100,7 @@
 
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{route('portal')}}" class="btn btn-square btn-light">Annuleren</a>
+                <a href="{{route('portal', '#tools')}}" class="btn btn-square btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
                 {{ Form::submit('Aanpassen', ['class' => 'btn btn-danger btn-avans']) }}
@@ -137,8 +125,21 @@
 
         function addTag(){
             currentTagId++;
-            $('#tags').append("<div id='" + currentTagId + "' class='row mb-2'><div class='col'><select name='tags[]' class='custom-select'><option value='null'>Selecteer een tag</option>@foreach ($tags as $tag)<option value='{{ $tag->slug }}'>{{ $tag->name }}</option>@endforeach</select></div><div class='col-md-2 text-right'><a class=\"btn btn-avans\" onClick='removeTag(" + currentTagId + ")'><i class='fa fa-trash'></i></a><div>"
-);
+            $('#tags').append("\
+                <div id='" + currentTagId + "' class='row mb-2'>\
+                    <div class='col'>\
+                        <select name='tags[]' class='custom-select'>\
+                        <option value='null'>Selecteer een tag</option>\
+                        @foreach ($tags as $tag)\
+                            <option value='{{ $tag->slug }}'>{{ $tag->name }}</option>\
+                        @endforeach</select>\
+                    </div>\
+                    <div class='col-md-2 text-right'>\
+                        <a class=\"btn btn-avans\" onClick='removeTag(" + currentTagId + ")'>\
+                            <i class='fa fa-trash'></i>\
+                        </a>\
+                    <div>\
+                </div>");
         }
 
         function removeTag(divid){
@@ -298,5 +299,5 @@
         }
         // Calling it once on js load so that the preloaded images get put into the hidden input
         fillHiddenInput();
-     </script>
+    </script>
 @endsection

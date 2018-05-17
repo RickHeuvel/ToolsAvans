@@ -14,12 +14,13 @@ class ToolTagLookupTableSeeder extends Seeder
         DB::table('tool_tag_lookup')->insert([
             'slug' => 'interne-tool',
             'name' => 'Interne tool',
-            'default' => '0',
+            'pinned' => '1',
         ]);
 
         DB::table('tool_tag_lookup')->insert([
             'slug' => 'externe-tool',
             'name' => 'Externe Tool',
+            'pinned' => '1',
         ]);
 
         DB::table('tool_tag_lookup')->insert([
@@ -60,16 +61,36 @@ class ToolTagLookupTableSeeder extends Seeder
         DB::table('tool_tag_lookup')->insert([
             'slug' => 'saas',
             'name' => 'SaaS',
+            'category_slug' => 'soortservice',
         ]);
 
         DB::table('tool_tag_lookup')->insert([
             'slug' => 'paas',
             'name' => 'PaaS',
+            'category_slug' => 'soortservice',
         ]);
 
         DB::table('tool_tag_lookup')->insert([
             'slug' => 'abonnement',
             'name' => 'Abonnement',
+        ]);
+
+        DB::table('tool_tag_lookup')->insert([
+            'slug' => 'csharp',
+            'name' => 'C#',
+            'category_slug' => 'programmeertaal',
+        ]);
+
+        DB::table('tool_tag_lookup')->insert([
+            'slug' => 'java',
+            'name' => 'Java',
+            'category_slug' => 'programmeertaal',
+        ]);
+
+        DB::table('tool_tag_lookup')->insert([
+            'slug' => 'php',
+            'name' => 'PHP',
+            'category_slug' => 'programmeertaal',
         ]);
     }
 }

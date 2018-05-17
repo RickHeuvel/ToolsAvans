@@ -803,3 +803,21 @@ footer.footer {
     min-height: 217px;
     margin-bottom: 0.4rem;
 }
+
+.chevron:before{
+  display:block;
+  -moz-transition: all .1s linear;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+.chevron.down:before{
+  -ms-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.tag-list{
+  cursor: pointer;
+}

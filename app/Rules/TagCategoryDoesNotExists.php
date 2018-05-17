@@ -4,20 +4,20 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
-use App\ToolTag;
+use App\TagCategory;
 
-class TagDoesNotExist implements Rule
+class TagCategoryDoesNotExist implements Rule
 {
-    private $tag;
+    private $tagCategory;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($tag)
+    public function __construct($tagCategory)
     {
-        $this->tag = $tag;
+        $this->tagCategory = $tagCategory;
     }
 
     /**
@@ -30,7 +30,7 @@ class TagDoesNotExist implements Rule
     public function passes($attribute, $value)
     {
         $newSlug = Str::slug($value);
-        if ($this->tag->slug == $newSlug || ($this->tag->slug != $newSlug && !ToolTag::where('slug', $newSlug)->exists()))
+        if ($this->tagCategory->slug == $newSlug || ($this->tagCategory->slug != $newSlug && !TagCategory::where('slug', $newSlug)->exists()))
             return true;
 
         return false;
@@ -43,6 +43,6 @@ class TagDoesNotExist implements Rule
      */
     public function message()
     {
-        return 'Deze tagnaam bestaat al.';
+        return 'Deze tag categorie naam bestaat al.';
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>Tag toevoegen | ToolHub</title>
+    <title>Tag categorie toevoegen | ToolHub</title>
 @endsection
 
 @section('content')
@@ -9,15 +9,15 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('portal') }}">Mijn portaal</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tag toevoegen</li>
+                <li class="breadcrumb-item active" aria-current="page">Tag categorie toevoegen</li>
             </ol>
         </nav>
 
         <hr class="mt-0">
 
         <div class="row">
-            <div class="col-12">
-                <h2 class="mb-0"><strong>Tag toevoegen</strong></h2>
+            <div class="col-12">            
+                <h2 class="mb-0"><strong>Tag categorie toevoegen</strong></h2>
             </div>
         </div>
 
@@ -25,26 +25,16 @@
 
         {{ Html::ul($errors->all()) }}
 
-        {{ Form::open(['route' => 'tags.store', 'class' => 'form-horizontal']) }}
-
+        {{ Form::open(['route' => 'tagcategories.store', 'class' => 'form-horizontal']) }}
+               
         <div class="form-group">
             {{ Form::label('name', 'Naam  *') }}
             {{ Form::text('name', old('name'), ['class' => 'form-control']) }}
         </div>
 
-        <div class="form-group">
-            {{ Form::label('category', 'Tag categorie') }}
-            {{ Form::select('category', $tagCategories,old('category'),['placeholder' => 'Selecteer een tag categorie...','class' => 'custom-select form-control']) }}
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('pinned', 'Pinned tag, deze tag komt op de pagina met alle tools boven aan te staan. Dit is handig voor de wat belangrijkere tags als je wilt zoeken.') }}
-            {{ Form::checkbox('pinned', null, false,  ['class' => 'form-check']) }}
-        </div>
-
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{ route('portal', '#tags') }}" class="btn btn-square btn-light">Annuleren</a>
+                <a href="{{ route('portal', '#tagcategories') }}" class="btn btn-square btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
                 {{ Form::submit('Toevoegen', ['class' => 'btn btn-danger btn-avans']) }}

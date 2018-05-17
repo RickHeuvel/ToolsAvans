@@ -40,7 +40,7 @@ class Tool extends Model
 
     public function tags()
     {
-        return $this->hasMany('App\ToolTag', 'tool_slug');
+        return $this->belongsToMany('App\ToolTag', 'tool_tags', 'tool_slug', 'tag_slug');
     }
 
     public function feedback() {

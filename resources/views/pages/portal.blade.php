@@ -29,6 +29,7 @@
                     @if (Auth::user()->isAdmin())
                         <a href="{{ route('categories.create') }}" class="btn btn-danger btn-avans" id="categories-button">Nieuwe categorie toevoegen</a>
                         <a href="{{ route('tags.create') }}" class="btn btn-danger btn-avans" id="tags-button">Nieuwe tag toevoegen</a>
+                        <a href="{{ route('tagcategories.create') }}" class="btn btn-danger btn-avans" id="tagcategories-button">Nieuwe tag categorie toevoegen</a>
                     @endif
                 </div>
             </div>
@@ -58,10 +59,7 @@
                     <a class="nav-link" id="unjudgedtools-tab" data-toggle="tab" href="#unjudgedtools" role="tab" aria-controls="unjudgedtools" aria-selected="false">Te keuren tools</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="categories" aria-selected="false">Categorieën</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Tags</a>
+                    <a class="nav-link" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="false">Filters</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
@@ -116,64 +114,117 @@
                     @include('partials.tools', ['tools' => $unjudgedTools])
                 </div>
 
-                <div class="tab-pane pt-4" id="categories" role="tabpanel" aria-labelledby="categories-tab">
-                    @foreach($categories as $category)
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="category">
-                                    <div class="row">
-                                        <div class="col-12 col-md-6">
-                                            <p class="category-name">{{$category->name}}</p>
-                                        </div>
-                                        <div class="col-12 col-md-6 text-right">
-                                            <a data-toggle="modal" data-target="#{{$category->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            @include('partials.modals.removecategory')
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @if(!$loop->last)
-                            <hr>
-                        @endif
-                    @endforeach
-                </div>
-
-                <div class="tab-pane pt-4" id="tags" role="tabpanel" aria-labelledby="tags-tab">
-                    @foreach($tags as $tag)
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="tags">
-                                    <div class="row">
-                                        <div class="col-12 col-md-6">
-                                            <p class="tags-name">{{$tag->name}}</p>
-                                        </div>
-                                        <div class="col-12 col-md-6 text-right">
-                                            <a data-toggle="modal" data-target="#{{$tag->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
-                                            <a href="{{ route('tags.edit', $tag->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
-                                            @include('partials.modals.removetag')
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @if(!$loop->last)
-                            <hr>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
+                <div class="tab-pane pt-4" id="filters" role="tabpanel" aria-labelledby="filters-tab">
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#v-pills-admins" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
-                                <a class="nav-link" id="v-pills-mail-tab" data-toggle="pill" href="#v-pills-mail" role="tab" aria-controls="v-pills-mail" aria-selected="false">Mail</a>
+                                <a class="nav-link active" id="v-pills-categories-tab" data-toggle="pill" href="#categories" role="tab" aria-controls="v-pills-categories" aria-selected="true">Categorieën</a>
+                                <a class="nav-link" id="v-pills-tags-tab" data-toggle="pill" href="#tags" role="tab" aria-controls="v-pills-tags" aria-selected="false">Tags</a>
+                                <a class="nav-link" id="v-pills-tagcategories-tab" data-toggle="pill" href="#tagcategories" role="tab" aria-controls="v-pills-tagcategories" aria-selected="false">Tag categorieën</a>
                             </div>
                         </div>
                         <div class="col-12 col-md-9">
                             <div class="tab-content" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-admins" role="tabpanel" aria-labelledby="v-pills-admins-tab">
+                                <div class="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="v-pills-categories">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Categorieën</h2>
+                                        </div>
+                                    </div>
+                                    @foreach($categories as $category)
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="category">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <p class="category-name">{{$category->name}}</p>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 text-right">
+                                                            <a data-toggle="modal" data-target="#{{$category->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                                            <a href="{{ route('categories.edit', $category->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                                            @include('partials.modals.removecategory')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if(!$loop->last)
+                                            <hr>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="v-pills-tags-tab">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Tags</h2>
+                                        </div>
+                                    </div>
+                                    @foreach($tags as $tag)
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="category">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <p class="category-name">{{$tag->name}}</p>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 text-right">
+                                                            <a data-toggle="modal" data-target="#{{$tag->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                                            <a href="{{ route('tags.edit', $tag->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                                            @include('partials.modals.removetag')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @if(!$loop->last)
+                                        <hr>
+                                    @endif
+                                    @endforeach
+                                </div>
+                                <div class="tab-pane fade" id="tagcategories" role="tabpanel" aria-labelledby="v-pills-tagcategories-tab">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Tag categorieën</h2>
+                                        </div>
+                                    </div>
+                                    @foreach($tagCategories as $tagCategory)
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="category">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <p class="category-name">{{$tagCategory->name}}</p>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 text-right">
+                                                            <a data-toggle="modal" data-target="#{{$tagCategory->slug}}Modal" class="btn btn-danger btn-avans">Verwijderen</a>
+                                                            <a href="{{ route('tagcategories.edit', $tagCategory->slug) }}" class="btn btn-danger btn-avans">Aanpassen</a>
+                                                            @include('partials.modals.removetagcategory')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @if(!$loop->last)
+                                        <hr>
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#admins" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
+                                <a class="nav-link" id="v-pills-mail-tab" data-toggle="pill" href="#mail" role="tab" aria-controls="v-pills-mail" aria-selected="false">Mail</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="admins" role="tabpanel" aria-labelledby="v-pills-admins-tab">
                                     <div class="row">
                                         <div class="col-12 pb-3">
                                             <h2>Beheerders</h2>
@@ -203,7 +254,7 @@
                                     {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
                                     {{ Form::close() }}
                                 </div>
-                                <div class="tab-pane fade" id="v-pills-mail" role="tabpanel" aria-labelledby="v-pills-mail-tab">
+                                <div class="tab-pane fade" id="mail" role="tabpanel" aria-labelledby="v-pills-mail-tab">
                                     <div class="row">
                                         <div class="col-12 pb-3">
                                             <h2>Mail</h2>
@@ -271,17 +322,35 @@
             $(element + '-button').addClass('active');
         }
 
-        // Before tab switches, change buttons and add hash to url
-        $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
+        // Before pill switches, change buttons and add hash to url
+        $('a[data-toggle="pill"]').on("show.bs.tab", function(e) {
             changedTabButtons($(this).attr('href'));
             var hash = $(e.target).attr("href");
             history.pushState(null, null, hash);
         });
 
+        // Before tab switches, change buttons and add hash to url
+        $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
+            var hash = $(e.target).attr("href");
+            if(hash == "#filters"){
+                changedTabButtons("#" + $('a[data-toggle="pill"].active').attr('id').replace('v-pills-','').replace('-tab', ''));
+            } else {
+                changedTabButtons($(this).attr('href'));
+            }
+            history.pushState(null, null, hash);
+        });
+
         // On pageload check for current tab, otherwise load mytools tab
         var hash = (window.location.hash) ? window.location.hash : '#mytools';
-        changedTabButtons(hash);
-        $('#tabs a[href="' + hash + '"]').tab('show');
+        if(hash == "#categories" || hash == "#tags" || hash == "#tagcategories"){
+            $('#tabs a[href="#filters"]').tab('show');
+            $('#filters a[href="' + hash + '"').click();
+        } else if(hash == "#mail" || hash == "#admins"){
+            $('#tabs a[href="#adminpanel"]').tab('show');
+            $('#adminpanel a[href="' + hash + '"').click();
+        } else{
+            $('#tabs a[href="' + hash + '"]').tab('show');
+        }
 
         $(function() {
             var statuses = [];

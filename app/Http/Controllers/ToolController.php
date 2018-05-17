@@ -19,7 +19,7 @@ use App\ToolCategory;
 use App\ToolQuestion;
 use App\ToolAnswer;
 use App\ToolView;
-use App\Tag;
+use App\TagCategory;
 use App\Events\ViewTool;
 use App\ToolTag;
 use Illuminate\Support\Str;
@@ -52,11 +52,15 @@ class ToolController extends Controller
         $categories = ToolCategory::all();
         $selectedCategories = ($request->has('categories')) ? explode('+', $request->input('categories')) : null;
 
-        $tags = ToolTag::all()->unique('tag_slug');
+        $allTags = ToolTag::usedTags();
+        $pinnedTags = ToolTag::usedTags()->where('pinned', true)->get();
+        $tagCategories = TagCategory::all();
+        $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->get();
         $selectedTags = ($request->has('tags')) ? explode('+', $request->input('tags')) : null;
 
         $sortOptions = SortOption::all();
-        $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? $request->input('sort') : implode('-', ['views_count', 'desc']);
+        $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? 
+            $request->input('sort') : implode('-', ['views_count', 'desc']);
 
         $sortType = explode('-', $selectedSortOptions)[0];
         $sortDirection = explode('-', $selectedSortOptions)[1];
@@ -67,19 +71,23 @@ class ToolController extends Controller
         if ($request->has('categories')){
             $tools = $tools->whereIn('category_slug', $selectedCategories);
         }
-        if ($request->has('tags')){
-            $tools = $tools->whereIn('tools.slug', $tags->whereIn('tag_slug', $selectedTags)->pluck('tool_slug'));
+        if($request->has('tags')){
+            $tools = $tools->whereHas('tags', function ($query) use ($selectedTags) {
+                // $query is now in tags
+                $query->whereIn('slug', $selectedTags);
+            });
         }
+
         $tools = $tools->withCount('views');
-      
+
         $searchColumns = [
             'name'            => 10,
             'slug'            => 9,
             'description'     => 3,
             'category_slug'   => 7,
             'category.name'   => 8,
-            'tags.tag_slug'   => 7,
-            'tags.tag.name'   => 8,
+            'tags.slug'   => 7,
+            'tags.name'   => 8,
             'user.nickname'   => 4,
         ];
         if ($request->has('searchQuery')) {
@@ -91,11 +99,13 @@ class ToolController extends Controller
 
         if ($request->ajax())
             return response()->json([
-                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'tags', 'selectedTags', 'selectedSortOptions'))->render(),
+                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'allTags',
+                'pinnedTags', 'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions'))->render(),
                 'sorting' => view('partials.sorting', compact('selectedSortOptions', 'sortOptions'))->render()
             ]);
         else
-            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'tags', 'selectedTags', 'selectedSortOptions', 'sortOptions'));
+            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'allTags', 'pinnedTags',
+                'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions', 'sortOptions'));
     }
 
     /**
@@ -105,7 +115,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $tags = Tag::all();
+        $tags = ToolTag::all();
         $categories = ToolCategory::pluck('name', 'slug');
         return view('pages.tool.create', compact('categories', 'tags'));
     }
@@ -170,10 +180,7 @@ class ToolController extends Controller
             $tags = $request->input('tags');
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
-                    ToolTag::create([
-                        'tool_slug' => $tool->slug,
-                        'tag_slug' => $tag,
-                    ]);
+                    $tool->tags()->attach($tag);
                 }
             }
 
@@ -202,11 +209,10 @@ class ToolController extends Controller
         }
 
         $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
-        $toolTags = ToolTag::where('tool_slug', $slug)->get();
         $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
         Event::fire(new ViewTool($tool));
 
-        return view('pages.tool.view', compact('tool', 'toolTags', 'curUserReview', 'questions'));
+        return view('pages.tool.view', compact('tool', 'curUserReview', 'questions'));
     }
 
     /**
@@ -225,10 +231,9 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
-        $tags = Tag::all();
-        $toolTags = ToolTag::where('tool_slug', $slug)->get();
+        $tags = ToolTag::all();
         $categories = ToolCategory::pluck('name','slug');
-        return view('pages.tool.edit', compact('tool', 'categories', 'toolTags', 'tags'));
+        return view('pages.tool.edit', compact('tool', 'categories', 'tags'));
     }
 
     /**
@@ -306,16 +311,13 @@ class ToolController extends Controller
             }
 
             // Deleting all tags from tool
-            ToolTag::where('tool_slug', $tool->slug)->delete();
+            $tool->tags()->detach();
 
             // Creating new records for tags
             $tags = $request->input('tags');
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
-                    ToolTag::create([
-                        'tool_slug' => $tool->slug,
-                        'tag_slug' => $tag,
-                    ]);
+                    $tool->tags()->attach($tag);
                 }
             }
 

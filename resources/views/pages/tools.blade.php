@@ -66,19 +66,51 @@
                         @endforeach
                     </div>
                 </div>
-
                 <div class="row mb-4">
                     <div class="col-12">
                         <p class="mb-2"><strong>Tags</strong></p>
-                        @foreach($tags as $tag)
+                        @foreach($pinnedTags as $tag)
                             <div class="form-check mb-1">
                                 @if (!empty($selectedTags))
-                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->tag_slug}}" id="tag{{$tag->id}}" {{ in_array($tag->tag_slug, $selectedTags) ? "checked" : "" }}>
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
                                 @else
-                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->tag_slug}}" id="tag{{$tag->id}}">
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
                                 @endif
-                                <label class="form-check-label" for="tag{{$tag->id}}">
-                                    {{$tag->tag->name}}
+                                <label class="form-check-label" for="tag{{$tag->slug}}">
+                                    {{$tag->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                        @foreach($tagCategories as $tagCategory)
+                            <div id="row">
+                            @if($tagCategory->toolTags->count())
+                                <a data-toggle="collapse" data-target="#{{ $tagCategory->slug }}" aria-expanded="false" class="mb-2 collapsed tag-list"><i class="fa fa-chevron-right chevron"></i><strong>  {{ $tagCategory->name }}</strong></a>
+                                <div id="{{ $tagCategory->slug }}" class="pl-4 collapse">
+                                    @foreach($tagCategory->toolTags as $tag)
+                                        <div id="{{ $tag->id }}" class="form-check mb-1">
+                                            @if (!empty($selectedTags))
+                                                <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
+                                            @else
+                                                <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
+                                            @endif
+                                            <label class="form-check-label" for="tag{{$tag->slug}}">
+                                                {{$tag->name}}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            </div>
+                        @endforeach
+                        @foreach($tagsWithoutCategory as $tag)
+                            <div class="form-check mb-1">
+                                @if (!empty($selectedTags))
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
+                                @else
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
+                                @endif
+                                <label class="form-check-label" for="tag{{$tag->slug}}">
+                                    {{$tag->name}}
                                 </label>
                             </div>
                         @endforeach
@@ -132,6 +164,10 @@
                 getTools(url);
             });
 
+            $(".tag-list").click(function(){
+                $(this).children().toggleClass("down"); 
+            });
+
             function setFilterListeners() {
                 $('.filter-button').on('click', function(e) {
                     var slug = $(this).data('slug');
@@ -156,7 +192,7 @@
             /* Functions */
             function generateURL() {
                 var categories = [];
-                var tags = [];
+                var  tags = [];
                 $('input[name="cat[]"]:checked').each(function() {
                     categories.push($(this).val());
                 });
@@ -191,7 +227,7 @@
                     setSortListeners();
                     setFilterListeners();
                     window.history.pushState("", "", url);
-                }).fail(function () {
+                }).fail(function() {
                     alert('Tools could not be loaded.');
                 });
             }
@@ -214,7 +250,7 @@
                 $('#review-without-rating-' + slug + ' .ratingreview').starrr();
                 $('#review-without-rating-' + slug).modal('show');
             });
-        
+
             $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
                 $.ajax({
                     url : route,
@@ -225,7 +261,7 @@
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
-        
+
             $('#review-without-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
                 $.ajax({
                     url : route,

@@ -173,9 +173,9 @@
         <div class="row pb-1">
             <div class="tool-specs col-12">
                 <h2 id="tags" class="mb-4">Tags</h2>
-                @if (count($toolTags) > 0)
-                    @foreach($toolTags as $toolTag)
-                        <span class="badge badge-light">{{ $toolTag->tag->name }}</span>
+                @if (count($tool->tags) > 0)
+                    @foreach($tool->tags as $toolTag)
+                        <span class="badge badge-light">{{ $toolTag->name }}</span>
                     @endforeach
                 @else
                     <p>Deze tool heeft geen tags :(</p>

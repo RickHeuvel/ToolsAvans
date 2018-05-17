@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;
-use App\Tag;
+use App\ToolTag;
 
 class ToolOnlyOnceInList implements Rule
 {
@@ -31,7 +31,7 @@ class ToolOnlyOnceInList implements Rule
     {
         $array = array();
         foreach($value as $tag){ 
-            if(!Tag::all()->pluck('slug')->contains($tag)){
+            if(!ToolTag::all()->pluck('slug')->contains($tag)){
                 return false;
             }
             $collection = collect($array);

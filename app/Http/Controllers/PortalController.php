@@ -11,6 +11,7 @@ use App\ToolView;
 use App\ToolReview;
 use App\ToolCategory;
 use App\Tag;
+use App\TagCategory;
 use App\ToolTag;
 use Illuminate\Http\Request;
 
@@ -37,9 +38,10 @@ class PortalController extends Controller
         if (Auth::user()->isAdmin()) {
             $categories = ToolCategory::all()->sortBy('slug');
             $categoryGroups = Tool::all()->groupBy('category_slug');
-            $tags = Tag::all()->sortBy('slug');
-            $tagGroups = ToolTag::all()->sortBy('tag_slug');
-
+            $tags = ToolTag::all()->sortBy('slug');
+            $tagGroups = ToolTag::usedTags()->get()->sortBy('slug');
+            $tagCategories = TagCategory::all()->sortBy('slug');
+            $tagCategoryGroups = ToolTag::all()->groupBy('category_slug');
             $users = User::all();
             $settings = Setting::all();
 
@@ -58,7 +60,7 @@ class PortalController extends Controller
             if ($request->ajax())
                 return view('partials.tools', compact('tools', 'statuses', 'selectedStatuses'))->render();  
             else
-                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users', 'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'allTools'));
+                return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users', 'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
         } else {
             $myConceptTools = $myTools->where('status_slug', 'active');
 

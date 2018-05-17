@@ -38,7 +38,7 @@
         
         <div class="row">
             <div class="col-6 mt-2">
-                <a href="{{route('portal')}}" class="btn btn-square btn-light">Annuleren</a>
+                <a href="{{route('portal', '#categories')}}" class="btn btn-square btn-light">Annuleren</a>
             </div>
             <div class="col-6 text-right mt-2">
                 {{ Form::submit('Aanpassen', ['class' => 'btn btn-danger btn-avans']) }}

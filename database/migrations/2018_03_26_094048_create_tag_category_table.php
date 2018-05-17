@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateToolTagLookupTable extends Migration
+class CreateTagCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateToolTagLookupTable extends Migration
      */
     public function up()
     {
-        Schema::create('tool_tag_lookup', function (Blueprint $table) {
+        Schema::create('tag_category', function (Blueprint $table) {
             $table->string('slug')->primary();
             $table->string('name');
-            $table->string('category_slug')->nullable();
-            $table->boolean('pinned');
-
-            $table->foreign('category_slug')->references('slug')->on('tag_category')->onUpdate('cascade');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +27,6 @@ class CreateToolTagLookupTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tool_tag_lookup');
+        Schema::dropIfExists('tag_categorys');
     }
 }

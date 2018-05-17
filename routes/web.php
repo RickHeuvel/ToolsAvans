@@ -15,7 +15,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resources([
     'tools' => 'ToolController',
     'categories' => 'CategoryController',
-    'tags' => 'TagController'
+    'tags' => 'TagController',
+    'tagcategories' => 'TagCategoryController'
 ]);
 
 /* Custom tool routes */

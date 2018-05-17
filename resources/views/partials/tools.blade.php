@@ -12,9 +12,9 @@
                     @endforeach
                 @endif
                 @if(!empty($selectedTags) && count($selectedTags) > 0)
-                    @foreach($tags as $tag)
-                        @if (in_array($tag->tag_slug, $selectedTags))
-                            <button type="button" id="btn{{$tag->tag_slug}}" data-slug="{{$tag->tag_slug}}" class="btn btn-light filter-button">{{ in_array($tag->tag_slug, $selectedTags) ? $tag->tag->name : ""}} <span class="badge">X</span></button>
+                    @foreach($allTags as $tag)
+                        @if (in_array($tag->slug, $selectedTags))
+                            <button type="button" id="btn{{$tag->slug}}" data-slug="{{$tag->slug}}" class="btn btn-light filter-button">{{ in_array($tag->slug, $selectedTags) ? $tag->name : ""}} <span class="badge">X</span></button>
                         @endif
                     @endforeach
                 @endif
@@ -60,7 +60,7 @@
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
                                 </div>
-                            </div>           
+                            </div>
                             <p class="tool-description">{{ $tool->description }}</p>
                             <div class="row">
                                 @if(Route::currentRouteName() == "portal")
