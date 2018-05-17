@@ -30,7 +30,7 @@
                         <div class="input-group">
                             <input class="form-control" name="searchQuery" type="search" placeholder="Zoeken naar tools..." aria-label="Search">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-dark px-3" type="submit">
+                                <button id="searchButton" class="btn btn-outline-dark px-3" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -151,6 +151,12 @@
 
             // Search input field
             $('input[name="searchQuery"]').on('change', function (e) {
+                e.preventDefault();
+
+                getTools(generateURL());
+            });
+
+            $('#searchButton').on('click', function (e) {
                 e.preventDefault();
 
                 getTools(generateURL());
