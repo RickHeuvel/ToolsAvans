@@ -141,6 +141,71 @@ home
                 </div>
             </div>
         </div>
+
+        @if(!empty($homepageCategoryTools))
+            <div class="pt-5">
+                <h3 class="mb-3">Featured categorie - {{ $homepageCategory->name }}</h3>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="owl-carousel featured owl-theme">
+                            @foreach($homepageCategoryTools as $homepageCategoryTool)
+                                <a href="{{ route('tools.show', $homepageCategoryTool->slug) }}">
+                                    <div class="featured-item text-white" style="background: url('{{ route('tools.image', $homepageCategoryTool->images->random()->image_filename) }}') no-repeat center center / cover;">
+                                        <div class="inner pt-5 pb-5">
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <div class="tool-logo d-inline-block">
+                                                        <img src="{{ route('tools.image', $homepageCategoryTool->logo_filename) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <h4>{{ $homepageCategoryTool->name }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if(!empty($homepageTagTools))
+            <div class="pt-5">
+                <h3 class="mb-3">Featured tag - {{ $homepageTag->name }}</h3>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="owl-carousel featured owl-theme">
+                            @foreach($homepageTagTools as $homepageTagTool)
+                                <a href="{{ route('tools.show', $homepageTagTool->slug) }}">
+                                    <div class="featured-item text-white" style="background: url('{{ route('tools.image', $homepageTagTool->images->random()->image_filename) }}') no-repeat center center / cover;">
+                                        <div class="inner pt-5 pb-5">
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <div class="tool-logo d-inline-block">
+                                                        <img src="{{ route('tools.image', $homepageTagTool->logo_filename) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <h4>{{ $homepageTagTool->name }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        
         <div class="bg-white py-3 px-4 mt-5 d-flex">
             <h4 class="mb-0 align-middle py-1 d-inline-block">Bekijk ons volledige aanbod aan tools!</h4>
             <a href="{{ route('tools.index') }}" class="btn btn-danger btn-avans ml-auto">Ga naar tools</a>
@@ -166,6 +231,23 @@ home
             },
             autoplay: true,
             autoplayTimeout: 6000,
+            loop: true
+        });
+
+        $('.owl-carousel.featured').owlCarousel({
+            margin: 15,
+            nav: false,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 4
+                }
+            },
             loop: true
         });
     </script>

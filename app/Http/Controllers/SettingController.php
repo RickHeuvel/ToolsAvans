@@ -9,7 +9,7 @@ use Session;
 
 class SettingController extends Controller
 {
-    public function updateConceptMail(Request $request)
+    public function updateSettings(Request $request)
     {
         $rules = [
             'settings' => 'array'
@@ -21,10 +21,12 @@ class SettingController extends Controller
         } else {
             foreach ($request->input('settings') as $name => $val) {
                 $setting = Setting::where('name', $name)->first();
-                if ($setting != null) {
+                if ($setting != null && empty($val)) {
+                    $setting->delete();
+                } else if ($setting != null) {
                     $setting->val = $val;
                     $setting->save();
-                } else {
+                } else if (!empty($val)) {
                     $setting = Setting::create([
                         'name' => $name,
                         'val'  => $val

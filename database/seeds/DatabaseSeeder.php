@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ToolAnswerTableSeeder::class,
             ToolViewTableSeeder::class,
             SortOptionsTableSeeder::class,
+            SettingsTableSeeder::class,
             ToolOutdatedReportsTableSeeder::class
         ]);
     }

@@ -55,7 +55,7 @@ class ToolController extends Controller
         $categories = ToolCategory::all();
         $selectedCategories = ($request->has('categories')) ? explode('+', $request->input('categories')) : null;
 
-        $allTags = ToolTag::usedTags();
+        $allTags = ToolTag::usedTags()->get();
         $pinnedTags = ToolTag::usedTags()->where('pinned', true)->get();
         $tagCategories = TagCategory::all();
         $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->get();

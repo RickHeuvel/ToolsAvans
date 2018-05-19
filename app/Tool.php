@@ -62,7 +62,9 @@ class Tool extends Model
 
     // Query functions
     public static function publicTools() {
-        return static::where('status_slug', 'actief')->orWhere('status_slug', 'verouderd');
+        return static::where(function ($query) {
+            $query->where('status_slug', 'actief')->orWhere('status_slug', 'verouderd');
+        });
     }
 
     public static function inactiveTools() {

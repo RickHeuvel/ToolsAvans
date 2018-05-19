@@ -11088,6 +11088,36 @@ ul.nav li.active a {
   width: auto !important;
 }
 
+.home .featured {
+  z-index: 0;
+}
+
+.home .featured .featured-item {
+  height: 200px;
+  position: relative;
+}
+
+.home .featured .featured-item .inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.home .featured .featured-item .inner .tool-logo {
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.home .featured .featured-item .inner .tool-logo img {
+  max-height: 75px;
+  border-radius: 4px;
+  width: auto !important;
+}
+
 .home .top-list {
   margin-top: -45px;
   background: white;

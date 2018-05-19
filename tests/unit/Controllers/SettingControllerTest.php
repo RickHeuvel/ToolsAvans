@@ -28,7 +28,7 @@ class SettingControllerTest extends TestCase
                 ]
             ]
         );
-        $controller->updateConceptMail($request);
+        $controller->updateSettings($request);
 
         $this->assertDatabaseHas('settings', [
             'name' => 'conceptmailfrequence',

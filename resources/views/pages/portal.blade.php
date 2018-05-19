@@ -4,19 +4,23 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="container">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Mijn portaal</li>
-                    </ol>
-                </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mijn portaal</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
+
     <hr class="m-0">
+
     <div class="container pt-5">
 
         <div class="row mb-4">
@@ -213,13 +217,14 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="tab-pane pt-4" id="adminpanel" role="tabpanel" aria-labelledby="adminpanel-tab">
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#admins" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
+                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#admin" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
                                 <a class="nav-link" id="v-pills-mail-tab" data-toggle="pill" href="#mail" role="tab" aria-controls="v-pills-mail" aria-selected="false">Mail</a>
+                                <a class="nav-link" id="v-pills-homepage-tab" data-toggle="pill" href="#homepage" role="tab" aria-controls="v-pills-homepage" aria-selected="false">Homepagina</a>
                             </div>
                         </div>
                         <div class="col-12 col-md-9">
@@ -231,27 +236,27 @@
                                         </div>
                                     </div>
                                     {{ Form::open(['route' => 'users.updateadmins', 'method' => 'PUT']) }}
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Naam</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Beheerder</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($users as $user)
-                                            <tr>
-                                                <th scope="row">{{ $user->id }}</th>
-                                                <td>{{ $user->nickname }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ Form::checkbox('admins[]', $user->id, $user->isAdmin()) }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Naam</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Beheerder</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($users as $user)
+                                                <tr>
+                                                    <th scope="row">{{ $user->id }}</th>
+                                                    <td>{{ $user->nickname }}</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>{{ Form::checkbox('admins[]', $user->id, $user->isAdmin()) }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
                                     {{ Form::close() }}
                                 </div>
                                 <div class="tab-pane fade" id="mail" role="tabpanel" aria-labelledby="v-pills-mail-tab">
@@ -260,44 +265,67 @@
                                             <h2>Mail</h2>
                                         </div>
                                     </div>
-                                    {{ Form::open(['route' => 'settings.updateconceptmail', 'method' => 'PUT']) }}
-                                    
-                                    <div class="form-group row">
-                                        {{ Form::label('conceptmailfrequence', 'Concept mailing frequentie *', ['class' => 'col-3']) }}
-                                        <div class="col-9">
-                                            {{ Form::select('settings[conceptmailfrequence]', [
-                                                'Monthly' => 'Elke maand', 
-                                                'Weekly' => 'Elke week',
-                                                'Daily' => 'Elke dag'
-                                        ], (!empty($settings->conceptmailfrequence)) ? $settings->conceptmailfrequence->val : null, ['class' => 'form-control']) }}
+                                    {{ Form::open(['route' => 'settings.updatesettings', 'method' => 'PUT']) }}
+                                        <div class="form-group row">
+                                            {{ Form::label('conceptmailfrequence', 'Concept mailing frequentie *', ['class' => 'col-3']) }}
+                                            <div class="col-9">
+                                                {{ Form::select('settings[conceptmailfrequence]', [
+                                                    'Monthly' => 'Elke maand', 
+                                                    'Weekly' => 'Elke week',
+                                                    'Daily' => 'Elke dag'
+                                            ], (!empty($settings->has('conceptmailfrequence'))) ? $settings->get('conceptmailfrequence')->val : null, ['class' => 'form-control']) }}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group row">
-                                        {{ Form::label('conceptmailday', 'Concept mailing dag *', ['class' => 'col-3']) }}
-                                        <div class="col-9">
-                                            {{ Form::select('settings[conceptmailday]', [
-                                                'Monday' => 'Maandag', 
-                                                'Tuesday' => 'Dinsdag',
-                                                'Wednesday' => 'Woensdag', 
-                                                'Thursday' => 'Donderdag', 
-                                                'Friday' => 'Vrijdag', 
-                                                'Saturday' => 'Zaterdag', 
-                                                'Sunday' => 'Zondag'
-                                        ], (!empty($settings->conceptmailday)) ? $settings->conceptmailday->val : null, ['class' => 'form-control']) }}
+                                        <div class="form-group row">
+                                            {{ Form::label('conceptmailday', 'Concept mailing dag *', ['class' => 'col-3']) }}
+                                            <div class="col-9">
+                                                {{ Form::select('settings[conceptmailday]', [
+                                                    'Monday' => 'Maandag', 
+                                                    'Tuesday' => 'Dinsdag',
+                                                    'Wednesday' => 'Woensdag', 
+                                                    'Thursday' => 'Donderdag', 
+                                                    'Friday' => 'Vrijdag', 
+                                                    'Saturday' => 'Zaterdag', 
+                                                    'Sunday' => 'Zondag'
+                                            ], (!empty($settings->has('conceptmailday'))) ? $settings->get('conceptmailday')->val : null, ['class' => 'form-control']) }}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group row">
-                                        {{ Form::label('conceptmailtime', 'Concept mailing tijd *', ['class' => 'col-3 col-form-label']) }}
-                                        <div class="col-9">
-                                            <input class="form-control" type="time" value="{{ (!empty($settings->conceptmailtime)) ? $settings->conceptmailtime->val : '20:00:00' }}" name="settings[conceptmailtime]" id="conceptmailtime">
+                                        <div class="form-group row">
+                                            {{ Form::label('conceptmailtime', 'Concept mailing tijd *', ['class' => 'col-3 col-form-label']) }}
+                                            <div class="col-9">
+                                                <input class="form-control" type="time" value="{{ (!empty($settings->has('conceptmailtime'))) ? $settings->get('conceptmailtime')->val : '20:00:00' }}" name="settings[conceptmailtime]" id="conceptmailtime">
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                        {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
                                     {{ Form::close() }}
                                     <!--<a href="{{ route('sendmail') }}" class="btn btn-danger btn-avans">Verstuur de 'concept tools' mail</a>-->
+                                </div>
+                                <div class="tab-pane fade" id="homepage" role="tabpanel" aria-labelledby="v-pills-homepage-tab">
+                                    <div class="row">
+                                        <div class="col-12 pb-3">
+                                            <h2>Homepagina</h2>
+                                        </div>
+                                    </div>
+                                    {{ Form::open(['route' => 'settings.updatesettings', 'method' => 'PUT']) }}
+                                        <div class="form-group row">
+                                            {{ Form::label('homepagecategory', 'Featured categorie *', ['class' => 'col-3']) }}
+                                            <div class="col-9">
+                                                {{ Form::select('settings[homepagecategory]', $categories->pluck('name', 'slug'), (!empty($settings->has('homepagecategory'))) ? $settings->get('homepagecategory')->val : null, ['class' => 'form-control', 'placeholder' => 'Kies een categorie...']) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            {{ Form::label('homepagetag', 'Featured tag *', ['class' => 'col-3']) }}
+                                            <div class="col-9">
+                                                {{ Form::select('settings[homepagetag]', $tags->pluck('name', 'slug'), (!empty($settings->has('homepagetag'))) ? $settings->get('homepagetag')->val : null, ['class' => 'form-control', 'placeholder' => 'Kies een tag...']) }}
+                                            </div>
+                                        </div>
+
+                                        {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                    {{ Form::close() }}
                                 </div>
                             </div>
                         </div>
@@ -345,7 +373,7 @@
         if(hash == "#categories" || hash == "#tags" || hash == "#tagcategories"){
             $('#tabs a[href="#filters"]').tab('show');
             $('#filters a[href="' + hash + '"').click();
-        } else if(hash == "#mail" || hash == "#admins"){
+        } else if(hash == "#mail" || hash == "#admins" || hash == "#homepage"){
             $('#tabs a[href="#adminpanel"]').tab('show');
             $('#adminpanel a[href="' + hash + '"').click();
         } else{

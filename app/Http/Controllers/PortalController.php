@@ -57,7 +57,7 @@ class PortalController extends Controller
             $tagCategories = TagCategory::all()->sortBy('slug');
             $tagCategoryGroups = ToolTag::all()->groupBy('category_slug');
             $users = User::all();
-            $settings = Setting::all();
+            $settings = new Setting();
             $unjudgedTools = Tool::unjudgedTools()->get();
 
             return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users',
