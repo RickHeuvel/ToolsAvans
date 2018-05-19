@@ -48,15 +48,34 @@
                                     <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <div class="tool-rating mb-2">
-                                        <div class="starrr readOnly">
-                                            @php
-                                                $stars = ($tool->reviews->count() > 0) ? $tool->reviews->avg('rating') : 0;
-                                            @endphp
-                                            @for($i = 1; $i < 6; $i++)
-                                                <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
-                                            @endfor
-                                        </div>
+                                    <div class="tool-rating {{$tool->slug}} mb-2">
+                                        @if (!Auth::check())
+                                            <div class="starrr {{$tool->slug}} readOnly"></div>
+                                        @else
+                                            <div class="starrr {{$tool->slug}}"></div>
+                                        @endif
+                                        @section('js')
+                                            @parent
+                                            <script>
+                                                @if (!$tool->reviews->isEmpty() && Auth::check())
+                                                    $('.starrr.{{$tool->slug}}').starrr({
+                                                        rating: {{$tool->reviews->avg('rating')}}
+                                                    });
+                                                    setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                @elseif (!$tool->reviews->isEmpty() && !Auth::check())
+                                                    $('.starrr.{{$tool->slug}}').starrr({
+                                                        rating: {{$tool->reviews->avg('rating')}}
+                                                    }).click(function(){
+                                                        location.href = '{{route("login")}}'
+                                                    });
+                                                @elseif ($tool->reviews->isEmpty() && !Auth::check())
+                                                    $('.tool-rating.{{$tool->slug}}').hide();
+                                                @else
+                                                    $('.starrr.{{$tool->slug}}').starrr();
+                                                    setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                @endif
+                                            </script>
+                                        @endsection
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
                                 </div>
@@ -109,12 +128,10 @@
                                 @else
                                     @if (Auth::check() && empty($tool->reviews->where('user_id', Auth::id())->first()))
                                         <a target="_blank" id="url-{{$tool->slug}}" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
-                                        @include('partials.modals.review-with-rating', ['id' => 'review-with-rating-' . $tool->slug])
-                                        @include('partials.modals.review-without-rating', ['id' => 'review-without-rating-' . $tool->slug])
                                         @section('js')
                                             @parent
                                             <script>
-                                                setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                setURLModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
                                             </script>
                                         @endsection
                                     @else
@@ -126,6 +143,8 @@
                         </div>
                     </div>
                 </div>
+                @include('partials.modals.review-with-rating', ['id' => 'review-with-rating-' . $tool->slug])
+                @include('partials.modals.review-without-rating', ['id' => 'review-without-rating-' . $tool->slug])
             </div>
         </div>
     </div>
