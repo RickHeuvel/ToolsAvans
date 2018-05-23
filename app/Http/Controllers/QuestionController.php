@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Tool;
+use App\User;
 use App\ToolQuestion;
 use App\ToolQuestionUpvote;
+use App\Mail\NewQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -56,6 +58,12 @@ class QuestionController extends Controller
                 'title' => $request->input('title'),
                 'text' => $request->input('text'),
             ]);
+
+            $tool = Tool::find($slug)->firstOrFail();
+
+            $mail = new NewQuestion($question);
+            $user = User::findOrFail($tool->uploader_id);
+            MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Je vraag is geplaatst');            
             return redirect()->route('tools.show', $slug);

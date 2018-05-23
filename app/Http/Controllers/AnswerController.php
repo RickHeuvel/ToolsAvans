@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Tool;
+use App\User;
 use App\ToolAnswer;
 use App\ToolAnswerUpvote;
 use App\ToolQuestion;
+use App\Mail\NewAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -41,6 +43,13 @@ class AnswerController extends Controller
                 'user_id' => Auth::id(),
                 'text' => $request->input('text'),
             ]);
+
+            $tool = Tool::find($slug)->firstOrFail();
+            $question = ToolQuestion::find($question);
+
+            $mail = new NewAnswer($answer,$tool);
+            $user = User::findOrFail($question->user_id);
+            MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Je reactie is geplaatst');            
             return redirect()->route('tools.show', $slug);
