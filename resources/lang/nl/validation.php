@@ -147,5 +147,6 @@ return [
         'title' => 'titel',
         'username' => 'gebruikersnaam',
         'year' => 'jaar',
+        'question' => 'vraag',
     ],
 ];

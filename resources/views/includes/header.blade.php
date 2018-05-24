@@ -32,6 +32,7 @@
                         </div>
                     </li>
                 @endguest
+                <li><a class="nav-link" href="{{ route('contact.index') }}">Contact</a></li>
             </ul>
             <a class="navbar-brand ml-auto" href="{{ route('home') }}"><img class="img-fluid" alt="Toolhub logo" src="{{ asset('img/full-logo-toolhub.png') }}"></a>
         </div>
