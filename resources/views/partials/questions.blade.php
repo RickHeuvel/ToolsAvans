@@ -29,7 +29,7 @@
             @foreach($question->answers as $answer)
                 <div class="row">
                     <div class="col-12 col-md-11 offset-md-1">
-                        <div class="answer">
+                        <div class="answer {{ ($loop->first) ? '' : 'collapse answer-collapse-' . $question->id }}">
                             <div class="row">
                                 <div class="col-2 col-md-1 text-center">
                                     <div class="btn-group btn-group-vote" id="answer-{{ $answer->id }}" role="group">
@@ -55,35 +55,55 @@
                 </div>
             @endforeach
             <div class="row">
+                <div class="col-12 col-md-11 offset-md-1 text-center">
+                    @if($loop->first && $question->answers->count() > 1)
+                        <div aria-expanded="true" data-toggle="collapse" class="answer-collapse-button tag-list" href=".answer-collapse-{{$question->id}}" title="Laat meer antwoorden zien">
+                            <u>Laat meer antwoorden zien({{$question->answers->count() - 1}})</u>
+                            <u class="d-none">Laat minder antwoorden zien</u>
+                        </div>
+                        <hr>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12 col-md-11 offset-md-1">
-                {{ Form::open(['route' => ['answer.store', $tool->slug, $question]] ) }}
-                    <p><strong>Geef een reactie</strong></p>
-                    {{ Html::ul($errors->answers->all()) }}
-                    <div class="form-group">
-                        {{ Form::textarea('text', Input::old('description'), ['class' => 'form-control', 'rows'=>'4', 'placeholder' => 'Typ hier je reactie...']) }}
-                    </div>
-                    {{ Form::submit('Reactie plaatsen', ['class' => 'btn btn-danger btn-avans float-right']) }}
-                {{ Form::close() }}
+                    @if(Auth::check())
+                    {{ Form::open(['route' => ['answer.store', $tool->slug, $question]] ) }}
+                        <p><strong>Geef een reactie</strong></p>
+                        {{ Html::ul($errors->answers->all()) }}
+                        <div class="form-group">
+                            {{ Form::textarea('text', Input::old('description'), ['class' => 'form-control', 'rows'=>'4', 'placeholder' => 'Typ hier je reactie...']) }}
+                        </div>
+                        {{ Form::submit('Reactie plaatsen', ['class' => 'btn btn-danger btn-avans float-right']) }}
+                    {{ Form::close() }}
+                    @else
+                        <a class="text-muted" href="{{route('login')}}">Je moet inloggen om te kunnen reageren! klik hier om in te loggen.</a>
+                    @endif
                 </div>
             </div>
             @if (!$loop->last)
-                <hr class="mb-4">
+                <hr>
             @endif
         </div>
     @endforeach
 @endif
-{{ Form::open(['route' => ['questions.store' , $tool->slug ]] ) }}
-    <hr class="mt-4">
-    <h3 class="mb-4">Vraag plaatsen</h3>
-    {{ Html::ul($errors->questions->all()) }}
-    <div class="form-group">
-        {{ Form::text('title', Input::old('titel'), ['class' => 'form-control', 'placeholder' => 'Je vraag']) }}
-    </div>
-    <div class="form-group">
-        {{ Form::textarea('text', Input::old('description'), ['class' => 'form-control', 'rows'=>'8', 'placeholder' => 'Geef wat uitleg over je vraag...']) }}
-    </div>
-    {{ Form::submit('Vraag plaatsen', ['class' => 'btn btn-danger btn-avans float-right']) }}
-{{ Form::close() }}
+<hr>
+@if(Auth::check())
+    {{ Form::open(['route' => ['questions.store' , $tool->slug ]] ) }}
+        <hr class="mt-4">
+        <h3 class="mb-4">Vraag plaatsen</h3>
+        {{ Html::ul($errors->questions->all()) }}
+        <div class="form-group">
+            {{ Form::text('title', Input::old('titel'), ['class' => 'form-control', 'placeholder' => 'Je vraag']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::textarea('text', Input::old('description'), ['class' => 'form-control', 'rows'=>'8', 'placeholder' => 'Geef wat uitleg over je vraag...']) }}
+        </div>
+        {{ Form::submit('Vraag plaatsen', ['class' => 'btn btn-danger btn-avans float-right']) }}
+    {{ Form::close() }}
+@else
+    <a class="text-muted" href="{{route('login')}}">Je moet inloggen om een vraag te kunnen plaatsen, klik hier om in te loggen.</a>
+ @endif
 @section('js')
     @parent
     <script>
@@ -102,5 +122,10 @@
                 alert('Upvote kon niet worden geplaatst.');
             });
         }
+        $(document).ready(function(){
+            $('.answer-collapse-button').click(function(){
+                $(this).children().toggleClass("d-none");
+            });
+        });
     </script>
 @endsection
