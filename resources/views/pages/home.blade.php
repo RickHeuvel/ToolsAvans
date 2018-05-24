@@ -9,6 +9,15 @@ home
 
 @section('content')
     <div class="container">
+        <div class="bg-white py-3 px-4 my-3 d-flex">
+            <h4 class="mb-0 align-middle py-1 d-inline-block">Welkom bij ToolHub!</h4>
+            <div class="ml-auto">
+                <h4 class="mb-0 align-middle py-1 d-inline-block">Bekijk tools in:</h4>
+                @foreach($categories as $category)
+                    <a href="{{ route('tools.index') }}?categories={{ $category->slug }}" class="btn btn-white btn-avans ml-2">{{ $category->name }}</a>
+                @endforeach
+            </div>
+        </div>
         @if($heroTools->count() > 0)
             <div class="owl-carousel hero owl-theme">
                 @foreach($heroTools as $heroTool)

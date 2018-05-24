@@ -30,6 +30,10 @@ class User extends Authenticatable
         return $this->isAdmin() ? false : ($this->role == "student");
     }
 
+    public function getRole() {
+        return $this->isAdmin() ? 'beheerder' : $this->role;
+    }
+
     public static function admins() {
         return static::where('admin', true);
     }

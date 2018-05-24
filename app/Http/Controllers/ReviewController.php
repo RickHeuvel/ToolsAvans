@@ -81,7 +81,7 @@ class ReviewController extends Controller
             $review->save();
 
             Session::flash('message', 'Bedankt voor het plaatsen van je review!');
-            return redirect()->route('tools.show', ['tool' => $slug]);
+            return redirect(route('tools.show', $slug) . '#reviews');
         }
     }
 }

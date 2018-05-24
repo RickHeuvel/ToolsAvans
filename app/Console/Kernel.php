@@ -28,26 +28,26 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (Schema::hasTable('settings')) {
-            $settings = Setting::all();
+            $settings = new Setting();
             $schedule
                 ->job(SendConceptMail::class)
                 ->when(function () {
-                    return ((!empty($settings->conceptmailday) && $settings->conceptmailday->val == date('l')) || 'Sunday' == date('l'));
+                    return ((!empty($settings->has('conceptmailday')) && $settings->get('conceptmailday')->val == date('l')) || 'Sunday' == date('l'));
                 })
                 ->cron($this->getCron($settings));
         }
     }
 
     private function getCron($settings) {
-        switch((!empty($settings->conceptmailfrequence) ? $settings->conceptmailfrequence->val : 'Weekly')) {
+        switch((!empty($settings->has('conceptmailfrequence')) ? $settings->get('conceptmailfrequence')->val : 'Weekly')) {
             case 'Monthly':
-                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' 1 * *';
+                return (!empty($settings->has('conceptmailtime')) ? date('i H', strtotime($settings->get('conceptmailtime')->val)) : '00 20') . ' 1 * *';
                 break;
             case 'Weekly':
-                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' * * 0';
+                return (!empty($settings->has('conceptmailtime')) ? date('i H', strtotime($settings->get('conceptmailtime')->val)) : '00 20') . ' * * 0';
                 break;
             case 'Daily':
-                return (!empty($settings->conceptmailtime) ? date('i H', strtotime($settings->conceptmailtime->val)) : '00 20') . ' * * *';
+                return (!empty($settings->has('conceptmailtime')) ? date('i H', strtotime($settings->get('conceptmailtime')->val)) : '00 20') . ' * * *';
                 break;
         }
     }

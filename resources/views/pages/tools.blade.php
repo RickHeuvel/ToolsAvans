@@ -49,7 +49,7 @@
 
         <div class="row">
             <div class="col-12 col-md-3">
-                <div class="row mb-4">
+                <div class="row mb-3">
                     <div class="col-12">
                         <p class="mb-2"><strong>Categorieën</strong></p>
                         @foreach($categories as $category)
@@ -66,9 +66,9 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="row mb-4">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <p class="mb-2"><strong>Tags</strong></p>
+                        <p class="mb-2"><strong>Gepinde tags</strong></p>
                         @foreach($pinnedTags as $tag)
                             <div class="form-check mb-1">
                                 @if (!empty($selectedTags))
@@ -81,10 +81,15 @@
                                 </label>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="mb-2"><strong>Overige tags</strong></p>
                         @foreach($tagCategories as $tagCategory)
-                            <div id="row">
+                            <div class="d-block mb-1">
                             @if($tagCategory->toolTags->count())
-                                <a data-toggle="collapse" data-target="#{{ $tagCategory->slug }}" aria-expanded="false" class="mb-2 collapsed tag-list"><i class="fa fa-chevron-right chevron"></i><strong>  {{ $tagCategory->name }}</strong></a>
+                                <a data-toggle="collapse" data-target="#{{ $tagCategory->slug }}" aria-expanded="false" class="mb-2 collapsed tag-list"><i class="fa fa-chevron-right chevron"></i> {{ $tagCategory->name }}</a>
                                 <div id="{{ $tagCategory->slug }}" class="pl-4 collapse">
                                     @foreach($tagCategory->toolTags as $tag)
                                         <div id="{{ $tag->id }}" class="form-check mb-1">

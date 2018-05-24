@@ -33,6 +33,8 @@ class HomeController extends Controller
             $homepageTagTools = null;
         }
 
-        return view('pages.home', compact('heroTools', 'newTools', 'popularTools', 'homepageCategoryTools', 'homepageTagTools', 'homepageTag', 'homepageCategory'));
+        $categories = ToolCategory::inRandomOrder()->limit(4)->get()->shuffle();
+
+        return view('pages.home', compact('heroTools', 'newTools', 'popularTools', 'homepageCategoryTools', 'homepageTagTools', 'homepageTag', 'homepageCategory', 'categories'));
     }
 }

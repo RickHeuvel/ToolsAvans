@@ -167,7 +167,7 @@
             <div class="tool-reviews container-fluid col-12">
                 <h2 id="reviews" class="mb-4">Reviews</h2>
                 @if ($tool->reviews->isEmpty())
-                    <p>Er zijn geen reviews :(</p>
+                    <p class="text-muted">Er zijn geen reviews :(</p>
                 @else
                     <div class="owl-carousel reviews owl-theme mt-4">
                         @foreach($tool->reviews->sortByDesc('created_at') as $review)
@@ -197,7 +197,7 @@
                         <span class="badge badge-light">{{ $toolTag->name }}</span>
                     @endforeach
                 @else
-                    <p>Deze tool heeft geen tags :(</p>
+                    <p class="text-muted">Deze tool heeft geen tags :(</p>
                 @endif
             </div>
         </div>

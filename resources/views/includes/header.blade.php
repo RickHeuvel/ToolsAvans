@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg nav-avans">
         <div class="container">
-            <a target="_blank" href="http://avans.nl"><img class="img-fluid logo-avans" alt="avans logo" src="{{ asset('img/logo-avans-white.png') }}"></a>
+            <a target="_blank" href="http://avans.nl"><img class="img-fluid logo-avans" alt="Avans logo" src="{{ asset('img/logo-avans-white.png') }}"></a>
         </div>
     </nav>
 <nav class="navbar navbar-expand-lg nav-group">

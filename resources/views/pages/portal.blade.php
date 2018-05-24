@@ -25,7 +25,14 @@
 
         <div class="row mb-4">
             <div class="col-12 col-md-6">
-                <h2><strong>{{auth()->user()->nickname}}</strong></h2>
+                <h2>
+                    <strong>
+                        {{ auth()->user()->nickname }} 
+                        @if (Auth::user()->isAdmin())
+                            <span class="badge badge-secondary ml-3">Beheerder</span>
+                        @endif
+                    </strong>
+                </h2>
             </div>
             <div class="col-12 col-md-6 text-right">
                 <div class="tab-buttons">
@@ -80,7 +87,8 @@
                 @if(count($myTools) > 0)
                     @include('partials.tools', ['tools' => $myTools])
                 @else
-                    <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken!</p>
+                    <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken.</p>
+                    <p>Of help de ToolHub community door tools die je al kent sterren te geven op de <a href="{{route('tools.index')}}">tools</a> pagina!</p>
                 @endif
             </div>
 

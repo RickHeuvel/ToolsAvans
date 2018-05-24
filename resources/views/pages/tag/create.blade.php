@@ -37,9 +37,9 @@
             {{ Form::select('category', $tagCategories,old('category'),['placeholder' => 'Selecteer een tag categorie...','class' => 'custom-select form-control']) }}
         </div>
 
-        <div class="form-group">
+        <div class="form-check">
+            {{ Form::checkbox('pinned', null, false, ['class' => 'form-check-input']) }}
             {{ Form::label('pinned', 'Pinned tag, deze tag komt op de pagina met alle tools boven aan te staan. Dit is handig voor de wat belangrijkere tags als je wilt zoeken.') }}
-            {{ Form::checkbox('pinned', null, false,  ['class' => 'form-check']) }}
         </div>
 
         <div class="row">

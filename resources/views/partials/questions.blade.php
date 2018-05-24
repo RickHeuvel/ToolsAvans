@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-10 col-md-11 question-content">
                     <p class="title">{{ $question->title }}</p>
-                    <p class="question-uploaded">Geplaatst op {{ $question->created_at->format('d F Y') }} door {{ $question->user->nickname }}</p>
+                    <p class="question-uploaded">Geplaatst op {{ $question->created_at->format('d F Y') }} door {{ $question->user->getRole() }} {{ $question->user->nickname }}</p>
                     <p class="text">{{ $question->text }}</p>
                     <p class="answercount">{{ $question->answers->count() }} Antwoord(en)</p>
                     <hr>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-10 col-md-11 answer-content">
                                     <p class="text">{{ $answer->text }}</p>
-                                    <p class="answer-uploaded">Geplaatst op {{ $answer->created_at->format('d F Y') }} door {{ $answer->user->nickname }}</p>
+                                    <p class="answer-uploaded">Geplaatst op {{ $answer->created_at->format('d F Y') }} door {{ $answer->user->getRole() }} {{ $answer->user->nickname }}</p>
                                 </div>
                             </div>
                             <hr>

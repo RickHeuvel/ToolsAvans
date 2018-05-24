@@ -11468,8 +11468,11 @@ footer.footer {
   border-bottom: 1px solid #333333;
   background-color: #000;
   color: #989898;
-  font-size: 12px;
-  padding: 15px 0;
+  font-size: 14px;
+}
+
+footer.footer p {
+  line-height: 50px;
 }
 
 .bottom {
@@ -11627,10 +11630,19 @@ footer.footer {
   margin-bottom: 0.4rem;
 }
 
+.chevron {
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  margin-right: 2px;
+}
+
 .chevron:before {
   display: block;
   -webkit-transition: all .1s linear;
   transition: all .1s linear;
+  font-size: 14px;
+  padding-top: 1px;
 }
 
 .chevron.down:before {

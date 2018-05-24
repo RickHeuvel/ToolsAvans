@@ -66,7 +66,7 @@ class QuestionController extends Controller
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Je vraag is geplaatst');            
-            return redirect()->route('tools.show', $slug);
+            return redirect(route('tools.show', $slug) . '#vragen');
         }
     }
 

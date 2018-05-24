@@ -30,7 +30,6 @@
         {{ Html::ul($errors->all()) }}
 
         {{ Form::model($tag, ['route' => ['tags.update', $tag->slug], 'method' => 'PUT']) }}
-               
 
         <div class="form-group">
             {{ Form::label('name', 'Naam  *') }}
@@ -39,12 +38,12 @@
 
         <div class="form-group">
             {{ Form::label('category', 'Tag categorie  *') }}
-            {{ Form::select('category', $tagCategories,old('category'),['placeholder' => 'Selecteer een tag categorie...','class' => 'custom-select form-control']) }}
+            {{ Form::select('category', $tagCategories, old('category'), ['placeholder' => 'Selecteer een tag categorie...','class' => 'custom-select form-control']) }}
         </div>
 
-        <div class="form-group">
-            {{ Form::label('default', 'Pinned tag, deze tag komt boven alle andere tags bij de andere pinned tags.') }}
-            {{ Form::checkbox('pinned', null, $tag->pinned,  ['class' => 'form-check']) }}  
+        <div class="form-check">
+            {{ Form::checkbox('pinned', null, $tag->pinned, ['class' => 'form-check-input']) }}
+            {{ Form::label('pinned', 'Pinned tag, deze tag komt op de pagina met alle tools boven aan te staan. Dit is handig voor de wat belangrijkere tags als je wilt zoeken.') }}
         </div>
         
         <div class="row">

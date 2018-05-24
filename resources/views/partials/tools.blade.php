@@ -22,7 +22,17 @@
         </div>
     </div>
 
-    @include('partials.pagination')
+    @if (!$tools->isEmpty())
+        @include('partials.pagination')
+    @else
+        <p>
+            Geen tools gevonden :(<br>
+        </p>
+        <p>
+            Staat een tool die je zoekt niet op ToolHub?<br>
+            Voeg hem nu toe door <a href="{{ route('tools.create') }}">hier</a> te klikken!
+        </p>
+    @endif
 @endif
 @foreach($tools as $tool)
     <div class="row">
@@ -64,33 +74,40 @@
                                 </div>
                                 <div class="col-4 text-right">
                                     <div class="tool-rating {{$tool->slug}} mb-2">
-                                        @if (!Auth::check())
-                                            <div class="starrr {{$tool->slug}} readOnly"></div>
-                                        @else
-                                            <div class="starrr {{$tool->slug}}"></div>
-                                        @endif
-                                        @section('js')
-                                            @parent
+                                        <div class="starrr {{$tool->slug}} {{ (!Auth::check()) ? 'readOnly' : '' }}"></div>
+                                        @section('review-js-' . $tool->slug)
                                             <script>
-                                                @if (!$tool->reviews->isEmpty() && Auth::check())
-                                                    $('.starrr.{{$tool->slug}}').starrr({
-                                                        rating: {{$tool->reviews->avg('rating')}}
-                                                    });
-                                                    setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
-                                                @elseif (!$tool->reviews->isEmpty() && !Auth::check())
-                                                    $('.starrr.{{$tool->slug}}').starrr({
-                                                        rating: {{$tool->reviews->avg('rating')}}
-                                                    }).click(function(){
-                                                        location.href = '{{route("login")}}'
-                                                    });
-                                                @elseif ($tool->reviews->isEmpty() && !Auth::check())
-                                                    $('.tool-rating.{{$tool->slug}}').hide();
+                                                @if (!$tool->reviews->isEmpty())
+                                                    @if(Auth::check())
+                                                        $('.starrr.{{$tool->slug}}').starrr({
+                                                            rating: {{$tool->reviews->avg('rating')}}
+                                                        });
+                                                        setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                    @else
+                                                        $('.starrr.{{$tool->slug}}').starrr({
+                                                            rating: {{$tool->reviews->avg('rating')}}
+                                                        }).click(function(){
+                                                            location.href = '{{route("login")}}'
+                                                        });
+                                                    @endif
                                                 @else
-                                                    $('.starrr.{{$tool->slug}}').starrr();
-                                                    setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                    @if(Auth::check())
+                                                        $('.starrr.{{$tool->slug}}').starrr();
+                                                        setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
+                                                    @else
+                                                        $('.tool-rating.{{$tool->slug}}').hide();
+                                                    @endif
                                                 @endif
                                             </script>
                                         @endsection
+                                        @if (request()->ajax())
+                                            @yield('review-js-' . $tool->slug)
+                                        @else
+                                            @section('js')
+                                            @parent
+                                                @yield('review-js-' . $tool->slug)
+                                            @endsection
+                                        @endif
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
                                 </div>
@@ -147,6 +164,6 @@
         </div>
     </div>
 @endforeach
-@if (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal")
+@if (!$tools->isEmpty() && (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal"))
     @include('partials.pagination')
 @endif

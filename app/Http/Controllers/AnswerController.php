@@ -36,7 +36,7 @@ class AnswerController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return redirect()->route('tools.show', $slug)->withErrors($validator, 'answers')->withInput();
+            return redirect(route('tools.show', $slug) . '#vragen')->withErrors($validator, 'answers')->withInput();
         } else {
             $answer = ToolAnswer::create([
                 'question_id' => $question,
@@ -52,7 +52,7 @@ class AnswerController extends Controller
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Je reactie is geplaatst');            
-            return redirect()->route('tools.show', $slug);
+            return redirect(route('tools.show', $slug) . '#vragen');
         }
     }
 
