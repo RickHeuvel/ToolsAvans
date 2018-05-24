@@ -65,7 +65,7 @@ class ToolControllerTest extends TestCase
         $authController = new AuthController();
         $toolSlug = 'slack';
         $feedback = 'Het gebruikt electron, dus het is outdated';
-        $tool = Tool::find($toolSlug);
+        $tool = Tool::where('slug', $toolSlug)->firstOrFail();
 
         $user = factory(User::class)->states('student')->make();
         $authController->login($user);
@@ -150,9 +150,6 @@ class ToolControllerTest extends TestCase
         ]);
 
     }
-
-
-
 
     /**
      * Test admin store()

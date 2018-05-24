@@ -33,7 +33,7 @@ class ToolOutdated extends Mailable
                     ->from('noreply@toolhub.com', config('app.name'))
                     ->subject('Je tool is verouderd')
                     ->with([
-                        'toolName' => $tool->name,
+                        'toolName' => $this->tool->name,
                         'url' => route('tools.edit', $this->tool->slug),
                     ]);
     }

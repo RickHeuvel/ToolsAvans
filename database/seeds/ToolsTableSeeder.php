@@ -25,7 +25,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Google Drive',
-            'uploader_id' => '2',
+            'uploader_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
             'description' => 'Google Drive is een service voor bestandsopslag en synchronisatie die is gemaakt en wordt beheerd door Google. Met Google Drive kunnen documenten in de cloud worden opgeslagen, bestanden worden gedeeld en documenten samen met anderen worden bewerkt. Google Drive omvat Google Documenten, Spreadsheets en Presentaties (Google Docs), een virtueel kantoor dat het mogelijk maakt samen aan onder andere documenten, spreadsheets, presentaties, tekeningen en formulieren te werken. Bestanden die openbaar gedeeld worden op Google Drive kunnen door internet zoekmachines worden doorzocht.',
@@ -37,7 +37,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Slack',
-            'uploader_id' => '2',
+            'uploader_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'description' => '
@@ -180,5 +180,9 @@ class ToolsTableSeeder extends Seeder
             'slug' => 'youtube',
             'created_at' => now(),
         ]);
+
+        if (App::environment('production')) {
+            DB::table('tools')->update(['status_slug' => 'concept']);
+        }
     }
 }

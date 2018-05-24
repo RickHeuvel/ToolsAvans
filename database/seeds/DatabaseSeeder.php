@@ -11,23 +11,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            ToolCategoryTableSeeder::class,
-            ToolStatusTableSeeder::class,
-            UsersTableSeeder::class,
-            ToolsTableSeeder::class,
-            ToolImageTableSeeder::class,
-            ReviewsTableSeeder::class,
-            ToolFeedbackTableSeeder::class,
-            TagCategoryTableSeeder::class,
-            ToolTagLookupTableSeeder::class,
-            ToolTagTableSeeder::class,
-            ToolQuestionTableSeeder::class,
-            ToolAnswerTableSeeder::class,
-            ToolViewTableSeeder::class,
-            SortOptionsTableSeeder::class,
-            SettingsTableSeeder::class,
-            ToolOutdatedReportsTableSeeder::class
-        ]);
+        if (!App::environment('production')) {
+            $this->call([
+                ToolCategoryTableSeeder::class,
+                ToolStatusTableSeeder::class,
+                UsersTableSeeder::class,
+                ToolsTableSeeder::class,
+                ToolImageTableSeeder::class,
+                ReviewsTableSeeder::class,
+                ToolFeedbackTableSeeder::class,
+                TagCategoryTableSeeder::class,
+                ToolTagLookupTableSeeder::class,
+                ToolTagTableSeeder::class,
+                ToolQuestionTableSeeder::class,
+                ToolAnswerTableSeeder::class,
+                ToolViewTableSeeder::class,
+                SortOptionsTableSeeder::class,
+                SettingsTableSeeder::class,
+                ToolOutdatedReportsTableSeeder::class
+            ]);
+        } else {
+            $this->call([
+                ToolCategoryTableSeeder::class,
+                ToolStatusTableSeeder::class,
+                UsersTableSeeder::class,
+                ToolsTableSeeder::class,
+                ToolImageTableSeeder::class,
+                TagCategoryTableSeeder::class,
+                ToolTagLookupTableSeeder::class,
+                ToolTagTableSeeder::class,
+                ToolViewTableSeeder::class,
+                SortOptionsTableSeeder::class,
+                SettingsTableSeeder::class
+            ]);
+        }
     }
 }

@@ -420,5 +420,72 @@
                 });
             }
         });
+
+        function setModal(slug, route) {
+            $('.starrr.' + slug).on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type: 'GET',
+                    data: { rating: value },
+                }).done(function (data) {
+                    $('#review-with-rating-' + slug + ' .ratingreview').starrr({
+                        rating: value,
+                    });
+                    $('#review-with-rating-' + slug).modal('show');
+                }).fail(function () {
+                    alert('Rating kon niet worden geplaatst.');
+                });
+            });
+
+            $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (data) {
+                    $('.tool-rating.' + slug).empty();
+                    $('.tool-rating.' + slug).append('<div class="starrr ' + slug + '"></div>');
+                    $('.starrr.' + slug).starrr({
+                        rating: parseInt(value)
+                    });
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+        }
+
+        function setURLModal(slug, route) {
+            $('#url-' + slug).click(function() {
+                $('#review-without-rating-' + slug + ' .ratingreview').starrr();
+                $('#review-without-rating-' + slug).modal('show');
+            });
+
+            $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (data) {
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+
+            $('#review-without-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    data: { rating: value },
+                }).done(function (data) {
+                    $('#review-with-rating-' + slug + ' .ratingreview').starrr({
+                        rating: value,
+                    });
+                    $('#review-without-rating-' + slug).modal('hide');
+                    $('#review-with-rating-' + slug).modal('show');
+                }).fail(function () { 
+                    alert('Rating kon niet geplaatst worden.');
+                });
+            });
+        }
     </script>
 @endsection

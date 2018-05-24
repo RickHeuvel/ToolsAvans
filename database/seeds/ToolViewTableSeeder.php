@@ -11,8 +11,10 @@ class ToolViewTableSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\ToolView', 98)->states('taiga')->create();
-        factory('App\ToolView', 1001)->states('slack')->create();
-        factory('App\ToolView', 13)->states('github')->create();
+        if (!App::environment('production')) {
+            factory('App\ToolView', 98)->states('taiga')->create();
+            factory('App\ToolView', 1001)->states('slack')->create();
+            factory('App\ToolView', 13)->states('github')->create();
+        }
     }
 }

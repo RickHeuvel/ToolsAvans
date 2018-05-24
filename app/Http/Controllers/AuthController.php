@@ -98,7 +98,7 @@ class AuthController extends Controller
             'role'        => $user->role,
             'provider'    => $this->provider,
             'provider_id' => $user->id,
-            'admin'       => $user->admin
+            'admin'       => (!empty($user->admin)) ? $user->admin : false
         ]);
     }
 

@@ -470,7 +470,9 @@ class ToolController extends Controller
      */
     public function getImage($filename)
     {
-        $image = Storage::disk('tool-images')->get($filename);
+        $image = Storage::disk('tool-images')->exists($filename);
+        $image = ($image) ? Storage::disk('tool-images')->get($filename) : Storage::disk('tool-images')->get('placeholder.jpg');
+        
         return new Response($image, 200, ['content-type' => 'image/jpeg']);
     }
 
@@ -503,7 +505,6 @@ class ToolController extends Controller
     {
         return Storage::disk('tool-images')->delete($imageFilename);
     }
-
 
     private function generateRandomString($length = 10)
     {

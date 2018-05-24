@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="tool-logo">
-                                <img src="{{ route('tools.image', $tool->logo_filename) }}"class="img-fluid">
+                                <img src="{{ route('tools.image', (!empty($tool->logo_filename)) ? $tool->logo_filename : 'placeholder.jpg') }}" class="img-fluid" />
                             </div>
                             <div class="concept-warning text-center pt-2">
                                 @if ($tool->status->isConcept() && ($tool->feedback != null && !$tool->feedback->fixed))

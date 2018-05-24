@@ -350,6 +350,7 @@ ul.nav li.active a {
           border: 1px solid rgba(0,0,0,0.6);
           border-radius: 4px;
           background-color: $white;
+          padding: 3px;
           float: right;
           img {
             max-height: 155px;
@@ -375,7 +376,8 @@ ul.nav li.active a {
         .tool-logo {
           border: 1px solid rgba(0,0,0,0.6);
           border-radius: 4px;
-          background-color: $white;
+          padding: 2px;
+          background: $white;
           img {
             max-height: 75px;
             border-radius: 4px;
@@ -393,6 +395,7 @@ ul.nav li.active a {
       .tool-logo {
           border: 1px solid rgba(0,0,0,0.6);
           border-radius: 4px;
+          padding: 2px;
           background-color: $white;
           float: right;
           img {
@@ -449,8 +452,15 @@ ul.pagination {
   img {
     margin: 0 auto;
     width: 100%;
+  }
+  .tool-logo {
     border: 1px solid rgba(0,0,0,0.6);
     border-radius: 4px;
+    padding: 5px;
+    background: $white;
+    img {
+      border-radius: 4px;
+    }
   }
   .tool-body {
     padding: 15px 15px 45px 0;
@@ -459,7 +469,7 @@ ul.pagination {
     h2 {
       line-height: 1;
     }
-    .tool-views{
+    .tool-views {
       font-weight: 500;
       font-size: 16px;
     }
@@ -499,6 +509,8 @@ ul.pagination {
   .tool-logo {
     border: 1px solid rgba(0,0,0,0.6);
     border-radius: 4px;
+    padding: 5px;
+    background: $white;
     img {
       border-radius: 4px;
     }
@@ -768,19 +780,21 @@ footer.footer {
   } 
 }
 
-.question-tool-logo{
+.question-tool-logo {
   width: 50px;
   height: 50px;
   margin-right: 5px;
   border: 1px solid rgba(0,0,0,0.6);
   border-radius: 4px;
+  background: $white;
+  padding: 2px;
 }
 
-.question-logo{
+.question-logo {
   padding-right: 0;
 }
 
-.question-question{
+.question-question {
   padding-left: 0;
 }
 

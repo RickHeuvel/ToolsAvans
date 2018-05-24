@@ -11079,6 +11079,7 @@ ul.nav li.active a {
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 4px;
   background-color: #fff;
+  padding: 3px;
   float: right;
 }
 
@@ -11109,7 +11110,8 @@ ul.nav li.active a {
 .home .featured .featured-item .inner .tool-logo {
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 4px;
-  background-color: #fff;
+  padding: 2px;
+  background: #fff;
 }
 
 .home .featured .featured-item .inner .tool-logo img {
@@ -11127,6 +11129,7 @@ ul.nav li.active a {
 .home .top-list .top-tool .tool-logo {
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 4px;
+  padding: 2px;
   background-color: #fff;
   float: right;
 }
@@ -11186,7 +11189,16 @@ ul.pagination .page-item .page-link {
 .tool img {
   margin: 0 auto;
   width: 100%;
+}
+
+.tool .tool-logo {
   border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  padding: 5px;
+  background: #fff;
+}
+
+.tool .tool-logo img {
   border-radius: 4px;
 }
 
@@ -11245,6 +11257,8 @@ ul.pagination .page-item .page-link {
 .tool-view .tool-logo {
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 4px;
+  padding: 5px;
+  background: #fff;
 }
 
 .tool-view .tool-logo img {
@@ -11546,6 +11560,8 @@ footer.footer {
   margin-right: 5px;
   border: 1px solid rgba(0, 0, 0, 0.6);
   border-radius: 4px;
+  background: #fff;
+  padding: 2px;
 }
 
 .question-logo {

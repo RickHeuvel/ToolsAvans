@@ -30,12 +30,27 @@
             <div class="tool mb-4">
                 <div class="row">
                     <div class="col-12 col-md-3">
-                        @if (!empty($tool->logo_filename))
-                            <div class="p-3">
+                        <div class="p-3">
+                            <div class="tool-logo">
                                 <a href="{{ route('tools.show', $tool->slug) }}">
-                                    <img src="{{ route('tools.image', $tool->logo_filename) }}" class="img-fluid" />
+                                    <img src="{{ route('tools.image', (!empty($tool->logo_filename)) ? $tool->logo_filename : 'placeholder.jpg') }}" class="img-fluid" />
                                 </a>
                             </div>
+                        </div>
+                        @if(Route::currentRouteName() == "portal")
+                            @if ($tool->status->isConcept())
+                                <div class="concept-warning px-3 pb-3 text-center">
+                                    @if ($tool->feedback != null && !$tool->feedback->fixed)
+                                        <h6>Concept met onverwerkte feedback</h6>
+                                    @else
+                                        <h6>Concept opgestuurd voor keuring</h6>
+                                    @endif
+                                </div>
+                            @else
+                                <div class="concept-warning px-3 pb-3 text-center">
+                                    <h6>{{ $tool->status->name }}</h6>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div class="col-12 col-md-9 pl-0">
@@ -81,23 +96,6 @@
                                 </div>
                             </div>
                             <p class="tool-description">{{ $tool->description }}</p>
-                            <div class="row">
-                                @if(Route::currentRouteName() == "portal")
-                                    @if ($tool->status->isConcept())
-                                        <div class="col concept-warning">
-                                            @if ($tool->feedback != null && !$tool->feedback->fixed)
-                                                <h6>Concept met onverwerkte feedback</h6>
-                                            @else
-                                                <h6>Concept opgestuurd voor keuring</h6>
-                                            @endif
-                                        </div>
-                                    @else
-                                        <div class="col concept-warning">
-                                            <h6>{{ $tool->status->name }}</h6>
-                                        </div>
-                                    @endif
-                                @endif
-                            </div>
                             <div class="right-bottom">
                                 <!-- Print crud buttons if page is portal else print show buttons -->
                                 @if (Route::currentRouteName() == "portal")
