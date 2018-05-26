@@ -16,7 +16,7 @@ class ToolsTableSeeder extends Seeder
             'uploader_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
-            'description' => 'GitHub is een populaire website waarop software kan geplaatst worden. GitHub is gebouwd rond het Git-versiebeheersysteem, waardoor GitHub alle mogelijkheden van Git en eigen toevoegingen aanbiedt. Het beschikt onder ander over toegangscontrole en verschillende samenwerkingsfuncties, zoals een issue tracker, een forum voor het aanvragen van functies, takenlijsten en wikis voor ieder project. Op GitHub staat veel opensourcesoftware omdat bij de gratis versie standaard de broncode kan ingekeken worden door derden.',
+            'description' => 'Online versiebeheer systeem gebaseerd op Git. Een van de meest gebruikte versie beheer systemen ter werelend. Naast code management kun je hier ook issues aanmaken en tracken. Let wel op! In je gratis account zitten alleen publieke repository. ',
             'logo_filename' => 'github-logo.png',
             'url' => 'https://github.com',
             'slug' => 'github',
@@ -40,8 +40,7 @@ class ToolsTableSeeder extends Seeder
             'uploader_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
-            'description' => '
-        Slack verenigt de communicatie van uw hele team, waardoor uw workflow een stuk beter stroomt. Alle apps die u nodig hebt, zijn naadloos geïntegreerd in ons platform en u kunt eenvoudig al uw bestanden, oproepen, berichten en collegas op één plek zoeken en vinden',
+            'description' => 'Maak je gebruik van what\'s app om te communiceren binnen je project team? En vergeten mensen nog wel eens afspraken? Of lezen ze de belangrijke dingen niet? Misschien is What\'s app niet de beste communicatie vorm. Probeer eens Slack! Hiermee kun je in verschillende channels makkelijk verschillende gesprekken onderhouden. ',
             'logo_filename' => 'slack-logo.jpg',
             'url' => 'https://slack.com',
             'slug' => 'slack',
@@ -53,7 +52,7 @@ class ToolsTableSeeder extends Seeder
             'uploader_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
-            'description' => 'Heroku is een cloudplatform als een service (PaaS) dat verschillende programmeertalen ondersteunt en wordt gebruikt als een implementatiemodel voor webtoepassingen. Heroku, een van de eerste cloudplatformen, is in ontwikkeling sinds juni 2007, toen het alleen de programmeertaal Ruby ondersteunde, maar nu Java, Node.js, Scala, Clojure, Python, PHP en Go ondersteunt. Om deze reden wordt gezegd dat Heroku een polyglot platform is, omdat het de ontwikkelaar in staat stelt applicaties op een vergelijkbare manier in alle talen te bouwen, uit te voeren en te schalen.',
+            'description' => 'Nog een platform voor het hosten van webaplicaties. Heroku ondersteund applicaties zoals PHP, Python, Java, NodeJs en meer. Als groot voordeel heeft Heroku dat er een mooie bouwstraat in zit. Je kan je app koppelen aan je Github repo en hierdoor worden je applicaties bij elke \'push\' automatisch uitgerold. ',
             'logo_filename' => 'heroku-logo.png',
             'url' => 'https://heroku.com/',
             'slug' => 'heroku',
@@ -65,10 +64,9 @@ class ToolsTableSeeder extends Seeder
             'uploader_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'actief',
-            'description' => 'Kahoot! is een onderwijsplatform uit Noorwegen. Kahoot! werkt met multiple choice-quizzen genaamd kahoots. Gebruikers hoeven niet geregistreerd te zijn om aan een kahoot deel te nemen, maar er is wel een registratie vereist om zelf kahoots te maken.
-                    Kahoot! is begonnen als een project tussen Mobitroll en de Technisch-natuurwetenschappelijke Universiteit van Noorwegen, maar is nu een op zichzelf staand bedrijf genaamd Kahoot!',
+            'description' => 'Een platform om in je les spannende en competetieve quizen uit te voeren. Het maken van een quiz is zo gebeurd, en je kan deze keer op keer hergebruiken. Een wedstrijdje vragen beantwoorden hoeft niet lang te duren!',
             'logo_filename' => 'kahoot-logo.jpg',
-            'url' => 'https://kahoot.com/',
+            'url' => 'https://kahoot.it/',
             'slug' => 'kahoot',
             'created_at' => now(),
         ]);
@@ -139,7 +137,7 @@ class ToolsTableSeeder extends Seeder
             'category_slug' => 'website',
             'status_slug' => 'actief',
             'logo_filename' => 'taiga-logo.png',
-            'description' => 'Taiga is de ultieme tool om een scrum project in order te houden',
+            'description' => 'Taiga is een Taskboard applicatie waarbij je de mogelijkheid hebt om je taken te beheren in de vorm van een scrum of kanban bord. Het is een zeer toegankelijk platform waarbij je ook nog de mogelijheid hebt om deze met andere platformen zoals Github aan te sluiten.',
             'url' => 'https://taiga.io/',
             'slug' => 'taiga',
             'created_at' => now(),
@@ -181,6 +179,161 @@ class ToolsTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        DB::table('tools')->insert([
+            'name' => 'Trello',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'trello-logo.png',
+            'description' => 'Trello is vergelijkbaar met Taiga. Het is een platform voor taken management. Het is een iets simpelere versie van Taiga waardoor het meer toegankelijk is maar minder uitgebreide features bevat. ',
+            'url' => 'https://trello.com/',
+            'slug' => 'trello',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Webdictaat',
+            'uploader_id' => '1',
+            'category_slug' => 'website',
+            'status_slug' => 'actief',
+            'logo_filename' => 'webdictaat-logo.png',
+            'description' => 'Een online platform dat draait binnen het AII netwerk. Hier kun je je lesmaterial op een meer aantrekkelijke manier aanbieden. Zie het als een alternatief voor PDf. Met de mogelijkheid tot quisjes, polletjes, video\'s en een punten systeem met bijbehorende opdracht.',
+            'url' => 'http://webdictaat.aii.avans.nl/cms/',
+            'slug' => 'webdictaat',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Answergarden',
+            'uploader_id' => '1',
+            'category_slug' => 'website',
+            'status_slug' => 'concept',
+            'logo_filename' => 'answergarden-logo.png',
+            'description' => 'Een online platform waarmee je input uit de klas kan invetariseren. Wil je de input van je studenten? Open een nieuw \'tuintje\' en de studenten kunnen via de laptop en  telefoon input leveren. ',
+            'url' => 'https://answergarden.ch/',
+            'slug' => 'answergarden',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Avans webhosting (student.aii.avans.nl)',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'avans-a-logo.jpg',
+            'description' => 'Hier kunnen studenten websites hosten voor de vakken WEBS1 en WEBS2. Het is gratis en je krijgt ondersteuning vanuit onze helpdesk. Voornamelijk HTML, PHP en ASP.net sites worden ondersteund. ',
+            'url' => 'http://student.aii.avans.nl/',
+            'slug' => 'avanswebhosting',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Avans databases (databases.aii.avans.nl)',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'avans-a-logo.jpg',
+            'description' => 'Hier kunnen studenten van onze academie een database aanvragen. Het is een MySQL database. Je krijgt als informatica student standaard 2 databases. Het is ook mogelijk om voor je projectgroep een database aan te vragen. Toegang is via MySqlWorkbench. Je kan ook via je locale workbench verbinden. ',
+            'url' => 'http://databases.aii.avans.nl/',
+            'slug' => 'avansdatabases',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Azure',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'azure-logo.jpg',
+            'description' => 'Een platform voor het hosten van database, webapplicaties, Micro-services en nog veel meer! Je kan als student een gratis account krijgen, maar hiervoor moet je wel je telefoonnummer inleveren. Werkt uitstekend samen met Microsoft tooling, maar heeft een pittige leer curve.',
+            'url' => 'http://portal.azure.com',
+            'slug' => 'azure',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'mLab',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'mlab-logo.png',
+            'description' => 'Een platform wat mooi samenwerkt met Heroku. Wil je een NoSQL database gratis online hosten? Dan is dit de plek! Je kan gratis een database aanmaken in een sandbox omgeving. ',
+            'url' => 'https://mlab.com/',
+            'slug' => 'mlab',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'BitBucket',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'bitbucket-logo.png',
+            'description' => 'Een populair alternatief voor Github. Ook gebaseerd op Git. Hier mag je wel privé repository aanmaken met een gratis account. Daarnaast is er een iets uitgebreider issue tracking systeem. ',
+            'url' => 'https://bitbucket.org/product',
+            'slug' => 'bitbucket',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Avans inschrijftool',
+            'uploader_id' => '1',
+            'category_slug' => 'webservice',
+            'status_slug' => 'concept',
+            'logo_filename' => 'avans-a-logo.png',
+            'description' => 'Deze tool wordt gebruikt voor het inschrijven op verschillende websites én het plannen van afspraken.',
+            'url' => 'http://inschrijven.aii.avans.nl/',
+            'slug' => 'avansinschrijftool',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Avans TWIN',
+            'uploader_id' => '1',
+            'category_slug' => 'website',
+            'status_slug' => 'concept',
+            'logo_filename' => 'avans-a-logo.png',
+            'description' => 'Bepaal nu met wie je in de klas wil zitten!',
+            'url' => 'http://twin.aii.avans.nl/',
+            'slug' => 'avanstwin',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'GitLab',
+            'uploader_id' => '1',
+            'category_slug' => 'download',
+            'status_slug' => 'concept',
+            'logo_filename' => 'gitlab-logo.jpg',
+            'description' => 'Whether you use Waterfall, Agile, or Conversational Development, GitLab streamlines your collaborative workflows. Visualize, prioritize, coordinate, and track your progress your way with GitLab’s flexible project management tools.',
+            'url' => 'https://about.gitlab.com/',
+            'slug' => 'gitlab',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'Screencast-O-Matic',
+            'uploader_id' => '1',
+            'category_slug' => 'download',
+            'status_slug' => 'concept',
+            'logo_filename' => 'screencastomatic-logo.png',
+            'description' => 'Screencast-O-Matic is trusted by millions of users to create and share screen recordings.',
+            'url' => 'https://screencast-o-matic.com/',
+            'slug' => 'screencastomatic',
+            'created_at' => now(),
+        ]);
+
+        DB::table('tools')->insert([
+            'name' => 'ScreenToGif',
+            'uploader_id' => '1',
+            'category_slug' => 'download',
+            'status_slug' => 'concept',
+            'logo_filename' => 'screentogif-logo.png',
+            'description' => 'Screen, webcam and sketchboard recorder with an integrated editor.',
+            'url' => 'http://www.screentogif.com/',
+            'slug' => 'screentogif',
+            'created_at' => now(),
+        ]);
         if (App::environment('production')) {
             DB::table('tools')->update(['status_slug' => 'concept']);
         }

@@ -712,5 +712,14 @@ class ReviewsTableSeeder extends Seeder
             'description' => 'Er staan veel goede tutorials op over Laravel enz.',
             'created_at' => now(),
         ]);
+
+        DB::table('tool_reviews')->insert([
+            'tool_slug' => 'webdictaat',
+            'user_id' => '8',
+            'title' => 'Leert super fijn!',
+            'rating' => '5',
+            'description' => 'Een super fijne manier om te leren!',
+            'created_at' => now(),
+        ]);
     }
 }

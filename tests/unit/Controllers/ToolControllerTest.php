@@ -483,10 +483,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'tags' => [
-                    'interne-tool'
-                ]
-                ],
+            ],
             [],     // Cookies
             []      // POST files
         );
@@ -519,14 +516,12 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'tags' => [
-                    'interne-tool'
-                ]
-                ],
+            ],
             [],     // Cookies
             []      // POST files
         );
         $controller->store($request);
+
         $controller->activate(Str::slug('testName'));
         $tool = Tool::where('slug', Str::slug('testName'))->first();
         $this->assertTrue($tool->status->isActive());
@@ -557,10 +552,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
-                'tags' => [
-                    'interne-tool'
-                ]
-                ],
+            ],
             [],     // Cookies
             []      // POST files
         );

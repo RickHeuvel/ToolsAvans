@@ -238,5 +238,13 @@ class ToolAnswerTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        DB::table('tool_answers')->insert([
+            'id' => '29',
+            'question_id' => '23',
+            'user_id' => '1',
+            'text' => 'Alleen docenten kunnen dat doen.',
+            'created_at' => now(),
+        ]);
+
     }
 }

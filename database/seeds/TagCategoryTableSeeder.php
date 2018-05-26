@@ -25,5 +25,15 @@ class TagCategoryTableSeeder extends Seeder
             'slug' => 'soortservice',
             'name' => 'Soort service',
         ]);
+
+        DB::table('tag_category')->insert([
+            'slug' => 'prijs',
+            'name' => 'Prijs',
+        ]);
+
+        DB::table('tag_category')->insert([
+            'slug' => 'typeles',
+            'name' => 'Type les',
+        ]);
     }
 }

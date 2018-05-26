@@ -399,7 +399,7 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
-        $tool = Tool::where('slug', $slug)->firstOrFail();
+        $tool = Tool::findOrFail($slug);
         $tool->status_slug = 'actief';
         $tool->save();
 
@@ -420,7 +420,7 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
-        $tool = Tool::where('slug', $slug)->firstOrFail();
+        $tool = Tool::findOrFail($slug);
         $tool->status_slug = 'inactief';
         $tool->save();
 

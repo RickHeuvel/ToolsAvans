@@ -211,5 +211,14 @@ class ToolQuestionTableSeeder extends Seeder
             'text' => 'Ik heb al meer dan 5 youtube filmpjes gekeken maar snap er nog niks van',
             'created_at' => now(),
         ]);
+
+        DB::table('tool_questions')->insert([
+            'id' => '23',
+            'tool_slug' => 'webdictaat',
+            'user_id' => '7',
+            'title' => 'Waarom werkt een dictaat toevoegen niet?',
+            'text' => 'Ik klik al de hele tijd op toevoegen, maar er gebeurd niets. Any thoughts?',
+            'created_at' => now(),
+        ]);
     }
 }
