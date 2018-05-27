@@ -230,7 +230,7 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#admin" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
+                                <a class="nav-link active" id="v-pills-admins-tab" data-toggle="pill" href="#admins" role="tab" aria-controls="v-pills-admins" aria-selected="true">Beheerders</a>
                                 <a class="nav-link" id="v-pills-mail-tab" data-toggle="pill" href="#mail" role="tab" aria-controls="v-pills-mail" aria-selected="false">Mail</a>
                                 <a class="nav-link" id="v-pills-homepage-tab" data-toggle="pill" href="#homepage" role="tab" aria-controls="v-pills-homepage" aria-selected="false">Homepagina</a>
                             </div>
