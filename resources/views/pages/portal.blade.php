@@ -75,6 +75,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="adminpanel-tab" data-toggle="tab" href="#adminpanel" role="tab" aria-controls="adminpanel" aria-selected="false">Beheersinstellingen</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="graphs-tab" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics" aria-selected="false">Statistieken</a>
+                </li>
             @elseif (auth()->user()->isStudent())
                 <li class="nav-item">
                     <a class="nav-link" id="myconcepttools-tab" data-toggle="tab" href="#myconcepttools" role="tab" aria-controls="myconcepttools" aria-selected="false">Mijn concept tools</a>
@@ -345,8 +348,58 @@
                 </div>
             @endif
 
+            <div class="tab-pane pt-4" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
+                <div class="row pt-1">
+                    <div class="col-12 col-md-3">
+                        <div class="row mb-2">
+                            <div class="input-group">
+                                <input class="form-control" name="searchQuery" type="search" placeholder="Zoeken naar tools..." aria-label="Search">
+                                <div class="input-group-append">
+                                    <button id="searchButton" class="btn btn-outline-dark px-3" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="graph-tools">
+                        </div>
+                    </div>
+                    <div id="chart" class="col-12 col-md-9 chart">
+                        <div class="row">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-4">
+                                <button id="toolhub-button" type="button" class="btn btn-avans w-100">
+                                    Bekijk ToolHub statistieken
+                                </button>
+                            </div>
+                            <div class="col-3 btn-group chart-type-dropdown">
+                                <button id="current-chart-type" type="button" class="btn btn-outline-dark w-100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Lijngrafiek
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item" data-chart-type="line" type="button">Lijngrafiek</button>
+                                        <button class="dropdown-item" data-chart-type="bar" type="button">Staafgrafiek</button>
+                                </div>
+                            </div>
+                            <div class="col-3 btn-group interval-dropdown">
+                                <button id="current-interval" type="button" class="btn btn-outline-dark w-100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Deze maand
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item" data-interval="year" type="button">Dit jaar</button>
+                                        <button class="dropdown-item" data-interval="month" type="button">Deze maand</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="loader-container">
+                        </div>
+                        <canvas id="chart-canvas" class="mt-3" width="1920" height="1080"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div> 
+    </div>
 @endsection
 
 @section('js')
@@ -364,29 +417,6 @@
             var hash = $(e.target).attr("href");
             history.pushState(null, null, hash);
         });
-
-        // Before tab switches, change buttons and add hash to url
-        $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
-            var hash = $(e.target).attr("href");
-            if(hash == "#filters"){
-                changedTabButtons("#" + $('a[data-toggle="pill"].active').attr('id').replace('v-pills-','').replace('-tab', ''));
-            } else {
-                changedTabButtons($(this).attr('href'));
-            }
-            history.pushState(null, null, hash);
-        });
-
-        // On pageload check for current tab, otherwise load mytools tab
-        var hash = (window.location.hash) ? window.location.hash : '#mytools';
-        if(hash == "#categories" || hash == "#tags" || hash == "#tagcategories"){
-            $('#tabs a[href="#filters"]').tab('show');
-            $('#filters a[href="' + hash + '"').click();
-        } else if(hash == "#mail" || hash == "#admins" || hash == "#homepage"){
-            $('#tabs a[href="#adminpanel"]').tab('show');
-            $('#adminpanel a[href="' + hash + '"').click();
-        } else{
-            $('#tabs a[href="' + hash + '"]').tab('show');
-        }
 
         $(function() {
             var statuses = [];
@@ -495,5 +525,207 @@
                 });
             });
         }
+        // Statistics/graph JS
+        let loaderHTML = '<div class="mt-5 mx-auto loader"></div>';
+        let chart = null;
+        let chartType = 'line';
+        let interval = 'month';
+        let title = 'ToolHub';
+        let tool = '';
+        let searchQuery = '';
+        let page = '1';
+        function createChart() {
+            $('#loader-container').html(loaderHTML);
+            if (chart)
+                chart.destroy();
+            $.ajax({
+                url : '{{ route('graph.getData') }}',
+                data: {
+                    'interval': interval,
+                    'tool': tool
+                },
+                success: function (data) {
+                    console.log(data);
+                    let chartConfig = {
+                        type: chartType,
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                            label: "Weergaven",
+                            data: data.views,
+                            fill: false,
+                            borderColor: "rgb(45,176,162)",
+                            backgroundColor: "rgb(45,176,162)",
+                            lineTension: 0.1,
+                            borderWidth: 3,
+                        }, {
+                            label: "Reviews",
+                            data: data.reviews,
+                            fill: false,
+                            borderColor: "rgb(252,154,29)",
+                            backgroundColor: "rgb(252,154,29)",
+                            lineTension:0.1,
+                            borderWidth: 3
+                        }, {
+                            label: "Vragen",
+                            data: data.questions,
+                            fill: false,
+                            borderColor: "rgb(254,93,85)",
+                            backgroundColor: "rgb(254,93,85)",
+                            lineTension:0.1,
+                            borderWidth: 3
+                        }, {
+                            label: "Antwoorden",
+                            data: data.answers,
+                            fill: false,
+                            borderColor: "rgb(206,52,114)",
+                            backgroundColor: "rgb(206,52,114)",
+                            lineTension:0.1,
+                            borderWidth: 3
+                        }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [
+                                    {
+                                        ticks: {
+                                            beginAtZero:true
+                                        }
+                                    }
+                                ]
+                            },
+                            title: {
+                                display: true,
+                                text: title,
+                                fontSize: 14
+                            }
+                        }
+                    };
+                    $('#loader-container').html('');
+                    chart = new Chart($('#chart-canvas'), chartConfig);
+                },
+                fail: function (textStatus, errorThrown) {
+                    console.log(textStatus);
+                },
+                error: function (textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
+        }
+        function getTools() {
+            $('.graph-tools').html(loaderHTML);
+
+            let searchQuery = $('input[name="searchQuery"]').val();
+            $.ajax({
+                url : '{{ route('graph.getTools') }}',
+                data: {
+                    'searchQuery': searchQuery,
+                    'page': page
+                },
+                success: function (data) {
+                    $('.graph-tools').html(data);
+                },
+                fail: function (textStatus, errorThrown) {
+                    console.log(textStatus);
+                },
+                error: function (textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
+        }
+
+        // Sort button clicked
+        $('.interval-dropdown .dropdown-item').on('click', function (e) {
+            e.preventDefault();
+            interval = $(this).data('interval');
+            $('#current-interval').text($(this).text());
+
+            createChart();
+        });
+        $('.chart-type-dropdown .dropdown-item').on('click', function (e) {
+            e.preventDefault();
+            chartType = $(this).data('chart-type');
+            $('#current-chart-type').text($(this).text());
+
+            createChart();
+        });
+        $('.graph-tools').on('click', 'button', function (e) {
+            e.preventDefault();
+            tool = $(this).data('tool');
+            title = tool;
+
+            createChart();
+        });
+        $('#toolhub-button').on('click', function (e) {
+            e.preventDefault();
+            tool = '';
+            title = 'ToolHub';
+
+            createChart();
+        });
+        // Search input field
+        $('input[name="searchQuery"]').on('change', function (e) {
+            e.preventDefault();
+
+            getTools();
+        });
+
+        $('#searchButton').on('click', function (e) {
+            e.preventDefault();
+
+            getTools();
+        });
+
+        // Pagination buttons
+        $('.graph-tools').on('click', '.pagination a', function(e) {
+            e.preventDefault();
+
+            paginationData = $(this).text();
+            if (paginationData == '›')
+                ++page;
+            else if (paginationData == '‹')
+                --page;
+            else
+                page = paginationData;
+
+            getTools();
+        });
+
+        // Before tab switches, change buttons and add hash to url
+        $('a[data-toggle="tab"]').on("show.bs.tab", function(e) {
+            var hash = $(e.target).attr("href");
+            if(hash == "#filters"){
+                changedTabButtons("#" + $('a[data-toggle="pill"].active').attr('id').replace('v-pills-','').replace('-tab', ''));
+            } else {
+                changedTabButtons($(this).attr('href'));
+            }
+            if (hash == '#statistics' && chart == null) {
+                createChart();
+                getTools();
+            }
+            history.pushState(null, null, hash);
+        });
+        $( window ).on( 'hashchange', function( e ) {
+            navigateToHash();
+        } );
+
+        // On pageload check for current tab, otherwise load mytools tab
+        function navigateToHash() {
+            let hash = (window.location.hash) ? window.location.hash : '#mytools';
+            if(hash == "#categories" || hash == "#tags" || hash == "#tagcategories"){
+                $('#tabs a[href="#filters"]').tab('show');
+                $('#filters a[href="' + hash + '"').click();
+            } else if(hash == "#mail" || hash == "#admins" || hash == "#homepage"){
+                $('#tabs a[href="#adminpanel"]').tab('show');
+                $('#adminpanel a[href="' + hash + '"').click();
+            } else{
+                $('#tabs a[href="' + hash + '"]').tab('show');
+            }
+            if (hash == '#statistics' && chart == null) {
+                createChart();
+                getTools();
+            }
+        }
+        navigateToHash();
     </script>
 @endsection

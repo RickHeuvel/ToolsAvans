@@ -58,7 +58,7 @@ class ToolController extends Controller
         $allTags = ToolTag::usedTags()->get();
         $pinnedTags = ToolTag::usedTags()->where('pinned', true)->get();
         $tagCategories = TagCategory::all();
-        $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->get();
+        $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->where('pinned', false)->get();
         $selectedTags = ($request->has('tags')) ? explode('+', $request->input('tags')) : null;
 
         $sortOptions = SortOption::all();
@@ -83,18 +83,18 @@ class ToolController extends Controller
 
         $tools = $tools->withCount('views');
 
-        $searchColumns = [
-            'name'            => 10,
-            'slug'            => 9,
-            'description'     => 3,
-            'category_slug'   => 7,
-            'category.name'   => 8,
-            'tags.slug'   => 7,
-            'tags.name'   => 8,
-            'user.nickname'   => 4,
-        ];
         if ($request->has('searchQuery')) {
-                $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, true);
+            $searchColumns = [
+                'name'            => 10,
+                'slug'            => 9,
+                'description'     => 3,
+                'category_slug'   => 7,
+                'category.name'   => 8,
+                'tags.slug'       => 7,
+                'tags.name'       => 8,
+                'user.nickname'   => 4,
+            ];
+            $tools = $tools->search('*' . $request->input('searchQuery') . '*', $searchColumns, true);
         }
 
         // Filter on sorting type, and paginate

@@ -22,7 +22,7 @@ Route::resources([
 /* Custom tool routes */
 Route::get('tools/image/{filename}', 'ToolController@getImage')->name('tools.image');
 Route::post('tools/uploadimage', 'ToolController@uploadImage')->name('tools.uploadImage');
-Route::post('tools/removeImage', 'ToolController@removeImage')->name('tools.removeImage');
+Route::post('tools/removeimage', 'ToolController@removeImage')->name('tools.removeImage');
 
 Route::get('tools/{tool}/approve', 'JudgingController@approveTool')->name('tools.approveTool');
 Route::get('tools/{tool}/reject', 'JudgingController@rejectTool')->name('tools.rejectTool');
@@ -56,6 +56,10 @@ Route::put('users/updateadmins', 'UserController@updateAdmins')->name('users.upd
 Route::post('settings', 'SettingController@store')->name('settings.store');
 Route::put('settings/updateconceptmail', 'SettingController@updateConceptMail')->name('settings.updateconceptmail');
 Route::put('settings/updatesettings', 'SettingController@updateSettings')->name('settings.updatesettings');
+
+/* Graph routes */
+Route::get('statistics/getdata', 'GraphController@getData')->name('graph.getData');
+Route::get('statistics/gettools', 'GraphController@getTools')->name('graph.getTools');
 
 /* Contact routes*/
 Route::get('contact','ContactController@index')->name('contact.index');

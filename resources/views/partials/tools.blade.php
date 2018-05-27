@@ -1,4 +1,3 @@
-
 @if (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal")
     <div class="row mb-3">
         <div class="col-12">

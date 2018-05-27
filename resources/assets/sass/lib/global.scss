@@ -559,20 +559,71 @@ ul.pagination {
   cursor: auto !important;
 }
 
-.tools {
-    .loader {
-        border: 8px solid #f3f3f3; /* Light grey */
-        border-top: 8px solid $avansred; /* Blue */
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        animation: spin 2s linear infinite;
+.graph-tools {
+  .tool-graph {
+    background: $gray;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.6);
+    height: 125px;
+    img {
+      margin: auto;
+      max-height: 123px;
+      max-width: 123px;
+      width: auto;
     }
+    .tool-body{
+      h6{
+        padding-left: 15px;
+        margin-bottom: 0;
+      }
+    }  
+    .tool-views{
+      font-weight: 500;
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 15px;
+    }
+    .tool-reviews{
+      font-weight: 500;
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 15px;
+    }
+    .tool-button{    
+      text-align: center;
+      padding-left: 20px;
+      padding-top: 15px;
+    }
+    .btn-avans{
+      padding: 6px 0px 6px 0px;
+      width: 145px;
+    }
+    .nopadding {
+      padding: 0 !important;
+      margin: 0 !important;
+   }
+   .bottom{
+      position: absolute;
+      margin-bottom: 5px;
+      bottom: 0;
+      left: 0;
+   }
+  }
+}
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid $avansred; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 }
 
 .tool-image {
@@ -845,13 +896,24 @@ footer.footer {
     margin-bottom: 0.4rem;
 }
 
+.dropdownitems{
+  margin-top: 10px;
+  .button-avans{
+    background: $avansred;
+  }
+}
+
+.tool-uploaded {
+  color: #989898;
+  font-size: 16px;
+}
+
 .chevron {
   width: 14px;
   height: 14px;
   text-align: center;
   margin-right: 2px;
 }
-
 .chevron:before{
   display: block;
   -moz-transition: all .1s linear;
@@ -860,7 +922,6 @@ footer.footer {
   font-size: 14px;
   padding-top: 1px;
 }
-
 .chevron.down:before{
   -ms-transform: rotate(90deg);
   -moz-transform: rotate(90deg);

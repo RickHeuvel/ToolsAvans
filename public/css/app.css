@@ -11315,7 +11315,65 @@ ul.pagination .page-item .page-link {
   cursor: auto !important;
 }
 
-.tools .loader {
+.graph-tools .tool-graph {
+  background: #eee;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  height: 125px;
+}
+
+.graph-tools .tool-graph img {
+  margin: auto;
+  max-height: 123px;
+  max-width: 123px;
+  width: auto;
+}
+
+.graph-tools .tool-graph .tool-body h6 {
+  padding-left: 15px;
+  margin-bottom: 0;
+}
+
+.graph-tools .tool-graph .tool-views {
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 15px;
+}
+
+.graph-tools .tool-graph .tool-reviews {
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 15px;
+}
+
+.graph-tools .tool-graph .tool-button {
+  text-align: center;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+.graph-tools .tool-graph .btn-avans {
+  padding: 6px 0px 6px 0px;
+  width: 145px;
+}
+
+.graph-tools .tool-graph .nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.graph-tools .tool-graph .bottom {
+  position: absolute;
+  margin-bottom: 5px;
+  bottom: 0;
+  left: 0;
+}
+
+.loader {
   border: 8px solid #f3f3f3;
   /* Light grey */
   border-top: 8px solid #C6002A;
@@ -11628,6 +11686,19 @@ footer.footer p {
   max-width: 200px;
   min-height: 217px;
   margin-bottom: 0.4rem;
+}
+
+.dropdownitems {
+  margin-top: 10px;
+}
+
+.dropdownitems .button-avans {
+  background: #C6002A;
+}
+
+.tool-uploaded {
+  color: #989898;
+  font-size: 16px;
 }
 
 .chevron {

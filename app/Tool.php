@@ -60,6 +60,10 @@ class Tool extends Model
         return $this->belongsTo('App\ToolOutdatedReport', 'slug', 'tool_slug');
     }
 
+    public function questionAnswers() {
+        return $this->hasManyThrough('App\ToolAnswer', 'App\ToolQuestion', 'tool_slug', 'question_id', 'slug', 'id');
+    }
+
     // Query functions
     public static function publicTools() {
         return static::where(function ($query) {

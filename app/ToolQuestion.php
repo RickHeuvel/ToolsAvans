@@ -18,6 +18,10 @@ class ToolQuestion extends Model
         return $this->hasMany('App\ToolQuestionUpvote', 'question_id', 'id');
     }
 
+    public function tool() {
+        return $this->hasOne('App\Tool', 'slug', 'tool_slug');
+    }
+
     public function user()  {
         return $this->belongsTo('App\User', 'user_id');
     }

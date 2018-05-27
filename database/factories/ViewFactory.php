@@ -1,9 +1,10 @@
 <?php
+use Faker\Generator as Faker;
 
-$factory->define(App\ToolView::class, function () {
+$factory->define(App\ToolView::class, function (Faker $faker) {
     return [
         'tool_slug' => 'slack',
-        'created_at' => now()
+        'created_at' => $faker->dateTimeBetween($startDate = '-4 months', $endDate = 'now', $timezone = null)
     ];
 });
 

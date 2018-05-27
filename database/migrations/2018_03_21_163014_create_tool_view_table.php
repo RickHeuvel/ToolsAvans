@@ -16,7 +16,7 @@ class CreateToolViewTable extends Migration
         Schema::create('tool_views', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tool_slug');
-            $table->dateTime('created_at');
+            $table->timestamps();
 
             $table->foreign('tool_slug')->references('slug')->on('tools')->onUpdate('cascade');
         });

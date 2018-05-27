@@ -14,6 +14,10 @@ class ToolAnswer extends Model
         return $this->hasMany('App\ToolAnswerUpvote', 'answer_id', 'id');
     }
 
+    public function question() {
+        return $this->hasOne('App\ToolQuestion', 'id', 'question_id');
+    }
+
     public function user()  {
         return $this->belongsTo('App\User', 'user_id');
     }
