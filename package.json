@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "axios": "^0.17",
-        "cross-env": "^5.1.4",
+        "cross-env": "^5.1.6",
         "laravel-mix": "^2.1.11",
         "lodash": "^4.17.10"
     },
@@ -29,6 +29,6 @@
         "popper.js": "^1.14.3",
         "rateyo": "^2.3.3",
         "starrr": "^2.0.4",
-        "yarn": "^1.6.0"
+        "yarn": "^1.7.0"
     }
 }
