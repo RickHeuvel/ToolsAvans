@@ -118,7 +118,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $tags = ToolTag::all();
+        $tags = ToolTag::pluck('name', 'slug');
         $categories = ToolCategory::pluck('name', 'slug');
         return view('pages.tool.create', compact('categories', 'tags'));
     }
@@ -234,7 +234,7 @@ class ToolController extends Controller
             return redirect()->route('tools.index');
         }
 
-        $tags = ToolTag::all();
+        $tags = ToolTag::pluck('name', 'slug');
         $categories = ToolCategory::pluck('name','slug');
         return view('pages.tool.edit', compact('tool', 'categories', 'tags'));
     }

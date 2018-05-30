@@ -54,7 +54,7 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('category', 'Categorie *') }}
-                    {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'custom-select form-control']) }}
+                    {{ Form::select('category', $categories,old('category'),['placeholder' => 'Selecteer een categorie...','class' => 'select2 w-100']) }}
                 </div>
             </div>
         </div>
@@ -66,19 +66,7 @@
 
         <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}
-            <div id="tags">
-                @foreach($tags as $tag)
-                    @if($tag->default)
-                        <div class="row">
-                            <div class="col tag-label">
-                                <label>{{ $tag->name }}</label>
-                                <input type="hidden" value="{{ $tag->slug }}" name="tags[]"/>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-            <input id="addTag" class="btn btn-avans mt-2" type="button" value="Voeg nog een tag toe">
+            {{ Form::select('tag-dropdown', $tags,old('tags'),['class' => 'select2 w-100 tags-dropdown', 'multiple' => 'multiple', 'name' => 'tags[]']) }}
         </div>
 
         {{ Form::label('images', 'Plaatjes * minimaal 2, maximaal 7') }}
@@ -106,36 +94,11 @@
 
 @section('js')
     <script>
-    /* Tags */
-    var currentTagId = 0;
-
-    $('#addTag').on('click', function(){
-        addTag();
+    /* category select2*/
+    $('.select2').select2({
+        theme: "bootstrap4",
+        width: "resolve",
     });
-
-    function addTag(){
-        currentTagId++;
-        $('#tags').append("\
-            <div id='" + currentTagId + "' class='row mb-2'>\
-                <div class='col'>\
-                    <select name='tags[]' class='custom-select'>\
-                    <option value='null'>Selecteer een tag</option>\
-                    @foreach ($tags as $tag)\
-                        <option value='{{ $tag->slug }}'>{{ $tag->name }}</option>\
-                    @endforeach</select>\
-                </div>\
-                <div class='col-md-2 text-right'>\
-                    <a class=\"btn btn-avans\" onClick='removeTag(" + currentTagId + ")'>\
-                        <i class='fa fa-trash'></i>\
-                    </a>\
-                <div>\
-            </div>");
-    }
-
-    function removeTag(divid){
-        var element = document.getElementById(divid);
-        element.parentNode.removeChild(element);
-    }
 
     /*Dropzone*/
     Dropzone.autoDiscover = false;

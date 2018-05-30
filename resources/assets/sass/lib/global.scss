@@ -932,3 +932,14 @@ footer.footer {
 .tag-list{
   cursor: pointer;
 }
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+  margin:5px !important;
+  padding:5px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice{
+  margin: 0 0 5px 5px !important;
+  padding:5px 10px 5px 10px !important;
+}
+

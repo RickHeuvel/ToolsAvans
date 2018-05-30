@@ -34,7 +34,7 @@
 
         <div class="form-group">
             {{ Form::label('category', 'Tag categorie') }}
-            {{ Form::select('category', $tagCategories,old('category'),['placeholder' => 'Selecteer een tag categorie...','class' => 'custom-select form-control']) }}
+            {{ Form::select('category', $tagCategories,null,['placeholder' => 'Geen tag categorie','class' => 'select2 w-100']) }}
         </div>
 
         <div class="form-check">
@@ -53,4 +53,12 @@
 
         {{ Form::close() }}
     </div> 
+@endsection
+
+@section('js')
+    <script>
+        $('.select2').select2({
+            theme: "bootstrap4",
+        });
+    </script>
 @endsection

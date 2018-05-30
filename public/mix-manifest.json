@@ -6,5 +6,8 @@
     "/js/lightbox.min.js": "/js/lightbox.min.js",
     "/css/lightbox.min.css": "/css/lightbox.min.css",
     "/js/dropzone.min.js": "/js/dropzone.min.js",
-    "/css/dropzone.min.css": "/css/dropzone.min.css"
+    "/css/dropzone.min.css": "/css/dropzone.min.css",
+    "/css/select2.min.css": "/css/select2.min.css",
+    "/css/select2-bootstrap4.min.css": "/css/select2-bootstrap4.min.css",
+    "/js/select2.full.min.js": "/js/select2.full.min.js"
 }

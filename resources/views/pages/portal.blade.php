@@ -324,14 +324,14 @@
                                         <div class="form-group row">
                                             {{ Form::label('homepagecategory', 'Featured categorie *', ['class' => 'col-3']) }}
                                             <div class="col-9">
-                                                {{ Form::select('settings[homepagecategory]', $categories->pluck('name', 'slug'), (!empty($settings->has('homepagecategory'))) ? $settings->get('homepagecategory')->val : null, ['class' => 'form-control', 'placeholder' => 'Kies een categorie...']) }}
+                                                {{ Form::select('settings[homepagecategory]', $categories->pluck('name', 'slug'), (!empty($settings->has('homepagecategory'))) ? $settings->get('homepagecategory')->val : null, ['class' => 'select2', 'placeholder' => 'Kies een categorie...']) }}
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             {{ Form::label('homepagetag', 'Featured tag *', ['class' => 'col-3']) }}
                                             <div class="col-9">
-                                                {{ Form::select('settings[homepagetag]', $tags->pluck('name', 'slug'), (!empty($settings->has('homepagetag'))) ? $settings->get('homepagetag')->val : null, ['class' => 'form-control', 'placeholder' => 'Kies een tag...']) }}
+                                                {{ Form::select('settings[homepagetag]', $tags->pluck('name', 'slug'), (!empty($settings->has('homepagetag'))) ? $settings->get('homepagetag')->val : null, ['class' => 'select2', 'placeholder' => 'Kies een tag...']) }}
                                             </div>
                                         </div>
 
@@ -404,6 +404,10 @@
 
 @section('js')
     <script type="text/javascript">
+        $('.select2').select2({
+            theme: "bootstrap4",
+        });
+
         function changedTabButtons(element) {
             $(".tab-buttons").children().each(function(e) {
                 $(this).removeClass('active');
