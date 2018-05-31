@@ -78,7 +78,7 @@
                 </div>
                 <div class="col">
                     {{ Form::label('category', 'Categorie *') }}
-                    {{ Form::select('category', $categories,old('category'),['class' => 'select2 w-100', 'default' => $tool->category ]) }}
+                    {{ Form::select('category', $categories,$tool->category_slug,['class' => 'select2 w-100']) }}
                 </div>
             </div>
         </div>
