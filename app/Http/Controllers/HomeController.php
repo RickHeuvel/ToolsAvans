@@ -18,9 +18,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $heroTools = Tool::publicTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get()->shuffle();
-        $newTools = Tool::publicTools()->orderBy('created_at', 'desc')->limit(5)->get();
-        $popularTools = Tool::publicTools()->withCount('views')->orderBy('views_count', 'desc')->limit(5)->get();
+        $heroTools = Tool::publicTools()->withCount('views')->orderBy('views_count', 'desc')->limit(3)->get()->shuffle();
+        $newTools = Tool::publicTools()->orderBy('created_at', 'desc')->limit(3)->get();
+        $popularTools = Tool::publicTools()->where('created_at','>', date('y-m-d', strtotime('-1 month')))->withCount('views')->orderBy('views_count', 'desc')->limit(3)->get();
 
         $homepageTag = Setting::has('homepagetag') ? ToolTag::find(Setting::get('homepagetag')->val) : null;
         $homepageCategory = Setting::has('homepagecategory') ? ToolCategory::find(Setting::get('homepagecategory')->val) : null;

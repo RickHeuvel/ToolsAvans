@@ -98,7 +98,7 @@ home
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <p>{{ str_limit($newTool->description, 80) }}</p>
+                                                    <p>{{ str_limit($newTool->description, 70) }}</p>
                                                     <a href="{{ route('tools.show', $newTool->slug) }}">Bekijk tool &rarr;</a>
                                                 </div>
                                             </div>
