@@ -26,7 +26,7 @@ script:
 before_deploy:
     - echo resetting repo
     - git stash --all
-    - ./.cp_env $TRAVIS_BRANCH
+    - cp ".env.$(echo $TRAVIS_BRANCH)" .env
     - echo updating and installing composer in production
     - composer self-update
     - composer install --no-interaction --no-dev

@@ -105,7 +105,7 @@
                                                 @elseif (empty($curUserReview))
                                                     <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Klik op een ster om een rating achter te laten!"></div>
                                                 @else
-                                                    <div id="stars" class="starrr"></div>
+                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Log in om een review achter te laten!"></div>
                                                 @endif
                                                 <p class="rating mt-2">{{ $tool->reviews->count() }} keer gereviewed</p>
                                             </div>
@@ -259,8 +259,7 @@
             @elseif (!$tool->reviews->isEmpty() && !Auth::check())
                 $('#stars').starrr({
                     rating: {{$tool->reviews->avg('rating')}},
-                }).click(function(){
-                    location.href = '{{route("login")}}'
+                    readOnly: true
                 });
                 enableTooltip();
             @elseif ($tool->reviews->isEmpty() && !Auth::check())

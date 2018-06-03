@@ -84,9 +84,8 @@
                                                         setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
                                                     @else
                                                         $('.starrr.{{$tool->slug}}').starrr({
-                                                            rating: {{$tool->reviews->avg('rating')}}
-                                                        }).click(function(){
-                                                            location.href = '{{route("login")}}'
+                                                            rating: {{$tool->reviews->avg('rating')}},
+                                                            readOnly: true
                                                         });
                                                     @endif
                                                 @else
