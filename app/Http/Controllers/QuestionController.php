@@ -62,7 +62,7 @@ class QuestionController extends Controller
             $tool = Tool::find($slug)->firstOrFail();
 
             $mail = new NewQuestion($question);
-            $user = User::findOrFail($tool->uploader_id);
+            $user = User::findOrFail($tool->owner_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Je vraag is geplaatst');            

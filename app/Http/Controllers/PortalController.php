@@ -36,7 +36,7 @@ class PortalController extends Controller
      */
     public function index(Request $request)
     {
-        $myTools = Tool::publicTools()->where('uploader_id', Auth::user()->id)->orderBy('slug')->get();
+        $myTools = Tool::where('owner_id', Auth::user()->id)->orderBy('slug')->get();
         if (Auth::user()->isAdmin()) {
             $statuses = ToolStatus::all();
             if ($request->has('statuses'))
@@ -66,7 +66,7 @@ class PortalController extends Controller
             return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users',
                 'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
         } else {
-            $myConceptTools = $myTools->where('status_slug', 'active');
+            $myConceptTools = $myTools->where('status_slug', 'concept');
 
             return view('pages.portal', compact('myTools', 'myConceptTools'));
         }

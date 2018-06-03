@@ -110,6 +110,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'owner'         => 1,
             ],
             [],     // Cookies
             []      // POST files
@@ -139,6 +140,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage() ]),
+                'owner'         => 1,
             ],
             [],     // Cookies
             []      // POST files
@@ -303,6 +305,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'owner'         => 1,
             ],
             [],     // Cookies
             []      // POST files
@@ -319,6 +322,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage() ]),
+                'owner'         => 1,
             ],
             [],     // Cookies
             []      // POST files
@@ -426,6 +430,7 @@ class ToolControllerTest extends TestCase
                 'url'           => 'https://www.testWebsite.nl',
                 'logo'          => $this->uploadImage(),
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
+                'owner'         => 1,
                 ],
             [],     // Cookies
             []      // POST files
@@ -448,7 +453,8 @@ class ToolControllerTest extends TestCase
                 'images'        => json_encode([ $this->uploadImage(), $this->uploadImage(), $this->uploadImage() ]),
                 'tags' => [
                     Str::slug($name),
-                ]
+                ],
+                'owner'         => 1,
             ],
             [],     // Cookies
             []      // POST files

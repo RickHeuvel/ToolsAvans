@@ -46,7 +46,7 @@ class JudgingController extends Controller
                 $tool->feedback->delete();
 
             $mail = new ConceptToolApproved($tool);
-            $user = User::findOrFail($tool->uploader_id);
+            $user = User::findOrFail($tool->owner_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Tool is goedgekeurd!');
@@ -74,7 +74,7 @@ class JudgingController extends Controller
                 $tool->feedback->delete();
 
             $mail = new ConceptToolRejected($tool);
-            $user = User::findOrFail($tool->uploader_id);
+            $user = User::findOrFail($tool->owner_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Tool is succesvol afgekeurd');
@@ -114,7 +114,7 @@ class JudgingController extends Controller
             ]);
 
             $mail = new ConceptToolFeedbackReceived($tool);
-            $user = User::findOrFail($tool->uploader_id);
+            $user = User::findOrFail($tool->owner_id);
             MailController::sendMailable($mail, $user);
 
             Session::flash('message', 'Feedback successvol opgestuurd.');

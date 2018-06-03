@@ -28,7 +28,7 @@
             </div>
         @elseif($tool->status->isOutdated())
             <div class="alert alert-warning" role="alert">
-                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->uploader_id))
+                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->owner_id))
                     <h5 class="alert-heading">Deze tool is door {{ $tool->outdatedReport->user->nickname }} als verouderd gemeld</h5>
                     <p>Pas de tool aan met de feedback verwerkt om de verouderd status weg te halen</p>
                     <hr>
@@ -63,11 +63,26 @@
                 </div>
             </div>
             <div class="col">
-                <div class="form-group">
-                    {{ Form::label('name', 'Naam van de Tool *') }}
-                    {{ Form::text('name', $tool->name, ['class' => 'form-control']) }}
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            {{ Form::label('name', 'Naam van de Tool *') }}
+                            {{ Form::text('name', $tool->name, ['class' => 'form-control']) }}
+                        </div>
+                    </div>
+                </div>
+            @if (Auth::user()->isAdmin()) 
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ Form::label('owner', 'Eigenaar *') }}
+                        {{ Form::select('owner', $users, $tool->user->id,
+                            ['class' => 'select2 w-100' ]) }}
+                    </div>
                 </div>
             </div>
+            @endif
+        </div>
         </div>
 
         <div class="form-group">
@@ -78,7 +93,8 @@
                 </div>
                 <div class="col">
                     {{ Form::label('category', 'Categorie *') }}
-                    {{ Form::select('category', $categories,$tool->category_slug,['class' => 'select2 w-100']) }}
+                    {{ Form::select('category', $categories, $tool->category_slug,
+                        ['class' => 'select2 w-100']) }}
                 </div>
             </div>
         </div>

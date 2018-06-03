@@ -22,7 +22,7 @@
                         @include('partials.modals.reporttooloutdated')
                         <a data-toggle="modal" data-target="#ReportToolOutdatedModal" class="btn btn-danger btn-avans">Meld als verouderd</a>
                     @endif
-                    @if (((Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->uploader_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
+                    @if ((( Auth::user()->id == $tool->owner_id || Auth::user()->isAdmin()) || ($tool->status->isConcept() && Auth::user()->isStudent() && Auth::user()->id == $tool->owner_id) || (!$tool->status->isConcept() && Auth::user()->isEmployee())))
                         <a href="{{ route('tools.edit', $tool->slug) }}" class="btn btn-danger btn-avans btn-center-vertical">Aanpassen</a>
                         @if (Auth::user()->isAdmin())
                             @if ($tool->status->isConcept())
@@ -59,7 +59,7 @@
             </div>
         @elseif($tool->status->isOutdated())
             <div class="alert alert-warning" role="alert">
-                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->uploader_id))
+                @if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $tool->owner_id))
                     <h5 class="alert-heading">Deze tool is door {{ $tool->outdatedReport->user->nickname }} als verouderd gemeld</h5>
                     <p>Pas de tool aan met de feedback verwerkt om de verouderd status te weg te halen</p>
                     <hr>

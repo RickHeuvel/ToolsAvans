@@ -13,7 +13,7 @@ class ToolsTableSeeder extends Seeder
     {
         DB::table('tools')->insert([
             'name' => 'Github',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
             'description' => 'Online versiebeheer systeem gebaseerd op Git. Een van de meest gebruikte versie beheer systemen ter werelend. Naast code management kun je hier ook issues aanmaken en tracken. Let wel op! In je gratis account zitten alleen publieke repository. ',
@@ -25,7 +25,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Google Drive',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
             'description' => 'Google Drive is een service voor bestandsopslag en synchronisatie die is gemaakt en wordt beheerd door Google. Met Google Drive kunnen documenten in de cloud worden opgeslagen, bestanden worden gedeeld en documenten samen met anderen worden bewerkt. Google Drive omvat Google Documenten, Spreadsheets en Presentaties (Google Docs), een virtueel kantoor dat het mogelijk maakt samen aan onder andere documenten, spreadsheets, presentaties, tekeningen en formulieren te werken. Bestanden die openbaar gedeeld worden op Google Drive kunnen door internet zoekmachines worden doorzocht.',
@@ -37,7 +37,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Slack',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'description' => 'Maak je gebruik van what\'s app om te communiceren binnen je project team? En vergeten mensen nog wel eens afspraken? Of lezen ze de belangrijke dingen niet? Misschien is What\'s app niet de beste communicatie vorm. Probeer eens Slack! Hiermee kun je in verschillende channels makkelijk verschillende gesprekken onderhouden. ',
@@ -49,7 +49,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Heroku',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'actief',
             'description' => 'Nog een platform voor het hosten van webaplicaties. Heroku ondersteund applicaties zoals PHP, Python, Java, NodeJs en meer. Als groot voordeel heeft Heroku dat er een mooie bouwstraat in zit. Je kan je app koppelen aan je Github repo en hierdoor worden je applicaties bij elke \'push\' automatisch uitgerold. ',
@@ -61,7 +61,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Kahoot',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'actief',
             'description' => 'Een platform om in je les spannende en competetieve quizen uit te voeren. Het maken van een quiz is zo gebeurd, en je kan deze keer op keer hergebruiken. Een wedstrijdje vragen beantwoorden hoeft niet lang te duren!',
@@ -73,7 +73,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'galculator',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'inactief',
             'description' => 'galculator is een op GTK 2 / GTK 3 gebaseerde rekenmachine met gewone notatie / reverse-poolsnotatie (RPN), een formule-invoermodus, verschillende nummerbasissen (DEC, HEX, OCT, BIN) en verschillende eenheden van hoekmeting (DEG, RAD, GRAD ). Het ondersteunt quad-precision floating point en 112-bit binary arithmetic.',
@@ -85,7 +85,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Photoshop',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'description' => 'Adobe Photoshop is een grafisch programma ontwikkeld door Adobe voor het bewerken van fotos en ander digitaal beeldmateriaal via de computer. Photoshop is beschikbaar voor macOS en Windows. Tot en met versie 4 bestond er ook een Unix-variant. Tegenwoordig kunnen Linux- en Unix-gebruikers een beroep doen op CodeWeavers CrossOver, Wine, om de Windows-versie van Photoshop ook onder X Window System te laten draaien. Photoshop is gericht op professionele gebruikers. Voor minder veeleisende gebruikers is er Adobe Photoshop Elements dat een licht andere functionaliteit biedt. Dat is gratis online te gebruiken. Het heeft bijvoorbeeld de mogelijkheid om grote hoeveelheden afbeeldingen te beheren.',
@@ -97,7 +97,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'gcolor2',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'concept',
             'description' => 'gcolor2 is een simpele kleur selector dat gebaseerd is op gcolor',
@@ -109,7 +109,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'On the hub',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'description' => 'Op on the hub kan je verschillende software downloaden met kortingen of soms zelfs gratis software voor studenten',
@@ -121,7 +121,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Visual Studio',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'verouderd',
             'description' => 'Microsoft Visual Studio is een integrated development environment (IDE) van Microsoft. Het biedt een complete set ontwikkelingstools om computerprogrammas in diverse programmeertalen voor met name Windows-omgevingen te ontwikkelen. Visual Studio gebruikt software-ontwikkelingsplatformen van Microsoft zoals Windows API, Windows Forms, Windows Presentation Foundation, Microsoft Store en Microsoft Silverlight.',
@@ -133,7 +133,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Taiga',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'actief',
             'logo_filename' => 'taiga-logo.png',
@@ -145,7 +145,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'MySQL Workbench',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'logo_filename' => 'mysql-workbench-logo.png',
@@ -157,7 +157,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Discord',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'actief',
             'logo_filename' => 'discord-logo.jpg',
@@ -169,7 +169,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'YouTube',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'concept',
             'logo_filename' => 'youtube-logo.png',
@@ -181,7 +181,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Trello',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'trello-logo.png',
@@ -193,7 +193,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Webdictaat',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'actief',
             'logo_filename' => 'webdictaat-logo.png',
@@ -205,7 +205,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Answergarden',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'concept',
             'logo_filename' => 'answergarden-logo.png',
@@ -217,7 +217,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Avans webhosting (student.aii.avans.nl)',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'avans-a-logo.jpg',
@@ -229,7 +229,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Avans databases (databases.aii.avans.nl)',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'avans-a-logo.jpg',
@@ -241,7 +241,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Azure',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'azure-logo.jpg',
@@ -253,7 +253,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'mLab',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'mlab-logo.png',
@@ -265,7 +265,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'BitBucket',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'bitbucket-logo.png',
@@ -277,7 +277,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Avans inschrijftool',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'webservice',
             'status_slug' => 'concept',
             'logo_filename' => 'avans-a-logo.png',
@@ -289,7 +289,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Avans TWIN',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'website',
             'status_slug' => 'concept',
             'logo_filename' => 'avans-a-logo.png',
@@ -301,7 +301,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'GitLab',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'concept',
             'logo_filename' => 'gitlab-logo.jpg',
@@ -313,7 +313,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'Screencast-O-Matic',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'concept',
             'logo_filename' => 'screencastomatic-logo.png',
@@ -325,7 +325,7 @@ class ToolsTableSeeder extends Seeder
 
         DB::table('tools')->insert([
             'name' => 'ScreenToGif',
-            'uploader_id' => '1',
+            'owner_id' => '1',
             'category_slug' => 'download',
             'status_slug' => 'concept',
             'logo_filename' => 'screentogif-logo.png',

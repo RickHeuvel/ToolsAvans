@@ -15,7 +15,7 @@ class Tool extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'name', 'category_slug', 'status_slug', 'description', 'url', 'uploader_id', 'logo_filename'
+        'name', 'category_slug', 'status_slug', 'description', 'url', 'owner_id', 'logo_filename'
     ];
 
     public function status() {
@@ -23,7 +23,7 @@ class Tool extends Model
     }
 
     public function user()  {
-        return $this->belongsTo('App\User', 'uploader_id');
+        return $this->belongsTo('App\User', 'owner_id');
     }
 
     public function images() {

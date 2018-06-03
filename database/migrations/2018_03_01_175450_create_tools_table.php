@@ -18,13 +18,13 @@ class CreateToolsTable extends Migration
             $table->string('name')->unique();
             $table->text('description')->nullable(false);
             $table->text('url')->nullable(true);
-            $table->integer('uploader_id')->unsigned();
+            $table->integer('owner_id')->unsigned();
             $table->string('category_slug');
             $table->string('status_slug');
             $table->string('logo_filename');
             $table->timestamps();
 
-            $table->foreign('uploader_id')->references('id')->on('users')->onUpdate('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('category_slug')->references('slug')->on('tool_category')->onUpdate('cascade');
             $table->foreign('status_slug')->references('slug')->on('tool_status')->onUpdate('cascade');
         });

@@ -154,7 +154,6 @@ class ToolController extends Controller
             'images'            => 'array|between:2,8',
             'images.*'          => [new ImageExistsOnDisk],
             'tags'              => new ToolOnlyOnceInList($request->input('tags')),
-
         ];
 
         $validator = Validator::make($thingsToValidate, $rules);
@@ -166,7 +165,7 @@ class ToolController extends Controller
                 'name'          => $request->input('name'),
                 'description'   => $request->input('description'),
                 'url'           => $request->input('url'),
-                'uploader_id'   => Auth::id(),
+                'owner_id'      => Auth::id(),
                 'category_slug' => $request->input('category'),
                 'status_slug'   => $status->slug,
                 'logo_filename' => $request->input('logo'),
@@ -207,7 +206,7 @@ class ToolController extends Controller
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
-        if ($tool->status->isConcept() && Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) {
+        if ($tool->status->isConcept() && Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id) {
             Session::flash('message', 'Je hebt geen rechten om deze tool te bekijken');
             return redirect()->route('tools.index');
         }
@@ -229,15 +228,16 @@ class ToolController extends Controller
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
 
-        if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
-            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
+        if ((!$tool->status->isConcept() && (Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id)) ||
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
             Session::flash('message', 'Je hebt geen rechten om deze tool aan te passen');
             return redirect()->route('tools.index');
         }
 
+        $users = User::pluck('nickname', 'id');
         $tags = ToolTag::pluck('name', 'slug');
         $categories = ToolCategory::pluck('name','slug');
-        return view('pages.tool.edit', compact('tool', 'categories', 'tags'));
+        return view('pages.tool.edit', compact('tool', 'users', 'categories', 'tags'));
     }
 
     /**
@@ -264,26 +264,43 @@ class ToolController extends Controller
         $images = json_decode($request->input('images'));
         $thingsToValidate = array_merge($request->all(), ['images' => $images]);
 
-        if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
-            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
+        if ((!$tool->status->isConcept() && (Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id)) ||
+            ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
             Session::flash('message', 'Je hebt geen rechten om deze tool aan te passen');
             return redirect()->route('tools.index');
         }
 
         $feedback = $tool->feedback;
-        $rules = [
-            'name'        => ['required','max:255', new ToolDoesNotExist($tool)],
-            'description' => 'required',
-            'logo'        => ['required', new ImageExistsOnDisk],
-            'category'    => 'required|exists:tool_category,slug',
-            'images.*'    => [new ImageExistsOnDisk],
-            'tags'        => new ToolOnlyOnceInList($request->input('tags')),
-        ];
+        if(Auth::user()->isAdmin()){
+            $rules = [
+                'name'        => ['required','max:255', new ToolDoesNotExist($tool)],
+                'description' => 'required',
+                'logo'        => ['required', new ImageExistsOnDisk],
+                'category'    => 'required|exists:tool_category,slug',
+                'images'      => 'array|between:2,8',
+                'images.*'    => [new ImageExistsOnDisk],
+                'tags'        => new ToolOnlyOnceInList($request->input('tags')),
+                'owner'       => 'required',
+            ];
+        }else{
+            $rules = [
+                'name'        => ['required','max:255', new ToolDoesNotExist($tool)],
+                'description' => 'required',
+                'logo'        => ['required', new ImageExistsOnDisk],
+                'category'    => 'required|exists:tool_category,slug',
+                'images'      => 'array|between:2,8',
+                'images.*'    => [new ImageExistsOnDisk],
+                'tags'        => new ToolOnlyOnceInList($request->input('tags')),
+            ];
+        }
 
         $validator = Validator::make($thingsToValidate, $rules);
         if ($validator->fails()) {
             return redirect()->route('tools.edit', ['tool' => $slug])->withErrors($validator)->withInput();
         } else {
+            if(Auth::user()->isAdmin()){
+                $tool->owner_id  = $request->input('owner');
+            }
             $tool->name          = $request->input('name');
             $tool->description   = $request->input('description');
             $tool->url           = $request->input('url');
@@ -375,9 +392,8 @@ class ToolController extends Controller
         if ($toolImage != null) {
             $tool = $toolImage->tool;
 
-            if ((!$tool->status->isConcept() && Auth::user()->isStudent()) ||
-                ($tool->status->isConcept() && ((Auth::user()->isStudent() &&
-                $tool->uploader_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
+            if ((!$tool->status->isConcept() && (Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id)) ||
+                ($tool->status->isConcept() && ((Auth::user()->isStudent() && $tool->owner_id != Auth::user()->id) || Auth::user()->isEmployee()))) {
                 Session::flash('message', 'Je hebt geen rechten om deze tool aan te passen');
                 return redirect()->route('tools.index');
             }
@@ -453,7 +469,7 @@ class ToolController extends Controller
         $tool->save();
 
         $mail = new ToolOutdated($tool);
-        $user = User::findOrFail($tool->uploader_id);
+        $user = User::findOrFail($tool->owner_id);
         MailController::sendMailable($mail, $user);
 
         Session::flash('message', 'Tool succesvol verouderd gemeld');

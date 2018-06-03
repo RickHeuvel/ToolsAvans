@@ -102,6 +102,7 @@ class CategoryControllerTest extends TestCase
         $this->assertDatabaseHas('tool_category', [
             'name' => $newName,
         ]);
+
     }
 
     /**
