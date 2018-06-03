@@ -39,7 +39,7 @@ home
                                                 <div class="col-4 text-right">
                                                     <div class="tool-rating">
                                                         <div class="starrr readOnly">
-                                                            {{ $stars = ($heroTool->reviews->count() > 0) ? $heroTool->reviews->avg('rating') : 0 }}
+                                                            {{ $stars = $heroTool->rating() }}
                                                             @for($i = 1; $i < 6; $i++)
                                                                 <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
                                                             @endfor
@@ -88,7 +88,7 @@ home
                                                 <div class="col-6 text-right">
                                                     <div class="tool-rating">
                                                         <div class="starrr readOnly">
-                                                            {{ $stars = ($heroTool->reviews->count() > 0) ? $heroTool->reviews->avg('rating') : 0 }}
+                                                            {{ $stars = $heroTool->rating() }}
                                                             @for($i = 1; $i < 6; $i++)
                                                                 <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
                                                             @endfor
@@ -131,7 +131,7 @@ home
                                                 <div class="col-6 text-right">
                                                     <div class="tool-rating">
                                                         <div class="starrr readOnly">
-                                                            {{ $stars = ($heroTool->reviews->count() > 0) ? $heroTool->reviews->avg('rating') : 0 }}
+                                                            {{ $stars = $heroTool->rating() }}
                                                             @for($i = 1; $i < 6; $i++)
                                                                 <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
                                                             @endfor

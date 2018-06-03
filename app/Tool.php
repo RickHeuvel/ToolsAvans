@@ -63,6 +63,11 @@ class Tool extends Model
     public function questionAnswers() {
         return $this->hasManyThrough('App\ToolAnswer', 'App\ToolQuestion', 'tool_slug', 'question_id', 'slug', 'id');
     }
+    
+    // Calculating the average rating of this tool
+    public function rating(){
+        return floor($this->reviews->avg('rating'));
+    }
 
     // Query functions
     public static function publicTools() {

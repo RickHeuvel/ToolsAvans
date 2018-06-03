@@ -79,12 +79,12 @@
                                                 @if (!$tool->reviews->isEmpty())
                                                     @if(Auth::check())
                                                         $('.starrr.{{$tool->slug}}').starrr({
-                                                            rating: {{$tool->reviews->avg('rating')}}
+                                                            rating: {{$tool->rating()}}
                                                         });
                                                         setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
                                                     @else
                                                         $('.starrr.{{$tool->slug}}').starrr({
-                                                            rating: {{$tool->reviews->avg('rating')}},
+                                                            rating: {{$tool->rating()}},
                                                             readOnly: true
                                                         });
                                                     @endif

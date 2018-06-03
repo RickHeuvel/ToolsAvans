@@ -29,6 +29,7 @@ use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Rules\ToolDoesNotExist;
 use App\Rules\ToolOnlyOnceInList;
 use App\Rules\NameExistsInDatabase;
@@ -99,7 +100,37 @@ class ToolController extends Controller
         }
 
         // Filter on sorting type, and paginate
-        $tools = $tools->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage);
+        if ($sortType == 'rating') {
+            // Creating an array of tools from the already filtered/searched tools
+            $tools = $tools->get()->all();
+
+            // This is split into two to increase performance, less comparisons
+            if ($sortDirection == 'asc') {
+                usort($tools, function ($a, $b) {
+                    if ($a->rating() > $b->rating()) {
+                            return true;
+                    }
+                    return false;
+                });
+            } else {
+                usort($tools, function ($a, $b) {
+                    if ($a->rating() < $b->rating()) {
+                        return true;
+                    }
+                    return false;
+                });
+            }
+            // Calcing the page number, so that it doesn't null out whilst paginating
+            $pageNumber = $request->has('page') ? $request->input('page') : 1;
+            // Slicing the array to get the right part of the tools for the current page
+            $slicedArray = array_slice($tools, $pageNumber * $this->itemsPerPage - $this->itemsPerPage, $this->itemsPerPage);
+            $tools = new LengthAwarePaginator(
+                $slicedArray, count($tools), $this->itemsPerPage, $pageNumber, array('path' => $request->path())
+            );
+        } else {
+            $tools = $tools->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage);
+        }
+
         Event::fire(new ViewPage('tools'));
         if ($request->ajax())
             return response()->json([

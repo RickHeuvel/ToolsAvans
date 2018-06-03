@@ -308,13 +308,13 @@
         $( document ).ready(function() {
             @if (!$tool->reviews->isEmpty() && Auth::check())
                 $('#stars').starrr({
-                    rating: {{$tool->reviews->avg('rating')}}
+                    rating: {{$tool->rating()}}
                 });
                 enableReviewModal();
                 enableTooltip();
             @elseif (!$tool->reviews->isEmpty() && !Auth::check())
                 $('#stars').starrr({
-                    rating: {{$tool->reviews->avg('rating')}},
+                    rating: {{$tool->rating()}},
                     readOnly: true
                 });
                 enableTooltip();
