@@ -21,6 +21,7 @@ use App\ToolAnswer;
 use App\ToolView;
 use App\TagCategory;
 use App\Events\ViewTool;
+use App\Events\ViewPage;
 use App\ToolTag;
 use App\ToolOutdatedReport;
 use App\Mail\ToolOutdated;
@@ -99,7 +100,7 @@ class ToolController extends Controller
 
         // Filter on sorting type, and paginate
         $tools = $tools->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage);
-
+        Event::fire(new ViewPage('tools'));
         if ($request->ajax())
             return response()->json([
                 'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'allTags',

@@ -15,6 +15,8 @@ use App\ToolTag;
 use App\Mail\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Events\ViewPage;
+use Event;
 
 class ContactController extends Controller
 {
@@ -25,7 +27,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-            return view('pages.contact');
+        Event::fire(new ViewPage('contact'));
+        return view('pages.contact');
     }
 
     public function sendQuestion(Request $request){

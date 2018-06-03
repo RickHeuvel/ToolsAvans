@@ -18,7 +18,10 @@ class EventServiceProvider extends ServiceProvider
             'SocialiteProviders\Avans\AvansExtendSocialite@handle',
         ],
         'App\Events\ViewTool' => [
-            'App\Listeners\IncrementViewCounter'
+            'App\Listeners\IncrementToolViewCounter'
+        ],
+        'App\Events\ViewPage' => [
+            'App\Listeners\IncrementPageViewCounter'
         ]
     ];
 

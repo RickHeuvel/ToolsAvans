@@ -27,7 +27,7 @@
             <div class="col-12 col-md-6">
                 <h2>
                     <strong>
-                        {{ auth()->user()->nickname }} 
+                        {{ auth()->user()->nickname }}
                         @if (Auth::user()->isAdmin())
                             <span class="badge badge-secondary ml-3">Beheerder</span>
                         @endif
@@ -281,7 +281,7 @@
                                             {{ Form::label('conceptmailfrequence', 'Concept mailing frequentie *', ['class' => 'col-3']) }}
                                             <div class="col-9">
                                                 {{ Form::select('settings[conceptmailfrequence]', [
-                                                    'Monthly' => 'Elke maand', 
+                                                    'Monthly' => 'Elke maand',
                                                     'Weekly' => 'Elke week',
                                                     'Daily' => 'Elke dag'
                                             ], (!empty($settings->has('conceptmailfrequence'))) ? $settings->get('conceptmailfrequence')->val : null, ['class' => 'form-control']) }}
@@ -292,12 +292,12 @@
                                             {{ Form::label('conceptmailday', 'Concept mailing dag *', ['class' => 'col-3']) }}
                                             <div class="col-9">
                                                 {{ Form::select('settings[conceptmailday]', [
-                                                    'Monday' => 'Maandag', 
+                                                    'Monday' => 'Maandag',
                                                     'Tuesday' => 'Dinsdag',
-                                                    'Wednesday' => 'Woensdag', 
-                                                    'Thursday' => 'Donderdag', 
-                                                    'Friday' => 'Vrijdag', 
-                                                    'Saturday' => 'Zaterdag', 
+                                                    'Wednesday' => 'Woensdag',
+                                                    'Thursday' => 'Donderdag',
+                                                    'Friday' => 'Vrijdag',
+                                                    'Saturday' => 'Zaterdag',
                                                     'Sunday' => 'Zondag'
                                             ], (!empty($settings->has('conceptmailday'))) ? $settings->get('conceptmailday')->val : null, ['class' => 'form-control']) }}
                                             </div>
@@ -366,12 +366,7 @@
                     </div>
                     <div id="chart" class="col-12 col-md-9 chart">
                         <div class="row">
-                            <div class="col-2">
-                            </div>
-                            <div class="col-4">
-                                <button id="toolhub-button" type="button" class="btn btn-avans w-100">
-                                    Bekijk ToolHub statistieken
-                                </button>
+                            <div class="col-6">
                             </div>
                             <div class="col-3 btn-group chart-type-dropdown">
                                 <button id="current-chart-type" type="button" class="btn btn-outline-dark w-100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -394,7 +389,22 @@
                         </div>
                         <div id="loader-container">
                         </div>
-                        <canvas id="chart-canvas" class="mt-3" width="1920" height="1080"></canvas>
+                        <canvas id="chart-canvas" class="my-3"></canvas>
+                        <div class="row">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-4">
+                                <button id="alltools-button" type="button" class="btn btn-avans w-100">
+                                    Bekijk alle tool statistieken
+                                </button>
+                            </div>
+                            <div class="col-4">
+                                <button id="pages-button" type="button" class="btn btn-avans w-100">
+                                    Bekijk pagina statistieken
+                                </button>
+                            </div>
+                            <div class="col-2">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -428,7 +438,7 @@
             // Listen for 'change' event, so this triggers when the user clicks on the checkboxes labels
             $('input[name="status[]"]').on('change', function (e) {
                 e.preventDefault();
-                statuses = []; // reset 
+                statuses = []; // reset
 
                 $('input[name="status[]"]:checked').each(function() {
                     statuses.push($(this).val());
@@ -490,7 +500,7 @@
                     $('.starrr.' + slug).starrr({
                         rating: parseInt(value)
                     });
-                }).fail(function () { 
+                }).fail(function () {
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
@@ -508,7 +518,7 @@
                     type : 'GET',
                     data: { rating: value },
                 }).done(function (data) {
-                }).fail(function () { 
+                }).fail(function () {
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
@@ -524,20 +534,22 @@
                     });
                     $('#review-without-rating-' + slug).modal('hide');
                     $('#review-with-rating-' + slug).modal('show');
-                }).fail(function () { 
+                }).fail(function () {
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
         }
         // Statistics/graph JS
-        let loaderHTML = '<div class="mt-5 mx-auto loader"></div>';
+        let loaderHTML = '<div class="mt-2 mx-auto loader"></div>';
         let chart = null;
         let chartType = 'line';
         let interval = 'month';
-        let title = 'ToolHub';
+        let title = 'Pagina\'s';
+        let mode = 'pages'
         let tool = '';
         let searchQuery = '';
         let page = '1';
+        let xAxisLabel = 'Dag';
         function createChart() {
             $('#loader-container').html(loaderHTML);
             if (chart)
@@ -545,6 +557,7 @@
             $.ajax({
                 url : '{{ route('graph.getData') }}',
                 data: {
+                    'mode': mode,
                     'interval': interval,
                     'tool': tool
                 },
@@ -554,49 +567,24 @@
                         type: chartType,
                         data: {
                             labels: data.labels,
-                            datasets: [{
-                            label: "Weergaven",
-                            data: data.views,
-                            fill: false,
-                            borderColor: "rgb(45,176,162)",
-                            backgroundColor: "rgb(45,176,162)",
-                            lineTension: 0.1,
-                            borderWidth: 3,
-                        }, {
-                            label: "Reviews",
-                            data: data.reviews,
-                            fill: false,
-                            borderColor: "rgb(252,154,29)",
-                            backgroundColor: "rgb(252,154,29)",
-                            lineTension:0.1,
-                            borderWidth: 3
-                        }, {
-                            label: "Vragen",
-                            data: data.questions,
-                            fill: false,
-                            borderColor: "rgb(254,93,85)",
-                            backgroundColor: "rgb(254,93,85)",
-                            lineTension:0.1,
-                            borderWidth: 3
-                        }, {
-                            label: "Antwoorden",
-                            data: data.answers,
-                            fill: false,
-                            borderColor: "rgb(206,52,114)",
-                            backgroundColor: "rgb(206,52,114)",
-                            lineTension:0.1,
-                            borderWidth: 3
-                        }]
                         },
                         options: {
                             scales: {
-                                yAxes: [
-                                    {
-                                        ticks: {
-                                            beginAtZero:true
-                                        }
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: "Aantal"
                                     }
-                                ]
+                                }],
+                                xAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: xAxisLabel
+                                    }
+                                }]
                             },
                             title: {
                                 display: true,
@@ -605,6 +593,77 @@
                             }
                         }
                     };
+                    if (mode == 'alltools' || mode == 'tool') {
+                        chartConfig.data.datasets = [{
+                                label: "Weergaven",
+                                data: data.views,
+                                fill: false,
+                                borderColor: "rgb(45,176,162)",
+                                backgroundColor: "rgb(45,176,162)",
+                                lineTension: 0.1,
+                                borderWidth: 3,
+                            }, {
+                                label: "Reviews",
+                                data: data.reviews,
+                                fill: false,
+                                borderColor: "rgb(252,154,29)",
+                                backgroundColor: "rgb(252,154,29)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }, {
+                                label: "Vragen",
+                                data: data.questions,
+                                fill: false,
+                                borderColor: "rgb(254,93,85)",
+                                backgroundColor: "rgb(254,93,85)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }, {
+                                label: "Antwoorden",
+                                data: data.answers,
+                                fill: false,
+                                borderColor: "rgb(206,52,114)",
+                                backgroundColor: "rgb(206,52,114)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }
+                        ];
+                    } else {
+                        chartConfig.data.datasets = [{
+                                label: "Home",
+                                data: data.home,
+                                fill: false,
+                                borderColor: "rgb(206,52,114)",
+                                backgroundColor: "rgb(206,52,114)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }, {
+                                label: "Tools",
+                                data: data.tools,
+                                fill: false,
+                                borderColor: "rgb(252,154,29)",
+                                backgroundColor: "rgb(252,154,29)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }, {
+                                label: "Portaal",
+                                data: data.portal,
+                                fill: false,
+                                borderColor: "rgb(254,93,85)",
+                                backgroundColor: "rgb(254,93,85)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }, {
+                                label: "Contact",
+                                data: data.contact,
+                                fill: false,
+                                borderColor: "rgb(206,52,114)",
+                                backgroundColor: "rgb(206,52,114)",
+                                lineTension:0.1,
+                                borderWidth: 3
+                            }
+                        ];
+                    }
                     $('#loader-container').html('');
                     chart = new Chart($('#chart-canvas'), chartConfig);
                 },
@@ -643,6 +702,10 @@
             e.preventDefault();
             interval = $(this).data('interval');
             $('#current-interval').text($(this).text());
+            if (interval == 'month')
+                xAxisLabel = 'Dag';
+            else
+                xAxisLabel = 'Maand';
 
             createChart();
         });
@@ -657,13 +720,23 @@
             e.preventDefault();
             tool = $(this).data('tool');
             title = tool;
+            mode = 'tool';
 
             createChart();
         });
-        $('#toolhub-button').on('click', function (e) {
+        $('#alltools-button').on('click', function (e) {
             e.preventDefault();
             tool = '';
-            title = 'ToolHub';
+            title = 'Alle tools';
+            mode = 'alltools';
+
+            createChart();
+        });
+        $('#pages-button').on('click', function (e) {
+            e.preventDefault();
+            tool = '';
+            title = 'Pagina\'s';
+            mode = 'pages';
 
             createChart();
         });

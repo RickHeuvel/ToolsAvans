@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\ToolView;
 use Session;
 
-class IncrementViewCounter
+class IncrementToolViewCounter
 {
     /**
      * Create the event listener.

@@ -8,6 +8,8 @@ use App\ToolTag;
 use App\ToolCategory;
 use App\Tag;
 use Illuminate\Http\Request;
+use Event;
+use App\Events\ViewPage;
 
 class HomeController extends Controller
 {
@@ -35,6 +37,7 @@ class HomeController extends Controller
 
         $categories = ToolCategory::inRandomOrder()->limit(4)->get()->shuffle();
 
+        Event::fire(new ViewPage('home'));
         return view('pages.home', compact('heroTools', 'newTools', 'popularTools', 'homepageCategoryTools', 'homepageTagTools', 'homepageTag', 'homepageCategory', 'categories'));
     }
 }

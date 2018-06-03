@@ -14,6 +14,8 @@ use App\Tag;
 use App\TagCategory;
 use App\ToolTag;
 use Illuminate\Http\Request;
+use Event;
+use App\Events\ViewPage;
 
 class PortalController extends Controller
 {
@@ -60,6 +62,7 @@ class PortalController extends Controller
             $settings = new Setting();
             $unjudgedTools = Tool::unjudgedTools()->get();
 
+            Event::fire(new ViewPage('portal'));
             return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users',
                 'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
         } else {

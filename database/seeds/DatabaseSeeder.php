@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
                 ToolQuestionTableSeeder::class,
                 ToolAnswerTableSeeder::class,
                 ToolViewTableSeeder::class,
+                PageViewTableSeeder::class,
                 SortOptionsTableSeeder::class,
                 SettingsTableSeeder::class,
                 ToolOutdatedReportsTableSeeder::class
