@@ -12,15 +12,15 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'beheerder',
-            'email' => 'admin@toolhub.com',
+            'name' => 'ssmulder',
+            'email' => 's.smulders@avans.nl',
             'provider' => 'avans',
-            'provider_id' => 'beheerder',
-            'nickname' => 'Beheerder',
-            'firstName' => 'beheerder',
-            'lastName' => '',
+            'provider_id' => 'ssmulder',
+            'nickname' => 'Stijn Smulder',
+            'firstName' => 'Stijn',
+            'lastName' => 'Smulder',
             'location' => 'OWB',
-            'role' => 'employee',
+            'role' => 'admin',
             'admin' => true
         ]);
         if (!App::environment('production')) {
