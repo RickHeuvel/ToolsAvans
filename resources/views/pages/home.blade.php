@@ -243,9 +243,10 @@ home
                     items: 1
                 }
             },
-            autoplay: true,
-            autoplayTimeout: 6000,
-            loop: true
+            pullDrag: false,
+            touchDrag: false,
+            mouseDrag: false,
+            dots: false,
         });
 
         $('.owl-carousel.featured').owlCarousel({
@@ -262,7 +263,11 @@ home
                     items: 4
                 }
             },
-            loop: true
+            loop:true,
+            pullDrag: false,
+            touchDrag: false,
+            mouseDrag: false,
+            dots: false,
         });
     </script>
 @endsection

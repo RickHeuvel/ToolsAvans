@@ -210,12 +210,35 @@ class ToolController extends Controller
             Session::flash('message', 'Je hebt geen rechten om deze tool te bekijken');
             return redirect()->route('tools.index');
         }
-
+        $allTools = Tool::publicTools()->where('slug', '!=', $tool->slug)->get();
+        $alternativeTools = [];
+        $tagHits = [];
+        $maxAlternativeToolCount = 4;
+        foreach($allTools as $possibleAlternativeTool){
+            $tagHits = array_merge($tagHits, (array($possibleAlternativeTool->slug => count($tool->tags->intersect($possibleAlternativeTool->tags)))));
+        }
+        //Sort on tag hits and make a list
+        array_multisort($tagHits, SORT_DESC);
+        $tagHits = collect($tagHits);
+        foreach($tagHits as $key => $value){
+            if($value > 1){
+                $alternativeTools = array_merge($alternativeTools, [$tool::find($key)]);
+            }
+        }
+        $alternativeTools = collect($alternativeTools);
+        //if the amount is smaller than 8 add some tools from the same category
+        if(count($alternativeTools) < $maxAlternativeToolCount){
+            $nottools = array_merge($alternativeTools->pluck('slug')->toArray(), [$tool->slug]);
+            $categoryTools = Tool::publicTools()->whereNotIn('slug', $nottools)->where('category_slug', $tool->category_slug);
+            $categoryTools = $categoryTools->get()->take($maxAlternativeToolCount - count($alternativeTools));
+            $alternativeTools = $alternativeTools->merge($categoryTools);
+        }
+        $alternativeTools = $alternativeTools->take($maxAlternativeToolCount);
         $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
         $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
         Event::fire(new ViewTool($tool));
 
-        return view('pages.tool.view', compact('tool', 'curUserReview', 'questions'));
+        return view('pages.tool.view', compact('tool', 'curUserReview', 'questions', 'alternativeTools'));
     }
 
     /**

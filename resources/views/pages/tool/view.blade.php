@@ -202,6 +202,43 @@
             </div>
         </div>
         <hr class="mt-4">
+        <div class="row">
+            <div class="tool-specs col-12">
+                <h2 id="alternative-tools" class="mb-4">Alternatieve tools</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="owl-carousel alternative owl-theme">
+                            @foreach($alternativeTools as $alternativeTool)
+                                <a href="{{ route('tools.show', $alternativeTool->slug) }}">
+                                    <div class="alternative-item text-white" style="background: url('{{ route('tools.image', $alternativeTool->images->random()->image_filename) }}') no-repeat center center / cover;">
+                                        <div class="inner pt-5 pb-5">
+                                            <div class="row justify-content-center">
+                                                <div class="col-auto">
+                                                    <div class="tool-logo d-inline-block">
+                                                        <img src="{{ route('tools.image', $alternativeTool->logo_filename) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col text-center">
+                                                    <h4 class="m-0">{{ str_limit($alternativeTool->name, 20) }}</h4>
+                                                    <div class="review-rating">
+                                                        @for($x = 0; $x < floor($alternativeTool->reviews->avg('rating')); $x++)
+                                                            <i class="fa fa-star"></i>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-4">
         <div class="row pb-5">
             <div class="tool-specs col-12">
                 <h2 id="vragen" class="mb-4">Vragen</h2>
@@ -213,7 +250,26 @@
 
 @section('js')
     <script>
-
+        $('.owl-carousel.alternative').owlCarousel({
+            margin: 15,
+            nav: false,
+            pullDrag: false,
+            touchDrag: false,
+            mouseDrag: false,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 4
+                }
+            },
+            loop: true
+        });
         var tooltip = true;
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,

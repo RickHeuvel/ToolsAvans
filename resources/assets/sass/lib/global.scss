@@ -501,6 +501,34 @@ ul.pagination {
     }
   }
 }
+
+.alternative {
+  z-index: 0;
+  .alternative-item {
+    height: 200px;
+    position: relative;
+    .inner {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      .tool-logo {
+        border: 1px solid rgba(0,0,0,0.6);
+        border-radius: 4px;
+        padding: 2px;
+        background: $white;
+        img {
+          max-height: 75px;
+          border-radius: 4px;
+          width: auto !important;
+        }
+      }
+    }
+  }
+}
+
 .tool-view {
   img {
     margin: 0 auto;
