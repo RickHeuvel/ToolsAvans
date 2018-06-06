@@ -16,9 +16,9 @@ class UsersTableSeeder extends Seeder
             'email' => 's.smulders@avans.nl',
             'provider' => 'avans',
             'provider_id' => 'ssmulder',
-            'nickname' => 'Stijn Smulder',
+            'nickname' => 'Stijn Smulders',
             'firstName' => 'Stijn',
-            'lastName' => 'Smulder',
+            'lastName' => 'Smulders',
             'location' => 'OWB',
             'role' => 'admin',
             'admin' => true
