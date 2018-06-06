@@ -16,7 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NewQuestion extends Mailable
 {
     use Queueable, SerializesModels;
-    private $info;
+    private $question;
     /**
      * Create a new message instance.
      *
@@ -24,7 +24,7 @@ class NewQuestion extends Mailable
      */
     public function __construct($question)
     {
-        $this->info = $question;
+        $this->question = $question;
     }
     /**
      * Build the message.
@@ -35,12 +35,12 @@ class NewQuestion extends Mailable
     {
         return $this->markdown('emails.newquestion')
             ->from('noreply@toolhub.com', config('app.name'))
-            ->subject('Nieuwe vraag over:'. $this->info['tool_slug'])
+            ->subject('Nieuwe vraag over '. $this->question->tool->name)
             ->with([
-                'tool' => $this->info['tool_slug'],
-                'url' => route('tools.show', $this->info['tool_slug'].'#question-'.$this->info->id),
-                'text' => $this->info['text'],
-                'title' => $this->info['title'],
+                'tool' => $this->question->tool->name,
+                'url' => route('tools.show', $this->question->tool->name.'#question-'.$this->question->id),
+                'text' => $this->question->text,
+                'title' => $this->question->title,
             ]);
     }
 }

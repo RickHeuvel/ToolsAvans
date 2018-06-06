@@ -41,10 +41,11 @@ class NewAnswer extends Mailable
     {
         return $this->markdown('emails.newanswer')
             ->from('noreply@toolhub.com', config('app.name'))
-            ->subject('Nieuwe vraag over:'. $this->tool->slug)
+            ->subject('Nieuw antwoord op je vraag over '. $this->tool->name)
             ->with([
-                'tool' => $this->tool->slug,
+                'tool' => $this->tool->name,
                 'url' => route('tools.show', $this->tool->slug.'#answer-'.$this->answer->id),
+                'answer' => $this->answer
             ]);
     }
 }

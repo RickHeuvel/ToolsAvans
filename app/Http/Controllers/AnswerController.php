@@ -28,7 +28,7 @@ class AnswerController extends Controller
      * string 'text'
      * 
     */
-    public function store(Request $request, $slug, $question){
+    public function store(Request $request, $slug, $question) {
         $rules = [
             'text' => 'required'
         ];
@@ -36,18 +36,21 @@ class AnswerController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return redirect(route('tools.show', $slug) . '#vragen')->withErrors($validator, 'answers')->withInput();
+            return redirect(route('tools.show', $slug) . '#vragen')
+                ->withErrors($validator, 'answers')->withInput();
         } else {
-            $answer = ToolAnswer::create([
+            $answer = ToolAnswer::create(
+                [
                 'question_id' => $question,
                 'user_id' => Auth::id(),
                 'text' => $request->input('text'),
-            ]);
+                ]
+            );
 
-            $tool = Tool::find($slug)->firstOrFail();
+            $tool = Tool::findOrFail($slug);
             $question = ToolQuestion::find($question);
 
-            $mail = new NewAnswer($answer,$tool);
+            $mail = new NewAnswer($answer, $tool);
             $user = User::findOrFail($question->user_id);
             MailController::sendMailable($mail, $user);
 

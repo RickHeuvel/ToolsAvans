@@ -59,7 +59,7 @@ class QuestionController extends Controller
                 'text' => $request->input('text'),
             ]);
 
-            $tool = Tool::find($slug)->firstOrFail();
+            $tool = Tool::findOrFail($slug);
 
             $mail = new NewQuestion($question);
             $user = User::findOrFail($tool->owner_id);
