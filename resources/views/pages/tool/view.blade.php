@@ -141,6 +141,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#tags">Tags</a>
                     </li>
+                     <li>
+                       <a class="nav-link" href="#alternative-tools">Alternative tools</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#vragen">Vragen</a>
                     </li>
