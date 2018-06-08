@@ -38,7 +38,7 @@
         <div class="col-12">
             <div class="tool mb-4">
                 <div class="row">
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4 col-lg-3">
                         <div class="p-3">
                             <div class="tool-logo">
                                 <a href="{{ route('tools.show', $tool->slug) }}">
@@ -62,16 +62,16 @@
                             @endif
                         @endif
                     </div>
-                    <div class="col-12 col-md-9 pl-0">
-                        <div class="tool-body">
+                    <div class="col-12 col-md-8 col-lg-9 pl-md-0">
+                        <div class="tool-body pl-3 pl-md-0">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-12 col-md-6 col-lg-8 text-center text-md-left">
                                     <a class="tool-name-link" href="{{ route('tools.show', $tool->slug) }}">
                                         <h2>{{ $tool->name }}</h2>
                                     </a>
                                     <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
-                                <div class="col-4 text-right">
+                                <div class="col-12 col-md-6 col-lg-4 text-center text-md-right">
                                     <div class="tool-rating {{$tool->slug}} mb-2">
                                         <div class="starrr {{$tool->slug}} {{ (!Auth::check()) ? 'readOnly' : '' }}"></div>
                                         @section('review-js-' . $tool->slug)

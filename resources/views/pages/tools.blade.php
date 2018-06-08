@@ -21,12 +21,12 @@
         @include('partials.alert')
 
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-lg-3">
                 <h2 class="mb-0"><strong>Tools</strong></h2>
             </div>
-            <div class="col-9 my-2 my-lg-0 justify-content-right">
+            <div class="col-12 col-lg-9 my-2 my-lg-0 justify-content-right">
                 <div class="row">
-                    <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                    <div class="col-12 col-sm-7 col-md-8 col-lg-8 col-xl-8">
                         <div class="input-group">
                             <input class="form-control" name="searchQuery" type="search" placeholder="Zoeken naar tools..." aria-label="Search">
                             <div class="input-group-append">
@@ -36,8 +36,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4 col-md-3 col-lg-3">
-                        <section class="sorting">
+                    <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-4">
+                        <section class="sorting float-right">
                             @include('partials.sorting')
                         </section>
                     </div>
@@ -50,41 +50,41 @@
         <div class="row">
             <div class="col-12 col-md-3">
                 <div class="row mb-3">
-                    <div class="col-12">
-                        <p class="mb-2"><strong>Categorieën</strong></p>
-                        @foreach($categories as $category)
-                            <div class="form-check mb-1" name="input">
-                                @if (!empty($selectedCategories))
-                                    <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
-                                @else
-                                    <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
-                                @endif
-                                <label class="form-check-label" for="cat{{$category->id}}">
-                                    {{$category->name}}
-                                </label>
+                    <div class="col-6 col-md-12">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <p class="mb-2"><strong>Categorieën</strong></p>
+                                @foreach($categories as $category)
+                                    <div class="form-check mb-1" name="input">
+                                        @if (!empty($selectedCategories))
+                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
+                                        @else
+                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
+                                        @endif
+                                        <label class="form-check-label" for="cat{{$category->id}}">
+                                            {{$category->name}}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <p class="mb-2"><strong>Gepinde tags</strong></p>
-                        @foreach($pinnedTags as $tag)
-                            <div class="form-check mb-1">
-                                @if (!empty($selectedTags))
-                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
-                                @else
-                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
-                                @endif
-                                <label class="form-check-label" for="tag{{$tag->slug}}">
-                                    {{$tag->name}}
-                                </label>
+                            <div class="col-12 mb-3">
+                                <p class="mb-2"><strong>Gepinde tags</strong></p>
+                                @foreach($pinnedTags as $tag)
+                                    <div class="form-check mb-1">
+                                        @if (!empty($selectedTags))
+                                            <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
+                                        @else
+                                            <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
+                                        @endif
+                                        <label class="form-check-label" for="tag{{$tag->slug}}">
+                                            {{$tag->name}}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endforeach
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-12">
+                    <div class="col-6 col-md-12">
                         <p class="mb-2"><strong>Overige tags</strong></p>
                         @foreach($tagCategories as $tagCategory)
                             <div class="d-block mb-1">

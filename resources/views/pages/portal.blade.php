@@ -24,7 +24,7 @@
     <div class="container pt-5">
 
         <div class="row mb-4">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 text-center text-md-left">
                 <h2>
                     <strong>
                         {{ auth()->user()->nickname }}
@@ -34,7 +34,7 @@
                     </strong>
                 </h2>
             </div>
-            <div class="col-12 col-md-6 text-right">
+            <div class="col-12 col-md-6 text-center text-md-right mt-4 mt-md-0">
                 <div class="tab-buttons">
                     <a href="{{ route('tools.create') }}" class="btn btn-danger btn-avans" id="mytools-button">Nieuwe tool toevoegen</a>
                     @if (Auth::user()->isAdmin())

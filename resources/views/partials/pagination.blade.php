@@ -10,7 +10,7 @@
         </div>
     @else
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-9 col-sm-8 col-md-6">
                 <p>
                     <strong>{{ ($tools->currentpage() - 1) * $tools->perpage() + 1 }} -
                         @if ($tools->currentpage() * $tools->perpage() > $tools->total())
@@ -21,7 +21,7 @@
                     </strong>
                 </p>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-3 col-sm-4 col-md-6">
                 <div class="float-right">
                     {{ $tools->appends([
                             'categories' => (!empty($selectedCategories)) ? implode('+', $selectedCategories) : null,

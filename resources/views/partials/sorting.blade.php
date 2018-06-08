@@ -1,4 +1,4 @@
-<div class=" w-100 float-right sort-dropdown">
+<div class=" w-100 sort-dropdown">
     <div class="btn-group" id="sort-type">
         <button type="button" class="btn btn-outline-dark w-100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{

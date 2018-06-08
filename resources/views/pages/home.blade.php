@@ -9,12 +9,12 @@ home
 
 @section('content')
     <div class="container">
-        <div class="bg-white py-3 px-4 my-3 d-flex">
-            <h4 class="mb-0 align-middle py-1 d-inline-block">Welkom bij ToolHub!</h4>
+        <div class="bg-white py-3 px-4 my-3 d-block d-lg-flex text-center text-lg-left">
+            <h4 class="mb-0 align-middle py-1 d-block d-lg-inline-block">Welkom bij ToolHub!</h4>
             <div class="ml-auto">
-                <h4 class="mb-0 align-middle py-1 d-inline-block">Bekijk tools in:</h4>
+                <h4 class="mb-2 mb-md-0 align-middle py-1 d-block d-lg-inline-block">Bekijk tools in:</h4>
                 @foreach($categories as $category)
-                    <a href="{{ route('tools.index') }}?categories={{ $category->slug }}" class="btn btn-white btn-avans ml-2">{{ $category->name }}</a>
+                    <a href="{{ route('tools.index') }}?categories={{ $category->slug }}" class="btn btn-white btn-avans ml-2 mb-2 mb-md-0">{{ $category->name }}</a>
                 @endforeach
             </div>
         </div>
@@ -25,34 +25,36 @@ home
                         <div class="inner pt-5 pb-5">
                             <div class="row justify-content-center mt-3">
                                 <div class="col-12 col-md-10">
-                                    <div class="row">
-                                        <div class="col-12 col-md-3 col-lg-2">
-                                            <div class="tool-logo">
-                                                <img src="{{ route('tools.image', $heroTool->logo_filename) }}" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-9 col-lg-10">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <h1>{{ $heroTool->name }}</h1>
+                                    <div class="mx-4 mx-md-0">
+                                        <div class="row">
+                                            <div class="col-12 col-md-3 col-lg-2">
+                                                <div class="tool-logo d-none d-md-block">
+                                                    <img src="{{ route('tools.image', $heroTool->logo_filename) }}" class="img-fluid">
                                                 </div>
-                                                <div class="col-4 text-right">
-                                                    <div class="tool-rating">
-                                                        <div class="starrr readOnly">
-                                                            {{ $stars = $heroTool->rating() }}
-                                                            @for($i = 1; $i < 6; $i++)
-                                                                <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
-                                                            @endfor
+                                            </div>
+                                            <div class="col-12 col-md-9 col-lg-10 text-center text-md-left">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-8 ">
+                                                        <h1>{{ $heroTool->name }}</h1>
+                                                    </div>
+                                                    <div class="col-12 col-md-4 text-center text-md-right mb-3 mb-md-0">
+                                                        <div class="tool-rating">
+                                                            <div class="starrr readOnly">
+                                                                {{ $stars = $heroTool->rating() }}
+                                                                @for($i = 1; $i < 6; $i++)
+                                                                    <a href="#" class="fa {{ ($i > $stars) ? "fa-star-o" : "fa-star" }}"></a>
+                                                                @endfor
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>  
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <p>{{ str_limit($heroTool->description, 150) }}</p>
-                                                    <a href="{{ route('tools.show', $heroTool->slug) }}" class="btn btn-danger btn-avans"> Bekijk tool &rarr;</a>
-                                                </div>
-                                            </div> 
+                                                </div>  
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p>{{ str_limit($heroTool->description, 150) }}</p>
+                                                        <a href="{{ route('tools.show', $heroTool->slug) }}" class="btn btn-danger btn-avans"> Bekijk tool &rarr;</a>
+                                                    </div>
+                                                </div> 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -73,14 +75,14 @@ home
                             @foreach($newTools as $newTool)
                                 <div class="top-tool @if(!$loop->last) mb-3 @endif">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-12 col-md-3">
                                             <div class="tool-logo">
                                                 <a href="{{ route('tools.show', $newTool->slug) }}">
                                                     <img src="{{ route('tools.image', $newTool->logo_filename) }}" class="img-fluid" />
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-12 col-md-9 mt-2 mt-md-0">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <h4>{{ $newTool->name }}</h4>
@@ -116,14 +118,14 @@ home
                             @foreach($popularTools as $popularTool)
                                 <div class="top-tool @if(!$loop->last) mb-3 @endif">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-12 col-md-3">
                                             <div class="tool-logo">
                                                 <a href="{{ route('tools.show', $popularTool->slug) }}">
                                                     <img src="{{ route('tools.image', $popularTool->logo_filename) }}" class="img-fluid" />
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-12 col-md-9 mt-2 mt-md-0">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <h4>{{ $popularTool->name }}</h4>
@@ -220,9 +222,9 @@ home
             </div>
         @endif
         
-        <div class="bg-white py-3 px-4 mt-5 d-flex">
+        <div class="bg-white py-3 px-4 mt-5 d-block w-100 d-md-flex text-md-left text-center">
             <h4 class="mb-0 align-middle py-1 d-inline-block">Bekijk ons volledige aanbod aan tools!</h4>
-            <a href="{{ route('tools.index') }}" class="btn btn-danger btn-avans ml-auto">Ga naar tools</a>
+            <a href="{{ route('tools.index') }}" class="btn btn-danger btn-avans ml-auto mt-3 mt-md-0">Ga naar tools</a>
         </div>
     </div>
 @endsection

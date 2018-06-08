@@ -93,11 +93,11 @@
                         <div class="col-12 col-md-9">
                             <div class="tool-body">
                                 <div class="row">
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-6 col-lg-8 text-center text-md-left mt-4 mt-md-0">
                                         <h1>{{$tool->name}}</h1>
                                         <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
                                     </div>
-                                    <div class="col-12 col-md-6 text-right">
+                                    <div class="col-12 col-md-6 col-lg-4 text-center text-md-right">
                                         <div class="tool-rating" id="toolRating">
                                             <div id="starRating">
                                                 @if (!Auth::check())
@@ -197,7 +197,7 @@
                 <h2 id="tags" class="mb-4">Tags</h2>
                 @if (count($tool->tags) > 0)
                     @foreach($tool->tags as $toolTag)
-                        <span class="badge badge-light">{{ $toolTag->name }}</span>
+                        <span class="badge badge-light mb-1">{{ $toolTag->name }}</span>
                     @endforeach
                 @else
                     <p class="text-muted">Deze tool heeft geen tags :(</p>

@@ -10750,14 +10750,10 @@ a {
   list-style-type: none;
 }
 
-.nav-avans ul.global-links li {
-  display: inline;
-  margin-right: 30px;
-}
-
 .nav-avans ul.global-links li a {
   text-decoration: none;
   color: #fff;
+  display: inline-block;
 }
 
 .nav-avans ul.global-links li a.active {
