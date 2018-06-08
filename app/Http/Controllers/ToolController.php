@@ -63,13 +63,15 @@ class ToolController extends Controller
         $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->where('pinned', false)->get();
         $selectedTags = ($request->has('tags')) ? explode('+', $request->input('tags')) : null;
 
-        $sortOptions = SortOption::all();
-        $selectedSortOptions = ($request->has('sort') && count(explode('-', $request->input('sort'))) > 1) ? 
-            $request->input('sort') : implode('-', ['views_count', 'desc']);
+        if ($request->has('sortType'))
+            $selectedSortType = $request->input('sortType');
+        else
+            $selectedSortType = 'views_count';
 
-        $sortType = explode('-', $selectedSortOptions)[0];
-        $sortDirection = explode('-', $selectedSortOptions)[1];
-        $sortOptions->where('type', $sortType)->where('direction', $sortDirection)->first()->active = true;
+        if ($request->has('sortDirection'))
+            $selectedSortDirection = $request->input('sortDirection');
+        else
+            $selectedSortDirection = 'desc';
 
         $tools = Tool::publicTools();
 
@@ -100,12 +102,12 @@ class ToolController extends Controller
         }
 
         // Filter on sorting type, and paginate
-        if ($sortType == 'rating') {
+        if ($selectedSortType == 'rating') {
             // Creating an array of tools from the already filtered/searched tools
             $tools = $tools->get()->all();
 
             // This is split into two to increase performance, less comparisons
-            if ($sortDirection == 'asc') {
+            if ($selectedSortDirection == 'asc') {
                 usort($tools, function ($a, $b) {
                     if ($a->rating() > $b->rating()) {
                             return true;
@@ -128,7 +130,7 @@ class ToolController extends Controller
                 $slicedArray, count($tools), $this->itemsPerPage, $pageNumber, array('path' => $request->path())
             );
         } else {
-            $tools = $tools->orderBy($sortType, $sortDirection)->paginate($this->itemsPerPage);
+            $tools = $tools->orderBy($selectedSortType, $selectedSortDirection)->paginate($this->itemsPerPage);
         }
 
         Event::fire(new ViewPage('tools'));
@@ -136,11 +138,11 @@ class ToolController extends Controller
             return response()->json([
                 'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'allTags',
                 'pinnedTags', 'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions'))->render(),
-                'sorting' => view('partials.sorting', compact('selectedSortOptions', 'sortOptions'))->render()
+                'sorting' => view('partials.sorting', compact('selectedSortType', 'selectedSortDirection'))->render()
             ]);
         else
             return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'allTags', 'pinnedTags',
-                'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions', 'sortOptions'));
+                'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortType', 'selectedSortDirection'));
     }
 
     /**

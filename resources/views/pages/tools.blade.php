@@ -132,12 +132,11 @@
 @endsection
 
 @section('js')
-    <div id="sort" data-sort-type="{{ explode('-', $selectedSortOptions)[0] }}" data-sort-direction="{{ explode('-', $selectedSortOptions)[1] }}"></div>
     <script type="text/javascript">
         $(function() {
             /* Variables */
-            var sortType = $('#sort').data('sort-type'),
-                sortDirection = $('#sort').data('sort-direction');
+            let sortType = '{{ $selectedSortType }}'
+                sortDirection = '{{ $selectedSortDirection }}'
 
             /* Listeners */
             // Category checkboxes
@@ -190,13 +189,19 @@
 
             function setSortListeners() {
                 // Sort button clicked
-                $('.sort-dropdown .dropdown-item').on('click', function (e) {
+                $('#sort-type .dropdown-item').on('click', function (e) {
                     e.preventDefault();
 
                     sortType = $(this).data('sort-type');
+                    getTools(generateURL());
+                });
+                $('#sort-direction .dropdown-item').on('click', function (e) {
+                    e.preventDefault();
+
                     sortDirection = $(this).data('sort-direction');
                     getTools(generateURL());
                 });
+
             }
             setSortListeners();
 
@@ -220,8 +225,10 @@
                     urlParams.append('tags', tags.join("+"));
                 if (searchQuery)
                     urlParams.append('searchQuery', searchQuery);
-                if (sortType && sortDirection)
-                    urlParams.append('sort', sortType + "-" + sortDirection);
+                if (sortType)
+                    urlParams.append('sortType', sortType);
+                if (sortDirection)
+                    urlParams.append('sortDirection', sortDirection);
 
                 return $(location).attr('pathname') + (categories.length > 0 || tags.length > 0 || searchQuery) ? "?" + urlParams.toString() : "";
             }

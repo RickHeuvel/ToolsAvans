@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             ToolTagLookupTableSeeder::class,
             ToolTagTableSeeder::class,
             ToolViewTableSeeder::class,
-            SortOptionsTableSeeder::class,
             SettingsTableSeeder::class,
         ]);
 
