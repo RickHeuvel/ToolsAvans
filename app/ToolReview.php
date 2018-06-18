@@ -13,4 +13,8 @@ class ToolReview extends Model
     public function user()  {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function tool() {
+        return $this->belongsTo('App\Tool', 'tool_slug');
+    }
 }

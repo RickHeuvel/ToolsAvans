@@ -184,10 +184,20 @@
                                         @endfor
                                     </p>
                                     <div class="blockquote-footer">{{ $review->user->nickname }}</div>
+                                    @if (Auth::check() && Auth::user()->isAdmin())
+                                       <a data-toggle="modal" data-target="#removeReview{{$review->id}}Modal" class="btn btn-danger btn-avans mt-2">
+                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                       </a>
+                                    @endif
                                 </blockquote>
                             </div>
                         @endforeach
                     </div>
+                     @if (Auth::check() && Auth::user()->isAdmin())
+                        @foreach($tool->reviews->sortByDesc('created_at') as $review)
+                           @include('partials.modals.removereview')
+                        @endforeach
+                     @endif
                 @endif
             </div>
         </div>

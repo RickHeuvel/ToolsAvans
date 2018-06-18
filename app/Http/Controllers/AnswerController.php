@@ -54,7 +54,7 @@ class AnswerController extends Controller
             $user = User::findOrFail($question->user_id);
             MailController::sendMailable($mail, $user);
 
-            Session::flash('message', 'Je reactie is geplaatst');            
+            Session::flash('message', 'Je reactie is geplaatst');
             return redirect(route('tools.show', $slug) . '#vragen');
         }
     }
@@ -81,5 +81,20 @@ class AnswerController extends Controller
 
             return response()->json([], 404);
         }
+    }
+
+    /**
+     * Remove the specified resource
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $answer = ToolAnswer::findOrFail($id);
+        $answer->delete();
+
+        Session::flash('message', 'Antwoord succesvol verwijderd!');
+        return redirect(route('tools.show', $answer->question->tool_slug) . '#vragen');
     }
 }

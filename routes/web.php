@@ -16,7 +16,10 @@ Route::resources([
     'tools' => 'ToolController',
     'categories' => 'CategoryController',
     'tags' => 'TagController',
-    'tagcategories' => 'TagCategoryController'
+    'tagcategories' => 'TagCategoryController',
+    'questions' => 'QuestionController',
+    'answers' => 'AnswerController',
+    'reviews' => 'ReviewController',
 ]);
 
 /* Custom tool routes */
@@ -47,7 +50,7 @@ Route::post('tools/{tool}/{question}', 'AnswerController@store')->name('answer.s
 /* Authentication routes */
 Route::get('login', 'AuthController@redirectToProvider')->name('login');
 Route::get('login-callback', 'AuthController@handleProviderCallback')->name('register');
-Route::post('logout', 'AuthController@logout')->name('logout');
+Route::get('logout', 'AuthController@logout')->name('logout');
 
 /* Portal routes */
 Route::get('portal', 'PortalController@index')->name('portal');
@@ -62,5 +65,5 @@ Route::get('statistics/getdata', 'GraphController@getData')->name('graph.getData
 Route::get('statistics/gettools', 'GraphController@getTools')->name('graph.getTools');
 
 /* Contact routes*/
-Route::get('contact','ContactController@index')->name('contact.index');
-Route::post('contact','ContactController@sendQuestion')->name('contact.store');
+Route::get('contact', 'ContactController@index')->name('contact.index');
+Route::post('contact', 'ContactController@sendQuestion')->name('contact.store');

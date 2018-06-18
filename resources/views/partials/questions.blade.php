@@ -19,13 +19,19 @@
                 </div>
                 <div class="col-10 col-md-11 question-content">
                     <p class="title">{{ $question->title }}</p>
+                    @if (Auth::check() && Auth::user()->isAdmin())
+                        <a data-toggle="modal" data-target="#removeQuestion{{$question->id}}Modal" class="btn btn-danger btn-avans">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                        @include('partials.modals.removequestion')
+                    @endif
                     <p class="question-uploaded">Geplaatst op {{ $question->created_at->format('d F Y') }} door {{ $question->user->getRole() }} {{ $question->user->nickname }}</p>
                     <p class="text">{{ $question->text }}</p>
                     <p class="answercount">{{ $question->answers->count() }} Antwoord(en)</p>
                     <hr>
                 </div>
             </div>
-    
+
             @foreach($question->answers as $answer)
                 <div class="row">
                     <div class="col-12 col-md-11 offset-md-1">
@@ -46,6 +52,12 @@
                                 </div>
                                 <div class="col-10 col-md-11 answer-content">
                                     <p class="text">{{ $answer->text }}</p>
+                                    @if (Auth::check() && Auth::user()->isAdmin())
+                                        <a data-toggle="modal" data-target="#removeAnswer{{$answer->id}}Modal" class="btn btn-danger btn-avans">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                        @include('partials.modals.removeanswer')
+                                    @endif
                                     <p class="answer-uploaded">Geplaatst op {{ $answer->created_at->format('d F Y') }} door {{ $answer->user->getRole() }} {{ $answer->user->nickname }}</p>
                                 </div>
                             </div>

@@ -20,7 +20,7 @@ class CreateToolAnswersTable extends Migration
             $table->text('text');
             $table->timestamps();
 
-            $table->foreign('question_id')->references('id')->on('tool_questions')->onUpdate('cascade');
+            $table->foreign('question_id')->references('id')->on('tool_questions')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
         });
     }

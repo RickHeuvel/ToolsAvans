@@ -84,4 +84,19 @@ class ReviewController extends Controller
             return redirect(route('tools.show', $slug) . '#reviews');
         }
     }
+
+    /**
+     * Remove the specified resource
+     *
+     * @param  int  $slug
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $review = ToolReview::findOrFail($id);
+        $review->delete();
+
+        Session::flash('message', 'Review succesvol verwijderd!');
+        return redirect(route('tools.show', $review->tool_slug) . '#reviews');
+    }
 }

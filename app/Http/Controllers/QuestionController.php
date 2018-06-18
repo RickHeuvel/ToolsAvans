@@ -6,6 +6,7 @@ use App\Tool;
 use App\User;
 use App\ToolQuestion;
 use App\ToolQuestionUpvote;
+use App\ToolAnswer;
 use App\Mail\NewQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class QuestionController extends Controller
     {
         $tool = Tool::where('slug', $slug)->firstOrFail();
         $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
-        
+
         return view('pages.tool.question', compact('tool', 'questions'));
     }
 
@@ -65,7 +66,7 @@ class QuestionController extends Controller
             $user = User::findOrFail($tool->owner_id);
             MailController::sendMailable($mail, $user);
 
-            Session::flash('message', 'Je vraag is geplaatst');            
+            Session::flash('message', 'Je vraag is geplaatst');
             return redirect(route('tools.show', $slug) . '#vragen');
         }
     }
@@ -92,5 +93,20 @@ class QuestionController extends Controller
 
             return response()->json([], 404);
         }
+    }
+
+    /**
+     * Remove the specified resource
+     *
+     * @param  int  $slug
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $question = ToolQuestion::findOrFail($id);
+        $question->delete();
+
+        Session::flash('message', 'Vraag succesvol verwijderd!');
+        return redirect(route('tools.show', $question->tool_slug) . '#vragen');
     }
 }

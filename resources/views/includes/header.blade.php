@@ -14,25 +14,13 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav group mr-auto my-2 my-lg-0 text-center text-lg-left w-100">
                 <li class="mr-0 mr-lg-4 @if(Route::is('home')) active @endif"><a class="nav-item nav-link" href="{{ route('home') }}">Home</a></li>
-                <li class="mr-0 mr-lg-4 @if(Route::is('tools.index')) active @endif"><a class="nav-item nav-link" href="{{ route('tools.index') }}">Tools</a></li>
+                <li class="mr-0 mr-lg-4 @if(Route::is('tools.index')) active @endif"><a class="nav-item nav-link" href="{{ route('tools.index') }}">Alle Tools</a></li>
                 <!-- Authentication Links -->
                 @guest
                     <li class="mr-0 mr-lg-4"><a class="nav-link" href="{{ route('login') }}">Inloggen</a></li>
                 @else
                     <li class="mr-0 mr-lg-4 @if(Route::is('portal')) active @endif"><a class="nav-item nav-link" href="{{ route('portal') }}">Mijn portaal</a></li>
-                    <li class="mr-0 mr-lg-4 nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Uitloggen
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                    <li class="mr-0 mr-lg-4 "><a class="nav-item nav-link" href="{{ route('logout') }}">Uitloggen</a></li>
                 @endguest
                 <li class="mr-0 mr-lg-4"><a class="nav-link" href="{{ route('contact.index') }}">Contact</a></li>
             </ul>
