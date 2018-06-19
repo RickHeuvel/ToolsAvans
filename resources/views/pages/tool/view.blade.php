@@ -94,10 +94,13 @@
                             <div class="tool-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6 col-lg-8 text-center text-md-left mt-4 mt-md-0">
-                                        <h1>{{$tool->name}}</h1>
+                                        <h1 class="d-inline-block align-middle">{{$tool->name}}</h1>
                                         <p class="tool-category">in {{ $tool->category->name }} </p>
                                         <p class="text-muted tool-views mt-0">Geplaatst door {{ $tool->user->nickname }}</p>
-                                        <h1 class="d-inline-block align-middle">{{$tool->name}}</h1>{!! ($tool->teacherReviews->where('recommended', true)->count() > 0) ? '<div class="d-inline-block align-middle recommended"><i class="fa fa-certificate align-middle" data-toggle="tooltip" data-placement="right" title="Aanbevolen door een docent!"></i></div>' : '' !!}
+                                        {!! ($tool->teacherReviews->where('recommended', true)->count() > 0) ? '
+                                        <div class="d-inline-block align-middle recommended">
+                                            <i class="fa fa-certificate align-middle" data-toggle="tooltip" data-placement="right" title="Aanbevolen door een docent!"></i>
+                                        </div>' : '' !!}
                                         <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 text-center text-md-right">
@@ -110,14 +113,12 @@
                                     </div>
                                 </div>
                                 <p>{{$tool->description}}</p>
-                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
-                                <hr>
                                 @if (auth()->check() && !auth()->user()->isEmployee() && empty($userReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
                                 @else
                                     <a target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
                                 @endif
-                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
+                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y')}}</p>
                                 <hr>
                                 @if (count($tool->tags) > 0)
                                     @foreach($tool->tags as $toolTag)
