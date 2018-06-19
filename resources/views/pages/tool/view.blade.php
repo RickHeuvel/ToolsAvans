@@ -115,12 +115,19 @@
                                     </div>
                                 </div>
                                 <p>{{$tool->description}}</p>
-                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
-                                <hr>
                                 @if (Auth::check() && empty($curUserReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
                                 @else
                                     <a target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
+                                @endif
+                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
+                                <hr>
+                                @if (count($tool->tags) > 0)
+                                    @foreach($tool->tags as $toolTag)
+                                        <a href="{{ route('tools.index') }}?tags={{ $toolTag->slug }}" class="badge badge-light mb-1">{{ $toolTag->name }}</a>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">Deze tool heeft geen tags :(</p>
                                 @endif
                             </div>
                         </div>
@@ -137,9 +144,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#reviews">Reviews</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tags">Tags</a>
                     </li>
                      <li>
                        <a class="nav-link" href="#alternative-tools">Alternative tools</a>
@@ -198,19 +202,6 @@
                            @include('partials.modals.removereview')
                         @endforeach
                      @endif
-                @endif
-            </div>
-        </div>
-        <hr class="mt-4">
-        <div class="row pb-1">
-            <div class="tool-specs col-12">
-                <h2 id="tags" class="mb-4">Tags</h2>
-                @if (count($tool->tags) > 0)
-                    @foreach($tool->tags as $toolTag)
-                        <span class="badge badge-light mb-1">{{ $toolTag->name }}</span>
-                    @endforeach
-                @else
-                    <p class="text-muted">Deze tool heeft geen tags :(</p>
                 @endif
             </div>
         </div>
