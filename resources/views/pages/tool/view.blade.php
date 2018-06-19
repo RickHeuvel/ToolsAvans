@@ -94,6 +94,9 @@
                             <div class="tool-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6 col-lg-8 text-center text-md-left mt-4 mt-md-0">
+                                        <h1>{{$tool->name}}</h1>
+                                        <p class="tool-category">in {{ $tool->category->name }} </p>
+                                        <p class="text-muted tool-views mt-0">Geplaatst door {{ $tool->user->nickname }}</p>
                                         <h1 class="d-inline-block align-middle">{{$tool->name}}</h1>{!! ($tool->teacherReviews->where('recommended', true)->count() > 0) ? '<div class="d-inline-block align-middle recommended"><i class="fa fa-certificate align-middle" data-toggle="tooltip" data-placement="right" title="Aanbevolen door een docent!"></i></div>' : '' !!}
                                         <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
                                     </div>
