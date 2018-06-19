@@ -9,6 +9,7 @@ use App\Setting;
 use App\ToolStatus;
 use App\ToolView;
 use App\ToolReview;
+use App\ToolAcademy;
 use App\ToolCategory;
 use App\Tag;
 use App\TagCategory;
@@ -37,6 +38,7 @@ class PortalController extends Controller
     public function index(Request $request)
     {
         $myTools = Tool::where('owner_id', Auth::user()->id)->orderBy('slug')->get();
+        $academies = ToolAcademy::all();
         if (Auth::user()->isAdmin()) {
             $statuses = ToolStatus::all();
             if ($request->has('statuses'))
@@ -61,11 +63,11 @@ class PortalController extends Controller
 
             Event::fire(new ViewPage('portal'));
             return view('pages.portal', compact('myTools', 'categories', 'tools', 'unjudgedTools', 'users',
-                'settings', 'statuses', 'selectedStatuses', 'tags', 'tagCategories', 'allTools'));
+                'settings', 'statuses', 'selectedStatuses', 'tags', 'tagCategories', 'allTools', 'academies'));
         } else {
             $myConceptTools = $myTools->where('status_slug', 'concept');
 
-            return view('pages.portal', compact('myTools', 'myConceptTools'));
+            return view('pages.portal', compact('myTools', 'myConceptTools', 'academies'));
         }
     }
 }

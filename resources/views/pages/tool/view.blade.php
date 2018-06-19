@@ -129,6 +129,11 @@
                                 @else
                                     <p class="text-muted">Deze tool heeft geen tags :(</p>
                                 @endif
+                                @if (count($tool->academies) > 0)
+                                   @foreach($tool->academies as $academy)
+                                      <a href="{{ route('tools.index') }}?academies={{ $academy->slug }}" class="badge badge-light mb-1">{{ $academy->name }}</a>
+                                   @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ use Socialite;
 use Auth;
 use Session;
 use App\User;
+use Log;
 
 class AuthController extends Controller
 {
@@ -47,19 +48,13 @@ class AuthController extends Controller
 
     /**
      * Handle successful login attempt
-     *
      * @return Redirect
      */
     public function handleProviderCallback()
     {
         $user = Socialite::driver($this->provider)->user();
-        $authUser = $this->findOrCreateUser($user);
-        Auth::login($authUser, true);
-
-        if (Session::has('redirectUrl'))
-            return redirect(Session::get('redirectUrl'));
-        else
-            return redirect()->route('portal');
+        $redirect = $this->login($user);
+        return $redirect;
     }
 
     /**
@@ -69,10 +64,19 @@ class AuthController extends Controller
      */
     public function login($user)
     {
-        $authUser = $this->findOrCreateUser($user);
-        Auth::login($authUser, true);
-
-        return redirect()->route('portal');
+        $authUser = User::where('provider_id', $user->id)->first();
+        
+        if ($authUser) {
+            Auth::login($authUser, true);
+            if (Session::has('redirectUrl'))
+                return redirect(Session::get('redirectUrl'));
+            else
+                return redirect()->route('portal');
+        } else {
+            $authUser = $this->createUser($user);
+            Auth::login($authUser, true);
+            return redirect()->route('users.completeprofile');
+        }
     }
 
     /**
@@ -82,12 +86,8 @@ class AuthController extends Controller
      *
      * @return User
      */
-    public function findOrCreateUser($user)
+    public function createUser($user)
     {
-        $authUser = User::where('provider_id', $user->id)->first();
-        if ($authUser)
-            return $authUser;
-
         return User::create([
             'name'        => $user->name,
             'email'       => $user->email,

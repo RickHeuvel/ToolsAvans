@@ -61,7 +61,9 @@
             <li class="nav-item">
                 <a class="nav-link" id="mytools-tab" data-toggle="tab" href="#mytools" role="tab" aria-controls="mytools" aria-selected="true">Mijn tools</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Mijn Profiel</a>
+            </li>
             @if (auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link" id="tools-tab" data-toggle="tab" href="#tools" role="tab" aria-controls="tools" aria-selected="false">Alle tools</a>
@@ -93,6 +95,33 @@
                     <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken.</p>
                     <p>Of help de ToolHub community door tools die je al kent sterren te geven op de <a href="{{route('tools.index')}}">tools</a> pagina!</p>
                 @endif
+            </div>
+
+            <div class="tab-pane pt-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-academy-tab" data-toggle="pill" href="#academy" role="tab" aria-controls="v-pills-academy" aria-selected="true">Academie</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="academy" role="tabpanel" aria-labelledby="v-pills-academy">
+                                {{ Form::open(['route' => 'users.updateacademy', 'method' => 'PUT']) }}
+                                <div class="form-group row">
+                                    {{ Form::label('useracademy', 'Jouw academie', ['class' => 'col-3']) }}
+                                    <div class="col-9">
+                                        {{ Form::select('useracademy', $academies->pluck('name', 'slug'),
+                                        (!empty(Auth::user()->academy_slug)) ? Auth::user()->academy_slug : null,
+                                    ['class' => 'select2', 'placeholder' => 'Geen academie', 'autocomplete' => 'off']) }}
+                                    </div>
+                                </div>
+                                {{ Form::submit('Opslaan', ['class' => 'btn btn-danger btn-avans']) }}
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             @if (auth()->user()->isAdmin())

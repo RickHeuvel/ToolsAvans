@@ -55,7 +55,6 @@ Route::get('logout', 'AuthController@logout')->name('logout');
 /* Portal routes */
 Route::get('portal', 'PortalController@index')->name('portal');
 Route::get('portal/sendmail', 'JudgingController@sendmail')->name('sendmail');
-Route::put('users/updateadmins', 'UserController@updateAdmins')->name('users.updateadmins');
 Route::post('settings', 'SettingController@store')->name('settings.store');
 Route::put('settings/updateconceptmail', 'SettingController@updateConceptMail')->name('settings.updateconceptmail');
 Route::put('settings/updatesettings', 'SettingController@updateSettings')->name('settings.updatesettings');
@@ -67,3 +66,9 @@ Route::get('statistics/gettools', 'GraphController@getTools')->name('graph.getTo
 /* Contact routes*/
 Route::get('contact', 'ContactController@index')->name('contact.index');
 Route::post('contact', 'ContactController@sendQuestion')->name('contact.store');
+
+/* User routes */
+Route::get('users/completeprofile', 'UserController@completeprofile')->name('users.completeprofile');
+Route::post('users/storeprofile', 'UserController@storeprofile')->name('users.storeprofile');
+Route::put('users/updateacademy', 'UserController@updateAcademy')->name('users.updateacademy');
+Route::put('users/updateadmins', 'UserController@updateAdmins')->name('users.updateadmins');
