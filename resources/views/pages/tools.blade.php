@@ -67,28 +67,48 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="col-12 mb-3">
-                                <p class="mb-2"><strong>Gepinde tags</strong></p>
-                                @foreach($pinnedTags as $tag)
-                                    <div class="form-check mb-1">
-                                        @if (!empty($selectedTags))
-                                            <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
-                                        @else
-                                            <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
-                                        @endif
-                                        <label class="form-check-label" for="tag{{$tag->slug}}">
-                                            {{$tag->name}}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="mb-2"><strong>Academies</strong></p>
+                        @foreach($academies as $academy)
+                            <div class="form-check mb-1">
+                                @if (!empty($selectedAcademies))
+                                    <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}" {{ in_array($academy->slug, $selectedAcademies) ? "checked" : "" }}>
+                                @else
+                                    <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}">
+                                @endif
+                                <label class="form-check-label" for="aca{{$academy->slug}}">
+                                    {{$academy->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="mb-2"><strong>Gepinde tags</strong></p>
+                        @foreach($pinnedTags as $tag)
+                            <div class="form-check mb-1">
+                                @if (!empty($selectedTags))
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}" {{ in_array($tag->slug, $selectedTags) ? "checked" : "" }}>
+                                @else
+                                    <input class="form-check-input" name="tag[]" type="checkbox" value="{{$tag->slug}}" id="tag{{$tag->slug}}">
+                                @endif
+                                <label class="form-check-label" for="tag{{$tag->slug}}">
+                                    {{$tag->name}}
+                                </label>
+                             </div>
+                         @endforeach
                     </div>
                     <div class="col-6 col-md-12">
                         <p class="mb-2"><strong>Overige tags</strong></p>
                         @foreach($tagCategories as $tagCategory)
                             <div class="d-block mb-1">
-                            @if($tagCategory->toolTags->count())
+                            @if($tagCategory->toolTags->where('category_slug', '!=', 'academie')->count())
                                 <a data-toggle="collapse" data-target="#{{ $tagCategory->slug }}" aria-expanded="false" class="mb-2 collapsed tag-list"><i class="fa fa-chevron-right chevron"></i> {{ $tagCategory->name }}</a>
                                 <div id="{{ $tagCategory->slug }}" class="pl-4 collapse">
                                     @foreach($tagCategory->toolTags as $tag)
@@ -142,16 +162,21 @@
             // Category checkboxes
             $('input[name="cat[]"]').on('change', function (e) {
                 e.preventDefault();
-
                 getTools(generateURL());
             });
 
             // Tag checkboxes
             $('input[name="tag[]"]').on('change', function (e) {
                 e.preventDefault();
-
                 getTools(generateURL());
             });
+            
+            // Academy checkboxes
+            $('input[name="aca[]"]').on('change', function (e) {
+                e.preventDefault();
+                getTools(generateURL());
+            });
+
 
             // Search input field
             $('input[name="searchQuery"]').on('change', function (e) {
@@ -208,7 +233,8 @@
             /* Functions */
             function generateURL() {
                 var categories = [];
-                var  tags = [];
+                var tags = [];
+                var academies = [];
                 $('input[name="cat[]"]:checked').each(function() {
                     categories.push($(this).val());
                 });
@@ -216,6 +242,11 @@
                 $('input[name="tag[]"]:checked').each(function() {
                     tags.push($(this).val());
                 });
+                
+                $('input[name="aca[]"]:checked').each(function() {
+                    academies.push($(this).val());
+                });
+
                 searchQuery = $('input[name="searchQuery"]').val();
 
                 var urlParams = new URLSearchParams();
@@ -223,6 +254,8 @@
                     urlParams.append('categories', categories.join("+"));
                 if (tags.length > 0)
                     urlParams.append('tags', tags.join("+"));
+                if (academies.length > 0)
+                    urlParams.append('academies', academies.join("+"));
                 if (searchQuery)
                     urlParams.append('searchQuery', searchQuery);
                 if (sortType)

@@ -15,6 +15,7 @@ use App\ToolImage;
 use App\SortOption;
 use App\ToolReview;
 use App\ToolStatus;
+use App\ToolAcademy;
 use App\ToolCategory;
 use App\ToolQuestion;
 use App\ToolAnswer;
@@ -57,11 +58,13 @@ class ToolController extends Controller
         $categories = ToolCategory::all();
         $selectedCategories = ($request->has('categories')) ? explode('+', $request->input('categories')) : null;
 
-        $allTags = ToolTag::usedTags()->get();
+        $allTags = ToolTag::all();
+        $academies = ToolAcademy::all();
         $pinnedTags = ToolTag::usedTags()->where('pinned', true)->get();
         $tagCategories = TagCategory::all();
         $tagsWithoutCategory = ToolTag::usedTags()->doesntHave('category')->where('pinned', false)->get();
         $selectedTags = ($request->has('tags')) ? explode('+', $request->input('tags')) : null;
+        $selectedAcademies = ($request->has('academies')) ? explode('+', $request->input('academies')) : null;
 
         if ($request->has('sortType'))
             $selectedSortType = $request->input('sortType');
@@ -78,7 +81,12 @@ class ToolController extends Controller
         if ($request->has('categories')){
             $tools = $tools->whereIn('category_slug', $selectedCategories);
         }
-        if($request->has('tags')){
+        if ($request->has('academies')){
+            $tools = $tools->whereHas('academies', function ($query) use ($selectedAcademies) {
+                $query->whereIn('slug', $selectedAcademies);
+            });
+        }
+        if ($request->has('tags')){
             $tools = $tools->whereHas('tags', function ($query) use ($selectedTags) {
                 // $query is now in tags
                 $query->whereIn('slug', $selectedTags);
@@ -136,13 +144,12 @@ class ToolController extends Controller
         Event::fire(new ViewPage('tools'));
         if ($request->ajax())
             return response()->json([
-                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'allTags',
-                'pinnedTags', 'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions'))->render(),
+                'tools' => view('partials.tools', compact('tools', 'categories', 'selectedCategories', 'allTags', 'academies',
+                'selectedAcademies', 'pinnedTags', 'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortOptions'))->render(),
                 'sorting' => view('partials.sorting', compact('selectedSortType', 'selectedSortDirection'))->render()
             ]);
-        else
-            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'allTags', 'pinnedTags',
-                'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortType', 'selectedSortDirection'));
+            return view('pages.tools', compact('tools', 'categories', 'selectedCategories', 'allTags', 'academies', 'selectedAcademies', 
+            'pinnedTags', 'tagCategories', 'tagsWithoutCategory', 'selectedTags', 'selectedSortType', 'selectedSortDirection'));
     }
 
     /**
@@ -152,9 +159,10 @@ class ToolController extends Controller
      */
     public function create()
     {
-        $tags = ToolTag::pluck('name', 'slug');
+        $tags = ToolTag::where('category_slug', '!=', 'academie')->pluck('name', 'slug');
+        $academies = ToolAcademy::pluck('name', 'slug');
         $categories = ToolCategory::pluck('name', 'slug');
-        return view('pages.tool.create', compact('categories', 'tags'));
+        return view('pages.tool.create', compact('categories', 'tags', 'academies'));
     }
 
     /**
@@ -217,6 +225,14 @@ class ToolController extends Controller
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
                     $tool->tags()->attach($tag);
+                }
+            }
+
+            // Creating new records for academies
+            $academies = $request->input('academies');
+            if (!empty($academies)) {
+                foreach ($academies as $academy) { 
+                    $tool->academies()->attach($academy);
                 }
             }
 
@@ -291,9 +307,10 @@ class ToolController extends Controller
         }
 
         $users = User::pluck('nickname', 'id');
-        $tags = ToolTag::pluck('name', 'slug');
+        $tags = ToolTag::usedTags()->pluck('name','slug');
+        $academies = ToolAcademy::pluck('name','slug');
         $categories = ToolCategory::pluck('name','slug');
-        return view('pages.tool.edit', compact('tool', 'users', 'categories', 'tags'));
+        return view('pages.tool.edit', compact('tool', 'users', 'categories', 'academies', 'tags'));
     }
 
     /**
@@ -396,6 +413,17 @@ class ToolController extends Controller
             if (!empty($tags)) {
                 foreach ($tags as $tag) {
                     $tool->tags()->attach($tag);
+                }
+            }
+            
+            // Deleting all academies from tool
+            $tool->academies()->detach();
+
+            // Creating new records for academies
+            $academies = $request->input('academies');
+            if (!empty($academies)) {
+                foreach ($academies as $academy) { 
+                    $tool->academies()->attach($academy);
                 }
             }
 

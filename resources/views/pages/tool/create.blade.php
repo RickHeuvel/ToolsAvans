@@ -65,6 +65,11 @@
         </div>
 
         <div class="form-group">
+            {{ Form::label('academies', 'Academies *') }}
+            {{ Form::select('tag-dropdown', $academies, old('academies'), ['class' => 'select2 w-100 tags-dropdown', 'multiple' => 'multiple', 'name' => 'academies[]']) }}
+        </div>
+
+        <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}
             {{ Form::select('tag-dropdown', $tags,old('tags'),['class' => 'select2 w-100 tags-dropdown', 'multiple' => 'multiple', 'name' => 'tags[]']) }}
         </div>

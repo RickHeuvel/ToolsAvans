@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             ToolTagTableSeeder::class,
             ToolViewTableSeeder::class,
             SettingsTableSeeder::class,
+            AcademyLookupTableSeeder::class,
+            ToolAcademyTableSeeder::class
         ]);
 
         if (!App::environment('production')) {
@@ -31,7 +33,7 @@ class DatabaseSeeder extends Seeder
                 ToolQuestionTableSeeder::class,
                 ToolAnswerTableSeeder::class,
                 PageViewTableSeeder::class,
-                ToolOutdatedReportsTableSeeder::class
+                ToolOutdatedReportsTableSeeder::class,
             ]);
         }
     }

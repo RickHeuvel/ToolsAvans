@@ -35,5 +35,10 @@ class TagCategoryTableSeeder extends Seeder
             'slug' => 'typeles',
             'name' => 'Type les',
         ]);
+
+        DB::table('tag_category')->insert([
+            'slug' => 'academie',
+            'name' => 'Academie',
+        ]);
     }
 }

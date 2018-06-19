@@ -1,7 +1,7 @@
 @if (Route::currentRouteName() == "tools.index" || Route::currentRouteName() == "portal")
     <div class="row mb-3">
         <div class="col-12">
-            @if ((!empty($selectedCategories) && count($selectedCategories) > 0) || (!empty($selectedTags) && count($selectedTags) > 0))
+            @if ((!empty($selectedCategories) && count($selectedCategories) > 0) || (!empty($selectedTags) && count($selectedTags) > 0) || !empty($selectedAcademies) && count($selectedAcademies) > 0)
                 <p class="mb-2">Actieve filters:</p>
                 @if(!empty($selectedCategories) && count($selectedCategories) > 0)
                     @foreach($categories as $category)
@@ -14,6 +14,13 @@
                     @foreach($allTags as $tag)
                         @if (in_array($tag->slug, $selectedTags))
                             <button type="button" id="btn{{$tag->slug}}" data-slug="{{$tag->slug}}" class="btn btn-light filter-button">{{ in_array($tag->slug, $selectedTags) ? $tag->name : ""}} <span class="badge">X</span></button>
+                        @endif
+                    @endforeach
+                @endif
+                @if(!empty($selectedAcademies) && count($selectedAcademies) > 0)
+                    @foreach($academies as $academy)
+                        @if (in_array($academy->slug, $selectedAcademies))
+                            <button type="button" id="btn{{$academy->slug}}" data-slug="{{$academy->slug}}" class="btn btn-light filter-button">{{ in_array($academy->slug, $selectedAcademies) ? $academy->name : ""}} <span class="badge">X</span></button>
                         @endif
                     @endforeach
                 @endif

@@ -98,6 +98,11 @@
                 </div>
             </div>
         </div>
+        
+        <div class="form-group">
+            {{ Form::label('academies', 'Academies *') }}
+            {{ Form::select('academies', $academies, old('academies'), ['class' => 'select2 w-100', 'multiple' => 'multiple', 'name' => 'academies[]']) }}
+        </div>
 
         <div class="form-group">
             {{ Form::label('tags', 'Tags *') }}

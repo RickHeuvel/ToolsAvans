@@ -43,6 +43,11 @@ class Tool extends Model
         return $this->belongsToMany('App\ToolTag', 'tool_tags', 'tool_slug', 'tag_slug');
     }
 
+    public function academies()
+    {
+        return $this->belongsToMany('App\ToolAcademy', 'tool_academy', 'tool_slug', 'academy_slug');
+    }
+
     public function feedback() {
         return $this->hasOne('App\ToolFeedback', 'tool_slug');
     }
