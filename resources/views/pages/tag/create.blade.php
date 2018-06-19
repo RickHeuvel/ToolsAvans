@@ -28,12 +28,26 @@
         {{ Form::open(['route' => 'tags.store', 'class' => 'form-horizontal']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Naam  *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('name', 'Naam  *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Voer hier de naam van de tag in.">?</span>
+                </div>
+            </div>
             {{ Form::text('name', old('name'), ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('category', 'Tag categorie') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('category', 'Tag categorie') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Selecteer hier de tag categorie waar deze tag bij hoort.">?</span>
+                </div>
+            </div>
             {{ Form::select('category', $tagCategories,null,['placeholder' => 'Geen tag categorie','class' => 'select2 w-100']) }}
         </div>
 

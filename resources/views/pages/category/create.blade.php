@@ -28,7 +28,14 @@
         {{ Form::open(['route' => 'categories.store']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Naam  *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('name', 'Naam  *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Voer hier de naam van de nieuwe categorie in.">?</span>
+                </div>
+            </div>
             {{ Form::text('name', old('name'), ['class' => 'form-control']) }}
         </div>
 

@@ -55,7 +55,14 @@
 
         <div class="row">
             <div class="col-lg-3 col-md-4">
-                {{ Form::label('logo', 'Logo *') }}
+                <div class="row">
+                    <div class="col">
+                        {{ Form::label('logo', 'Logo *') }}
+                    </div>
+                    <div class="col">
+                        <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="upload hier het logo van de tool.">?</span>
+                    </div>
+                </div>
                 <div id="logo-uploader" class="dropzone">
                     <div class="fallback">
                         <input name="file" type="file" multiple />
@@ -66,7 +73,14 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            {{ Form::label('name', 'Naam van de Tool *') }}
+                            <div class="row">
+                                <div class="col">
+                                    {{ Form::label('name', 'Naam van de Tool *') }}
+                                </div>
+                                <div class="col" align="right">
+                                    <span class="badge badge-pill badge-light" align="right" data-toggle="tooltip" data-placement="top" title="Selecteer de gewenste eigenaar van de tool.">?</span>
+                                </div>
+                            </div>
                             {{ Form::text('name', $tool->name, ['class' => 'form-control']) }}
                         </div>
                     </div>
@@ -75,7 +89,14 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        {{ Form::label('owner', 'Eigenaar *') }}
+                        <div class="row">
+                            <div class="col">
+                                {{ Form::label('owner', 'Eigenaar *') }}
+                            </div>
+                            <div class="col" align="right">
+                                <span class="badge badge-pill badge-light" align="right" data-toggle="tooltip" data-placement="top" title="vul hier de naam van de tool in.">?</span>
+                            </div>
+                        </div>
                         {{ Form::select('owner', $users, $tool->user->id,
                             ['class' => 'select2 w-100' ]) }}
                     </div>
@@ -88,11 +109,25 @@
         <div class="form-group">
             <div class="row">
                 <div class="col">
-                  {{ Form::label('url', 'Url *') }}
+                    <div class="row">
+                        <div class="col">
+                            {{ Form::label('url', 'Url *') }}
+                        </div>
+                        <div class="col" align="right">
+                            <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Vul hier de url als volgt in http://www.website.nl">?</span>
+                        </div>
+                    </div>
                   {{ Form::text('url', $tool->url, ['class' => 'form-control']) }}
                 </div>
                 <div class="col">
-                    {{ Form::label('category', 'Categorie *') }}
+                    <div class="row">
+                        <div class="col">
+                            {{ Form::label('category', 'Categorie *') }}
+                        </div>
+                        <div class="col" align="right">
+                            <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Selecteer de categorie waar te tool bij hoort.">?</span>
+                        </div>
+                    </div>
                     {{ Form::select('category', $categories, $tool->category_slug,
                         ['class' => 'select2 w-100']) }}
                 </div>
@@ -100,21 +135,49 @@
         </div>
         
         <div class="form-group">
-            {{ Form::label('academies', 'Academies *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('academies', 'Academies *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Selecteer academies waar deze tool relevant voor is.">?</span>
+                </div>
+            </div>
             {{ Form::select('academies', $academies, old('academies'), ['class' => 'select2 w-100', 'multiple' => 'multiple', 'name' => 'academies[]']) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('tags', 'Tags *') }}
-            {{ Form::select('tags', $tags,old('tags'),['class' => 'select2 w-100', 'multiple' => 'multiple', 'name' => 'tags[]']) }}
-        </div>
-
-        <div class="form-group">
-            {{ Form::label('description', 'Beschrijving *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('description', 'Beschrijving *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Geef een uitgebreide beschrijving van de tool.">?</span>
+                </div>
+            </div>
             {{ Form::textarea('description', $tool->description, ['class' => 'form-control']) }}
         </div>
 
-        {{ Form::label('images', 'Plaatjes * minimaal 2, maximaal 7') }}
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('tags', 'Tags *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Selecteer de tags die bij deze tool passen.">?</span>
+                </div>
+            </div>
+            {{ Form::select('tags', $tags,old('tags'),['class' => 'select2 w-100', 'multiple' => 'multiple', 'name' => 'tags[]']) }}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ Form::label('images', 'Plaatjes * minimaal 2, maximaal 7') }}
+            </div>
+            <div class="col" align="right">
+                <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Upload hier minimaal 2 en maximaal 7 afbeeldingen van de tool.">?</span>
+            </div>
+        </div>
         <div id="image-uploader" class="dropzone">
             <div class="fallback">
                 <input name="file" type="file" multiple />

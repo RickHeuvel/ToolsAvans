@@ -32,7 +32,14 @@
         {{ Form::model($category, ['route' => ['categories.update', $category->slug], 'method' => 'PUT']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Naam *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('name', 'Naam *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Voer hier de nieuwe categorie naam in.">?</span>
+                </div>
+            </div>
             {{ Form::text('name', $category->name, ['class' => 'form-control']) }}
         </div>
         

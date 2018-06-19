@@ -32,12 +32,26 @@
         {{ Form::model($tag, ['route' => ['tags.update', $tag->slug], 'method' => 'PUT']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Naam  *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('name', 'Naam  *') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Voer hier de nieuwe naam van de tag in.">?</span>
+                </div>
+            </div>
             {{ Form::text('name', $tag->name, ['class' => 'form-control']) }}
         </div>
 
         <div class="form-group">
-            {{ Form::label('category', 'Tag categorie  *') }}
+            <div class="row">
+                <div class="col">
+                    {{ Form::label('category', 'Tag categorie') }}
+                </div>
+                <div class="col" align="right">
+                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Selecteer hier de nieuwe tag categorie waar deze tag bij hoort.">?</span>
+                </div>
+            </div>
             {{ Form::select('category', $tagCategories, $tag->category, ['class' => 'select2 w-100']) }}
         </div>
 

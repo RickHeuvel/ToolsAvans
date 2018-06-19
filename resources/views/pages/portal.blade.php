@@ -143,7 +143,10 @@
                                 <div class="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="v-pills-categories">
                                     <div class="row">
                                         <div class="col-12 pb-3">
-                                            <h2>Categorieën</h2>
+                                                <div class="row">
+                                                    <h2>Categorieën</h2>
+                                                    <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Hier kan je de beschikbare categorieën instellen.">?</span>
+                                                </div>
                                         </div>
                                     </div>
                                     @foreach($categories as $category)
@@ -171,7 +174,10 @@
                                 <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="v-pills-tags-tab">
                                     <div class="row">
                                         <div class="col-12 pb-3">
-                                            <h2>Tags</h2>
+                                            <div class="row">
+                                                <h2>Tags</h2>
+                                                <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Hier kan worden ingesteld welke tags er aan een tool toegevoegd kunnen worden">?</span>
+                                            </div>
                                         </div>
                                     </div>
                                     @foreach($tags as $tag)
@@ -199,7 +205,10 @@
                                 <div class="tab-pane fade" id="tagcategories" role="tabpanel" aria-labelledby="v-pills-tagcategories-tab">
                                     <div class="row">
                                         <div class="col-12 pb-3">
-                                            <h2>Tag categorieën</h2>
+                                            <div class="row">
+                                                <h2>Tag categorieën</h2>
+                                                <span class="badge badge-pill badge-light" data-toggle="tooltip" data-placement="top" title="Een tag categorie is een verzameling van tags die passen in dezelfde context. De tag categorie kan bijvoorbeeld “Prijs” zijn. In de prijs categorie kunnen de tags “betaald”, “gratis” en “abonnement” staan.">?</span>
+                                            </div>
                                         </div>
                                     </div>
                                     @foreach($tagCategories as $tagCategory)
