@@ -115,8 +115,9 @@
                                     @endif
 
                                 @else
+                                <a href="{{ route('tools.show', $tool->slug) }}" class="btn btn-danger btn-avans">Meer informatie</a>
                                     @if (auth()->check() && !auth()->user()->isEmployee() && $tool->reviews->where('user_id', Auth::id())->count() == 0)
-                                        <a target="_blank" id="url-{{$tool->slug}}" data-enabled="true" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                        <a target="_blank" id="url-{{$tool->slug}}" data-enabled="true" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek website</a>
                                         @section('js')
                                             @parent
                                             <script>
@@ -124,9 +125,8 @@
                                             </script>
                                         @endsection
                                     @else
-                                        <a target="_blank" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                        <a target="_blank" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek website</a>
                                     @endif
-                                    <a href="{{ route('tools.show', $tool->slug) }}" class="btn btn-danger btn-avans">Meer informatie</a>
                                 @endif
                             </div>
                         </div>

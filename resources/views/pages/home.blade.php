@@ -8,14 +8,25 @@ home
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="bg-white py-3 px-4 my-3 d-block d-lg-flex text-center text-lg-left">
-            <h4 class="mb-0 align-middle py-1 d-block d-lg-inline-block">Welkom bij ToolHub!</h4>
-            <div class="ml-auto">
-                <h4 class="mb-2 mb-md-0 align-middle py-1 d-block d-lg-inline-block">Bekijk tools in:</h4>
-                @foreach($categories as $category)
-                    <a href="{{ route('tools.index') }}?categories={{ $category->slug }}" class="btn btn-white btn-avans ml-2 mb-2 mb-md-0">{{ $category->name }}</a>
-                @endforeach
+<div class="container">
+        <div class="bg-white px-3 py-2 my-2">
+            <div class="row">
+                <div class="col-5">
+                    <div class="input-group">
+                        <input class="form-control" name="searchQuery" type="search" placeholder="Zoeken naar tools..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button id="searchButton" class="btn btn-outline-dark" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 pl-0 text-right">
+                    <h4 class="mb-2 mb-md-0 py-1 d-block d-lg-inline-block">Bekijk tools in:</h4>
+                    @foreach($categories as $category)
+                        <a href="{{ route('tools.index') }}?categories={{ $category->slug }}" class="btn btn-white btn-avans ml-2 mb-2 mb-md-0">{{ $category->name }}</a>
+                    @endforeach
+                </div>
             </div>
         </div>
         @if($heroTools->count() > 0)
@@ -270,6 +281,17 @@ home
             touchDrag: false,
             mouseDrag: false,
             dots: false,
+        });
+        $('#searchButton').on('click', function (e) {
+            e.preventDefault();
+            window.location = '{{ route('tools.index') }}' + '?searchQuery=' +
+                $('input[name="searchQuery"]').val();
+        });
+        // Doesn't work, idk why
+        $('input[name="searchQuery"]').on('change', function (e) {
+            e.preventDefault();
+            window.location = '{{ route('tools.index') }}' + '?searchQuery=' +
+                $('input[name="searchQuery"]').val();
         });
     </script>
 @endsection

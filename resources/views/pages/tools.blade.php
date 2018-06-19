@@ -4,15 +4,18 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="container">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tools</li>
-                    </ol>
-                </nav>
+<div class="container">
+        <div class="row">
+            <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tools</li>
+                        </ol>
+                    </nav>
+            </div>
+            <div class="col text-right py-1">
+                <a href="{{ route('tools.create') }}" class="btn btn-avans tool-add">Tool toevoegen</a>
             </div>
         </div>
     </div>
