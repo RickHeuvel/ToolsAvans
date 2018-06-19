@@ -253,8 +253,6 @@ ul.nav li.active a {
   padding: 8px;
 }
 
-
-
 .align-right-top {
   position: absolute;
   top: 0;
@@ -439,13 +437,11 @@ ul.pagination {
   margin-bottom: 5px;
   font-size: 14px;
 }
-.badge-light{
+.badge-light {
   background-color: #eee;
-  font-size: 12px;
-  width: 20px;
-  height: 20px;;
+  padding: 8px;
+  font-size: 14px;
 }
-
 .tool {
   background: $gray;
   img {

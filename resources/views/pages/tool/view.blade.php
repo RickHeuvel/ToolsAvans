@@ -124,7 +124,7 @@
                                 <hr>
                                 @if (count($tool->tags) > 0)
                                     @foreach($tool->tags as $toolTag)
-                                        <a href="{{ route('tools.index') }}?tags={{ $toolTag->slug }}" class="badge badge-light mb-1">{{ $toolTag->name }}</a>
+                                        <a href="{{ route('tools.index') }}?tags={{ $toolTag->slug }}"><span class="badge badge-light mb-1">{{ $toolTag->name }}</span></a>
                                     @endforeach
                                 @else
                                     <p class="text-muted">Deze tool heeft geen tags :(</p>
