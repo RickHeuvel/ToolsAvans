@@ -41,6 +41,7 @@
     @endif
 @endif
 @foreach($tools as $tool)
+    @php($userReview = (Auth::check()) ? (Auth::user()->isEmployee()) ? $tool->teacherReviews->where('user_id', Auth::id())->first() : $tool->reviews->where('user_id', Auth::id())->first() : null)
     <div class="row">
         <div class="col-12">
             <div class="tool mb-4">
@@ -73,46 +74,14 @@
                         <div class="tool-body pl-3 pl-md-0">
                             <div class="row">
                                 <div class="col-12 col-md-6 col-lg-8 text-center text-md-left">
-                                    <a class="tool-name-link" href="{{ route('tools.show', $tool->slug) }}">
-                                        <h2>{{ $tool->name }}</h2>
+                                    <a class="tool-name-link mb-2 d-block" href="{{ route('tools.show', $tool->slug) }}">
+                                        <h2 class="d-inline-block align-middle mb-0">{{$tool->name}}</h2>{!! ($tool->teacherReviews->where('recommended', true)->count() > 0) ? '<div class="d-inline-block align-middle recommended"><i class="fa fa-certificate align-middle" data-toggle="tooltip" data-placement="right" title="Aanbevolen door een docent!"></i></div>' : '' !!}
                                     </a>
                                     <p class="tool-views">{{ number_format($tool->views->count()) }} weergaven</p>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-4 text-center text-md-right">
                                     <div class="tool-rating {{$tool->slug}} mb-2">
-                                        <div class="starrr {{$tool->slug}} {{ (!Auth::check()) ? 'readOnly' : '' }}"></div>
-                                        @section('review-js-' . $tool->slug)
-                                            <script>
-                                                @if (!$tool->reviews->isEmpty())
-                                                    @if(Auth::check())
-                                                        $('.starrr.{{$tool->slug}}').starrr({
-                                                            rating: {{$tool->rating()}}
-                                                        });
-                                                        setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
-                                                    @else
-                                                        $('.starrr.{{$tool->slug}}').starrr({
-                                                            rating: {{$tool->rating()}},
-                                                            readOnly: true
-                                                        });
-                                                    @endif
-                                                @else
-                                                    @if(Auth::check())
-                                                        $('.starrr.{{$tool->slug}}').starrr();
-                                                        setModal('{{$tool->slug}}', '{{route("tools.createrating", ["slug" => $tool->slug])}}');
-                                                    @else
-                                                        $('.tool-rating.{{$tool->slug}}').hide();
-                                                    @endif
-                                                @endif
-                                            </script>
-                                        @endsection
-                                        @if (request()->ajax())
-                                            @yield('review-js-' . $tool->slug)
-                                        @else
-                                            @section('js')
-                                            @parent
-                                                @yield('review-js-' . $tool->slug)
-                                            @endsection
-                                        @endif
+                                        @include('partials.stars-multiple')
                                     </div>
                                     <p class="rating">{{ $tool->reviews->count() }} keer gereviewed</p>
                                 </div>
@@ -146,8 +115,8 @@
                                     @endif
 
                                 @else
-                                    @if (Auth::check() && empty($tool->reviews->where('user_id', Auth::id())->first()))
-                                        <a target="_blank" id="url-{{$tool->slug}}" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
+                                    @if (auth()->check() && !auth()->user()->isEmployee() && $tool->reviews->where('user_id', Auth::id())->count() == 0)
+                                        <a target="_blank" id="url-{{$tool->slug}}" data-enabled="true" href="{{$tool->url}}" class="btn btn-danger btn-avans">Bezoek tool</a>
                                         @section('js')
                                             @parent
                                             <script>

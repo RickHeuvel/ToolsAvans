@@ -70,7 +70,7 @@
                 <div class="col-12 col-md-11 offset-md-1 text-center">
                     @if($loop->first && $question->answers->count() > 1)
                         <div aria-expanded="true" data-toggle="collapse" class="answer-collapse-button tag-list" href=".answer-collapse-{{$question->id}}" title="Laat meer antwoorden zien">
-                            <u>Laat meer antwoorden zien({{$question->answers->count() - 1}})</u>
+                            <u>Laat meer antwoorden zien ({{$question->answers->count() - 1}})</u>
                             <u class="d-none">Laat minder antwoorden zien</u>
                         </div>
                         <hr>

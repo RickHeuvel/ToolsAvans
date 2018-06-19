@@ -21,6 +21,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .copyDirectory('node_modules/lightbox2/dist/images', 'public/images')
    .copy('node_modules/dropzone/dist/min/dropzone.min.js', 'public/js')
    .copy('node_modules/dropzone/dist/min/dropzone.min.css', 'public/css')
+   .copyDirectory('node_modules/tinymce', 'public/js/tinymce')
    .copy('node_modules/select2/dist/css/select2.min.css', 'public/css')
    .copy('node_modules/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css', 'public/css')
    .copy('node_modules/select2/dist/js/select2.full.min.js', 'public/js');

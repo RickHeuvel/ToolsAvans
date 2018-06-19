@@ -259,6 +259,7 @@ class ToolController extends Controller
             Session::flash('message', 'Je hebt geen rechten om deze tool te bekijken');
             return redirect()->route('tools.index');
         }
+
         $allTools = Tool::publicTools()->where('slug', '!=', $tool->slug)->get();
         $alternativeTools = [];
         $tagHits = [];
@@ -283,11 +284,14 @@ class ToolController extends Controller
             $alternativeTools = $alternativeTools->merge($categoryTools);
         }
         $alternativeTools = $alternativeTools->take($maxAlternativeToolCount);
-        $curUserReview = $tool->reviews->where('user_id', Auth::id())->first();
+        $userReview = (Auth::check()) ? 
+                        (Auth::user()->isEmployee()) ? 
+                            $tool->teacherReviews->where('user_id', Auth::id())->first() : 
+                            $tool->reviews->where('user_id', Auth::id())->first() : null;
         $questions = ToolQuestion::where('tool_slug', $slug)->withCount('upvotes')->orderBy('upvotes_count', 'desc')->get();
         Event::fire(new ViewTool($tool));
 
-        return view('pages.tool.view', compact('tool', 'curUserReview', 'questions', 'alternativeTools'));
+        return view('pages.tool.view', compact('tool', 'userReview', 'questions', 'alternativeTools'));
     }
 
     /**

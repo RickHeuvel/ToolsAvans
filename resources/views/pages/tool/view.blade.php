@@ -94,28 +94,22 @@
                             <div class="tool-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6 col-lg-8 text-center text-md-left mt-4 mt-md-0">
-                                        <h1>{{$tool->name}}</h1>
+                                        <h1 class="d-inline-block align-middle">{{$tool->name}}</h1>{!! ($tool->teacherReviews->where('recommended', true)->count() > 0) ? '<div class="d-inline-block align-middle recommended"><i class="fa fa-certificate align-middle" data-toggle="tooltip" data-placement="right" title="Aanbevolen door een docent!"></i></div>' : '' !!}
                                         <p class="tool-views mt-2">{{ number_format($tool->views->count()) }} weergaven</p>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 text-center text-md-right">
-                                        <div class="tool-rating" id="toolRating">
-                                            <div id="starRating">
-                                                @if (!Auth::check())
-                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Login om een rating achter te laten!"></div>
-                                                @elseif (empty($curUserReview))
-                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Klik op een ster om een rating achter te laten!"></div>
-                                                @else
-                                                    <div id="stars" class="starrr" data-toggle="tooltip" data-placement="left" title="Log in om een review achter te laten!"></div>
-                                                @endif
-                                                <p class="rating mt-2">{{ $tool->reviews->count() }} keer gereviewed</p>
-                                            </div>
-                                            @include('partials.modals.review-with-rating', ['id' => 'review-with-rating'])
-                                            @include('partials.modals.review-without-rating', ['id' => 'review-without-rating'])
+                                        <div class="tool-rating main-rating">
+                                            @include('partials.stars-single')
                                         </div>
+                                        <p class="rating mt-2">{{ $tool->reviews->count() }} keer gereviewed</p>
+                                        @include('partials.modals.review-with-rating', ['id' => 'review-with-rating'])
+                                        @include('partials.modals.review-without-rating', ['id' => 'review-without-rating'])
                                     </div>
                                 </div>
                                 <p>{{$tool->description}}</p>
-                                @if (Auth::check() && empty($curUserReview))
+                                <p class="tool-uploaded mb-0">Geplaatst op {{$tool->created_at->format('d F Y H:i')}}</p>
+                                <hr>
+                                @if (auth()->check() && !auth()->user()->isEmployee() && empty($userReview))
                                     <a id="url" target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
                                 @else
                                     <a target="_blank" href={{$tool->url}}>{{$tool->url}}</a>
@@ -148,6 +142,9 @@
                         <a class="nav-link" href="#screenshots">Screenshots</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#teacherreviews">Docenten reviews</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#reviews">Reviews</a>
                     </li>
                      <li>
@@ -177,9 +174,64 @@
         <hr class="mt-4">
         <div class="row">
             <div class="tool-reviews container-fluid col-12">
+                <h2 id="teacherreviews" class="mb-4">Docenten reviews</h2>
+                @if ($tool->teacherReviews->isEmpty())
+                    <p class="text-muted">Er zijn nog geen reviews :(</p>
+                @else
+                    <div class="owl-carousel teacherreviews owl-theme mt-4">
+                        @foreach($tool->teacherReviews->sortByDesc('created_at') as $teacherReview)
+                            <div class="item">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-lg-10">
+                                        <blockquote class="blockquote text-center">
+                                            <p class="mb-2"><b>{{ $teacherReview->title }}</b></p>
+                                            <p class="mb-2">{{ $teacherReview->preview }}</p>
+                                            @if(!empty($teacherReview->description))
+                                                <div class="collapse teacherreview-collapse-{{$teacherReview->id }}">
+                                                    <p class="mb-2">{!! $teacherReview->description !!}</p>
+                                                </div>
+                                                <div aria-expanded="true" data-toggle="collapse" class="teacherreview-collapse-button tag-list pb-3" href=".teacherreview-collapse-{{$teacherReview->id}}" title="Laat uitgebreide beschrijving zien">
+                                                    <u>Laat meer zien</u>
+                                                    <u class="d-none">Laat minder zien</u>
+                                                </div>
+                                            @endif
+                                            <div class="row justify-content-center mb-4">
+                                                <div class="col-auto text-left">
+                                                    <ul class="positives">
+                                                        @foreach($teacherReview->positives as $positive)
+                                                            <li><i class="fa fa-plus"></i> {{ $positive->title }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <div class="col-auto text-left">
+                                                    <ul class="negatives">
+                                                        @foreach($teacherReview->negatives as $negative)
+                                                            <li><i class="fa fa-minus"></i> {{ $negative->title }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <p class="review-rating">
+                                                @for($x = 0; $x < $teacherReview->rating; $x++)
+                                                    <i class="fa fa-star"></i>
+                                                @endfor
+                                            </p>
+                                            <div class="blockquote-footer">{{ $teacherReview->user->nickname }}</div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+        <hr class="mt-4">
+        <div class="row">
+            <div class="tool-reviews container-fluid col-12">
                 <h2 id="reviews" class="mb-4">Reviews</h2>
                 @if ($tool->reviews->isEmpty())
-                    <p class="text-muted">Er zijn geen reviews :(</p>
+                    <p class="text-muted">Er zijn nog geen reviews :(</p>
                 @else
                     <div class="owl-carousel reviews owl-theme mt-4">
                         @foreach($tool->reviews->sortByDesc('created_at') as $review)
@@ -259,6 +311,9 @@
 
 @section('js')
     <script>
+
+        var url = true,
+            tooltip = true;
         $('.owl-carousel.alternative').owlCarousel({
             margin: 15,
             nav: false,
@@ -279,7 +334,7 @@
             },
             loop: true
         });
-        var tooltip = true;
+        
         $('.owl-carousel.screenshots').owlCarousel({
             margin: 30,
             nav: true,
@@ -314,107 +369,77 @@
             }
         });
 
-        $( document ).ready(function() {
-            @if (!$tool->reviews->isEmpty() && Auth::check())
-                $('#stars').starrr({
-                    rating: {{$tool->rating()}}
-                });
-                enableReviewModal();
-                enableTooltip();
-            @elseif (!$tool->reviews->isEmpty() && !Auth::check())
-                $('#stars').starrr({
-                    rating: {{$tool->rating()}},
+        $('.owl-carousel.teacherreviews').owlCarousel({
+            margin: 30,
+            autoplay: false,
+            loop: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        });
+
+        $('#review-without-rating .starrr').on('starrr:change', function(e, value) {
+            $.ajax({
+                url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
+                type : 'GET',
+                data: { rating: value },
+            }).done(function (data) {
+                disableUrl();
+                $('.tool-rating.main-rating').html(data);
+
+                $('#review-with-rating .tool-rating').empty();
+                $('#review-with-rating .tool-rating').append('<div class="starrr mb-4"></div>');
+                $('#review-with-rating .starrr').starrr({
+                    rating: value,
                     readOnly: true
                 });
-                enableTooltip();
-            @elseif ($tool->reviews->isEmpty() && !Auth::check())
-                $('.tool-rating').hide();
-            @else
-                $('#stars').starrr();
-                enableReviewModal();
-                enableTooltip();
-            @endif
+                $('#review-with-rating .starrr').addClass('readOnly');
 
-            function enableReviewModal() {
-                $('#stars').on('starrr:change', function(e, value) {
-                    @if(Auth::check())
-                        $.ajax({
-                            url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
-                            type: 'GET',
-                            data: { rating: value },
-                        }).done(function (data) {
-                            $('#review-with-rating .ratingreview').starrr({
-                                rating: value,
-                            });
-                            disableTooltip();
-                            $('#review-with-rating').modal('show');
-                        }).fail(function () {
-                            alert('Rating kon niet worden geplaatst.');
-                        });
-                    @else
-                        window.location.href = '{{route("login")}}';
-                    @endif
-                })
-            }
-
-            $('#review-with-rating .ratingreview').on('starrr:change', function(e, value) {
-                $.ajax({
-                    url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
-                    type : 'GET',
-                    data: { rating: value },
-                }).done(function (date) {
-                    setMainRating(value);
-                }).fail(function () {
-                    alert('Rating kon niet geplaatst worden.');
-                });
-            });
-
-            $('#review-without-rating .ratingreview').on('starrr:change', function(e, value) {
-                $.ajax({
-                    url : '{{route("tools.createrating", ["slug" => $tool->slug])}}',
-                    type : 'GET',
-                    data: { rating: value },
-                }).done(function (date) {
-                    setMainRating(value);
-                    $('#review-with-rating .ratingreview').starrr({
-                        rating: value,
-                    });
-                    disableTooltip();
-                    $('#review-without-rating').modal('hide');
-                    $('#review-with-rating').modal('show');
-                }).fail(function () {
-                    alert('Rating kon niet geplaatst worden.');
-                });
-            });
-
-            $('#url').click(function() {
                 disableTooltip();
-                $('#review-without-rating .ratingreview').starrr();
-                $('#review-without-rating').modal('show');
+                $('#review-without-rating').modal('hide');
+                $('#review-with-rating').modal('show');
+            }).fail(function () {
+                alert('Rating kon niet geplaatst worden.');
             });
+        });
 
-            function setMainRating(value) {
-                $('#starRating').empty();
-                $('#starRating').append('<div id="stars" class="starrr"></div>');
-                $('#stars').starrr({
-                    rating: parseInt(value)
-                });
+        $('#url').click(function() {
+            if (url) {
+                disableTooltip();
+                $('#review-without-rating .starrr').starrr();
+                $('#review-without-rating').modal('show');
             }
+        });
 
-            function enableTooltip() {
-                setTimeout(function() {
-                    if (tooltip)
-                        $('#stars').tooltip('show')
-                }, 1000);
-                $('#stars').mouseover(function() {
-                    $('#stars').tooltip('hide');
-                });
-            }
+        function enableTooltip() {
+            setTimeout(function() {
+                if (tooltip)
+                    $('.starrr').tooltip('show')
+            }, 1000);
+            $('.starrr').mouseover(function() {
+                $('.starrr').tooltip('hide');
+            });
+        }
 
-            function disableTooltip() {
-                tooltip = false;
-                $('#stars').tooltip('hide');
-            }
+        function disableTooltip() {
+            tooltip = false;
+            $('.starrr').tooltip('hide');
+        }
+
+        function disableUrl() {
+            url = false;
+        }
+
+        $('.teacherreview-collapse-button').click(function(){
+            $(this).children().toggleClass("d-none");
         });
    </script>
 @endsection

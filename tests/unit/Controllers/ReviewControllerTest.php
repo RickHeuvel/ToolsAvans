@@ -1,17 +1,18 @@
 <?php
 namespace tests\unit\Controllers;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
+use Auth;
 use App\User;
 use App\ToolReview;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\ToolController;
-use Auth;
-use Illuminate\Http\UploadedFile;
-use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
+use App\ToolTeacherReview;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ToolController;
+use App\Http\Controllers\ReviewController;
 
 class ReviewControllerTest extends TestCase
 {
@@ -62,7 +63,7 @@ class ReviewControllerTest extends TestCase
         [],[], $server);
 
         $reviewController->createRating($request, $toolslug);
-        $review = ToolReview::where('tool_slug', $toolslug)->first();
+        $review = ToolTeacherReview::where('tool_slug', $toolslug)->first();
         $this->assertTrue($review->rating == $reviewrating);
     }
 
@@ -164,7 +165,7 @@ class ReviewControllerTest extends TestCase
         [],[], $server);
 
         $reviewController->createRating($request, $toolslug);
-        $review = ToolReview::where('tool_slug', $toolslug)->first();
+        $review = ToolTeacherReview::where('tool_slug', $toolslug)->first();
         $this->assertTrue($review->rating == $reviewrating);
 
         $request = Request::create(
@@ -178,7 +179,7 @@ class ReviewControllerTest extends TestCase
         [],[], $server);
         $reviewController->createRating($request, $toolslug);
 
-        $review = ToolReview::where('tool_slug', $toolslug)->first();
+        $review = ToolTeacherReview::where('tool_slug', $toolslug)->first();
         $this->assertTrue($review->rating == $newreviewrating);
     }
 
@@ -193,7 +194,7 @@ class ReviewControllerTest extends TestCase
         $toolController = new ToolController();
         $reviewController = new ReviewController();
 
-        $user = factory(User::class)->states('employee')->make();
+        $user = factory(User::class)->states('student')->make();
         $auth->login($user);
         
         $toolname = 'testname';
@@ -240,7 +241,7 @@ class ReviewControllerTest extends TestCase
                 'description'   => $description,
             ]
         );
-        $reviewController->addReview($request, $toolslug);
+        $reviewController->storeReview($request, $toolslug);
 
         $review = ToolReview::where('tool_slug', $toolslug)->first();
         $this->assertTrue($review->title == $title);
@@ -305,9 +306,9 @@ class ReviewControllerTest extends TestCase
                 //Empty on purpose to check if the validation fails
             ]
         );
-        $reviewController->addReview($request, $toolslug);
+        $reviewController->storeReview($request, $toolslug);
 
-        $review = ToolReview::where('tool_slug', $toolslug)->first();
+        $review = ToolTeacherReview::where('tool_slug', $toolslug)->first();
         $this->assertTrue($review->title == null);
         $this->assertTrue($review->description == null);
     }

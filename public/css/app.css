@@ -10997,6 +10997,7 @@ ul.nav li.active a {
 
 .starrr .fa {
   font-size: 30px !important;
+  width: 30px;
 }
 
 .screenshots .item .img-fluid {
@@ -11208,6 +11209,16 @@ ul.pagination .page-item .page-link {
   line-height: 1;
 }
 
+.tool .tool-body .recommended {
+  margin-left: 10px;
+  line-height: 32px;
+}
+
+.tool .tool-body .recommended .fa-certificate {
+  color: green;
+  font-size: 24px;
+}
+
 .tool .tool-body .tool-views {
   font-weight: 500;
   font-size: 16px;
@@ -11298,6 +11309,16 @@ ul.pagination .page-item .page-link {
   display: inline-block;
 }
 
+.tool-view .tool-body .recommended {
+  margin-left: 10px;
+  line-height: 40px;
+}
+
+.tool-view .tool-body .recommended .fa-certificate {
+  color: green;
+  font-size: 28px;
+}
+
 .tool-view .tool-body .tool-uploaded {
   color: #989898;
   font-size: 16px;
@@ -11341,6 +11362,28 @@ ul.pagination .page-item .page-link {
 
 .starrr.readOnly a {
   cursor: auto !important;
+}
+
+.starrr.user-rating {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.starrr.user-rating .fa {
+  font-size: 21px !important;
+  padding: -0.5px 1px 0.5px 1.5px;
+  width: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #C6002A;
+}
+
+.tool-rating {
+  position: relative;
+  display: inline-block;
 }
 
 .graph-tools .tool-graph {
@@ -11544,6 +11587,21 @@ ul.pagination .page-item .page-link {
 
 .tool-reviews .blockquote {
   font-size: 16px !important;
+}
+
+.teacherreviews .negatives,
+.teacherreviews .positives {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.teacherreviews .negatives .fa {
+  color: red;
+}
+
+.teacherreviews .positives .fa {
+  color: green;
 }
 
 footer.footer {

@@ -33,8 +33,11 @@ Route::post('tools/{tool}/requestchanges', 'JudgingController@requestToolChanges
 Route::get('tools/{tool}/activate', 'ToolController@activate')->name('tools.activate');
 Route::get('tools/{tool}/deactivate', 'ToolController@deactivate')->name('tools.deactivate');
 
-Route::get('tools/{tool}/createrating', 'ReviewController@createRating')->name('tools.createrating');
-Route::post('tools/{tool}/addreview', 'ReviewController@addReview')->name('tools.addreview');
+Route::get('tools/{tool}/rating/create', 'ReviewController@createRating')->name('tools.createrating');
+Route::post('tools/{tool}/review/store', 'ReviewController@storeReview')->name('tools.review.store');
+Route::get('tools/{tool}/teacherreview/create', 'ReviewController@createTeacherReview')->name('tools.teacherreview.create');
+Route::get('tools/{tool}/teacherreview/edit', 'ReviewController@editTeacherReview')->name('tools.teacherreview.edit');
+Route::post('tools/{tool}/teacherreview/store', 'ReviewController@storeTeacherReview')->name('tools.teacherreview.store');
 
 Route::get('tools/{tool}/questions', 'QuestionController@show')->name('tools.questions');
 

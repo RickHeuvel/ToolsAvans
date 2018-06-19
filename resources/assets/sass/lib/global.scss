@@ -274,6 +274,7 @@ ul.nav li.active a {
   font-size: 0;
   .fa {
     font-size: 30px !important;
+    width: 30px;
   }
 }
 
@@ -464,6 +465,14 @@ ul.pagination {
     h2 {
       line-height: 1;
     }
+    .recommended {
+      margin-left: 10px;
+      line-height: 32px;
+      .fa-certificate {
+        color: green;
+        font-size: 24px;
+      }
+    }
     .tool-views {
       font-weight: 500;
       font-size: 16px;
@@ -542,7 +551,15 @@ ul.pagination {
     h1 {
       line-height: 1;
       margin-bottom: 0;
-      display: inline-block
+      display: inline-block;
+    }
+    .recommended {
+      margin-left: 10px;
+      line-height: 40px;
+      .fa-certificate {
+        color: green;
+        font-size: 28px;
+      }
     }
     .tool-uploaded {
       color: #989898;
@@ -565,7 +582,7 @@ ul.pagination {
     .tool-rating {
       margin-top: 10px;
       margin-bottom: 0;
-      .p{
+      .p {
         font-size: 15px;
         margin-top: 0;
         margin-bottom: 0;
@@ -581,6 +598,27 @@ ul.pagination {
 }
 .starrr.readOnly a {
   cursor: auto !important;
+}
+
+.starrr.user-rating {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  .fa {
+    font-size: 21px !important;
+    padding: -0.5px 1px 0.5px 1.5px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: $avansred;
+  }
+}
+
+.tool-rating {
+  position: relative;
+  display: inline-block;
 }
 
 .graph-tools {
@@ -758,6 +796,21 @@ ul.pagination {
 
 .tool-reviews .blockquote {
   font-size: 16px !important;
+}
+
+.teacherreviews {
+  .negatives,
+  .positives {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .negatives .fa {
+    color: red;
+  }
+  .positives .fa {
+    color: green;
+  }
 }
 
 footer.footer {

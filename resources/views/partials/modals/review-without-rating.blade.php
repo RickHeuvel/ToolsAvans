@@ -10,7 +10,7 @@
             <div class="modal-body text-center">
                 <h4>Wat vind je van deze tool?</h4>
                 <p class="mb-4">Je zou onze ToolHub community enorm helpen door hier snel een rating te plaatsen over deze tool!</p>
-                <div class="ratingreview starrr mb-2"></div>
+                <div class="starrr mb-2"></div>
             </div>
             <div class="modal-footer">         
             </div>

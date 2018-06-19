@@ -34,6 +34,10 @@ class Tool extends Model
         return $this->hasMany('App\ToolReview', 'tool_slug');
     }
 
+    public function teacherReviews() {
+        return $this->hasMany('App\ToolTeacherReview', 'tool_slug');
+    }
+
     public function category() {
         return $this->belongsTo('App\ToolCategory', 'category_slug');
     }

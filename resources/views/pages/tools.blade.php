@@ -52,7 +52,7 @@
                 <div class="row mb-3">
                     <div class="col-6 col-md-12">
                         <div class="row">
-                            <div class="col-12 mb-3">
+                            <div class="col-12">
                                 <p class="mb-2"><strong>Categorieën</strong></p>
                                 @foreach($categories as $category)
                                     <div class="form-check mb-1" name="input">
@@ -71,23 +71,26 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-12">
-                        <p class="mb-2"><strong>Academies</strong></p>
-                        @foreach($academies as $academy)
-                            <div class="form-check mb-1">
-                                @if (!empty($selectedAcademies))
-                                    <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}" {{ in_array($academy->slug, $selectedAcademies) ? "checked" : "" }}>
-                                @else
-                                    <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}">
-                                @endif
-                                <label class="form-check-label" for="aca{{$academy->slug}}">
-                                    {{$academy->name}}
-                                </label>
+                    <div class="col-6 col-md-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="mb-2"><strong>Academies</strong></p>
+                                @foreach($academies as $academy)
+                                    <div class="form-check mb-1">
+                                        @if (!empty($selectedAcademies))
+                                            <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}" {{ in_array($academy->slug, $selectedAcademies) ? "checked" : "" }}>
+                                        @else
+                                            <input class="form-check-input" name="aca[]" type="checkbox" value="{{$academy->slug}}" id="aca{{$academy->slug}}">
+                                        @endif
+                                        <label class="form-check-label" for="aca{{$academy->slug}}">
+                                            {{$academy->name}}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endforeach
+                        </div>
                     </div>
                 </div>
-
                 <div class="row mb-3">
                     <div class="col-12">
                         <p class="mb-2"><strong>Gepinde tags</strong></p>
@@ -104,6 +107,8 @@
                              </div>
                          @endforeach
                     </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-6 col-md-12">
                         <p class="mb-2"><strong>Overige tags</strong></p>
                         @foreach($tagCategories as $tagCategory)
@@ -296,71 +301,70 @@
             }
         });
 
-        function setModal(slug, route) {
-            $('.starrr.' + slug).on('starrr:change', function(e, value) {
+        function setModal(stars, slug, route, defaultValue) {
+            $(stars + '.' + slug).on('starrr:change', function(e, value) {
                 $.ajax({
                     url : route,
                     type: 'GET',
-                    data: { rating: value },
+                    data: { rating: value, multiple: true },
                 }).done(function (data) {
-                    $('#review-with-rating-' + slug + ' .ratingreview').starrr({
-                        rating: value,
+                    disableUrl(slug);
+                    $('#review-with-rating-' + slug + ' .tool-rating').empty();
+                    $('#review-with-rating-' + slug + ' .tool-rating').append('<div class="starrr mb-4"></div>');
+                    $('#review-with-rating-' + slug + ' .starrr').starrr({
+                        rating: (value !== undefined) ? value : defaultValue,
+                        readOnly: true
                     });
+                    $('#review-with-rating-' + slug + ' .starrr').addClass('readOnly');
                     $('#review-with-rating-' + slug).modal('show');
+                    $(stars + '.' + slug).parent().html(data);
                 }).fail(function () {
                     alert('Rating kon niet worden geplaatst.');
-                });
-            });
-
-            $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
-                $.ajax({
-                    url : route,
-                    type : 'GET',
-                    data: { rating: value },
-                }).done(function (data) {
-                    $('.tool-rating.' + slug).empty();
-                    $('.tool-rating.' + slug).append('<div class="starrr ' + slug + '"></div>');
-                    $('.starrr.' + slug).starrr({
-                        rating: parseInt(value)
-                    });
-                }).fail(function () { 
-                    alert('Rating kon niet geplaatst worden.');
                 });
             });
         }
 
         function setURLModal(slug, route) {
             $('#url-' + slug).click(function() {
-                $('#review-without-rating-' + slug + ' .ratingreview').starrr();
-                $('#review-without-rating-' + slug).modal('show');
+                if ($('#url-' + slug).data('enabled') == true) {
+                    $('#review-without-rating-' + slug + ' .starrr').starrr();
+                    $('#review-without-rating-' + slug).modal('show');
+                }
             });
 
-            $('#review-with-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
+            $('#review-without-rating-' + slug + ' .starrr').on('starrr:change', function(e, value) {
                 $.ajax({
                     url : route,
                     type : 'GET',
-                    data: { rating: value },
+                    data: { rating: value, multiple: true },
                 }).done(function (data) {
-                }).fail(function () { 
-                    alert('Rating kon niet geplaatst worden.');
-                });
-            });
-
-            $('#review-without-rating-' + slug + ' .ratingreview').on('starrr:change', function(e, value) {
-                $.ajax({
-                    url : route,
-                    type : 'GET',
-                    data: { rating: value },
-                }).done(function (data) {
-                    $('#review-with-rating-' + slug + ' .ratingreview').starrr({
+                    $('#review-with-rating-' + slug + ' .starrr').starrr({
                         rating: value,
                     });
+                    $('#review-without-rating-' + slug).modal('hide');
+                    $('#review-with-rating-' + slug).modal('show');
+
+                    disableUrl(slug);
+                    $('.tool-rating.' + slug).html(data);
+
+                    $('#review-with-rating-' + slug + ' .tool-rating').empty();
+                    $('#review-with-rating-' + slug + ' .tool-rating').append('<div class="starrr mb-4"></div>');
+                    $('#review-with-rating-' + slug + ' .starrr').starrr({
+                        rating: value,
+                        readOnly: true
+                    });
+                    $('#review-with-rating-' + slug + ' .starrr').addClass('readOnly');
+
                     $('#review-without-rating-' + slug).modal('hide');
                     $('#review-with-rating-' + slug).modal('show');
                 }).fail(function () { 
                     alert('Rating kon niet geplaatst worden.');
                 });
             });
+        }
+
+        function disableUrl(slug) {
+            $('#url-' + slug).data('enabled', false);
         }
     </script>
 @endsection
