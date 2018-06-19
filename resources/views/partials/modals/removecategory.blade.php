@@ -8,24 +8,24 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                @if(array_key_exists($category->slug, $categoryGroups->toArray()) && $categoryGroups[$category->slug]->count() > 0)
+                @if($category->tools->count() > 0)
                     Op dit moment zijn er 
-                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{ $categoryGroups[$category->slug]->pluck('name')->implode(', ') }}">
-                        {{$categoryGroups[$category->slug]->count()}} tools
+                    <a href="#" data-toggle="tooltip" title="" data-original-title="{{ $category->tools->pluck('name')->implode(', ') }}">
+                        {{ $category->tools->count() }} tool(s)
                     </a> met deze categorie,<br>
                     deze moet u eerst een andere categorie toewijzen voordat u deze categorie kunt verwijderen.
                 @else
-                    Weet u zeker dat u de categorie {{$category->name}} wilt verwijderen?
+                    Weet u zeker dat u de categorie {{ $category->name }} wilt verwijderen?
                 @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-square btn-light" data-dismiss="modal">Annuleren</button>
                 {{ Form::model($category, ['route' => ['categories.destroy', $category->slug], 'method' => 'DELETE']) }}
-                    @if(array_key_exists($category->slug, $categoryGroups->toArray()) && $categoryGroups[$category->slug]->count() > 0)
-                        {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans', 'disabled' => 'disabled']) }}
-                    @else
-                        {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans']) }}
-                    @endif
+                @if($category->tools->count() > 0)
+                    {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans', 'disabled' => 'disabled']) }}
+                @else
+                    {{ Form::submit('Verwijderen', ['class' => 'btn btn-danger btn-avans']) }}
+                @endif
                 {{ Form::close() }}
             </div>
         </div>

@@ -53,18 +53,15 @@ class PortalController extends Controller
                 return view('partials.tools', compact('tools'))->render();
 
             $categories = ToolCategory::all()->sortBy('slug');
-            $categoryGroups = Tool::all()->groupBy('category_slug');
             $tags = ToolTag::all()->sortBy('slug');
-            $tagGroups = ToolTag::usedTags()->get()->sortBy('slug');
             $tagCategories = TagCategory::all()->sortBy('slug');
-            $tagCategoryGroups = ToolTag::all()->groupBy('category_slug');
             $users = User::all();
             $settings = new Setting();
             $unjudgedTools = Tool::unjudgedTools()->get();
 
             Event::fire(new ViewPage('portal'));
-            return view('pages.portal', compact('myTools', 'categories', 'categoryGroups', 'tools', 'unjudgedTools', 'users',
-                'settings', 'statuses', 'selectedStatuses', 'tags', 'tagGroups', 'tagCategories', 'tagCategoryGroups', 'allTools'));
+            return view('pages.portal', compact('myTools', 'categories', 'tools', 'unjudgedTools', 'users',
+                'settings', 'statuses', 'selectedStatuses', 'tags', 'tagCategories', 'allTools'));
         } else {
             $myConceptTools = $myTools->where('status_slug', 'concept');
 

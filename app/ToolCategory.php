@@ -17,4 +17,8 @@ class ToolCategory extends Model
     protected $fillable = [
         'name', 'slug'
     ];
+
+    public function tools() {
+        return $this->hasMany('App\Tool', 'category_slug');
+    }
 }
