@@ -60,11 +60,11 @@
                                 @foreach($categories as $category)
                                     <div class="form-check mb-1" name="input">
                                         @if (!empty($selectedCategories))
-                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
+                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->slug}}" {{ in_array($category->slug, $selectedCategories) ? "checked" : "" }}>
                                         @else
-                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->id}}">
+                                            <input class="form-check-input" name="cat[]" type="checkbox" value="{{$category->slug}}" id="cat{{$category->slug}}">
                                         @endif
-                                        <label class="form-check-label" for="cat{{$category->id}}">
+                                        <label class="form-check-label" for="cat{{$category->slug}}">
                                             {{$category->name}}
                                         </label>
                                     </div>
