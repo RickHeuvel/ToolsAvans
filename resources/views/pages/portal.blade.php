@@ -134,11 +134,11 @@
                                     @foreach($statuses as $status)
                                         <div class="form-check mb-1">
                                             @if (!empty($selectedStatuses))
-                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->id}}" {{ in_array($status->slug, $selectedStatuses) ? "checked" : "" }}>
+                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->slug}}" {{ in_array($status->slug, $selectedStatuses) ? "checked" : "" }}>
                                             @else
-                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->id}}">
+                                                <input class="form-check-input" name="status[]" type="checkbox" value="{{$status->slug}}" id="status{{$status->slug}}">
                                             @endif
-                                            <label class="form-check-label" for="status{{$status->id}}">
+                                            <label class="form-check-label" for="status{{$status->slug}}">
                                                 {{$status->name}}
                                             </label>
                                         </div>
