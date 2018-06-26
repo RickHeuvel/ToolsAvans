@@ -241,7 +241,7 @@ home
 @endsection
 
 @section('js-includes')
-    <script src="{{ asset('js/owl.carousel.js') }}"></script>
+    <script src="{{ asset('js/owl.min.js') }}"></script>
 @endsection
 
 @section('js')

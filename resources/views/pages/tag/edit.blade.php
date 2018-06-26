@@ -73,6 +73,10 @@
     </div> 
 @endsection
 
+@section('js-includes')
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
+@endsection
+
 @section('js')
     <script>
         $('.select2').select2({

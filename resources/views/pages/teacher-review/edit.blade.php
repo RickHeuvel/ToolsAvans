@@ -81,6 +81,7 @@
 
 @section('js-includes')
     <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @endsection
 
 @section('js')

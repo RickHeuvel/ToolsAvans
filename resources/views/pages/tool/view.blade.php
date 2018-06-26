@@ -314,8 +314,7 @@
 @endsection
 
 @section('js-includes')
-   <script src="{{ asset('js/owl.carousel.js') }}"></script>
-   <script src="{{ asset('js/owl.navigation.js') }}"></script>
+   <script src="{{ asset('js/owl.min.js') }}"></script>
    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
    <script src="{{ asset('js/lightbox.min.js') }}"></script>
 @endsection

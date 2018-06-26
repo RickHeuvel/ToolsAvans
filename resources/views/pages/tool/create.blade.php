@@ -159,6 +159,7 @@
 
 @section('js-includes')
     <script src="{{ asset('js/dropzone.min.js') }}"></script>
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @section
 
 @section('js')

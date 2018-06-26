@@ -25,5 +25,5 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .copy('node_modules/select2/dist/css/select2.min.css', 'public/css')
    .copy('node_modules/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css', 'public/css')
    .copy('node_modules/select2/dist/js/select2.full.min.js', 'public/js')
-   .copy('node_modules/owl.carousel/src/js/owl.carousel.js', 'public/js')
-   .copy('node_modules/owl.carousel/src/js/owl.navigation.js', 'public/js');
+   .copy('node_modules/owl.carousel/dist/owl.carousel.min.js', 'public/js')
+   .copy('node_modules/chart.js/dist/Chart.min.js', 'public/js');
