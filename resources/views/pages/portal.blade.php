@@ -90,7 +90,7 @@
         <div class="tab-content">
             <div class="tab-pane pt-4" id="mytools" role="tabpanel" aria-labelledby="mytools-tab">
                 @if(count($myTools) > 0)
-                    @include('partials.tools', ['tools' => $myTools])
+                    @include('partials.tools', ['tools' => $myTools, 'route' => 'myTools'])
                 @else
                     <p>U heeft nog geen tools toegevoegd, voeg uw eerste tool toe door <a href="{{route('tools.create')}}">hier</a> te klikken.</p>
                     <p>Of help de ToolHub community door tools die je al kent sterren te geven op de <a href="{{route('tools.index')}}">tools</a> pagina!</p>
@@ -125,7 +125,7 @@
             </div>
 
             @if (auth()->user()->isAdmin())
-                <div class="tab-pane pt-4" id="tools" role="tabpanel" aria-labelledby="activetools-tab">
+                <div class="tab-pane pt-4" id="tools" role="tabpanel" aria-labelledby="alltools-tab">
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="row mb-3">
@@ -148,14 +148,14 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <section class="tools">
-                                @include('partials.tools')
+                                @include('partials.tools', ['route' => 'alltools'])
                             </section>
                         </div>
                     </div>
                 </div>
 
                 <div class="tab-pane pt-4" id="unjudgedtools" role="tabpanel" aria-labelledby="unjudgedtools-tab">
-                    @include('partials.tools', ['tools' => $unjudgedTools])
+                    @include('partials.tools', ['tools' => $unjudgedTools, 'route' => 'unjudgedTools'])
                 </div>
 
                 <div class="tab-pane pt-4" id="filters" role="tabpanel" aria-labelledby="filters-tab">
@@ -382,7 +382,7 @@
                 </div>
             @else
                 <div class="tab-pane pt-4" id="myconcepttools" role="tabpanel" aria-labelledby="myconcepttools-tab">
-                    @include('partials.tools', ['tools' => $myConceptTools])
+                    @include('partials.tools', ['tools' => $myConceptTools, 'route' => 'myConceptTools'])
                 </div>
             @endif
 
@@ -448,6 +448,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js-includes')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
 @endsection
 
 @section('js')

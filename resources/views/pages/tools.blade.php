@@ -152,7 +152,7 @@
             </div>
             <div class="col-12 col-md-9">
                 <section class="tools">
-                    @include('partials.tools')
+                    @include('partials.tools', ['route' => 'tools'])
                 </section>
             </div>
         </div>

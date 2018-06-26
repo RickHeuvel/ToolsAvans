@@ -98,20 +98,20 @@
                                         <a href="{{ route('tools.approveTool', $tool->slug) }}" class="btn btn-danger btn-avans">Goedkeuren</a>
 
                                         @if($tool->feedback == null || ($tool->feedback && $tool->feedback->fixed))
-                                            <a data-toggle="modal" data-target="#{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
-                                            @include('partials.modals.requesttoolchanges')
+                                            <a data-toggle="modal" data-target="#{{$route}}{{$tool->slug}}RequestChangesModal" class="btn btn-danger btn-avans">Wijzingen aanvragen</a>
+                                            @include('partials.modals.requesttoolchanges', ['route' => $route])
                                         @endif
 
-                                        <a data-toggle="modal" data-target="#{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
-                                        @include('partials.modals.denytool')
+                                        <a data-toggle="modal" data-target="#{{$route}}{{$tool->slug}}DenyModal" class="btn btn-danger btn-avans">Afkeuren</a>
+                                        @include('partials.modals.denytool', ['route' => $route])
 
                                     @endif
 
                                     @if ($tool->status->isInactive())
                                         <a href="{{ route('tools.activate', $tool->slug) }}" class="btn btn-danger btn-avans">Terugzetten</a>
                                     @elseif ($tool->status->isActive())
-                                        <a data-toggle="modal" data-target="#{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
-                                        @include('partials.modals.deactivatetool')
+                                        <a data-toggle="modal" data-target="#{{$route}}{{$tool->slug}}DeactivateModal" class="btn btn-danger btn-avans">Deactiveren</a>
+                                        @include('partials.modals.deactivatetool', ['route' => $route])
                                     @endif
 
                                 @else
@@ -132,8 +132,10 @@
                         </div>
                     </div>
                 </div>
-                @include('partials.modals.review-with-rating', ['id' => 'review-with-rating-' . $tool->slug])
-                @include('partials.modals.review-without-rating', ['id' => 'review-without-rating-' . $tool->slug])
+                @if (Route::currentRouteName() == "tools.index")
+                    @include('partials.modals.review-with-rating', ['id' => 'review-with-rating-' . $tool->slug])
+                    @include('partials.modals.review-without-rating', ['id' => 'review-without-rating-' . $tool->slug])
+                @endif
             </div>
         </div>
     </div>

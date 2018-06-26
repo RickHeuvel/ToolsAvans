@@ -1,4 +1,4 @@
-<div class="modal fade" id="{{$tool->slug}}DenyModal" tabindex="-1" role="dialog" aria-labelledby="{{$tool->slug}}DenyModalLabel" aria-hidden="true">
+<div class="modal fade" id="{{$route}}{{$tool->slug}}DenyModal" tabindex="-1" role="dialog" aria-labelledby="{{$route}}{{$tool->slug}}DenyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

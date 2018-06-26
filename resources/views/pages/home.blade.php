@@ -240,6 +240,10 @@ home
     </div>
 @endsection
 
+@section('js-includes')
+    <script src="{{ asset('js/owl.carousel.js') }}"></script>
+@endsection
+
 @section('js')
     <script>
         $('.owl-carousel.hero').owlCarousel({

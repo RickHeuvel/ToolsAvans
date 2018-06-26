@@ -1,26 +1,19 @@
+// Importing popper, jquery and the jquery bootstrap plugin
+// Webpack figures out where to get these files
 
-/**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
- */
-
-require('./bootstrap');
-require('owl.carousel');
-require('./lib/global');
+window.Popper = require('popper.js').default;
+window.$ = window.jQuery = require('jquery');
+require('bootstrap');
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 })
 
-var smoothScroll = true;
-// Smooth scroll
-/*$(document).on('click', 'a[href^="#"]', function (event) {
+// Smooth scrolling for # links
+$(document).on('click', 'a[href^="#"]', function (event) {
     event.preventDefault();
 
-    if (smoothScroll) {
-        $('html, body').animate({
-            scrollTop: $($.attr(this, 'href')).offset().top
-        }, 500);
-    }
-});*/
+    $('html, body').animate({
+        scrollTop: $($.attr(this, 'href')).offset().top
+    }, 500);
+});

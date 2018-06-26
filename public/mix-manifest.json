@@ -9,5 +9,7 @@
     "/css/dropzone.min.css": "/css/dropzone.min.css",
     "/css/select2.min.css": "/css/select2.min.css",
     "/css/select2-bootstrap4.min.css": "/css/select2-bootstrap4.min.css",
-    "/js/select2.full.min.js": "/js/select2.full.min.js"
+    "/js/select2.full.min.js": "/js/select2.full.min.js",
+    "/js/owl.carousel.js": "/js/owl.carousel.js",
+    "/js/owl.navigation.js": "/js/owl.navigation.js"
 }

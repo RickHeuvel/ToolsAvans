@@ -29,9 +29,7 @@
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "^6.5.6",
         "symfony/thanks": "~1.0",
-        "squizlabs/php_codesniffer": "*",
-        "phpunit/phpunit-selenium": "^4.1",
-        "se/selenium-server-standalone": "^3.9"
+        "squizlabs/php_codesniffer": "*"
     },
     "autoload": {
         "classmap": [

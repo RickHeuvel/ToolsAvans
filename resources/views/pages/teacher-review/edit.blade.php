@@ -79,6 +79,10 @@
     </div> 
 @endsection
 
+@section('js-includes')
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+@endsection
+
 @section('js')
     <script>
         $('.select2').select2({

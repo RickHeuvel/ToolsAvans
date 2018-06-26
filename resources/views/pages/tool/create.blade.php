@@ -157,6 +157,10 @@
     </div>
 @endsection
 
+@section('js-includes')
+    <script src="{{ asset('js/dropzone.min.js') }}"></script>
+@section
+
 @section('js')
     <script>
     /* category select2*/
