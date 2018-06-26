@@ -451,7 +451,7 @@
 @endsection
 
 @section('js-includes')
-    <script src="{{ asset('js/Chart.min.js) }}"></script>
+    <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
 @endsection
 
