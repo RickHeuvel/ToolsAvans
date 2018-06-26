@@ -315,7 +315,7 @@
 @endsection
 
 @section('js-includes')
-   <script src="{{ asset('js/owl.min.js') }}"></script>
+   <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
    <script src="{{ asset('js/lightbox.min.js') }}"></script>
 @endsection
@@ -366,7 +366,7 @@
         $('.owl-carousel.reviews').owlCarousel({
             margin: 30,
             autoplay: true,
-            loop: true,
+            loop: false,
             responsive: {
                 0: {
                     items: 1
@@ -383,7 +383,7 @@
         $('.owl-carousel.teacherreviews').owlCarousel({
             margin: 30,
             autoplay: false,
-            loop: true,
+            loop: false,
             responsive: {
                 0: {
                     items: 1
