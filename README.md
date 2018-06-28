@@ -31,11 +31,11 @@ The instructions below will give you common information about how to setup your 
 
 ```
 [Clone the repo]
-npm install
-composer install
 [Create a database named "toolhub" in your local mysql server]
 cp .env.local .env
 [Change the DB_USERNAME and DB_PASSWORD in .env to your mysql login credentials]
+npm install
+composer install
 php artisan migrate:fresh --seed
 ```
 
