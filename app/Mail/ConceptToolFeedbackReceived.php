@@ -33,7 +33,8 @@ class ConceptToolFeedbackReceived extends Mailable
                     ->from('noreply@toolhub.com', config('app.name'))
                     ->subject('Je hebt feedback gekregen op je opgestuurde tool')
                     ->with([
-                        'url' => route('tools.show', $this->tool->slug),
+                        'tool' => $this->tool,
+                        'url' => route('tools.show', $this->tool->slug)
                     ]);
     }
 }

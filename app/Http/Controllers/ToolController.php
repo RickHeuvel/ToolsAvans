@@ -383,8 +383,10 @@ class ToolController extends Controller
             $tool->url           = $request->input('url');
             $tool->category_slug = $request->input('category');
             $tool->logo_filename = $request->input('logo');
-            if ($tool->status->isOutdated())
+            if ($tool->status->isOutdated()) {
                 $tool->status_slug = "actief";
+                $tool->outdatedReport->delete();
+            }
             $tool->save();
 
             // Setting the feedback to fixed, if there was feedback

@@ -41,6 +41,7 @@ class NewQuestion extends Mailable
                 'url' => route('tools.show', $this->question->tool->name.'#question-'.$this->question->id),
                 'text' => $this->question->text,
                 'title' => $this->question->title,
+                'asker' => $this->question->user->name
             ]);
     }
 }

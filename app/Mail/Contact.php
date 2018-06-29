@@ -33,10 +33,10 @@ class Contact extends Mailable
                     ->from('noreply@toolhub.com', config('app.name'))
                     ->subject('Toolhub vraag: '.$this->info['subject'])
                     ->with([
-                        'name' => $this->info['name'],
-                        'email' =>$this->info['email'],
+                        'name'     => $this->info['name'],
+                        'email'    => $this->info['email'],
                         'question' => $this->info['question'],
-                        'subject' => $this->info['subject'],
+                        'subject'  => $this->info['subject']
                     ]);
     }
 }

@@ -1,7 +1,7 @@
 @component('mail::message')
-# Iemand heeft je vraag over {{$tool}} beantwoord.
+# {{ $answer->user->nickname }} heeft je vraag over {{$tool}} beantwoord.
 
-### {{ $answer->user->nickname }} reageert:
+### Antwoord:
 {{ $answer->text }}
 
 @component('mail::button', ['url' => $url])

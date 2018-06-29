@@ -17,9 +17,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NewAnswer extends Mailable
 {
     use Queueable, SerializesModels;
+
     private $answer;
     private $tool;
-    private $question;
+
     /**
      * Create a new message instance.
      *

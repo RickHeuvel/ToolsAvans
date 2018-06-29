@@ -1,7 +1,9 @@
 @component('mail::message')
-# vraag van {{$name}}
+# ToolHub vraag - {{ $subject }}
 
 {{$question}}
+
+Van: {{ $name }}
 
 @component('mail::button', ['url' => "mailto:{$email}?subject=Re: {$subject}"])
     Reageer op vraag

@@ -33,7 +33,8 @@ class ConceptToolApproved extends Mailable
                     ->from('noreply@toolhub.com', config('app.name'))
                     ->subject('Je opgestuurde tool is geaccepteerd!')
                     ->with([
-                        'url' => route('tools.show', $this->tool->slug),
+                        'tool' => $this->tool,
+                        'url' => route('tools.show', $this->tool->slug)
                     ]);
     }
 }

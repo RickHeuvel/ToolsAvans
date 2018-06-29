@@ -1,5 +1,5 @@
 @component('mail::message')
-# Je tool is geaccepteerd
+# Je tool {{ $tool->name }} is geaccepteerd
 
 De administrator heeft je tool geaccepteerd
 <br>

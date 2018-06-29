@@ -31,6 +31,9 @@ class ConceptToolRejected extends Mailable
     {
         return $this->markdown('emails.concepttoolrejected')
                     ->from('noreply@toolhub.com', config('app.name'))
-                    ->subject('Je opgestuurde tool is geweigerd');
+                    ->subject('Je opgestuurde tool is geweigerd')
+                    ->with([
+                        'tool' => $this->tool
+                    ]);
     }
 }

@@ -1,8 +1,7 @@
 @component('mail::message')
-# Er is een vraag gesteld over {{$tool}}
+# Er is een vraag gesteld over {{$tool}} door {{ $asker }}
 
-{{$title}}
-
+## Titel: {{$title}}
 {{$text}}
 
 @component('mail::button', ['url' => $url])

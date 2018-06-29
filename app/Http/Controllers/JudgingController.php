@@ -14,6 +14,7 @@ use App\Jobs\SendConceptMail;
 use App\Mail\ConceptToolApproved;
 use App\Mail\ConceptToolRejected;
 use App\Mail\ConceptToolFeedbackReceived;
+use Artisan;
 
 class JudgingController extends Controller
 {
